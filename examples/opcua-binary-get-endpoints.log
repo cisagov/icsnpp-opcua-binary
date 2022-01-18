@@ -1,0 +1,13 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	opcua-binary-get-endpoints
+#open	2021-11-01-19-10-10
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	opcua_id	endpoint_url	locale_id	profile_uri	application_uri	product_uri	encoding_mask	locale	text	application_type	gateway_server_uri	discovery_profile_id	cert_size	server_cert	message_security_mode	security_policy_uri	user_token_id	transport_profile_uri	security_level
+#types	time	string	addr	port	addr	port	string	string	string	string	string	string	count	string	string	count	string	string	count	string	count	string	string	string	count
+1579702060.527108	CFos4JlIhXKKZFbQj	::1	56321	::1	4840	50ea8740119bc8bc6b	opc.tcp://localhost:4840	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+1579702060.580210	CFos4JlIhXKKZFbQj	::1	56321	::1	4840	bbbad1f4b427a010d1	opc.tcp://localhost:4840	-	-	urn:open62541.server.application	http://open62541.org	3	en	open62541-based OPC UA Application	0	-	-	-	-	1	http://opcfoundation.org/UA/SecurityPolicy#None	ff20592dd775a60f33	http://opcfoundation.org/UA-Profile/Transport/uatcp-uasc-uabinary	1
+1579702060.738018	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	da8812787f32569d26	opc.tcp://localhost:4840	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+1579702060.792008	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	ab4650eb9db0b4bf0e	opc.tcp://localhost:4840	-	-	urn:open62541.server.application	http://open62541.org	3	en	open62541-based OPC UA Application	0	-	-	-	-	1	http://opcfoundation.org/UA/SecurityPolicy#None	5c117b115b8bbd34a0	http://opcfoundation.org/UA-Profile/Transport/uatcp-uasc-uabinary	1
+#close	2021-11-01-19-10-10

@@ -1,0 +1,13 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	opcua-binary-opensecure-channel
+#open	2021-11-01-19-10-10
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	opcua_id	client_proto_ver	sec_token_request_type	message_security_mode	client_nonce	req_lifetime	server_proto_ver	sec_token_sec_channel_id	sec_token_id	sec_token_created_at	sec_token_revised_time	server_nonce
+#types	time	string	addr	port	addr	port	string	count	count	count	string	count	count	count	count	time	count	string
+1579702060.476933	CFos4JlIhXKKZFbQj	::1	56321	::1	4840	d4a8f4f4704f617721	0	0	1	(empty)	600000	-	-	-	-	-	-
+1579702060.526839	CFos4JlIhXKKZFbQj	::1	56321	::1	4840	62c7cb48e24a60d1f2	-	-	-	-	-	3	3	0	1579702060.526773	600000	(empty)
+1579702060.684416	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	506be9b64350f69583	0	0	1	(empty)	600000	-	-	-	-	-	-
+1579702060.737852	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	71a54dbb48a5936fbf	-	-	-	-	-	4	4	0	1579702060.737785	600000	(empty)
+#close	2021-11-01-19-10-10

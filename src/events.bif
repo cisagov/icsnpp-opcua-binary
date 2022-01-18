@@ -1,0 +1,18 @@
+## events.bif
+##
+## OPCUA Binary Protocol Analyzer
+##
+## Event definations used by the analyzers.
+##
+## Author:   Kent Kvarfordt
+## Contact:  kent.kvarfordt@inl.gov
+##
+## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+
+event opcua_binary_event%(c: connection, info: OPCUA_Binary::Info%);
+event opcua_binary_status_code_event%(c: connection, status: OPCUA_Binary::StatusCodeDetail%);
+event opcua_binary_diag_info_event%(c: connection, diag_info: OPCUA_Binary::DiagnosticInfoDetail%);
+event opcua_binary_opensecure_channel_event%(c: connection, opensecure_channel: OPCUA_Binary::OpenSecureChannel%);
+event opcua_binary_get_endpoints_event%(c: connection, get_endpoints: OPCUA_Binary::GetEndpoints%);
+event opcua_binary_get_endpoints_discovery_event%(c: connection, get_endpoints_discovery: OPCUA_Binary::GetEndpointsDiscovery%);
+event opcua_binary_get_endpoints_user_token_event%(c: connection, get_endpoints_discovery: OPCUA_Binary::GetEndpointsUserToken%);
