@@ -1,0 +1,19 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	opcua-binary-status-code-detail
+#open	2021-11-01-19-10-10
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	opcua_id	source	source_str	status_code	severity	severity_str	sub_code	sub_code_str	structure_changed	semantics_changed	info_type	info_type_str	limit_bits	limit_bits_str	overflow	historian_bits	historian_bits_str	historianPartial	historianExtraData	historianMultiValue
+#types	time	string	addr	port	addr	port	string	count	string	string	count	string	count	string	bool	bool	count	string	count	string	bool	count	string	bool	bool	bool
+1579702061.864392	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	11eaee084f33ef0534	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864415	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	d1026cfdfb942c639f	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864427	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	f16676d086df8c02e5	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864440	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	5333d5f947c2315f47	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864451	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	3ee43adfe98622e63a	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864469	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	7c8dc79ae8d001d343	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864489	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	7348514fec29557a2a	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864509	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	7f303708b3b720895e	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864534	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	d60bb384f42d788939	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864554	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	38d2b2fd33489d5d5b	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+#close	2021-11-01-19-10-10
