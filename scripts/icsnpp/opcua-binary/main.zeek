@@ -2,7 +2,7 @@
 ##
 ## OPCUA Binary Protocol Analyzer
 ##
-## Base script layer functionality for processing events emitted from 
+## Base script layer functionality for processing events emitted from
 ## the analyzer.
 ##
 ## Author:   Kent Kvarfordt
@@ -33,8 +33,15 @@ event zeek_init() &priority=5
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
    }
 
+function set_service(c: connection, service: string) {
+  # Ensure that conn.log:service is set if it has not already been
+  if ((!c?$service) || (|c$service| == 0))
+    add c$service[service];
+}
+
 event opcua_binary_event(c: connection, info: OPCUA_Binary::Info)
    {
+       set_service(c, "opcua-binary");
        info$ts  = network_time();
        info$uid = c$uid;
        info$id  = c$id;
@@ -43,6 +50,7 @@ event opcua_binary_event(c: connection, info: OPCUA_Binary::Info)
 
 event opcua_binary_status_code_event(c: connection, status: OPCUA_Binary::StatusCodeDetail)
    {
+       set_service(c, "opcua-binary");
        status$ts  = network_time();
        status$uid = c$uid;
        status$id  = c$id;
@@ -52,6 +60,7 @@ event opcua_binary_status_code_event(c: connection, status: OPCUA_Binary::Status
 
 event opcua_binary_diag_info_event(c: connection, diag_info: OPCUA_Binary::DiagnosticInfoDetail)
    {
+       set_service(c, "opcua-binary");
        diag_info$ts  = network_time();
        diag_info$uid = c$uid;
        diag_info$id  = c$id;
@@ -61,6 +70,7 @@ event opcua_binary_diag_info_event(c: connection, diag_info: OPCUA_Binary::Diagn
 
 event opcua_binary_opensecure_channel_event(c: connection, opensecure_channel: OPCUA_Binary::OpenSecureChannel)
    {
+       set_service(c, "opcua-binary");
        opensecure_channel$ts  = network_time();
        opensecure_channel$uid = c$uid;
        opensecure_channel$id  = c$id;
@@ -71,6 +81,7 @@ event opcua_binary_opensecure_channel_event(c: connection, opensecure_channel: O
 
 event opcua_binary_get_endpoints_event(c: connection, get_endpoints: OPCUA_Binary::GetEndpoints)
    {
+       set_service(c, "opcua-binary");
        get_endpoints$ts  = network_time();
        get_endpoints$uid = c$uid;
        get_endpoints$id  = c$id;
@@ -81,6 +92,7 @@ event opcua_binary_get_endpoints_event(c: connection, get_endpoints: OPCUA_Binar
 
 event opcua_binary_get_endpoints_discovery_event(c: connection, get_endpoints_discovery: OPCUA_Binary::GetEndpointsDiscovery)
    {
+       set_service(c, "opcua-binary");
        get_endpoints_discovery$ts  = network_time();
        get_endpoints_discovery$uid = c$uid;
        get_endpoints_discovery$id  = c$id;
@@ -91,6 +103,7 @@ event opcua_binary_get_endpoints_discovery_event(c: connection, get_endpoints_di
 
 event opcua_binary_get_endpoints_user_token_event(c: connection, get_endpoints_user_token: OPCUA_Binary::GetEndpointsUserToken)
    {
+       set_service(c, "opcua-binary");
        get_endpoints_user_token$ts  = network_time();
        get_endpoints_user_token$uid = c$uid;
        get_endpoints_user_token$id  = c$id;

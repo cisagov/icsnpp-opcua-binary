@@ -3,11 +3,11 @@
 #empty_field	(empty)
 #unset_field	-
 #path	opcua-binary-get-endpoints-user-token
-#open	2021-11-01-19-10-10
+#open	2022-01-19-19-08-25
 #fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	user_token_id	user_token_policy_id	user_token_type	user_token_issued_type	user_token_endpoint_url	user_token_sec_policy_uri
 #types	time	string	addr	port	addr	port	string	string	count	string	string	string
-1579702060.580210	CFos4JlIhXKKZFbQj	::1	56321	::1	4840	ff20592dd775a60f33	open62541-anonymous-policy	0	-	-	-
-1579702060.580210	CFos4JlIhXKKZFbQj	::1	56321	::1	4840	ff20592dd775a60f33	open62541-username-policy	1	-	-	http://opcfoundation.org/UA/SecurityPolicy#None
-1579702060.792008	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	5c117b115b8bbd34a0	open62541-anonymous-policy	0	-	-	-
-1579702060.792008	C8zB9ZNUKWBHKj7x1	::1	56322	::1	4840	5c117b115b8bbd34a0	open62541-username-policy	1	-	-	http://opcfoundation.org/UA/SecurityPolicy#None
-#close	2021-11-01-19-10-10
+1579702060.580210	C68aX9n33SWIWu9ak	::1	56321	::1	4840	03440b528d562d7cd1	open62541-anonymous-policy	0	-	-	-
+1579702060.580210	C68aX9n33SWIWu9ak	::1	56321	::1	4840	03440b528d562d7cd1	open62541-username-policy	1	-	-	http://opcfoundation.org/UA/SecurityPolicy#None
+1579702060.792008	CswnmC1eArbeJkuV3h	::1	56322	::1	4840	3f0fba6b182cdc6bdd	open62541-anonymous-policy	0	-	-	-
+1579702060.792008	CswnmC1eArbeJkuV3h	::1	56322	::1	4840	3f0fba6b182cdc6bdd	open62541-username-policy	1	-	-	http://opcfoundation.org/UA/SecurityPolicy#None
+#close	2022-01-19-19-08-25
