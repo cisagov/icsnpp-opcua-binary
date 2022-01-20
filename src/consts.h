@@ -135,17 +135,18 @@
 #define CLIENT_NONCE_IDX                     7
 #define REQ_LIFETIME_IDX                     8
 
+// OpenSecureChannel Response
+#define SERVER_PROTO_VER_IDX                 9
+
 //
 // Secure Channel Id & Secure Token Id.
 // Returned by the server when processing the
 // OpenSecureChannel Service.  Used down stream
 // by other services to secure the Message
 //
-#define SEC_TOKEN_CHANNEL_ID_IDX             9
-#define SEC_TOKEN_ID_IDX                     10 
+#define SEC_TOKEN_CHANNEL_ID_IDX             10
+#define SEC_TOKEN_ID_IDX                     11 
 
-// OpenSecureChannel Response
-#define SERVER_PROTO_VER_IDX                 11
 #define SEC_TOKEN_CREATED_AT_IDX             12
 #define SEC_TOKEN_REVISED_LIFETIME_IDX       13
 #define SERVER_NONCE_IDX                     14

@@ -30,9 +30,9 @@
 # Message Types: HEL, ACK, ERR, RHE
 # 7.1.2.2 Message Header       : Table 50 - OPC UA Connection Protocol Message Header
 # 7.1.2.3 Hello Message        : Table 51 - OPC UA Connection Protocol Hello Message
-# 7.1.2.4 Acknowledge Message  : Table 51 - OPC UA Connection Protocol Acknowledge Message
-# 7.1.2.5 Error Message        : Table 51 - OPC UA Connection Protocol Error Message
-# 7.1.2.6 ReverseHello Message : Table 51 - OPC UA Connection Protocol ReverseHello Message
+# 7.1.2.4 Acknowledge Message  : Table 52 - OPC UA Connection Protocol Acknowledge Message
+# 7.1.2.5 Error Message        : Table 53 - OPC UA Connection Protocol Error Message
+# 7.1.2.6 ReverseHello Message : Table 54 - OPC UA Connection Protocol ReverseHello Message
 #
 #
 # Message Types: OPN, CLO, MSG
