@@ -7,14 +7,14 @@
 #open XXXX-XX-XX-XX-XX-XX
 #fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	opcua_id	source	source_str	status_code	severity	severity_str	sub_code	sub_code_str	structure_changed	semantics_changed	info_type	info_type_str	limit_bits	limit_bits_str	overflow	historian_bits	historian_bits_str	historianPartial	historianExtraData	historianMultiValue
 #types	time	string	addr	port	addr	port	string	count	string	string	count	string	count	string	bool	bool	count	string	count	string	bool	count	string	bool	bool	bool
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	13a87cc48e10e3ce8c	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	d4c5aa53b86872ee37	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	1cdbdb80715fd6e064	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	f3618f203a7a5a4cb8	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	0cca39ebc14c6a0dee	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	d587578ae850c78c23	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	7076fba94b311dd8a0	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	d07870a61d204ba54c	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	c09c233299673ea295	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	aca6654dcb1f047dce	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	6da96bc0ec2c5a7aa3	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	a6cc7cec17d96fe991	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	ebd3d9cf5c1c861913	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	cb5bfeab95e4d40a70	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	683c071d9c310de9f5	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	1d380649110b4c9884	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	9f3c4ad39558031cab	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	a2cc09d4d67910c0e9	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	8eaf825e759074b01c	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	01e2e7ec521b2d7ed2	0	ResponseHeaderServiceResult	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
 #close XXXX-XX-XX-XX-XX-XX
