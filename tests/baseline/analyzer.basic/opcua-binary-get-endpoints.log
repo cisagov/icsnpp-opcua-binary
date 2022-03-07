@@ -7,8 +7,8 @@
 #open XXXX-XX-XX-XX-XX-XX
 #fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	opcua_id	endpoint_url	locale_id	profile_uri	application_uri	product_uri	encoding_mask	locale	text	application_type	gateway_server_uri	discovery_profile_id	cert_size	server_cert	message_security_mode	security_policy_uri	user_token_id	transport_profile_uri	security_level
 #types	time	string	addr	port	addr	port	string	string	string	string	string	string	count	string	string	count	string	string	count	string	count	string	string	string	count
-XXXXXXXXXX.XXXXXX	C4J4Th3PJpwUYZZ6gc	::1	56321	::1	4840	a55a5417a18a5f8440	opc.tcp://localhost:4840	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	C4J4Th3PJpwUYZZ6gc	::1	56321	::1	4840	563dd62008ed0ee698	opc.tcp://localhost:4840	-	-	urn:open62541.server.application	http://open62541.org	3	en	open62541-based OPC UA Application	0	-	-	-	-	1	http://opcfoundation.org/UA/SecurityPolicy#None	e0fb4fc6b74f7b65b4	http://opcfoundation.org/UA-Profile/Transport/uatcp-uasc-uabinary	1
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	d0279b460983b36f55	opc.tcp://localhost:4840	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	5df9cc13b2b9919ecb	opc.tcp://localhost:4840	-	-	urn:open62541.server.application	http://open62541.org	3	en	open62541-based OPC UA Application	0	-	-	-	-	1	http://opcfoundation.org/UA/SecurityPolicy#None	22db47b411a84017f0	http://opcfoundation.org/UA-Profile/Transport/uatcp-uasc-uabinary	1
+XXXXXXXXXX.XXXXXX	C4J4Th3PJpwUYZZ6gc	::1	56321	::1	4840	58fe71bc84d1f15a76	opc.tcp://localhost:4840	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	C4J4Th3PJpwUYZZ6gc	::1	56321	::1	4840	db808964f2b9893241	opc.tcp://localhost:4840	-	-	urn:open62541.server.application	http://open62541.org	3	en	open62541-based OPC UA Application	0	-	-	-	-	1	http://opcfoundation.org/UA/SecurityPolicy#None	f984acf87a3955f497	http://opcfoundation.org/UA-Profile/Transport/uatcp-uasc-uabinary	1
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	617962baae732f5cca	opc.tcp://localhost:4840	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	fe83a1060f93270390	opc.tcp://localhost:4840	-	-	urn:open62541.server.application	http://open62541.org	3	en	open62541-based OPC UA Application	0	-	-	-	-	1	http://opcfoundation.org/UA/SecurityPolicy#None	aa7e0f0e564a956681	http://opcfoundation.org/UA-Profile/Transport/uatcp-uasc-uabinary	1
 #close XXXX-XX-XX-XX-XX-XX
