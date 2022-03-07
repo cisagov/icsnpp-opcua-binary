@@ -7,8 +7,8 @@
 #open XXXX-XX-XX-XX-XX-XX
 #fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	user_token_id	user_token_policy_id	user_token_type	user_token_issued_type	user_token_endpoint_url	user_token_sec_policy_uri
 #types	time	string	addr	port	addr	port	string	string	count	string	string	string
-XXXXXXXXXX.XXXXXX	C4J4Th3PJpwUYZZ6gc	::1	56321	::1	4840	3beca5461a2f2f959f	open62541-anonymous-policy	0	-	-	-
-XXXXXXXXXX.XXXXXX	C4J4Th3PJpwUYZZ6gc	::1	56321	::1	4840	3beca5461a2f2f959f	open62541-username-policy	1	-	-	http://opcfoundation.org/UA/SecurityPolicy#None
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	ece13648149ee9237a	open62541-anonymous-policy	0	-	-	-
-XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	ece13648149ee9237a	open62541-username-policy	1	-	-	http://opcfoundation.org/UA/SecurityPolicy#None
+XXXXXXXXXX.XXXXXX	C4J4Th3PJpwUYZZ6gc	::1	56321	::1	4840	e0fb4fc6b74f7b65b4	open62541-anonymous-policy	0	-	-	-
+XXXXXXXXXX.XXXXXX	C4J4Th3PJpwUYZZ6gc	::1	56321	::1	4840	e0fb4fc6b74f7b65b4	open62541-username-policy	1	-	-	http://opcfoundation.org/UA/SecurityPolicy#None
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	22db47b411a84017f0	open62541-anonymous-policy	0	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	22db47b411a84017f0	open62541-username-policy	1	-	-	http://opcfoundation.org/UA/SecurityPolicy#None
 #close XXXX-XX-XX-XX-XX-XX
