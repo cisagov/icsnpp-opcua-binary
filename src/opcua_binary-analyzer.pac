@@ -32,7 +32,7 @@
     string getEndpointUrl(const_bytestring endpoint_url);
     bool isBitSet(uint8_t encoding, uint8_t mask);
     bool validEncoding(uint8_t encoding);
-    uint32_t bytestringToUint32(bytestring data);
+    uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
     string generateId();
 
@@ -78,11 +78,11 @@
     //
     // Utility function to convert a bytestring to uint32
     // 
-    uint32_t bytestringToUint32(bytestring data) {
+    uint32_t uint8VectorToUint32(vector<binpac::uint8> *data) {
         uint32 number = 0;
-        for ( uint8 i = 0; i < data.length(); ++i ) {
+        for ( uint8 i = 0; i < data->size(); ++i ) {
             number <<= 8;
-            number |= data[i];
+            number |= data->at(i);
         }
         return number;
     }
@@ -263,9 +263,19 @@
         // OpcUA_id
         info->Assign(OPCUA_ID_IDX, zeek::make_intrusive<zeek::StringVal>(generateId()));
 
-        // Msg header
-        info->Assign(MSG_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg_header->msg_type())));
-        info->Assign(IS_FINAL_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg_header->is_final())));
+        // Msg header: msg_type
+        stringstream ssMsgType;
+        for ( uint8 i = 0; i < msg_header->msg_type()->size(); ++i ) {
+            ssMsgType << msg_header->msg_type()->at(i);
+        }
+        info->Assign(MSG_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(ssMsgType.str()));
+
+        // Msg header: is_final
+        stringstream ssIsFinal;
+        ssIsFinal << msg_header->is_final();
+        info->Assign(IS_FINAL_IDX, zeek::make_intrusive<zeek::StringVal>(ssIsFinal.str()));
+
+        // Msg header: msg_size
         info->Assign(MSG_SIZE_IDX, zeek::val_mgr->Count(msg_header->msg_size()));
 
         return info;
@@ -276,7 +286,7 @@
     // for future logging.
     //
     zeek::RecordValPtr assignMsgType(zeek::RecordValPtr info, Msg_Header *msg_header) {
-        switch (bytestringToUint32(msg_header->msg_type())) {
+        switch (uint8VectorToUint32(msg_header->msg_type())) {
             case HEL: info = assignMsgHEL(info, msg_header->hel());
                       break;
             case ACK: info = assignMsgACK(info, msg_header->ack());
@@ -446,7 +456,7 @@ refine flow OPCUA_Binary_Flow += {
     #
     # Utility function to convert a bytestring to uint32
     #
-    function bytestring_to_uint32(data: bytestring): uint32
+    function uint8_array_to_uint32(data: uint8[]): uint32
     %{
     /* Debug
         switch (bytestringToUint32(data)) {
@@ -467,7 +477,7 @@ refine flow OPCUA_Binary_Flow += {
         }
     */
 
-        return(bytestringToUint32(data));
+        return(uint8VectorToUint32(data));
     %}
 
     #

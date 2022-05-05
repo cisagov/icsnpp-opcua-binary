@@ -45,11 +45,12 @@
 # Note: The Token Id and Secure Channel Id are set during the OpenSecureChannel Service
 #       and referenced by down stream MSG and CLO message types.
 #
-type Msg_Header = record {
-    msg_type   : bytestring &length = 3;
-    is_final   : bytestring &length = 1;
+#type Msg_Header = record {
+type Msg_Header(is_orig: bool) = record {
+    msg_type   : uint8[3];
+    is_final   : uint8;
     msg_size   : uint32;
-    type       : case($context.flow.bytestring_to_uint32(msg_type)) of {
+    type       : case($context.flow.uint8_array_to_uint32(msg_type)) of {
         HEL  -> hel: Msg_HEL(this);
         ACK  -> ack: Msg_ACK(this);
         ERR  -> err: Msg_ERR(this);
@@ -58,7 +59,8 @@ type Msg_Header = record {
         CLO  -> clo: Msg_CLO(this);
         #RHE  -> rhe: Msg_RHE(this);
     };
-} &byteorder=littleendian;
+    unknown: bytestring &restofdata, &transient;
+} &byteorder=littleendian, &length=msg_size;
 
 type Msg_HEL(header: Msg_Header) = record {
     version       : uint32;
@@ -139,7 +141,3 @@ type Msg_Body(header: Msg_Header) = record {
     deliver: bool = $context.flow.deliver_Msg_Body(this);
 } &byteorder=littleendian;
 
-type OPCUA_Binary_PDU(is_orig: bool) = record {
-    msg_header: Msg_Header;
-	data: bytestring &restofdata;
-} &byteorder=littleendian;
