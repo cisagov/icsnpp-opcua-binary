@@ -69,7 +69,7 @@
     }
 
     void printMsgType( Msg_Header *msg_header) {
-        switch (bytestringToUint32(msg_header->msg_type())) {
+        switch (uint8VectorToUint32(msg_header->msg_type())) {
             case HEL: printMsgHEL( msg_header->hel());
                       break;
             case ACK: printMsgACK( msg_header->ack());
