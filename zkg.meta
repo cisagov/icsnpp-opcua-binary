@@ -2,6 +2,7 @@
 build_dir = build/ICSNPP_OPCUA_Binary.tgz
 script_dir = build/scripts/icsnpp/opcua-binary
 build_command = ./configure && make
+test_command = cd tests && btest -c btest.cfg
 description = OPC Unified Architecture Binary plugin for parsing and logging of the OPC UA Binary protocol - CISA ICSNPP
 credits = Kent Kvarfordt <kent.kvarfordt@inl.gov>
 tags =  opcua, opcua_binary, opc, ICS, CISA, INL, ICSNPP, icsnpp, zeek plugin, log writer, protocol analyzer
