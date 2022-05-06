@@ -29,7 +29,7 @@ connection OPCUA_Binary_Conn(bro_analyzer: ZeekAnalyzer) {
 
 # Now we define the flow:
 flow OPCUA_Binary_Flow(is_orig: bool) {
-	datagram = OPCUA_Binary_PDU(is_orig) withcontext(connection, this);
+    flowunit = Msg_Header(is_orig) withcontext(connection, this);
 };
 
 %include opcua_binary-analyzer.pac
