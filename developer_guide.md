@@ -152,7 +152,7 @@ The following table shows the services that have been stubbed out and currently 
 
 | Service                        | Service                                | Service
 | ------------------------------ | -------------------------------------- | --------------------------------------- |
-| `CreateSessionRequest`         | `CreateSessionResponse`                | `ActivateSessionRequest`                |
+| ``                             | ``                                     | `ActivateSessionRequest`                |
 | `ActivateSessionResponse`      | `FindServersRequest`                   | `FindServersResponse`                   |
 | `FindServersOnNetworkRequest`  | `FindServersOnNetworkResponse`         | `RegisterServerRequest`                 |
 | `RegisterServerResponse`       | `RegisterServer2Request`               | `RegisterServer2Response`               |
