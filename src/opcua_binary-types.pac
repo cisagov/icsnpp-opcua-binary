@@ -214,7 +214,7 @@ type OpcUA_ApplicationDescription = record {
 #
 # UA Specification Part 4 - Services 1.04.pdf
 #
-# 7.2 - Table 113 - ApplicationDescription
+# 7.2 - Table 113 - ApplicationInstanceCertificate
 #
 type OpcUA_ApplicationInstanceCert = record {
     cert_size : int32;
@@ -276,4 +276,14 @@ type OpcUA_EndpointDescription = record {
 #
 type OpcUA_Duration = record {
     duration : bytestring &length = 8;
+} &byteorder=littleendian;
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.32 Table 173 - SignatureData
+# 
+type OpcUA_SignatureData = record {
+    algorithm : OpcUA_String;
+    signature : OpcUA_ByteString;
 } &byteorder=littleendian;
