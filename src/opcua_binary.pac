@@ -36,5 +36,6 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 %include opcua_binary-req_res_header_analyzer.pac
 %include opcua_binary-secure_channel_analyzer.pac
 %include opcua_binary-get_endpoints_analyzer.pac
+%include opcua_binary-create_session_analyzer.pac
 %include opcua_binary-stubbed_out_service_analyzer.pac
 

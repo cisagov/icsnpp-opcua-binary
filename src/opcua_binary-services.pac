@@ -23,8 +23,8 @@ type Service(msg_body: Msg_Body) = record {
         GetEndpointsRequest          -> get_endpoints_req    : Get_Endpoints_Req(this);
         GetEndpointsResponse         -> get_endpoints_res    : Get_Endpoints_Res(this);
 
-        CreateSessionRequest         -> create_session_req   : Stubbed_Out_Req(this);
-        CreateSessionResponse        -> create_session_res   : Stubbed_Out_Res(this);
+        CreateSessionRequest         -> create_session_req   : Create_Session_Req(this);
+        CreateSessionResponse        -> create_session_res   : Create_Session_Res(this);
 
         ActivateSessionRequest       -> activate_session_req : Stubbed_Out_Req(this);
         ActivateSessionResponse      -> activate_session_res : Stubbed_Out_Res(this);
