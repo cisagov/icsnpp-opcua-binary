@@ -11,6 +11,8 @@
 
 %include opcua_binary-consts.pac
 %include opcua_binary-types.pac
+%include opcua_binary-opcua_nodeid_types.pac
+%include opcua_binary-opcua_nodeid_types_debug.pac
 %include opcua_binary-services.pac
 %include opcua_binary-req_res_header.pac
 %include opcua_binary-req_res_header_debug.pac
@@ -18,6 +20,8 @@
 %include opcua_binary-secure_channel_debug.pac
 %include opcua_binary-get_endpoints.pac
 %include opcua_binary-get_endpoints_debug.pac
+%include opcua_binary-create_session.pac
+%include opcua_binary-create_session_debug.pac
 %include opcua_binary-stubbed_out_service.pac
 %include opcua_binary-stubbed_out_service_debug.pac
 %include opcua_binary-debug.pac
