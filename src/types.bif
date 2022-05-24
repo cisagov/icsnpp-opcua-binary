@@ -4,9 +4,15 @@ type Info: record;
 type StatusCodeDetail: record;
 type DiagnosticInfoDetail: record;
 type OpenSecureChannel: record;
+
 type GetEndpoints: record;
 type GetEndpointsDiscovery: record;
 type GetEndpointsUserToken: record;
+
+type CreateSession: record;
+type CreateSessionDiscovery: record;
+type CreateSessionEndpoints: record;
+type CreateSessionUserToken: record;
 
 module GLOBAL;
 
