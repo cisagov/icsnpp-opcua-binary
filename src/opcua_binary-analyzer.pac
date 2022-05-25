@@ -16,6 +16,10 @@
 #include <random>
 #include "types.bif.h"
 #include "consts.h"
+#include "create-session/consts.h"
+#include "get-endpoints/consts.h"
+#include "secure-channel/consts.h"
+#include "req-res-header/consts.h"
 #include "status_codes.h"
 #include "node_identifiers.h"
 #include "types.h"
