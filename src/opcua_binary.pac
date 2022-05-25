@@ -33,9 +33,9 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 };
 
 %include opcua_binary-analyzer.pac
-%include opcua_binary-req_res_header_analyzer.pac
-%include opcua_binary-secure_channel_analyzer.pac
-%include opcua_binary-get_endpoints_analyzer.pac
-%include opcua_binary-create_session_analyzer.pac
-%include opcua_binary-stubbed_out_service_analyzer.pac
+%include req-res-header/opcua_binary-req_res_header_analyzer.pac
+%include secure-channel/opcua_binary-secure_channel_analyzer.pac
+%include get-endpoints/opcua_binary-get_endpoints_analyzer.pac
+%include create-session/opcua_binary-create_session_analyzer.pac
+%include stubbed-out/opcua_binary-stubbed_out_service_analyzer.pac
 
