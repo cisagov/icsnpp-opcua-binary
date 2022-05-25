@@ -17,9 +17,9 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_CreateSessionReq(msg : Create_Session_Req): bool
         %{
-        printf("deliver_Svc_CreateSessionReq - begin\n");
-        printCreateSessionReq(msg);
-        printf("deliver_Svc_CreateSessionReq - end\n");
+        //Debug printf("deliver_Svc_CreateSessionReq - begin\n");
+        //Debug printCreateSessionReq(msg);
+        //Debug printf("deliver_Svc_CreateSessionReq - end\n");
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
@@ -137,9 +137,9 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_CreateSessionRes(msg : Create_Session_Res): bool
         %{
-        printf("deliver_Svc_CreateSessionRes - begin\n");
-        printCreateSessionRes(msg);
-        printf("deliver_Svc_CreateSessionRes - end\n");
+        //Debug printf("deliver_Svc_CreateSessionRes - begin\n");
+        //Debug printCreateSessionRes(msg);
+        //Debug printf("deliver_Svc_CreateSessionRes - end\n");
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
