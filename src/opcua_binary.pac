@@ -32,6 +32,7 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
     flowunit = Msg_Header(is_orig) withcontext(connection, this);
 };
 
+%include opcua_binary-utilities.pac
 %include opcua_binary-analyzer.pac
 %include req-res-header/opcua_binary-req_res_header_analyzer.pac
 %include secure-channel/opcua_binary-secure_channel_analyzer.pac
