@@ -10,19 +10,13 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %extern{
-#include <set>
-#include <sstream>
-#include <iomanip>
-#include <random>
-#include "types.bif.h"
-#include "consts.h"
-#include "create-session/consts.h"
-#include "get-endpoints/consts.h"
-#include "secure-channel/consts.h"
-#include "req-res-header/consts.h"
-#include "status_codes.h"
-#include "node_identifiers.h"
-#include "types.h"
+/*
+Note: 
+The binpac compiler generates one header file along with the associated source file so there
+isn't a need to bring in additional headers here.  We'll just track header files in the
+opcua_binary-analyzer.pac binpac file.  See the build/opcua_binary_pac.h and 
+build/opcua_binary_pac.cc file(s) for details.
+*/
 %}
 
 %header{
