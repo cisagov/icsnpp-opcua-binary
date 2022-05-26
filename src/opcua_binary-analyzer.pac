@@ -16,6 +16,7 @@
 #include <random>
 #include "types.bif.h"
 #include "consts.h"
+#include "statuscode-diagnostic-consts.h"
 #include "create-session/consts.h"
 #include "get-endpoints/consts.h"
 #include "secure-channel/consts.h"
