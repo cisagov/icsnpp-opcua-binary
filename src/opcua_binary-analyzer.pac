@@ -23,7 +23,6 @@
 #include "req-res-header/index-consts.h"
 #include "status_codes.h"
 #include "node_identifiers.h"
-#include "types.h"
 %}
 
 %header{
