@@ -1,4 +1,4 @@
-## opcua_binary-consts.pac
+## opcua_binary-types-consts.pac
 ##
 ## OPCUA Binary Protocol Analyzer
 ##
