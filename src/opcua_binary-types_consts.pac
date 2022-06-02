@@ -1,4 +1,4 @@
-## opcua_binary-consts.pac
+## opcua_binary-types-consts.pac
 ##
 ## OPCUA Binary Protocol Analyzer
 ##
@@ -41,32 +41,6 @@ enum diag_info_mask
     hasInnerDiagInfo = 0x40
    
 }
-
-#
-# UA Specification Part 6 - Mappings 1.04.pdf 
-# Table 6 - NodeId DataEncoding:  
-#
-# Value Description
-#  0x00 A numeric value that fits into the two-byte representation.
-#  0x01 A numeric value that fits into the four-byte representation.
-#  0x02 A numeric value that does not fit into the two or four byte representations.
-#  0x03 A String value.
-#  0x04 A Guid value.
-#  0x05 An opaque (ByteString) value.
-#  0x80 NamespaceUriFlag See discussion of ExpandedNodeId in 5.2.2.10.
-#  0x40 ServerIndexFlag See discussion of ExpandedNodeId in 5.2.2.10.
-#
-enum node_encoding 
-{
-        TwoByte          = 0x00,
-        FourByte         = 0x01,
-        Numeric          = 0x02,
-        String           = 0x03,
-        GUID             = 0x04,
-        Opaque           = 0x05,
-        NamespaceUriFlag = 0x80,
-        ServerIndexFlag  = 0x40
-} 
 
 #
 # Numeric Node Identifiers for OPCUA Binary protocol services.  The enumerations
