@@ -40,7 +40,7 @@
             status->Assign(INFO_TYPE_IDX,         zeek::val_mgr->Count(detail.infoType));
             status->Assign(INFO_TYPE_STR_IDX,     zeek::make_intrusive<zeek::StringVal>(detail.infoTypeStr));
 
-            if (detail.infoType != InfoType_NotUsed) {
+            if (detail.infoType != InfoType_NotUsed_Key) {
                 status->Assign(LIMIT_BITS_IDX,         zeek::val_mgr->Count(detail.limitBits));
                 status->Assign(LIMIT_BITS_STR_IDX,     zeek::make_intrusive<zeek::StringVal>(detail.limitBitsStr));
                 status->Assign(OVERFLOW_IDX,           zeek::val_mgr->Bool(detail.overflow));
@@ -130,7 +130,7 @@
         if (isBitSet(diagInfo->encoding_mask(), hasInnerStatCode)) {
             diag_info->Assign(HAS_INNER_STAT_CODE_IDX, zeek::val_mgr->Bool(true));
             diag_info->Assign(INNER_STAT_CODE_IDX,     zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(diagInfo->inner_stat_code())));
-            generateStatusCodeEvent(connection, opcua_id, StatusCode_DiagInfoInnerStatus, diagInfo->inner_stat_code());
+            generateStatusCodeEvent(connection, opcua_id, StatusCode_DiagInfoInnerStatus_Key, diagInfo->inner_stat_code());
         }
 
         // Inner Diagnostic Info
@@ -213,8 +213,8 @@
         info->Assign(RES_HDR_SERVICE_DIAG_ENCODING_IDX, zeek::val_mgr->Count(res_hdr->service_diag()->encoding_mask()));
 
         // If the status code is not "Good"; then log more detailed information
-        if (res_hdr->service_result() != StatusCode_Good) {
-            generateStatusCodeEvent(connection, info->GetField(OPCUA_ID_IDX), StatusCode_ResHdrServiceResult, res_hdr->service_result());
+        if (res_hdr->service_result() != StatusCode_Good_Key) {
+            generateStatusCodeEvent(connection, info->GetField(OPCUA_ID_IDX), StatusCode_ResHdrServiceResult_Key, res_hdr->service_result());
         }
 
         // If there is DiagnosticInfo - then log the detailed information.
