@@ -162,7 +162,23 @@ type OpcUA_ChannelSecurityToken  = record {
     revised_lifetime  : uint32;
 } &byteorder=littleendian;
 
-type OpcUA_LocaleId = OpcUA_String;
+#
+# UA Specification Part 3 - Address Space Model 1.04.pdf
+#
+# 8.4 LocaleId
+#
+# This Simple DataType is specified as a string that is composed
+# of a language component and a country/region component as specified
+# by https://www.iso.org/standard/57469.html
+#
+# The structure of the LocaleId is similiar to OpcUA_String with a length
+# specified followed by a Binpac bytestring bound to that length
+#
+type OpcUA_LocaleId = record {
+    length : int32;
+    locale_id : bytestring &length = $context.flow.bind_length(length);
+} &byteorder=littleendian;
+
 
 #
 #
