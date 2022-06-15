@@ -42,7 +42,7 @@ refine flow OPCUA_Binary_Flow += {
             endpoint_req->Assign(GET_ENDPOINT_URL_IDX,  zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoint_url()->string())));
 
             if (array_idx < msg->locale_id_size()) {
-                endpoint_req->Assign(GET_ENDPOINT_REQ_LOCALE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->locale_ids()->at(array_idx)->string())));
+                endpoint_req->Assign(GET_ENDPOINT_REQ_LOCALE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->locale_ids()->at(array_idx)->locale_id())));
             }
 
             if (array_idx < msg->profile_uri_size()) {

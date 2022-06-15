@@ -19,7 +19,7 @@ type Get_Endpoints_Req(service: Service) = record {
     endpoint_url     : OpcUA_String;
 
     locale_id_size   : int32; # Not documented in UA Specifications; Found in the open62541 source code.
-    locale_ids       : OpcUA_String[$context.flow.bind_length(locale_id_size)];
+    locale_ids       : OpcUA_LocaleId[$context.flow.bind_length(locale_id_size)];
 
     profile_uri_size : int32; # Not documented in the UA Specifications; Found in the open62541 source code.
     profile_uris     : OpcUA_String[$context.flow.bind_length(profile_uri_size)];
