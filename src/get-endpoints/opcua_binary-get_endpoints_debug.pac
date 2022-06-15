@@ -28,7 +28,7 @@
         printf("%s LocaleIds: Array of String\n", indent(3).c_str());
         printf("%s ArraySize: %d\n", indent(4).c_str(), msg->locale_id_size());
         for(int i=0; i < msg->locale_id_size(); i++) {
-            printf("%s [%d]: LocaleIds: %s\n", indent(4).c_str(), i, std_str(msg->locale_ids()->at(i)->string()).c_str());
+            printf("%s [%d]: LocaleIds: %s\n", indent(4).c_str(), i, std_str(msg->locale_ids()->at(i)->locale_id()).c_str());
         }
 
         printf("%s ProfileUris: Array of String\n", indent(3).c_str());
