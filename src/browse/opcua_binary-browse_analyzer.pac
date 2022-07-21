@@ -15,10 +15,9 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_BrowseReq(msg: Browse_Req): bool
         %{
-        //Debug printf("deliver_Svc_BrowseReq - begin\n");
-        //Debug printBrowseReq(msg);
-        //Debug 
-        //printf("deliver_Svc_BrowseReq - end\n");
+        // Debug printf("deliver_Svc_BrowseReq - begin\n");
+        // Debug printBrowseReq(msg);
+        // Debug printf("deliver_Svc_BrowseReq - end\n");
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
@@ -66,7 +65,7 @@ refine flow OPCUA_Binary_Flow += {
 
             browse_req->Assign(BROWSE_DESCRIPTION_INCLUDE_SUBTYPES_IDX, zeek::val_mgr->Bool(msg->nodes_to_browse()->at(i)->include_subtypes()));
             
-            browse_req->Assign(BROWSE_DESCRIPTION_NODE_CLASS_MASK_IDX, zeek::make_intrusive<zeek::StringVal>(NODE_CLASSES_MAP.find(msg->nodes_to_browse()->at(i)->result_mask()->node_class()_mask())->second));
+            browse_req->Assign(BROWSE_DESCRIPTION_NODE_CLASS_MASK_IDX, zeek::make_intrusive<zeek::StringVal>(NODE_CLASSES_MAP.find(msg->nodes_to_browse()->at(i)->node_class_mask())->second));
             
             browse_req->Assign(BROWSE_DESCRIPTION_RESULT_MASK_IDX, zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(msg->nodes_to_browse()->at(i)->result_mask())));
 

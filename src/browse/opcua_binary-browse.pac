@@ -37,18 +37,21 @@ type Browse_Description = record {
 type Browse_Res(service: Service) = record {
     res_hdr             : Response_Header;
     results_table_size  : int32;
-    has_results         : case (results_table_size > 0) of {
-        true    -> results       : BrowseResult[results_table_size];
-        default -> empty_results_table : empty;
-    };
+    results             : BrowseResult[$context.flow.bind_length(results_table_size)];
     diag_info_size      : int32;
-    has_diag_info       : case (diag_info_size > 0) of {
-        true    -> diag_info       : OpcUA_DiagInfo[diag_info_size];
-       default -> empty_diag_info_table : empty;
-    };
+    diag_info           : OpcUA_DiagInfo[$context.flow.bind_length(diag_info_size)];
 } &let {
     deliver: bool = $context.flow.deliver_Svc_BrowseRes(this);
 } &byteorder=littleendian;
+
+#
+# UA Specification Part 4 - Services 1.04.pdf - Browse
+# 5.8.3.2 - Table 37 - BrowseNext Service Parameters
+#
+
+type Browse_Next_Req = record {
+    req_hdr               : Request_Header;
+};
 
 #
 # UA Specification Part 4 - Services 1.04.pdf
@@ -76,8 +79,5 @@ type BrowseResult = record {
     status_code         : OpcUA_StatusCode;
     continuation_point  : OpcUA_ByteString;
     num_references      : int32;
-    has_references      : case (num_references > 0) of {
-        true    ->  references      : ReferenceDescription[$context.flow.bind_length(num_references)];
-        default -> empty_references_table : empty;
-    };
+    references      : ReferenceDescription[$context.flow.bind_length(num_references)];
 } &byteorder=littleendian;
