@@ -14,5 +14,8 @@ type CreateSessionDiscovery: record;
 type CreateSessionEndpoints: record;
 type CreateSessionUserToken: record;
 
+type Browse: record;
+type BrowseReference: record;
+
 module GLOBAL;
 

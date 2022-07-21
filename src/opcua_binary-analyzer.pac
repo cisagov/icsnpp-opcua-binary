@@ -21,8 +21,10 @@
 #include "get-endpoints/index-consts.h"
 #include "secure-channel/index-consts.h"
 #include "req-res-header/index-consts.h"
+#include "browse/index-consts.h"
 #include "status_codes.h"
 #include "node_identifiers.h"
+#include "node_classes.h"
 %}
 
 %header{
