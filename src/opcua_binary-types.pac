@@ -150,6 +150,20 @@ type OpcUA_ByteString = record {
 #
 # UA Specification Part 6 - Mappings 1.04.pdf
 #
+# 5.2.2.13 QualifiedName
+#
+# Table 12 - QualifiedName Binary DataEncoding
+#
+
+type OpcUA_QualifiedName = record {
+    namespace_index     : uint16;
+    name                : OpcUA_String;
+} &byteorder=littleendian;
+
+#
+#
+# UA Specification Part 6 - Mappings 1.04.pdf
+#
 # Table 47 - OPC UA Secure Conversation OpenSecureChannel Service
 #
 # ChannelSecurityToken: Defined in-line with the indented fields in
@@ -302,4 +316,17 @@ type OpcUA_Duration = record {
 type OpcUA_SignatureData = record {
     algorithm : OpcUA_String;
     signature : OpcUA_ByteString;
+} &byteorder=littleendian;
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.39 - Table 191 - ViewDescription
+#
+
+type OpcUA_ViewDescription = record {
+    view_id: OpcUA_NodeId;
+    timestamp: OpcUA_DateTime;
+    view_version: uint32;
+
 } &byteorder=littleendian;

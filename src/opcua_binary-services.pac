@@ -58,9 +58,9 @@ type Service(msg_body: Msg_Body) = record {
 
         DeleteReferencesRequest  -> delete_reference_req : Stubbed_Out_Req(this);
         DeleteReferencesResponse -> delete_reference_res : Stubbed_Out_Res(this);
-
-        BrowseRequest  -> browse_req : Stubbed_Out_Req(this);
-        BrowseResponse -> browse_res : Stubbed_Out_Res(this);
+        
+        BrowseRequest  -> browse_req : Browse_Req(this);
+        BrowseResponse -> browse_res : Browse_Res(this);
 
         BrowseNextRequest  -> browse_next_req : Stubbed_Out_Req(this);
         BrowseNextResponse -> browse_next_res : Stubbed_Out_Res(this);
