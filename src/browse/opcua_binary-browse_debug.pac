@@ -50,7 +50,7 @@
             } else {
                 printf("%s IncludeSubtypes: False\n", indent(5).c_str());
             }
-            printf("%s Node Class Mask: %s\n", indent(5).c_str(), NODE_CLASSES_MAP.find(msg->nodes_to_browse()->at(i)->node_class_mask()->second).c_str());
+            printf("%s Node Class Mask: %s\n", indent(5).c_str(), NODE_CLASSES_MAP.find(msg->nodes_to_browse()->at(i)->node_class_mask())->second.c_str());
             printf("%s Result Mask: 0x%08x\n", indent(5).c_str(), msg->nodes_to_browse()->at(i)->result_mask());
         }
         return;

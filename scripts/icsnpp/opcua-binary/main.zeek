@@ -174,12 +174,12 @@ event opcua_binary_browse_event(c: connection, browse_event: OPCUA_Binary::Brows
        Log::write(ICSNPP_OPCUA_Binary::LOG_BROWSE, browse_event);
    }
 
-event opcua_binary_browse_reference_event(c: connection, reference_event: OPCUA_Binary::BrowseReference)
+event opcua_binary_browse_reference_event(c: connection, browse_reference_event: OPCUA_Binary::BrowseReference)
    {
        set_service(c, "opcua-binary");
-       reference_event$ts  = network_time();
-       reference_event$uid = c$uid;
-       reference_event$id  = c$id;
+       browse_reference_event$ts  = network_time();
+       browse_reference_event$uid = c$uid;
+       browse_reference_event$id  = c$id;
 
-       Log::write(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESPONSE_REFERENCES, browse_event);
+       Log::write(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESPONSE_REFERENCES, browse_reference_event);
    }
