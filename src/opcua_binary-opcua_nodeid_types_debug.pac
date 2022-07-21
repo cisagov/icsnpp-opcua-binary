@@ -23,7 +23,7 @@
     void printExpandedNodeID(int indent_width, OpcUA_ExpandedNodeId *nodeId) {
         uint8_t encoding = nodeId->node_id()->identifier_type();
 
-        node_id_encoding = encoding & 0x0f
+        uint8_t node_id_encoding = encoding & 0x0f;
         bool has_server_idx = isBitSet(nodeId->node_id()->identifier_type(), ServerIndexFlag);
         bool has_namespace_uri = isBitSet(nodeId->node_id()->identifier_type(), NamespaceUriFlag);
 
