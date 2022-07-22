@@ -49,9 +49,14 @@ type Browse_Res(service: Service) = record {
 # 5.8.3.2 - Table 37 - BrowseNext Service Parameters
 #
 
-type Browse_Next_Req = record {
-    req_hdr               : Request_Header;
-};
+type Browse_Next_Req(service: Service) = record {
+    req_hdr                     : Request_Header;
+    release_continuation_points : uint8; # Actually a boolean but represented as an unsigned int;
+    num_continuation_points     : int32;
+    continuation_points         : OpcUA_ByteString[$context.flow.bind_length(num_continuation_points)];
+} &let {
+    deliver: bool = $context.flow.deliver_Svc_BrowseNextReq(this);
+} &byteorder=littleendian;
 
 #
 # UA Specification Part 4 - Services 1.04.pdf
