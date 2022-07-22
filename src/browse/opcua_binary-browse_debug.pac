@@ -110,4 +110,24 @@
         }
         
     }
+
+    void printBrowseNextReq (Browse_Next_Req *msg){
+        printMsgHeader(msg->service()->msg_body()->header());
+        printMsgType(msg->service()->msg_body()->header());
+        printService(msg->service());   
+
+        printf("%s %s\n", indent(2).c_str(), NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second.c_str());
+        printReqHdr(msg->req_hdr());
+
+        if (msg->release_continuation_points() == 1){
+            printf("%s ReleaseContinuationPoints: True\n",indent(3).c_str());
+        } else {
+            printf("%s ReleaseContinuationPoints: False\n", indent(3).c_str());
+        }
+        printf("%s ContinuationPoints: Array of ByteString\n", indent(3).c_str());
+        printf("%s ArraySize: %d\n", indent(4).c_str(), msg->num_continuation_points());
+        for (int32_t i = 0; i < msg->num_continuation_points(); i++) {
+            printf("%s [%d]: ContinuationPoints: %s\n", indent(4).c_str(), i, bytestringToHexstring(msg->continuation_points()->at(i)->byteString()).c_str());
+        }
+    }
 %}

@@ -62,8 +62,8 @@ type Service(msg_body: Msg_Body) = record {
         BrowseRequest  -> browse_req : Browse_Req(this);
         BrowseResponse -> browse_res : Browse_Res(this);
 
-        BrowseNextRequest  -> browse_next_req : Stubbed_Out_Req(this);
-        BrowseNextResponse -> browse_next_res : Stubbed_Out_Res(this);
+        BrowseNextRequest  -> browse_next_req : Browse_Next_Req(this);
+        BrowseNextResponse -> browse_next_res : Browse_Res(this);
 
         TranslateBrowsePathsToNodeIdsRequest  -> translate_browse_paths_to_node_ids_req : Stubbed_Out_Req(this);
         TranslateBrowsePathsToNodeIdsResponse -> translate_browse_paths_to_node_ids_res : Stubbed_Out_Res(this);

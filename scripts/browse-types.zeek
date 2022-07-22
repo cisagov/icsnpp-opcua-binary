@@ -18,8 +18,9 @@ export {
         uid                      : string  &log;
         id                       : conn_id &log;
         opcua_id                 : string  &log;       # Id back into OCPUA_Binary::Info
-
-        browse_view_id_encoding_mask : string   &log &optional;
+        
+        browse_service_type          : string  &log &optional;
+        browse_view_id_encoding_mask : string  &log &optional;
         browse_view_id_namespace_idx : count   &log &optional;
         browse_view_id_numeric       : count   &log &optional;
         browse_view_id_string        : string  &log &optional;
@@ -50,6 +51,9 @@ export {
         browse_description_include_subtypes : bool &log &optional;
         browse_node_class_mask              : string &log &optional;
         browse_result_mask                  : string &log &optional;
+
+        browse_next_release_continuation_point  : bool &log &optional;
+        browse_next_continuation_point  : string &log &optional;
 
         browse_response_status_code         : string &log &optional;
         browse_response_continuation_point  : string &log &optional;
