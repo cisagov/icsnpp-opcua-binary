@@ -31,7 +31,7 @@ refine flow OPCUA_Binary_Flow += {
 
         int32_t num_nodes_to_browse = (msg->num_nodes_to_browse());
 
-        // Flaten each browse request
+        // Flatten each browse request
         for (int32_t i=0; i < num_nodes_to_browse; i++) {
             zeek::RecordValPtr browse_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Browse);
 

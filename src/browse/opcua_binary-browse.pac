@@ -19,7 +19,7 @@ type Browse_Req(service: Service) = record {
     req_hdr               : Request_Header;
     view_description      : OpcUA_ViewDescription;
     req_max_refs_per_node : uint32; # Full name is RequestedMaxReferencesPerNode
-    num_nodes_to_browse   : int32; # Not documsented in UA Specifications, found in the open62541 source code
+    num_nodes_to_browse   : int32; # Not documented in UA Specifications, found in the open62541 source code
     nodes_to_browse       : Browse_Description[$context.flow.bind_length(num_nodes_to_browse)];
 } &let {
     deliver: bool = $context.flow.deliver_Svc_BrowseReq(this);
