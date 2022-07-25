@@ -1,9 +1,9 @@
-// Get Endpoints consts.h
+//  Browse Request/Response consts.h
 //
 // OPCUA Binary Protocol Analyzer
 //
-// Author:   Kent Kvarfordt
-// Contact:  kent.kvarfordt@inl.gov
+// Author:   Melanie Pierce
+// Contact:  Melanie.Pierce@inl.gov
 //
 // Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
