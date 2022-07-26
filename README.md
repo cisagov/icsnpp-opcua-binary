@@ -88,38 +88,45 @@ This log captures the OPCUA message header, message type (HEL, ACK, MSG), servic
 
 This log captures the details of any status codes in the service response header and logs it to **opcua-binary-status-code-detail.log**. 
 
-* See the ```OPCUA_Binary::StatusCodeDetail: record``` in file [types.zeek](scripts/types.zeek) for a list of the fields logged. 
+* See the ```OPCUA_Binary::StatusCodeDetail: record``` in file [statuscode-diagnostics-types.zeek](scripts/statuscode-diagnostic-types.zeek) for a list of the fields logged.
 * See [status_codes.h](src/status_codes.h) for a list of status codes and their associated information. 
-* See [opcua_binary-req_res_header_analyzer.pac](src/opcua_binary-req_res_header_analyzer.pac) for details on processing this information.
+* See [opcua_binary-req_res_header_analyzer.pac](src/req-res-header/opcua_binary-req_res_header_analyzer.pac) for details on processing this information.
 
 ### Diagnostic Information Detail (opcua-binary-diag-info-detail.log)
 
 This log captures the details of any diagnostic information present in the service response header and logs it to **opcua-binary-diag-info-detail.log**.
 
-* See the ```OPCUA_Binary::DiagnosticInfoDetail: record``` in file [types.zeek](scripts/types.zeek) for a list of the fields logged.
+* See the ```OPCUA_Binary::DiagnosticInfoDetail: record``` in file [statuscode-diagnostic-types.zeek](scripts/statuscode-diagnostic-types.zeek) for a list of the fields logged.
 * See the ```type OpcUA_DiagInfo = record``` in file [opcua_binary-types.pac](src/opcua_binary-types.pac) for details on the diagnostic information structure.
-* See [opcua_binary-req_res_header_analyzer.pac](src/opcua_binary-req_res_header_analyzer.pac) for details on processing this information.
+* See [opcua_binary-req_res_header_analyzer.pac](src/req-res-header/opcua_binary-req_res_header_analyzer.pac) for details on processing this information.
 
 ### Open Secure Channel Service (opcua-binary-opensecure-channel.log)
 
 This log captures the details associated with call the Open Secure Channel Service.
 
-* See the ```OPCUA_Binary::OpenSecureChannel: record``` in file [types.zeek](scripts/types.zeek) for a list of the fields logged.
-* See [opcua_binary-secure_channel.pac](src/opcua_binary-secure_channel.pac), [opcua_binary-secure_channel_analyzer.pac](src/opcua_binary-secure_channel.pac), and [opcua_binary-secure_channel_debug.pac](src/opcua_binary-secure_channel_debug.pac) for details on parsing, processing, and logging this service.
+* See the ```OPCUA_Binary::OpenSecureChannel: record``` in file [secure-channel-types.zeek](scripts/secure-channel-types.zeek) for a list of the fields logged.
+* See [opcua_binary-secure_channel.pac](src/secure-channel/opcua_binary-secure_channel.pac), [opcua_binary-secure_channel_analyzer.pac](src/secure-channel/opcua_binary-secure_channel.pac), and [opcua_binary-secure_channel_debug.pac](src/secure-channel/opcua_binary-secure_channel_debug.pac) for details on parsing, processing, and logging this service.
 
 ### Get Endpoints Service (opcua-binary-get-endpoints.log, opcua-binary-get-endpoints-discovery.log, opcua-binary-get-endpoints-user_token.log)
 
 This log captures the details associated with call the Get Endpoints Service.
 
-* See [types.zeek](scripts/types.zeek) for a list of the fields logged.
-* See [opcua_binary-get_endpoints.pac](src/opcua_binary-get_endpoints.pac), [opcua_binary-get_endpoints_analyzer.pac](src/opcua_binary-get_endpoints_analyzer.pac), and [opcua_binary-get_endpoints_debug.pac](src/opcua_binary-get_endpoints_debug.pac) for details on parsing, processing, and logging this service.
+* See [get-endpoints-types.zeek](scripts/get-endpoints-types.zeek) for a list of the fields logged.
+* See [opcua_binary-get_endpoints.pac](src/get-endpoints/opcua_binary-get_endpoints.pac), [opcua_binary-get_endpoints_analyzer.pac](src/get-endpoints/opcua_binary-get_endpoints_analyzer.pac), and [opcua_binary-get_endpoints_debug.pac](src/get-endpoints/opcua_binary-get_endpoints_debug.pac) for details on parsing, processing, and logging this service.
 
 ### Create Session Service (opcua-binary-create-session.log, opcua-binary-create-session-user-token.log, opcua-binary-create-session-endpoints.log, opcua-binary-create-session-discovery.log)
 
+This log captures the details associated with call the Create Session Service.
+
+* See [create-session-types.zeek](scripts/create-session-types.zeek) for a list of the fields logged.
+* See [opcua_binary-create_session.pac](src/create-session/opcua_binary-create_session.pac), [opcua_binary-create_session_analyzer.pac](src/create-session/opcua_binary-create_session_analyzer.pac), and [opcua_binary-create_session_debug.pac](src/create-session/opcua_binary-create_session_debug.pac) for details on parsing, processing, and logging this service.
+
+### Create Subscription Service (opcua-binary-create-subscription.log)
+
 This log captures the details associated with call the Get Endpoints Service.
 
-* See [types.zeek](scripts/types.zeek) for a list of the fields logged.
-* See [opcua_binary-create_session.pac](src/opcua_binary-create_session.pac), [opcua_binary-create_session_analyzer.pac](src/opcua_binary-create_session_analyzer.pac), and [opcua_binary-create_session_debug.pac](src/opcua_binary-create_session_debug.pac) for details on parsing, processing, and logging this service.
+* See [create-subscription-types.zeek](scripts/create-subscription-types.zeek) for a list of the fields logged.
+* See [opcua_binary-create_subscription.pac](src/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-create_subscription_analyzer.pac](src/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-create_subscription_debug.pac](src/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service
 
 ## Developer's Guide
 

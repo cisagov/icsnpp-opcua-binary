@@ -171,13 +171,12 @@ The following table shows the services that have been stubbed out and currently 
 | `CreateMonitoredItemsRequest`  | `CreateMonitoredItemsResponse`         | `ModifyMonitoredItemsRequest`           |
 | `ModifyMonitoredItemsResponse` | `SetMonitoringModeRequest`             | `SetMonitoringModeResponse`             |
 | `SetTriggeringRequest`         | `SetTriggeringResponse`                | `DeleteMonitoredItemsRequest`           |
-| `DeleteMonitoredItemsResponse` | `CreateSubscriptionRequest`            | `CreateSubscriptionResponse`            |
-| `ModifySubscriptionRequest`    | `ModifySubscriptionResponse`           | `SetPublishingModeRequest`              |
-| `SetPublishingModeResponse`    | `PublishRequest`                       | `PublishResponse`                       |
-| `RepublishRequest`             | `RepublishResponse`                    | `TransferSubscriptionsRequest`          |
-| `TransferSubscriptionsResponse`| `DeleteSubscriptionsRequest`           | `DeleteSubscriptionsResponse`           |
-| `TestStackRequest`             | `TestStackResponse`                    | `TestStackExRequest`                    |
-| `TestStackExResponse`          | `ServiceFault`                         |                                         |
+| `DeleteMonitoredItemsResponse` | `ModifySubscriptionRequest`            | `ModifySubscriptionResponse`            |
+| `SetPublishingModeRequest`     | `SetPublishingModeResponse`            | `PublishRequest`                        | 
+| `PublishResponse`              | `RepublishRequest`                     | `RepublishResponse`                     |
+| `TransferSubscriptionsRequest` | `TransferSubscriptionsResponse`        | `DeleteSubscriptionsRequest`            | 
+| `DeleteSubscriptionsResponse`  | `TestStackRequest`                     | `TestStackResponse`                     | 
+| `TestStackExRequest`           | `TestStackExResponse`                  | `ServiceFault`                          |
 
 #### Files of interest when implementing a service
 
@@ -194,4 +193,4 @@ The following table shows the services that have been stubbed out and currently 
 | [`src/opcua_binary.pac`](src/opcua_binary.pac)                     | `Add the corresponding %include for the analyzer .`                                                                                                                                                                               |
 | [`src/opcua_binary-protocol.pac`](src/opcua_binary-protocol.pac)   | `Add the corresponding %includes for the binpac parser and debug code.`                                                                                                                                                           |
 | [`src/opcua_binary-services.pac`](src/opcua_binary-services.pac)   | `Update the processing to parse the new service.`                                                                                                                                                                                 |
-| [`src/opcua_binary-analyzer.pac`](src/opcua_binary-analyzer.pac)   | `Add the corresponding #include for the <service-name>/index-conts.h`                                                                                                                                                             |
+|| [`src/opcua_binary-analyzer.pac`](src/opcua_binary-analyzer.pac)   | `Add the corresponding #include for the <service-name>/index-conts.h`                                                                                                                                                             |
