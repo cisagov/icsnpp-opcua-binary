@@ -168,6 +168,40 @@ refine flow OPCUA_Binary_Flow += {
                                                     browse_ref);
             }
         }
+
+/*
+        // Example code for processing the array of DiagnosticInfos
+
+
+        // Diagnostic Information
+        if (msg->diag_info_size() > 0) {
+            string diagnostic_info_link_id = generateId(); // Link to tie OCPUA_Binary::BrowseSession and OPCUA_Binary::BrowseDiagnosticInfo together
+            string diagnostic_info_id      = generateId(); // Link to tie OCPUA_Binary::BrowseDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
+
+            // Assign the linkage in the OCPUA_Binary::Browse
+            browse_res->Assign(BROSWE_RESPONSE_DIAG_INFO_ID_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
+
+            uint32 innerDiagLevel = 0;
+            vector<OpcUA_String *>  *stringTable = NULL;
+            for (int i = 0; i < msg->diag_info_size(); i++) {
+
+                // Assign the linkage in the OCPUA_Binary::BrowseDiagnosticInfo and enqueue the logging event
+                zeek::RecordValPtr activate_session_res_diagnostic_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseDiagnosticInfo);
+                activate_session_res_diagnostic_info->Assign(ACTIVATE_SESSION_RES_DIAGNOSTIC_INFO_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
+                activate_session_res_diagnostic_info->Assign(ACTIVATE_SESSION_RES_DIAGNOSTIC_INFO_IDX,      zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id));
+                zeek::BifEvent::enqueue_opcua_binary_activate_session_diagnostic_info_event(connection()->bro_analyzer(),
+                                                                                            connection()->bro_analyzer()->Conn(),
+                                                                                            activate_session_res_diagnostic_info);
+
+
+                // Process the details of the Diagnostic Information
+                generateDiagInfoEvent(connection(), activate_session_res_diagnostic_info->GetField(ACTIVATE_SESSION_RES_DIAGNOSTIC_INFO_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_BrowseDiagInfo_Key);
+
+                // Generate an new link to tie OCPUA_Binary::BrowseDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
+                diagnostic_info_id = generateId();
+        }
+    */
+
         return true;
 
     %}
