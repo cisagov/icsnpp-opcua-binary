@@ -59,7 +59,20 @@ export {
         browse_response_continuation_point  : string &log &optional;
         browse_response_number_of_references    : count &log &optional;
 
+        # browse_response_diag_info_id : string  &log &optional; # Id into OPCUA_Binary::BrowseDiagnosticInfo log
     };
+
+    #
+    # Something like this :-)
+    #
+    #type OPCUA_Binary::BrowseDiagnosticInfo: record {
+    #    ts                        : time    &log;
+    #    uid                       : string  &log;
+    #    id                        : conn_id &log;
+    #    diagnostic_info_link_id   : string  &log;  # Id back into OCPUA_Binary::Browse
+    #    diagnostic_info_id        : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
+    #};
+
     type OPCUA_Binary::BrowseReference: record {
         ts                       : time    &log;
         uid                      : string  &log;
