@@ -123,7 +123,7 @@ This log captures the details associated with call the Create Session Service.
 
 ### Create Subscription Service (opcua-binary-create-subscription.log)
 
-This log captures the details associated with call the Get Endpoints Service.
+This log captures the details associated with call the Create Subscription Service.
 
 * See [create-subscription-types.zeek](scripts/create-subscription-types.zeek) for a list of the fields logged.
 * See [opcua_binary-create_subscription.pac](src/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-create_subscription_analyzer.pac](src/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-create_subscription_debug.pac](src/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service
