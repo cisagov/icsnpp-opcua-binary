@@ -52,7 +52,7 @@ refine flow OPCUA_Binary_Flow += {
             for (int i = 0; i < msg->client_software_cert()->size(); i++) {
                 zeek::RecordValPtr client_software_cert = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSessionClientSoftwareCert);
                 client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(cert_idx));
-                client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_DATA_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_software_cert()->at(i)->certificate_date()->byteString())));
+                client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_DATA_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_software_cert()->at(i)->certificate_data()->byteString())));
                 client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_SIGNATURE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_software_cert()->at(i)->signature()->byteString())));
                 zeek::BifEvent::enqueue_opcua_binary_activate_session_client_software_cert_event(connection()->bro_analyzer(),
                                                                                                  connection()->bro_analyzer()->Conn(),
