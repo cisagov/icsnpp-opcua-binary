@@ -103,7 +103,7 @@
     // 7.33 Table 174 - SignedSoftwareCertificate
     //
     void printOpcUA_SignedSoftwareCertificate(int indent_width, OpcUA_SignedSoftwareCertificate *obj) {
-        printf("%s CertificateDate:  %s\n", indent(indent_width).c_str(), std_str(obj->certificate_date()->byteString()).c_str());
+        printf("%s CertificateDate:  %s\n", indent(indent_width).c_str(), std_str(obj->certificate_data()->byteString()).c_str());
         printf("%s Signature:  %s\n", indent(indent_width).c_str(), std_str(obj->signature()->byteString()).c_str());
     }
 
