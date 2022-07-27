@@ -90,8 +90,6 @@
     }
 
     void printOpcUA_LocaleIdVec(int indent_width, vector<OpcUA_LocaleId *> *obj) {
-        printf("%s LocaleIds: Array of String\n", indent(indent_width).c_str());
-        printf("%s ArraySize: %lu\n", indent(indent_width+1).c_str(), obj->size());
         for (int i = 0; i < obj->size(); i++) {
             printf("%s [%d]: LocaleIds:  %s\n", indent(indent_width+1).c_str(), i, std_str(obj->at(i)->locale_id()).c_str());
         }
@@ -108,8 +106,6 @@
     }
 
     void printOpcUA_SignedSoftwareCertificateVec(int indent_width, vector<OpcUA_SignedSoftwareCertificate *> *obj) {
-        printf("%s ClientSoftwareCertificates: Array of SignedSoftwareCertificate\n", indent(indent_width).c_str());
-        printf("%s ArraySize: %lu\n", indent(indent_width+1).c_str(), obj->size());
         for (int i = 0; i < obj->size(); i++) {
             printf("%s [%d]: ClientSoftwareCert:\n", indent(indent_width+1).c_str(), i);
             printOpcUA_SignedSoftwareCertificate(indent_width+2, obj->at(i));
