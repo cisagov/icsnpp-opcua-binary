@@ -309,7 +309,7 @@ type OpcUA_SignatureData = record {
 # 7.33 Table 174 - SignedSoftwareCertificate
 #
 type OpcUA_SignedSoftwareCertificate = record {
-    certificate_date : OpcUA_ByteString;
+    certificate_data : OpcUA_ByteString;
     signature        : OpcUA_ByteString;
 }
 
