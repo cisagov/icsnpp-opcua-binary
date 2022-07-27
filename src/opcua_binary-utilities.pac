@@ -33,7 +33,7 @@ build/opcua_binary_pac.cc file(s) for details.
     uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
     string generateId();
-    uint32_t extensionObject(OpcUA_NodeId *typeId);
+    uint32_t getExtensionObjectId(OpcUA_NodeId *typeId);
 %}
 
 %code{
@@ -244,7 +244,7 @@ build/opcua_binary_pac.cc file(s) for details.
         return((encoding & mask) > 0);
     }
 
-    uint32_t extensionObject(OpcUA_NodeId *typeId) {
+    uint32_t getExtensionObjectId(OpcUA_NodeId *typeId) {
         uint8_t  encoding = typeId->identifier_type();
         uint32_t user_identity_token = 0;
 
@@ -322,8 +322,8 @@ refine flow OPCUA_Binary_Flow += {
     #
     #
     #
-    function extension_object(typeId: OpcUA_NodeId): uint32
+    function get_extension_object_id(typeId: OpcUA_NodeId): uint32
     %{
-        return(extensionObject(typeId));
+        return(getExtensionObjectId(typeId));
     %}
 };

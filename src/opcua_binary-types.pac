@@ -323,7 +323,7 @@ type OpcUA_ExtensionObject = record {
     encoding : uint8;
     length   : int32;
 
-    body : case $context.flow.extension_object(type_id) of {
+    body : case $context.flow.get_extension_object_id(type_id) of {
         AnonymousIdentityToken -> anonymous_identity_token : OpcUA_AnonymousIdentityToken;
         UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
         X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
