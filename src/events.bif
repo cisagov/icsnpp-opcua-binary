@@ -22,3 +22,8 @@ event opcua_binary_create_session_event%(c: connection, create_session: OPCUA_Bi
 event opcua_binary_create_session_discovery_event%(c: connection, create_session_discovery: OPCUA_Binary::CreateSessionDiscovery%);
 event opcua_binary_create_session_endpoints_event%(c: connection, create_session_endpoints: OPCUA_Binary::CreateSessionEndpoints%);
 event opcua_binary_create_session_user_token_event%(c: connection, create_session_user_token: OPCUA_Binary::CreateSessionUserToken%);
+
+event opcua_binary_activate_session_client_software_cert_event%(c: connection, activate_session_client_software_cert: OPCUA_Binary::ActivateSessionClientSoftwareCert%);
+event opcua_binary_activate_session_locale_id_event%(c: connection, activate_session_locale_id: OPCUA_Binary::ActivateSessionLocaleId%);
+event opcua_binary_activate_session_event%(c: connection, activate_session: OPCUA_Binary::ActivateSession%);
+event opcua_binary_activate_session_diagnostic_info_event%(c: connection, activate_session_diagnostic_info: OPCUA_Binary::ActivateSessionDiagnosticInfo%);

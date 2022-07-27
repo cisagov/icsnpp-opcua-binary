@@ -10,6 +10,7 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %include opcua_binary-types.pac
+%include opcua_binary-types_debug.pac
 %include opcua_binary-types_consts.pac
 %include opcua_binary-opcua_nodeid_types.pac
 %include opcua_binary-opcua_nodeid_types_debug.pac
@@ -22,6 +23,8 @@
 %include get-endpoints/opcua_binary-get_endpoints_debug.pac
 %include create-session/opcua_binary-create_session.pac
 %include create-session/opcua_binary-create_session_debug.pac
+%include activate-session/opcua_binary-activate_session.pac
+%include activate-session/opcua_binary-activate_session_debug.pac
 %include stubbed-out/opcua_binary-stubbed_out_service.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_debug.pac
 %include opcua_binary-protocol_debug.pac

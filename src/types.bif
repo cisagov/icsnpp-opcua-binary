@@ -14,5 +14,10 @@ type CreateSessionDiscovery: record;
 type CreateSessionEndpoints: record;
 type CreateSessionUserToken: record;
 
+type ActivateSession: record;
+type ActivateSessionClientSoftwareCert: record;
+type ActivateSessionLocaleId: record;
+type ActivateSessionDiagnosticInfo: record;
+
 module GLOBAL;
 

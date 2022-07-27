@@ -179,7 +179,6 @@ type OpcUA_LocaleId = record {
     locale_id : bytestring &length = $context.flow.bind_length(length);
 } &byteorder=littleendian;
 
-
 #
 #
 # UA Specification Part 6 - Mappings 1.04.pdf
@@ -303,3 +302,73 @@ type OpcUA_SignatureData = record {
     algorithm : OpcUA_String;
     signature : OpcUA_ByteString;
 } &byteorder=littleendian;
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.33 Table 174 - SignedSoftwareCertificate
+#
+type OpcUA_SignedSoftwareCertificate = record {
+    certificate_date : OpcUA_ByteString;
+    signature        : OpcUA_ByteString;
+}
+
+#
+# UA Specification Part 6 - Mappings 1.04.pdf
+#
+# 5.2.2.15 Table 14 - ExtensionObject
+#
+type OpcUA_ExtensionObject = record {
+    type_id  : OpcUA_NodeId;
+    encoding : uint8;
+    length   : int32;
+
+    body : case $context.flow.extension_object(type_id) of {
+        AnonymousIdentityToken -> anonymous_identity_token : OpcUA_AnonymousIdentityToken;
+        UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
+        X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
+        IssuedIdentityToken    -> issued_identity_token    : OpcUA_IssuedIdentityToken;
+    };
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.36.3 Table 185 - AnonymousIdentityToken
+#
+type OpcUA_AnonymousIdentityToken = record {
+    policy_id : OpcUA_String;
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.36.4 Table 186 - UserNameIdentityToken
+#
+type OpcUA_UserNameIdentityToken = record {
+    policy_id             : OpcUA_String;
+    user_name             : OpcUA_String;
+    password              : OpcUA_ByteString;
+    encryption_algorithm  : OpcUA_String;
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.36.5 Table 188 - X509IdentityToken
+#
+type OpcUA_X509IdentityToken = record {
+    policy_id         : OpcUA_String;
+    certificate_data  : OpcUA_ByteString;
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.36.6 Table 189 - IssuedIdentityToken
+#
+type OpcUA_IssuedIdentityToken = record {
+    policy_id             : OpcUA_String;
+    token_data            : OpcUA_ByteString;
+    encryption_algorithm  : OpcUA_String;
+}
