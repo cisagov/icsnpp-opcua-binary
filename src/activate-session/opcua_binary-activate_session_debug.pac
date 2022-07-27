@@ -28,9 +28,13 @@
         printOpcUA_SignatureData(3, "ClientSignature", msg->client_signature());
 
         // Client Software Cert
+        printf("%s ClientSoftwareCertificates: Array of SignedSoftwareCertificate\n", indent(3).c_str());
+        printf("%s ArraySize: %d\n", indent(4).c_str(), msg->client_software_size());
         printOpcUA_SignedSoftwareCertificateVec(3, msg->client_software_cert());
 
         // Locale Id
+        printf("%s LocaleIds: Array of String\n", indent(3).c_str());
+        printf("%s ArraySize: %d\n", indent(4).c_str(),  msg->locale_id_size());
         printOpcUA_LocaleIdVec(3, msg->locale_id());
 
         // User Identity Token
