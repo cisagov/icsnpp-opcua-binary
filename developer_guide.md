@@ -152,8 +152,7 @@ The following table shows the services that have been stubbed out and currently 
 
 | Service                        | Service                                | Service
 | ------------------------------ | -------------------------------------- | --------------------------------------- |
-|                                |                                        | `ActivateSessionRequest`                |
-| `ActivateSessionResponse`      | `FindServersRequest`                   | `FindServersResponse`                   |
+|                                | `FindServersRequest`                   | `FindServersResponse`                   |
 | `FindServersOnNetworkRequest`  | `FindServersOnNetworkResponse`         | `RegisterServerRequest`                 |
 | `RegisterServerResponse`       | `RegisterServer2Request`               | `RegisterServer2Response`               |
 | `CloseSessionRequest`          | `CloseSessionResponse`                 | `CancelRequest`                         |
@@ -185,6 +184,7 @@ The following table shows the services that have been stubbed out and currently 
 | ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`scripts/OPCUA/Binary/main.zeek`](scripts/OPCUA/Binary/main.zeek) | `Add a log stream definition and log event processing`                                                                                                                                                                            |
 | [`scripts/types.zeek`](scripts/types.zeek)                         | `Add a type/record definitions describing the information that will be written to the log files.  Alternately, create a <service-name>-types.zeek file containing the type/record definations for the service being implemented.` |
+| [`scripts/__preload__.zeek`](scripts/__preload__.zeek)             | `Add a @load reference to the appropriate types.zeek file.`                                                                                                                                                                       |
 | [`src/types.bif`](src/types.bif)                                   | `Add a type/record definitions that corresponds to the definitions in scripts/types.zeek.  This enables the types to be visible in the analyzer.`                                                                                 |
 | `<service-name>/opcua_binary-<service_name>.pac`                   | `Create a directory associated with the service and implement binpac code describing the protocol structure for the service.`                                                                                                     |
 | `<service-name>/opcua_binary-<service_name>_analyzer.pac`          | `Implement the code used to process the parsed information and map to the corresponding scripting object for logging`                                                                                                             |

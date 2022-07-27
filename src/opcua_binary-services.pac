@@ -26,8 +26,8 @@ type Service(msg_body: Msg_Body) = record {
         CreateSessionRequest         -> create_session_req   : Create_Session_Req(this);
         CreateSessionResponse        -> create_session_res   : Create_Session_Res(this);
 
-        ActivateSessionRequest       -> activate_session_req : Stubbed_Out_Req(this);
-        ActivateSessionResponse      -> activate_session_res : Stubbed_Out_Res(this);
+        ActivateSessionRequest       -> activate_session_req : Activate_Session_Req(this);
+        ActivateSessionResponse      -> activate_session_res : Activate_Session_Res(this);
 
         FindServersRequest           -> find_server_req      : Stubbed_Out_Req(this);
         FindServersResponse          -> find_server_res      : Stubbed_Out_Res(this);
