@@ -15,12 +15,9 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_CreateSubscriptionReq(msg: CreateSubscription_Req): bool
         %{
-        // Debug 
-        printf("deliver_Svc_CreateSubscriptionReq - begin\n");
-        // Debug 
-        printCreateSubscriptionReq(msg);
-        // Debug 
-        printf("deliver_Svc_CreateSubscriptionReq - end\n");
+        // Debug printf("deliver_Svc_CreateSubscriptionReq - begin\n");
+        // Debug printCreateSubscriptionReq(msg);
+        // Debug printf("deliver_Svc_CreateSubscriptionReq - end\n");
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
@@ -54,12 +51,9 @@ refine flow OPCUA_Binary_Flow += {
 
     function deliver_Svc_CreateSubscriptionRes(msg: CreateSubscription_Res): bool
         %{
-        // Debug 
-        printf("deliver_Svc_CreateSubscriptionRes - begin\n");
-        // Debug 
-        printCreateSubscriptionRes(msg);
-        // Debug 
-        printf("deliver_Svc_CreateSubscriptionRes - end\n");
+        // Debug printf("deliver_Svc_CreateSubscriptionRes - begin\n");
+        // Debug printCreateSubscriptionRes(msg);
+        // Debug printf("deliver_Svc_CreateSubscriptionRes - end\n");
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
