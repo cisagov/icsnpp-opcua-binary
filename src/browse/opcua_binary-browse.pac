@@ -84,5 +84,5 @@ type BrowseResult = record {
     status_code         : OpcUA_StatusCode;
     continuation_point  : OpcUA_ByteString;
     num_references      : int32;
-    references      : ReferenceDescription[$context.flow.bind_length(num_references)];
+    references          : ReferenceDescription[$context.flow.bind_length(num_references)];
 } &byteorder=littleendian;

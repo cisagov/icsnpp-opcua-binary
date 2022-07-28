@@ -5,7 +5,7 @@
 ## Zeek script type/record definitions describing the information
 ## that will be written to the log files.
 ##
-## Author:   MelaniePierce
+## Author:   Melanie Pierce
 ## Contact:  Melanie.Pierce@inl.gov
 ##
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
@@ -27,10 +27,36 @@ export {
         browse_view_id_guid          : string  &log &optional;
         browse_view_id_opaque        : string  &log &optional;
 
-        browse_view_description_timestamp : count &log &optional;
+        browse_view_description_timestamp    : count &log &optional;
         browse_view_description_view_version : count &log &optional;
 
         req_max_ref_nodes            : count &log &optional;
+        browse_description_id        : string &log &optional; # Id into OPCUA::BrowseDescription
+
+        browse_next_release_continuation_point  : bool &log &optional;
+        browse_next_id                          : string &log &optional;
+
+        browse_result_id             : string &log &optional; # Id into OPCUA::BrowseResult
+
+        # browse_response_diag_info_id : string  &log &optional; # Id into OPCUA_Binary::BrowseDiagnosticInfo log
+    };
+
+    #
+    # Something like this :-)
+    #
+    #type OPCUA_Binary::BrowseDiagnosticInfo: record {
+    #    ts                        : time    &log;
+    #    uid                       : string  &log;
+    #    id                        : conn_id &log;
+    #    diagnostic_info_link_id   : string  &log;  # Id back into OCPUA_Binary::Browse
+    #    diagnostic_info_id        : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
+    #};
+
+    type OPCUA_Binary::BrowseDescription: record {
+        ts                       : time    &log;
+        uid                      : string  &log;
+        id                       : conn_id &log;
+        browse_link_id           : string  &log; # Id back into OCPUA_Binary::Browse
 
         browse_description_encoding_mask : string   &log &optional;
         browse_description_namespace_idx : count   &log &optional;
@@ -51,33 +77,34 @@ export {
         browse_description_include_subtypes : bool &log &optional;
         browse_node_class_mask              : string &log &optional;
         browse_result_mask                  : string &log &optional;
-
-        browse_next_release_continuation_point  : bool &log &optional;
-        browse_next_continuation_point  : string &log &optional;
-
-        browse_response_status_code         : string &log &optional;
-        browse_response_continuation_point  : string &log &optional;
-        browse_response_number_of_references    : count &log &optional;
-
-        # browse_response_diag_info_id : string  &log &optional; # Id into OPCUA_Binary::BrowseDiagnosticInfo log
     };
 
-    #
-    # Something like this :-)
-    #
-    #type OPCUA_Binary::BrowseDiagnosticInfo: record {
-    #    ts                        : time    &log;
-    #    uid                       : string  &log;
-    #    id                        : conn_id &log;
-    #    diagnostic_info_link_id   : string  &log;  # Id back into OCPUA_Binary::Browse
-    #    diagnostic_info_id        : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
-    #};
+    type OPCUA_Binary::BrowseRequestContinuationPoint: record {
+        ts                       : time    &log;
+        uid                      : string  &log;
+        id                       : conn_id &log;
+        browse_resp_link_id      : string  &log; # Id back into OCPUA_Binary::Browse
+
+        continuation_point       : string &log &optional;
+    };
+
+    type OPCUA_Binary::BrowseResult: record {
+        ts                       : time    &log;
+        uid                      : string  &log;
+        id                       : conn_id &log;
+        browse_resp_link_id      : string  &log; # Id back into OCPUA_Binary::Browse
+
+        browse_result_status_code             : string &log &optional;
+        browse_result_continuation_point      : string &log &optional;
+        browse_reference_id                   : string &log &optional;
+
+    };
 
     type OPCUA_Binary::BrowseReference: record {
         ts                       : time    &log;
         uid                      : string  &log;
         id                       : conn_id &log;
-        opcua_id                 : string  &log;       # Id back into OCPUA_Binary::Info
+        browse_result_link_id    : string  &log;       # Id back into OCPUA_Binary::BrowseResult
 
 	    browse_response_ref_encoding_mask    : string &log &optional;
         browse_response_ref_namespace_idx    : count  &log &optional;
@@ -112,6 +139,13 @@ export {
         browse_response_type_def_opaque           : string &log &optional; 
         browse_response_type_def_namespace_uri    : string &log &optional;
         browse_response_type_def_server_idx       : count  &log &optional;   
+    };
 
+    type OPCUA_Binary::BrowseDiagnosticInfo: record {
+        ts                        : time    &log;
+        uid                       : string  &log;
+        id                        : conn_id &log;
+        diagnostic_info_link_id   : string  &log;  # Id back into OCPUA_Binary::Browse
+        diagnostic_info_id        : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
     };
 }
