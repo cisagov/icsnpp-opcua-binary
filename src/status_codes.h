@@ -281,6 +281,7 @@ static uint32_t StatusCode_BadMaxConnectionsReached_Key                         
 
 static std::map<uint32_t, std::string> STATUS_CODE_MAP =
 {
+   {StatusCode_Good_Key                                                           , "Good"},
    {StatusCode_BadUnexpectedError_Key                                             , "BadUnexpectedError"},
    {StatusCode_BadInternalError_Key                                               , "BadInternalError"},
    {StatusCode_BadOutOfMemory_Key                                                 , "BadOutOfMemory"},

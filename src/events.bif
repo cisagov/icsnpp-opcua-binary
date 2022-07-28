@@ -24,4 +24,8 @@ event opcua_binary_create_session_endpoints_event%(c: connection, create_session
 event opcua_binary_create_session_user_token_event%(c: connection, create_session_user_token: OPCUA_Binary::CreateSessionUserToken%);
 
 event opcua_binary_browse_event%(c: connection, browse_event: OPCUA_Binary::Browse%);
+event opcua_binary_browse_description_event%(c: connection, browse_description_event: OPCUA_Binary::BrowseDescription%);
+event opcua_binary_browse_request_continuation_point_event%(c: connection, browse_request_continuation_point: OPCUA_Binary::BrowseRequestContinuationPoint%);
+event opcua_binary_browse_result_event%(c: connection, browse_result_event: OPCUA_Binary::BrowseResult%);
 event opcua_binary_browse_reference_event%(c: connection, browse_event: OPCUA_Binary::BrowseReference%);
+event opcua_binary_browse_diagnostic_info_event%(c: connection, activate_session_diagnostic_info: OPCUA_Binary::BrowseDiagnosticInfo%);
