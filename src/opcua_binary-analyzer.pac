@@ -18,6 +18,7 @@
 #include "index-consts.h"
 #include "statuscode-diagnostic-index-consts.h"
 #include "create-session/index-consts.h"
+#include "create-subscription/index-consts.h"
 #include "get-endpoints/index-consts.h"
 #include "secure-channel/index-consts.h"
 #include "req-res-header/index-consts.h"
