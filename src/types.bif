@@ -15,7 +15,11 @@ type CreateSessionEndpoints: record;
 type CreateSessionUserToken: record;
 
 type Browse: record;
+type BrowseDescription: record;
+type BrowseRequestContinuationPoint: record;
+type BrowseResult: record;
 type BrowseReference: record;
+type BrowseDiagnosticInfo: record;
 
 module GLOBAL;
 
