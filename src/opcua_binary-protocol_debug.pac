@@ -91,7 +91,7 @@
         printf("%s TypeId: ExpandedNodeId\n", indent(2).c_str());
         printf("%s NodeId EncodingMask: 0x%x\n", indent(3).c_str(), service->msg_body()->encoding_mask());
         printf("%s NodeId Namespace Index: %d\n", indent(3).c_str(), service->namespace_idx());
-        printf("%s NodeId Identifier Numberic: %s (%d)\n", indent(3).c_str(), NODE_IDENTIFIER_MAP.find(service->identifier())->second.c_str(), service->identifier());
+        printf("%s NodeId Identifier Numeric: %s (%d)\n", indent(3).c_str(), NODE_IDENTIFIER_MAP.find(service->identifier())->second.c_str(), service->identifier());
 
         return;
     }
