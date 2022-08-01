@@ -16,7 +16,8 @@ export {
 	redef enum Log::ID += { LOG, LOG_STATUS_CODE, LOG_DIAG_INFO, LOG_OPENSECURE_CHANNEL, 
                            LOG_GET_ENDPOINTS, LOG_GET_ENDPOINTS_DISCOVERY,  LOG_GET_ENDPOINTS_USER_TOKEN,
                            LOG_CREATE_SESSION, LOG_CREATE_SESSION_DISCOVERY, LOG_CREATE_SESSION_ENDPOINTS, LOG_CREATE_SESSION_USER_TOKEN,
-                           LOG_ACTIVATE_SESSION, LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT, LOG_ACTIVATE_SESSION_LOCALE_ID, LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO };
+                           LOG_ACTIVATE_SESSION, LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT, LOG_ACTIVATE_SESSION_LOCALE_ID, LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO,
+                           LOG_CREATE_SUBSCRIPTION };
 }
 
 # Port-based detection
@@ -44,6 +45,8 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_LOCALE_ID,             [$columns=OPCUA_Binary::ActivateSessionLocaleId,           $path="opcua-binary-activate-session-locale-id"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO,       [$columns=OPCUA_Binary::ActivateSessionDiagnosticInfo,     $path="opcua-binary-activate-session-diagnostic-info"]);
 
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION,        [$columns=OPCUA_Binary::CreateSubscription, $path="opcua-binary-create-subscription"]);
+   
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
    }
 
@@ -206,3 +209,13 @@ event opcua_binary_activate_session_diagnostic_info_event(c: connection, activat
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO, activate_session_diagnostic_info);
     }
+
+event opcua_binary_create_subscription_event(c: connection, create_subscription_event: OPCUA_Binary::CreateSubscription)
+   {
+       set_service(c, "opcua-binary");
+       create_subscription_event$ts  = network_time();
+       create_subscription_event$uid = c$uid;
+       create_subscription_event$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION, create_subscription_event);
+   }
