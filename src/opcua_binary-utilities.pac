@@ -33,11 +33,8 @@ build/opcua_binary_pac.cc file(s) for details.
     uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
     string generateId();
-<<<<<<< HEAD
     string indent(int level);
-=======
     uint32_t getExtensionObjectId(OpcUA_NodeId *typeId);
->>>>>>> 88c74eac1a826cc4f570fbb693ca4621258d76be
 %}
 
 %code{
@@ -248,7 +245,6 @@ build/opcua_binary_pac.cc file(s) for details.
         return((encoding & mask) > 0);
     }
 
-<<<<<<< HEAD
     string indent(int level) {
         std::stringstream ss;
         int padding = 4;
@@ -256,7 +252,8 @@ build/opcua_binary_pac.cc file(s) for details.
         ss << setw(padding * level) << ' ';
 
         return ss.str();
-=======
+    }
+
     uint32_t getExtensionObjectId(OpcUA_NodeId *typeId) {
         uint8_t  encoding = typeId->identifier_type();
         uint32_t user_identity_token = 0;
@@ -272,7 +269,6 @@ build/opcua_binary_pac.cc file(s) for details.
         } 
 
         return(user_identity_token);
->>>>>>> 88c74eac1a826cc4f570fbb693ca4621258d76be
     }
 
 %}
@@ -332,8 +328,6 @@ refine flow OPCUA_Binary_Flow += {
 
         return(uint8VectorToUint32(data));
     %}
-<<<<<<< HEAD
-=======
 
     #
     #
@@ -342,5 +336,4 @@ refine flow OPCUA_Binary_Flow += {
     %{
         return(getExtensionObjectId(typeId));
     %}
->>>>>>> 88c74eac1a826cc4f570fbb693ca4621258d76be
 };
