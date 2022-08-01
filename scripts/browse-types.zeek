@@ -83,7 +83,7 @@ export {
         id                       : conn_id &log;
         browse_resp_link_id      : string  &log; # Id back into OCPUA_Binary::Browse
 
-        browse_result_status_code             : string &log &optional;
+        browse_result_status_code_id          : string &log &optional; # Id into OPCUA_Binary::StatusCodeDetail log
         browse_result_continuation_point      : string &log &optional;
         browse_reference_id                   : string &log &optional;
 
