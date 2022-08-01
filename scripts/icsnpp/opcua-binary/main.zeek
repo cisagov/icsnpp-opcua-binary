@@ -222,11 +222,11 @@ event opcua_binary_browse_reference_event(c: connection, browse_reference_event:
    }
 
 event opcua_binary_browse_diagnostic_info_event(c: connection, browse_diagnostic_info: OPCUA_Binary::BrowseDiagnosticInfo)
-    {
+   {
        set_service(c, "opcua-binary");
        browse_diagnostic_info$ts  = network_time();
        browse_diagnostic_info$uid = c$uid;
        browse_diagnostic_info$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_BROWSE_DIAGNOSTIC_INFO, browse_diagnostic_info);
-    }
+   }
