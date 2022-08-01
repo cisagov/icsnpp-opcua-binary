@@ -43,6 +43,17 @@ enum diag_info_mask
 }
 
 #
+# UA Specification Part 6 - Mappings 1.04.pdf
+# Table 14 - Extension Object Binary DataEncoding
+#
+enum extension_object_encoding
+{
+    hasNoEncoding     = 0x00,
+    hasBinaryEncoding = 0x01,
+    hasXMLEncoding    = 0x00
+}
+
+#
 # Numeric Node Identifiers for OPCUA Binary protocol services.  The enumerations
 # are used when parsing the protocol and determining the service based
 # off the parsed identifier 
@@ -181,4 +192,165 @@ enum localized_text_mask
 {
     localizedTextHasLocale = 0x01,
     localizedTextHasText   = 0x02
+}
+
+#
+# UA Specification Part 6 - Mappings 1.04.pdf 
+#
+# Annex A.3 - Numeric Node Ids provides a link to the CSV that that contains
+# extension object node identifiers.  This file contains ~14,000 node
+# identifiers along with symbol names and node class.  
+#
+# The subset of identifiers defined below are based on the Wireshark
+# OPCUA plugin code base.  Specifically the files opcua_extensionobjectids.h
+# and opcua_extensionobjecttable.c.  Reviewing the headers of these files indicates
+# the files are auto-generated.  For more information see the
+# <wireshark code>/plugins/epan/opcua/README as well as the discussion at
+# http://www.wireshark.org/lists/wireshark-dev/200704/msg00025.html
+#
+# References:
+#   * https://www.wireshark.org/download/src/
+#
+enum extension_object_node
+{
+    TrustListDataType                   = 12680,
+    Node                                = 260,
+    InstanceNode                        = 11889,
+    TypeNode                            = 11890,
+    ObjectNode                          = 263,
+    ObjectTypeNode                      = 266,
+    VariableNode                        = 269,
+    VariableTypeNode                    = 272,
+    ReferenceTypeNode                   = 275,
+    MethodNode                          = 278,
+    ViewNode                            = 281,
+    DataTypeNode                        = 284,
+    ReferenceNode                       = 287,
+    Argument                            = 298,
+    EnumValueType                       = 8251,
+    OptionSet                           = 12765,
+    TimeZoneDataType                    = 8917,
+    ApplicationDescription              = 310,
+    RequestHeader                       = 391,
+    ResponseHeader                      = 394,
+    ServerOnNetwork                     = 12207,
+    UserTokenPolicy                     = 306,
+    EndpointDescription                 = 314,
+    RegisteredServer                    = 434,
+    MdnsDiscoveryConfiguration          = 12901,
+    ChannelSecurityToken                = 443,
+    SignedSoftwareCertificate           = 346,
+    SignatureData                       = 458,
+    UserIdentityToken                   = 318,
+    AnonymousIdentityToken              = 321,
+    UserNameIdentityToken               = 324,
+    X509IdentityToken                   = 327,
+    KerberosIdentityToken               = 12509,
+    IssuedIdentityToken                 = 940,
+    NodeAttributes                      = 351,
+    ObjectAttributes                    = 354,
+    VariableAttributes                  = 357,
+    MethodAttributes                    = 360,
+    ObjectTypeAttributes                = 363,
+    VariableTypeAttributes              = 366,
+    ReferenceTypeAttributes             = 369,
+    DataTypeAttributes                  = 372,
+    ViewAttributes                      = 375,
+    AddNodesItem                        = 378,
+    AddNodesResult                      = 485,
+    AddReferencesItem                   = 381,
+    DeleteNodesItem                     = 384,
+    DeleteReferencesItem                = 387,
+    ViewDescription                     = 513,
+    BrowseDescription                   = 516,
+    ReferenceDescription                = 520,
+    BrowseResult                        = 524,
+    RelativePathElement                 = 539,
+    RelativePath                        = 542,
+    BrowsePath                          = 545,
+    BrowsePathTarget                    = 548,
+    BrowsePathResult                    = 551,
+    EndpointConfiguration               = 333,
+    SupportedProfile                    = 337,
+    SoftwareCertificate                 = 343,
+    QueryDataDescription                = 572,
+    NodeTypeDescription                 = 575,
+    QueryDataSet                        = 579,
+    NodeReference                       = 582,
+    ContentFilterElement                = 585,
+    ContentFilter                       = 588,
+    ElementOperand                      = 594,
+    LiteralOperand                      = 597,
+    AttributeOperand                    = 600,
+    SimpleAttributeOperand              = 603,
+    ContentFilterElementResult          = 606,
+    ContentFilterResult                 = 609,
+    ParsingResult                       = 612,
+    ReadValueId                         = 628,
+    HistoryReadValueId                  = 637,
+    HistoryReadResult                   = 640,
+    ReadEventDetails                    = 646,
+    ReadRawModifiedDetails              = 649,
+    ReadProcessedDetails                = 652,
+    ReadAtTimeDetails                   = 655,
+    HistoryData                         = 658,
+    ModificationInfo                    = 11226,
+    HistoryModifiedData                 = 11227,
+    HistoryEvent                        = 661,
+    WriteValue                          = 670,
+    HistoryUpdateDetails                = 679,
+    UpdateDataDetails                   = 682,
+    UpdateStructureDataDetails          = 11300,
+    UpdateEventDetails                  = 685,
+    DeleteRawModifiedDetails            = 688,
+    DeleteAtTimeDetails                 = 691,
+    DeleteEventDetails                  = 694,
+    HistoryUpdateResult                 = 697,
+    CallMethodRequest                   = 706,
+    CallMethodResult                    = 709,
+    DataChangeFilter                    = 724,
+    EventFilter                         = 727,
+    AggregateConfiguration              = 950,
+    AggregateFilter                     = 730,
+    EventFilterResult                   = 736,
+    AggregateFilterResult               = 739,
+    MonitoringParameters                = 742,
+    MonitoredItemCreateRequest          = 745,
+    MonitoredItemCreateResult           = 748,
+    MonitoredItemModifyRequest          = 757,
+    MonitoredItemModifyResult           = 760,
+    NotificationMessage                 = 805,
+    DataChangeNotification              = 811,
+    MonitoredItemNotification           = 808,
+    EventNotificationList               = 916,
+    EventFieldList                      = 919,
+    HistoryEventFieldList               = 922,
+    StatusChangeNotification            = 820,
+    SubscriptionAcknowledgement         = 823,
+    TransferResult                      = 838,
+    ScalarTestType                      = 401,
+    ArrayTestType                       = 404,
+    CompositeTestType                   = 407,
+    BuildInfo                           = 340,
+    RedundantServerDataType             = 855,
+    EndpointUrlListDataType             = 11957,
+    NetworkGroupDataType                = 11958,
+    SamplingIntervalDiagnosticsDataType = 858,
+    ServerDiagnosticsSummaryDataType    = 861,
+    ServerStatusDataType                = 864,
+    SessionDiagnosticsDataType          = 867,
+    SessionSecurityDiagnosticsDataType  = 870,
+    ServiceCounterDataType              = 873,
+    StatusResult                        = 301,
+    SubscriptionDiagnosticsDataType     = 876,
+    ModelChangeStructureDataType        = 879,
+    SemanticChangeStructureDataType     = 899,
+    Range                               = 886,
+    EUInformation                       = 889,
+    ComplexNumberType                   = 12181,
+    DoubleComplexNumberType             = 12182,
+    AxisInformation                     = 12089,
+    XVType                              = 12090,
+    ProgramDiagnosticDataType           = 896,
+    Annotation                          = 893
 }
