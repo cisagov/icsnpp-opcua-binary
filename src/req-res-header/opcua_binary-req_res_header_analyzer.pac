@@ -12,7 +12,7 @@
 %header{
     zeek::RecordValPtr assignReqHdr(zeek::RecordValPtr info, Request_Header *req_hdr);
     zeek::RecordValPtr assignResHdr(OPCUA_Binary_Conn *connection, zeek::RecordValPtr info, Response_Header *res_hdr);
-    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel);
+    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32_t innerDiagLevel, uint32_t status_code_src);
     void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code);
 %}
 
@@ -62,7 +62,7 @@
     // NOTE: This function is called recursively to  process any 
     // nested inner diagnostic information.
     //
-    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel) {
+    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel, uint32_t status_code_src) {
         zeek::RecordValPtr diag_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::DiagnosticInfoDetail);
 
         // OpcUA_id
@@ -130,7 +130,7 @@
         if (isBitSet(diagInfo->encoding_mask(), hasInnerStatCode)) {
             diag_info->Assign(HAS_INNER_STAT_CODE_IDX, zeek::val_mgr->Bool(true));
             diag_info->Assign(INNER_STAT_CODE_IDX,     zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(diagInfo->inner_stat_code())));
-            generateStatusCodeEvent(connection, opcua_id, StatusCode_DiagInfoInnerStatus_Key, diagInfo->inner_stat_code());
+            generateStatusCodeEvent(connection, opcua_id, status_code_src, diagInfo->inner_stat_code());
         }
 
         // Inner Diagnostic Info
@@ -140,7 +140,7 @@
                                                             connection->bro_analyzer()->Conn(),
                                                             diag_info);
 
-            generateDiagInfoEvent(connection, opcua_id, diagInfo->inner_diag_info(), stringTable, innerDiagLevel+=1);
+            generateDiagInfoEvent(connection, opcua_id, diagInfo->inner_diag_info(), stringTable, innerDiagLevel+=1, status_code_src);
         } else {
             zeek::BifEvent::enqueue_opcua_binary_diag_info_event(connection->bro_analyzer(),
                                                             connection->bro_analyzer()->Conn(),
@@ -226,7 +226,7 @@
                 stringTable = res_hdr->string_table();
             }
 
-            generateDiagInfoEvent(connection, info->GetField(OPCUA_ID_IDX), res_hdr->service_diag(), stringTable, innerDiagLevel);
+            generateDiagInfoEvent(connection, info->GetField(OPCUA_ID_IDX), res_hdr->service_diag(), stringTable, innerDiagLevel, StatusCode_ResHdrServiceResult_Key);
         }
 
         // Log the Additional Header information
