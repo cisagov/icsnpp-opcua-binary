@@ -123,7 +123,7 @@
 
         // TypeId
         printf("%s TypeId: ExpandedNodeId\n", indent(indent_width+1).c_str());
-        printOpcUaNodeId(indent_width+2, obj->type_id());
+        printOpcUA_NodeId(indent_width+2, obj->type_id());
         
         // Extension Object Encoding Mask
         if (isBitSet(obj->encoding(), hasNoEncoding)) {
