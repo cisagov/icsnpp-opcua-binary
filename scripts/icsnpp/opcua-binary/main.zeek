@@ -15,8 +15,9 @@ module ICSNPP_OPCUA_Binary;
 export {
 	redef enum Log::ID += { LOG, LOG_STATUS_CODE, LOG_DIAG_INFO, LOG_OPENSECURE_CHANNEL, 
                            LOG_GET_ENDPOINTS, LOG_GET_ENDPOINTS_DISCOVERY,  LOG_GET_ENDPOINTS_USER_TOKEN,
-                           LOG_CREATE_SESSION, LOG_CREATE_SESSION_DISCOVERY, LOG_CREATE_SESSION_ENDPOINTS, 
-                           LOG_CREATE_SESSION_USER_TOKEN, LOG_CREATE_SUBSCRIPTION };
+                           LOG_CREATE_SESSION, LOG_CREATE_SESSION_DISCOVERY, LOG_CREATE_SESSION_ENDPOINTS, LOG_CREATE_SESSION_USER_TOKEN,
+                           LOG_ACTIVATE_SESSION, LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT, LOG_ACTIVATE_SESSION_LOCALE_ID, LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO,
+                           LOG_CREATE_SUBSCRIPTION };
 }
 
 # Port-based detection
@@ -38,6 +39,11 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_DISCOVERY,  [$columns=OPCUA_Binary::CreateSessionDiscovery, $path="opcua-binary-create-session-discovery"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_ENDPOINTS,  [$columns=OPCUA_Binary::CreateSessionEndpoints, $path="opcua-binary-create-session-endpoints"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_USER_TOKEN, [$columns=OPCUA_Binary::CreateSessionUserToken, $path="opcua-binary-create-session-user-token"]);
+
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION,                       [$columns=OPCUA_Binary::ActivateSession,                   $path="opcua-binary-activate-session"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT,  [$columns=OPCUA_Binary::ActivateSessionClientSoftwareCert, $path="opcua-binary-activate-session-client-software-cert"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_LOCALE_ID,             [$columns=OPCUA_Binary::ActivateSessionLocaleId,           $path="opcua-binary-activate-session-locale-id"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO,       [$columns=OPCUA_Binary::ActivateSessionDiagnosticInfo,     $path="opcua-binary-activate-session-diagnostic-info"]);
 
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION,        [$columns=OPCUA_Binary::CreateSubscription, $path="opcua-binary-create-subscription"]);
    
@@ -163,6 +169,46 @@ event opcua_binary_create_session_user_token_event(c: connection, create_session
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_USER_TOKEN, create_session_user_token);
    }
+
+event opcua_binary_activate_session_event(c: connection, activate_session: OPCUA_Binary::ActivateSession)
+    {
+       set_service(c, "opcua-binary");
+       activate_session$ts  = network_time();
+       activate_session$uid = c$uid;
+       activate_session$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION, activate_session);
+    }
+
+event opcua_binary_activate_session_client_software_cert_event(c: connection, activate_session_client_software_cert: OPCUA_Binary::ActivateSessionClientSoftwareCert)
+    {
+       set_service(c, "opcua-binary");
+       activate_session_client_software_cert$ts  = network_time();
+       activate_session_client_software_cert$uid = c$uid;
+       activate_session_client_software_cert$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT, activate_session_client_software_cert);
+    }
+
+event opcua_binary_activate_session_locale_id_event(c: connection, activate_session_locale_id: OPCUA_Binary::ActivateSessionLocaleId)
+    {
+       set_service(c, "opcua-binary");
+       activate_session_locale_id$ts  = network_time();
+       activate_session_locale_id$uid = c$uid;
+       activate_session_locale_id$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_LOCALE_ID, activate_session_locale_id);
+    }
+
+event opcua_binary_activate_session_diagnostic_info_event(c: connection, activate_session_diagnostic_info: OPCUA_Binary::ActivateSessionDiagnosticInfo)
+    {
+       set_service(c, "opcua-binary");
+       activate_session_diagnostic_info$ts  = network_time();
+       activate_session_diagnostic_info$uid = c$uid;
+       activate_session_diagnostic_info$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO, activate_session_diagnostic_info);
+    }
 
 event opcua_binary_create_subscription_event(c: connection, create_subscription_event: OPCUA_Binary::CreateSubscription)
    {
