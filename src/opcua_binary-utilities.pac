@@ -33,6 +33,7 @@ build/opcua_binary_pac.cc file(s) for details.
     uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
     string generateId();
+    string indent(int level);
     uint32_t getExtensionObjectId(OpcUA_NodeId *typeId);
 %}
 
@@ -242,6 +243,15 @@ build/opcua_binary_pac.cc file(s) for details.
 
     bool isBitSet(uint8_t encoding, uint8_t mask) {
         return((encoding & mask) > 0);
+    }
+
+    string indent(int level) {
+        std::stringstream ss;
+        int padding = 4;
+
+        ss << setw(padding * level) << ' ';
+
+        return ss.str();
     }
 
     uint32_t getExtensionObjectId(OpcUA_NodeId *typeId) {
