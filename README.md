@@ -128,6 +128,13 @@ This log captures the details associated with call the Create Subscription Servi
 * See [create-subscription-types.zeek](scripts/create-subscription-types.zeek) for a list of the fields logged.
 * See [opcua_binary-create_subscription.pac](src/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-create_subscription_analyzer.pac](src/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-create_subscription_debug.pac](src/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service
 
+### Activate Session Service (opcua-binary-activate-session.log, opcua-binary-activate-session-client-software-cert.log, opcua-binary-activate-session-locale-id.log, opcua-binary-activate-session-diagnostic-info.log)
+
+This log captures the details associated with call the Activate Session Service.
+
+* See [activate-session-types.zeek](scripts/activate-session-types.zeek) for a list of the fields logged.
+* See [opcua_binary-activate_session.pac](src/activate-session/opcua_binary-activate_session.pac), [opcua_binary-activate_session_analyzer.pac](src/activate-session/opcua_binary-activate_session_analyzer.pac), and [opcua_binary-activate_session_debug.pac](src/activate-session/opcua_binary-activate_session_debug.pac) for details on parsing, processing, and logging this service.
+
 ## Developer's Guide
 
 For development and implementation details, see the [developer_guide](developer_guide.md)
