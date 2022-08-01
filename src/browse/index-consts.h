@@ -61,7 +61,7 @@
 //Browse Response Objects
 
 #define BROWSE_RESULT_LINK_IDX                                  3
-#define BROWSE_RESULT_STATUS_CODE_IDX                           4
+#define BROWSE_RESULT_STATUS_CODE_ID_IDX                        4
 #define BROWSE_RESULT_CONTINUATION_POINT_IDX                    5
 #define BROWSE_REFERENCE_ID_IDX                                 6
 
