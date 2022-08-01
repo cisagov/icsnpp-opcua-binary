@@ -77,14 +77,14 @@ type OpcUA_DiagInfo = record {
         default  -> empty_namespace_uri : empty;
     };
 
-    has_locale : case $context.flow.is_bit_set(encoding_mask, hasLocale) of {
-        true     -> locale       : int32;
-        default  -> empty_locale : empty;
-    };
-
     has_localized_txt : case $context.flow.is_bit_set(encoding_mask, hasLocalizedTxt) of {
         true     -> localized_txt       : int32;
         default  -> empty_localized_txt : empty;
+    };
+
+    has_locale : case $context.flow.is_bit_set(encoding_mask, hasLocale) of {
+        true     -> locale       : int32;
+        default  -> empty_locale : empty;
     };
 
     has_addl_info : case $context.flow.is_bit_set(encoding_mask, hasAddlInfo) of {
