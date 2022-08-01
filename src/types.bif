@@ -19,5 +19,7 @@ type ActivateSessionClientSoftwareCert: record;
 type ActivateSessionLocaleId: record;
 type ActivateSessionDiagnosticInfo: record;
 
+type CreateSubscription: record;
+
 module GLOBAL;
 

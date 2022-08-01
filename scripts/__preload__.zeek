@@ -4,3 +4,4 @@
 @load ./create-session-types
 @load ./secure-channel-types
 @load ./activate-session-types
+@load ./create-subscription-types

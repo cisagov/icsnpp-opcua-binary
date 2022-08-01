@@ -110,8 +110,8 @@ type Service(msg_body: Msg_Body) = record {
         DeleteMonitoredItemsRequest  -> delete_monitored_items_req : Stubbed_Out_Req(this);
         DeleteMonitoredItemsResponse -> delete_monitored_items_res : Stubbed_Out_Res(this);
 
-        CreateSubscriptionRequest  -> create_subscription_req : Stubbed_Out_Req(this);
-        CreateSubscriptionResponse -> create_subscription_res : Stubbed_Out_Res(this);
+        CreateSubscriptionRequest  -> create_subscription_req : CreateSubscription_Req(this);
+        CreateSubscriptionResponse -> create_subscription_res : CreateSubscription_Res(this);
 
         ModifySubscriptionRequest  -> modify_subscription_req : Stubbed_Out_Req(this);
         ModifySubscriptionResponse -> modify_subscription_res : Stubbed_Out_Res(this);

@@ -27,3 +27,5 @@ event opcua_binary_activate_session_client_software_cert_event%(c: connection, a
 event opcua_binary_activate_session_locale_id_event%(c: connection, activate_session_locale_id: OPCUA_Binary::ActivateSessionLocaleId%);
 event opcua_binary_activate_session_event%(c: connection, activate_session: OPCUA_Binary::ActivateSession%);
 event opcua_binary_activate_session_diagnostic_info_event%(c: connection, activate_session_diagnostic_info: OPCUA_Binary::ActivateSessionDiagnosticInfo%);
+
+event opcua_binary_create_subscription_event%(c: connection, create_subscription_event: OPCUA_Binary::CreateSubscription%);

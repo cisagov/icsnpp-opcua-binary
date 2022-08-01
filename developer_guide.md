@@ -170,13 +170,12 @@ The following table shows the services that have been stubbed out and currently 
 | `CreateMonitoredItemsRequest`  | `CreateMonitoredItemsResponse`         | `ModifyMonitoredItemsRequest`           |
 | `ModifyMonitoredItemsResponse` | `SetMonitoringModeRequest`             | `SetMonitoringModeResponse`             |
 | `SetTriggeringRequest`         | `SetTriggeringResponse`                | `DeleteMonitoredItemsRequest`           |
-| `DeleteMonitoredItemsResponse` | `CreateSubscriptionRequest`            | `CreateSubscriptionResponse`            |
-| `ModifySubscriptionRequest`    | `ModifySubscriptionResponse`           | `SetPublishingModeRequest`              |
-| `SetPublishingModeResponse`    | `PublishRequest`                       | `PublishResponse`                       |
-| `RepublishRequest`             | `RepublishResponse`                    | `TransferSubscriptionsRequest`          |
-| `TransferSubscriptionsResponse`| `DeleteSubscriptionsRequest`           | `DeleteSubscriptionsResponse`           |
-| `TestStackRequest`             | `TestStackResponse`                    | `TestStackExRequest`                    |
-| `TestStackExResponse`          | `ServiceFault`                         |                                         |
+| `DeleteMonitoredItemsResponse` | `ModifySubscriptionRequest`            | `ModifySubscriptionResponse`            |
+| `SetPublishingModeRequest`     | `SetPublishingModeResponse`            | `PublishRequest`                        | 
+| `PublishResponse`              | `RepublishRequest`                     | `RepublishResponse`                     |
+| `TransferSubscriptionsRequest` | `TransferSubscriptionsResponse`        | `DeleteSubscriptionsRequest`            | 
+| `DeleteSubscriptionsResponse`  | `TestStackRequest`                     | `TestStackResponse`                     | 
+| `TestStackExRequest`           | `TestStackExResponse`                  | `ServiceFault`                          |
 
 #### Files of interest when implementing a service
 
