@@ -22,3 +22,5 @@ event opcua_binary_create_session_event%(c: connection, create_session: OPCUA_Bi
 event opcua_binary_create_session_discovery_event%(c: connection, create_session_discovery: OPCUA_Binary::CreateSessionDiscovery%);
 event opcua_binary_create_session_endpoints_event%(c: connection, create_session_endpoints: OPCUA_Binary::CreateSessionEndpoints%);
 event opcua_binary_create_session_user_token_event%(c: connection, create_session_user_token: OPCUA_Binary::CreateSessionUserToken%);
+
+event opcua_binary_create_subscription_event%(c: connection, create_subscription_event: OPCUA_Binary::CreateSubscription%);

@@ -14,5 +14,7 @@ type CreateSessionDiscovery: record;
 type CreateSessionEndpoints: record;
 type CreateSessionUserToken: record;
 
+type CreateSubscription: record;
+
 module GLOBAL;
 
