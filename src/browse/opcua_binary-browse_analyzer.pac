@@ -69,7 +69,7 @@ refine flow OPCUA_Binary_Flow += {
                     browse_description->Assign(BROWSE_DIRECTION_ID_IDX, zeek::make_intrusive<zeek::StringVal>("BOTH"));
                 }
 
-                flattenNodeId(browse_description, msg->nodes_to_browse()->at(i)->ref_type_id(), BROWSE_DESCRIPTION_ID_ENCODING_MASK_IDX);
+                flattenNodeId(browse_description, msg->nodes_to_browse()->at(i)->ref_type_id(), BROWSE_DESCRIPTION_REF_ID_ENCODING_MASK_IDX);
 
                 browse_description->Assign(BROWSE_DESCRIPTION_INCLUDE_SUBTYPES_IDX, zeek::val_mgr->Bool(msg->nodes_to_browse()->at(i)->include_subtypes()));
                 
@@ -150,10 +150,12 @@ refine flow OPCUA_Binary_Flow += {
 
                         if (msg->results()->at(i)->references()->at(j)->browse_name()->namespace_index()!= 0){
                             browse_ref->Assign(BROWSE_RESPONSE_BROWSE_NAMESPACE_IDX_IDX, zeek::val_mgr->Count(msg->results()->at(i)->references()->at(j)->browse_name()->namespace_index()));
+                        }
+                        if (msg->results()->at(i)->references()->at(j)->browse_name()->name()->length() > 0){
                             browse_ref->Assign(BROWSE_RESPONSE_BROWSE_NAME_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->results()->at(i)->references()->at(j)->browse_name()->name()->string())));
                         }
 
-                        browse_ref->Assign(BROWSE_RESPONSE_DISPLAY_NAME_ENCODING_IDX, zeek::val_mgr->Count(msg->results()->at(i)->references()->at(j)->display_name()->encoding_mask()));
+                        browse_ref->Assign(BROWSE_RESPONSE_DISPLAY_NAME_ENCODING_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(msg->results()->at(i)->references()->at(j)->display_name()->encoding_mask())));
                         if (isBitSet(msg->results()->at(i)->references()->at(j)->display_name()->encoding_mask(), localizedTextHasLocale) && msg->results()->at(i)->references()->at(j)->display_name()->locale()->length() > 0) {
                             browse_ref->Assign(BROWSE_RESPONSE_DISPLAY_NAME_LOCALE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->results()->at(i)->references()->at(j)->display_name()->locale()->string())));
                         }

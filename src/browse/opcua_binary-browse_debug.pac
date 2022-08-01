@@ -108,6 +108,13 @@
             }  
 
         }
+         // Array of DiagnosticInfo(s)
+        printf("%s Results: Array of DiagnosticInfo\n", indent(3).c_str());
+        printf("%s ArraySize: %d\n", indent(4).c_str(), msg->diag_info_size());
+        for (int i = 0; i < msg->diag_info_size(); i++) {
+            printf("%s [%d]: DiagnosticInfo\n", indent(4).c_str(), i);
+            printOpcUA_DiagInfo(5, msg->diag_info()->at(i));
+        }
         
     }
 
