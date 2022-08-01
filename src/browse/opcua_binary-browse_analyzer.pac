@@ -124,8 +124,7 @@ refine flow OPCUA_Binary_Flow += {
                 zeek::RecordValPtr browse_result = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseResult);
                 browse_result->Assign(BROWSE_RESULT_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(browse_res_id));
 
-                browse_result->Assign(BROWSE_RESULT_STATUS_CODE_IDX, zeek::make_intrusive<zeek::StringVal>(STATUS_CODE_MAP.find(msg->results()->at(i)->status_code())->second));
-
+                generateStatusCodeEvent(connection(), browse_result->GetField(BROWSE_RESULT_STATUS_CODE_ID_IDX), StatusCode_Browse_Key, msg->results()->at(i)->status_code());
 
                 if (msg->results()->at(i)->continuation_point()->length() > 0){
                     browse_result->Assign(BROWSE_RESULT_CONTINUATION_POINT_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->results()->at(i)->continuation_point()->byteString())));
