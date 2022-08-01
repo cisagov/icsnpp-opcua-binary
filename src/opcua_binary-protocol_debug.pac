@@ -10,7 +10,6 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %header{
-    string indent(int level);
     void printMsgHeader( Msg_Header *msg_header);
     void printMsgHEL( Msg_HEL *msg_hel);
     void printMsgACK( Msg_ACK *msg_ack);
@@ -24,15 +23,6 @@
 %}
 
 %code{
-    string indent(int level) {
-        std::stringstream ss;
-        int padding = 4;
-
-        ss << setw(padding * level) << ' ';
-
-        return ss.str();
-    }
-
     void printMsgHeader( Msg_Header *msg_header) {
        // Stubbed out 
        return;
@@ -89,7 +79,7 @@
 
     void printService(Service *service) {
         printf("%s TypeId: ExpandedNodeId\n", indent(2).c_str());
-        printf("%s NodeId EncodingMask: 0x%x\n", indent(3).c_str(), service->msg_body()->encoding_mask());
+        printf("%s NodeId EncodingMask: 0x%02x\n", indent(3).c_str(), service->msg_body()->encoding_mask());
         printf("%s NodeId Namespace Index: %d\n", indent(3).c_str(), service->namespace_idx());
         printf("%s NodeId Identifier Numeric: %s (%d)\n", indent(3).c_str(), NODE_IDENTIFIER_MAP.find(service->identifier())->second.c_str(), service->identifier());
 
