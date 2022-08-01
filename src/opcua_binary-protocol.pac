@@ -10,6 +10,7 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %include opcua_binary-types.pac
+%include opcua_binary-types_debug.pac
 %include opcua_binary-types_consts.pac
 %include opcua_binary-opcua_nodeid_types.pac
 %include opcua_binary-opcua_nodeid_types_debug.pac

@@ -38,19 +38,8 @@ export {
 
         browse_result_id             : string &log &optional; # Id into OPCUA::BrowseResult
 
-        # browse_response_diag_info_id : string  &log &optional; # Id into OPCUA_Binary::BrowseDiagnosticInfo log
+        browse_response_diag_info_id : string  &log &optional; # Id into OPCUA_Binary::BrowseDiagnosticInfo log
     };
-
-    #
-    # Something like this :-)
-    #
-    #type OPCUA_Binary::BrowseDiagnosticInfo: record {
-    #    ts                        : time    &log;
-    #    uid                       : string  &log;
-    #    id                        : conn_id &log;
-    #    diagnostic_info_link_id   : string  &log;  # Id back into OCPUA_Binary::Browse
-    #    diagnostic_info_id        : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
-    #};
 
     type OPCUA_Binary::BrowseDescription: record {
         ts                       : time    &log;
@@ -126,7 +115,7 @@ export {
 
         browse_response_ref_name_idx        : count &log &optional;
         browse_response_ref_name            : string &log &optional;
-        browse_response_display_name_mask   : count &log &optional;
+        browse_response_display_name_mask   : string &log &optional;
         browse_response_display_name_locale : string &log &optional;
         browse_response_display_name_text   : string &log &optional;
         browse_response_node_class          : string &log &optional;
