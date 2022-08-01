@@ -3,3 +3,4 @@
 @load ./get-endpoints-types
 @load ./create-session-types
 @load ./secure-channel-types
+@load ./create-subscription-types
