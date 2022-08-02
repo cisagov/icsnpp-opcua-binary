@@ -322,5 +322,5 @@ event opcua_binary_create_subscription_event(c: connection, create_subscription_
        create_subscription_event$uid = c$uid;
        create_subscription_event$id  = c$id;
 
-       Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION, create_subscription_event)
+       Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION, create_subscription_event);
    }

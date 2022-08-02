@@ -150,32 +150,31 @@ Note: Some of the *_debug.pac code has been stubbed out.
 ### Services
 The following table shows the services that have been stubbed out and currently log just the service request/response header information.  Future development will focus on processing and logging this information.
 
-| Service                        | Service                                | Service
-| ------------------------------ | -------------------------------------- | --------------------------------------- |
-|                                | `FindServersRequest`                   | `FindServersResponse`                   |
-| `FindServersOnNetworkRequest`  | `FindServersOnNetworkResponse`         | `RegisterServerRequest`                 |
-| `RegisterServerResponse`       | `RegisterServer2Request`               | `RegisterServer2Response`               |
-| `CloseSessionRequest`          | `CloseSessionResponse`                 | `CancelRequest`                         |
-| `CancelResponse`               | `AddNodesRequest`                      | `AddNodesResponse`                      |
-| `AddReferencesRequest`         | `AddReferencesResponse`                | `DeleteNodesRequest`                    |
-| `DeleteNodesResponse`          | `DeleteReferencesRequest`              | `DeleteReferencesResponse`              |
-| `BrowseRequest`                | `BrowseResponse`                       | `BrowseNextRequest`                     |
-| `BrowseNextResponse`           | `TranslateBrowsePathsToNodeIdsRequest` | `TranslateBrowsePathsToNodeIdsResponse` |
-| `RegisterNodesRequest`         | `RegisterNodesResponse`                | `UnregisterNodesRequest`                |
-| `UnregisterNodesResponse`      | `QueryFirstRequest`                    | `QueryFirstResponse`                    |
-| `QueryNextRequest`             | `QueryNextResponse`                    | `ReadRequest`                           |
-| `ReadResponse`                 | `HistoryReadRequest`                   | `HistoryReadResponse`                   |
-| `WriteRequest`                 | `WriteResponse`                        | `HistoryUpdateRequest`                  |
-| `HistoryUpdateResponse`        | `CallRequest`                          | `CallResponse`                          |
-| `CreateMonitoredItemsRequest`  | `CreateMonitoredItemsResponse`         | `ModifyMonitoredItemsRequest`           |
-| `ModifyMonitoredItemsResponse` | `SetMonitoringModeRequest`             | `SetMonitoringModeResponse`             |
-| `SetTriggeringRequest`         | `SetTriggeringResponse`                | `DeleteMonitoredItemsRequest`           |
-| `DeleteMonitoredItemsResponse` | `ModifySubscriptionRequest`            | `ModifySubscriptionResponse`            |
-| `SetPublishingModeRequest`     | `SetPublishingModeResponse`            | `PublishRequest`                        | 
-| `PublishResponse`              | `RepublishRequest`                     | `RepublishResponse`                     |
-| `TransferSubscriptionsRequest` | `TransferSubscriptionsResponse`        | `DeleteSubscriptionsRequest`            | 
-| `DeleteSubscriptionsResponse`  | `TestStackRequest`                     | `TestStackResponse`                     | 
-| `TestStackExRequest`           | `TestStackExResponse`                  | `ServiceFault`                          |
+| Service                                | Service                                 | Service
+| -------------------------------------- | --------------------------------------- | --------------------------------------- |
+|                                        | `FindServersRequest`                    | `FindServersResponse`                   |
+| `FindServersOnNetworkRequest`          | `FindServersOnNetworkResponse`          | `RegisterServerRequest`                 |
+| `RegisterServerResponse`               | `RegisterServer2Request`                | `RegisterServer2Response`               |
+| `CloseSessionRequest`                  | `CloseSessionResponse`                  | `CancelRequest`                         |
+| `CancelResponse`                       | `AddNodesRequest`                       | `AddNodesResponse`                      |
+| `AddReferencesRequest`                 | `AddReferencesResponse`                 | `DeleteNodesRequest`                    |
+| `DeleteNodesResponse`                  | `DeleteReferencesRequest`               | `DeleteReferencesResponse`              |
+| `TranslateBrowsePathsToNodeIdsRequest` | `TranslateBrowsePathsToNodeIdsResponse` | `RegisterNodesRequest`                  |
+| `RegisterNodesResponse`                | `UnregisterNodesRequest`                | `UnregisterNodesResponse`               | 
+| `QueryFirstRequest`                    | `QueryFirstResponse`                    | `QueryNextRequest`                      |
+| `QueryNextResponse`                    | `ReadRequest`                           | `ReadResponse`                          |
+| `HistoryReadRequest`                   | `HistoryReadResponse`                   | `WriteRequest`                          | 
+| `WriteResponse`                        | `HistoryUpdateRequest`                  | `HistoryUpdateResponse`                 |
+| `CallRequest`                          | `CallResponse`                          | `CreateMonitoredItemsRequest`           | 
+| `CreateMonitoredItemsResponse`         | `ModifyMonitoredItemsRequest`           | `ModifyMonitoredItemsResponse`          |
+| `SetMonitoringModeRequest`             | `SetMonitoringModeResponse`             | `SetTriggeringRequest`                  | 
+| `SetTriggeringResponse`                | `DeleteMonitoredItemsRequest`           | `DeleteMonitoredItemsResponse`          | 
+| `ModifySubscriptionRequest`            | `ModifySubscriptionResponse`            | `SetPublishingModeRequest`              | 
+| `SetPublishingModeResponse`            | `PublishRequest`                        | `PublishResponse`                       | 
+| `RepublishRequest`                     | `RepublishResponse`                     | `TransferSubscriptionsRequest`          | 
+| `TransferSubscriptionsResponse`        | `DeleteSubscriptionsRequest`            | `DeleteSubscriptionsResponse`           | 
+| `TestStackRequest`                     | `TestStackResponse`                     | `TestStackExRequest`                    | 
+| `TestStackExResponse`                  | `ServiceFault`                          |
 
 #### Files of interest when implementing a service
 
