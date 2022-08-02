@@ -34,10 +34,10 @@
 
             printf("%s [%d]: BrowseDescription\n", indent(4).c_str(), i);
             printf("%s NodeId: NodeId\n", indent(5).c_str());
-            printOpcUaNodeId(6, msg->nodes_to_browse()->at(i)->node_id());
+            printOpcUA_NodeId(6, msg->nodes_to_browse()->at(i)->node_id());
             printf("%s BrowseDirection: 0x%08x\n", indent(5).c_str(), msg->nodes_to_browse()->at(i)->browse_direction_id());
             printf("%s ReferenceTypeId: NodeId\n", indent(5).c_str());
-            printOpcUaNodeId(6, msg->nodes_to_browse()->at(i)->ref_type_id());
+            printOpcUA_NodeId(6, msg->nodes_to_browse()->at(i)->ref_type_id());
             if (msg->nodes_to_browse()->at(i)->include_subtypes() == 1){
                 printf("%s IncludeSubtypes: True\n",indent(5).c_str());
             } else {
@@ -72,14 +72,14 @@
             for (int32_t j = 0; j < msg->results()->at(i)->num_references(); j++) {
                 printf("%s [%d]: ReferenceDescription\n", indent(6).c_str(), j);
                 printf("%s ReferenceTypeId: NodeId\n", indent(7).c_str());
-                printOpcUaNodeId(8, msg->results()->at(i)->references()->at(j)->ref_type_id());
+                printOpcUA_NodeId(8, msg->results()->at(i)->references()->at(j)->ref_type_id());
                 if (msg->results()->at(i)->references()->at(j)->is_forward() == 1){
                     printf("%s IsForward: True\n",indent(7).c_str());
                 } else {
                     printf("%s IsForward: False\n", indent(7).c_str());
                 }
                 printf("%s NodeId: ExpandedNodeId\n", indent(7).c_str());
-                printExpandedNodeID(8, msg->results()->at(i)->references()->at(j)->target_node_id());
+                printExpandedNodeId(8, msg->results()->at(i)->references()->at(j)->target_node_id());
 
                 printf("%s BrowseName: QualifiedName\n", indent(7).c_str());
                 printf("%s Id: %d\n", indent(8).c_str(), msg->results()->at(i)->references()->at(j)->browse_name()->namespace_index());
@@ -97,7 +97,7 @@
 
                 printf("%s NodeClass: %s (0x%08x)\n", indent(7).c_str(), NODE_CLASSES_MAP.find(msg->results()->at(i)->references()->at(j)->node_class())->second.c_str(), msg->results()->at(i)->references()->at(j)->node_class());
                 printf("%s TypeDefinition: ExpandedNodeId\n", indent(7).c_str());
-                printExpandedNodeID(8, msg->results()->at(i)->references()->at(j)->type_definition());
+                printExpandedNodeId(8, msg->results()->at(i)->references()->at(j)->type_definition());
             }  
 
         }

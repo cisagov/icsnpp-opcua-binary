@@ -27,7 +27,7 @@ type BrowseDescription: record;
 type BrowseRequestContinuationPoint: record;
 type BrowseResult: record;
 type BrowseReference: record;
-type BrowseDiagnosticInfo: record;type Browse: record;
+type BrowseDiagnosticInfo: record;
 
 type CreateSubscription: record;
 

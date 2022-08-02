@@ -16,7 +16,8 @@ refine flow OPCUA_Binary_Flow += {
     function deliver_Svc_BrowseReq(msg: Browse_Req): bool
         %{
         // Debug printf("deliver_Svc_BrowseReq - begin\n");
-        // Debug printBrowseReq(msg);
+        // Debug 
+        printBrowseReq(msg);
         // Debug printf("deliver_Svc_BrowseReq - end\n");
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
@@ -93,7 +94,8 @@ refine flow OPCUA_Binary_Flow += {
     function deliver_Svc_BrowseRes(msg: Browse_Res): bool
         %{
         // Debug printf("deliver_Svc_BrowseRes - begin\n");
-        // Debug printBrowseRes(msg);
+        // Debug 
+        printBrowseRes(msg);
         // Debug printf("deliver_Svc_BrowseRes - end\n");
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
@@ -221,7 +223,8 @@ refine flow OPCUA_Binary_Flow += {
     function deliver_Svc_BrowseNextReq(msg: Browse_Next_Req): bool
         %{
         // Debug printf("deliver_Svc_BrowseNextReq - begin\n");
-        // Debug printBrowseNextReq(msg);
+        // Debug 
+        printBrowseNextReq(msg);
         // Debug printf("deliver_Svc_BrowseNextReq - end\n");
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
