@@ -26,8 +26,8 @@ type Service(msg_body: Msg_Body) = record {
         CreateSessionRequest         -> create_session_req   : Create_Session_Req(this);
         CreateSessionResponse        -> create_session_res   : Create_Session_Res(this);
 
-        ActivateSessionRequest       -> activate_session_req : Stubbed_Out_Req(this);
-        ActivateSessionResponse      -> activate_session_res : Stubbed_Out_Res(this);
+        ActivateSessionRequest       -> activate_session_req : Activate_Session_Req(this);
+        ActivateSessionResponse      -> activate_session_res : Activate_Session_Res(this);
 
         FindServersRequest           -> find_server_req      : Stubbed_Out_Req(this);
         FindServersResponse          -> find_server_res      : Stubbed_Out_Res(this);
@@ -110,8 +110,8 @@ type Service(msg_body: Msg_Body) = record {
         DeleteMonitoredItemsRequest  -> delete_monitored_items_req : Stubbed_Out_Req(this);
         DeleteMonitoredItemsResponse -> delete_monitored_items_res : Stubbed_Out_Res(this);
 
-        CreateSubscriptionRequest  -> create_subscription_req : Stubbed_Out_Req(this);
-        CreateSubscriptionResponse -> create_subscription_res : Stubbed_Out_Res(this);
+        CreateSubscriptionRequest  -> create_subscription_req : CreateSubscription_Req(this);
+        CreateSubscriptionResponse -> create_subscription_res : CreateSubscription_Res(this);
 
         ModifySubscriptionRequest  -> modify_subscription_req : Stubbed_Out_Req(this);
         ModifySubscriptionResponse -> modify_subscription_res : Stubbed_Out_Res(this);
