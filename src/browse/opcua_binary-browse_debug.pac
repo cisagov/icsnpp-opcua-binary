@@ -23,15 +23,8 @@
         printf("%s %s\n", indent(2).c_str(), NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second.c_str());
         printReqHdr(msg->req_hdr());
 
-        printf("%s View: ViewDescription\n", indent(3).c_str());
-        printf("%s ViewId: NodeId\n", indent(4).c_str());
-        printOpcUaNodeId(5, msg->view_description()->view_id());
-        if (msg->view_description()->timestamp() > 0){
-            printf("%s Timestamp: %lld\n", indent(4).c_str(), msg->view_description()->timestamp());
-        } else {
-            printf("%s Timestamp: No time specified (0)\n", indent(4).c_str());
-        }
-        printf("%s ViewVersion: %d\n", indent(4).c_str(), msg->view_description()->view_version());
+        printOpcUA_ViewDescription(3, msg->view_description());
+
         printf("%s RequestedMaxReferencesPerNode: %d\n", indent(3).c_str(), msg->req_max_refs_per_node());
         printf("%s NodesToBrowse: Array of BrowseDescription\n", indent(3).c_str());
 
