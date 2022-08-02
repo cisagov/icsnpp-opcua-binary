@@ -115,10 +115,10 @@
         printResHdr(msg->res_hdr());
 
         printf("%s SessionId: NodeId\n", indent(3).c_str());
-        printOpcUaNodeId(4, msg->session_id());
+        printOpcUA_NodeId(4, msg->session_id());
 
         printf("%s AuthenticationToken: NodeId\n", indent(3).c_str());
-        printOpcUaNodeId(4, msg->auth_token());
+        printOpcUA_NodeId(4, msg->auth_token());
 
         printf("%s RevisedSessionTimeout: %f\n", indent(3).c_str(), bytestringToDouble(msg->revised_session_timeout()->duration()));
 

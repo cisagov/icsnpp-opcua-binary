@@ -6,20 +6,30 @@ type DiagnosticInfoDetail: record;
 type OpenSecureChannel: record;
 
 type GetEndpoints: record;
+type GetEndpointsDescription: record;
 type GetEndpointsDiscovery: record;
 type GetEndpointsUserToken: record;
+type GetEndpointsLocaleId: record;
+type GetEndpointsProfileUri: record;
 
 type CreateSession: record;
 type CreateSessionDiscovery: record;
 type CreateSessionEndpoints: record;
 type CreateSessionUserToken: record;
 
+type ActivateSession: record;
+type ActivateSessionClientSoftwareCert: record;
+type ActivateSessionLocaleId: record;
+type ActivateSessionDiagnosticInfo: record;
+
 type Browse: record;
 type BrowseDescription: record;
 type BrowseRequestContinuationPoint: record;
 type BrowseResult: record;
 type BrowseReference: record;
-type BrowseDiagnosticInfo: record;
+type BrowseDiagnosticInfo: record;type Browse: record;
+
+type CreateSubscription: record;
 
 module GLOBAL;
 

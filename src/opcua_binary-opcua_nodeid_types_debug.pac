@@ -10,13 +10,13 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %header{
-    void printOpcUaNodeId(int indent_width, OpcUA_NodeId *nodeId);
-    void printOpcUaNodeId_TwoByte(int indent_width, OpcUA_NodeId_TwoByte *nodeId);
-    void printOpcUaNodeId_FourByte(int indent_width, OpcUA_NodeId_FourByte *nodeId);
-    void printOpcUaNodeId_Numeric(int indent_width, OpcUA_NodeId_Numeric *nodeId);
-    void printOpcUaNodeId_String(int indent_width, OpcUA_NodeId_String *nodeId);
-    void printOpcUaNodeId_Guid(int indent_width, OpcUA_NodeId_Guid *nodeId);
-    void printOpcUaNodeId_Opaque(int indent_width, OpcUA_NodeId_Opaque *nodeId);
+    void printOpcUA_NodeId(int indent_width, OpcUA_NodeId *nodeId);
+    void printOpcUA_NodeId_TwoByte(int indent_width, OpcUA_NodeId_TwoByte *nodeId);
+    void printOpcUA_NodeId_FourByte(int indent_width, OpcUA_NodeId_FourByte *nodeId);
+    void printOpcUA_NodeId_Numeric(int indent_width, OpcUA_NodeId_Numeric *nodeId);
+    void printOpcUA_NodeId_String(int indent_width, OpcUA_NodeId_String *nodeId);
+    void printOpcUA_NodeId_Guid(int indent_width, OpcUA_NodeId_Guid *nodeId);
+    void printOpcUA_NodeId_Opaque(int indent_width, OpcUA_NodeId_Opaque *nodeId);
 %}
 
 %code{
@@ -120,9 +120,9 @@
     }
 
 
-    void printOpcUaNodeId(int indent_width, OpcUA_NodeId *nodeId) {
+    void printOpcUA_NodeId(int indent_width, OpcUA_NodeId *nodeId) {
         uint8_t encoding = nodeId->identifier_type();
-
+        
         if (encoding == node_encoding::TwoByte) {
             printf("%s EncodingMask: TwoByte (0x%02x)\n", indent(indent_width).c_str(), node_encoding::TwoByte);
             printOpcUaNodeId_TwoByte(indent_width, nodeId->two_byte_numeric());
@@ -149,11 +149,11 @@
         }
     }
 
-    void printOpcUaNodeId_TwoByte(int indent_width, OpcUA_NodeId_TwoByte *nodeId) {
+    void printOpcUA_NodeId_TwoByte(int indent_width, OpcUA_NodeId_TwoByte *nodeId) {
         printf("%s Identifier Numeric: %d\n", indent(indent_width).c_str(), nodeId->numeric());
     }
 
-    void printOpcUaNodeId_FourByte(int indent_width, OpcUA_NodeId_FourByte *nodeId) {
+    void printOpcUA_NodeId_FourByte(int indent_width, OpcUA_NodeId_FourByte *nodeId) {
         printf("%s Namespace Index: %d\n", indent(indent_width).c_str(), nodeId->namespace_index());
         printf("%s Identifier Numeric: %d\n", indent(indent_width).c_str(), nodeId->numeric());
     }

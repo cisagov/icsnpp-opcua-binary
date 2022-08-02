@@ -15,13 +15,21 @@ event opcua_binary_diag_info_event%(c: connection, diag_info: OPCUA_Binary::Diag
 event opcua_binary_opensecure_channel_event%(c: connection, opensecure_channel: OPCUA_Binary::OpenSecureChannel%);
 
 event opcua_binary_get_endpoints_event%(c: connection, get_endpoints: OPCUA_Binary::GetEndpoints%);
+event opcua_binary_get_endpoints_description_event%(c: connection, get_endpoints_description: OPCUA_Binary::GetEndpointsDescription%);
 event opcua_binary_get_endpoints_discovery_event%(c: connection, get_endpoints_discovery: OPCUA_Binary::GetEndpointsDiscovery%);
 event opcua_binary_get_endpoints_user_token_event%(c: connection, get_endpoints_user_token: OPCUA_Binary::GetEndpointsUserToken%);
+event opcua_binary_get_endpoints_locale_id_event%(c: connection, get_endpoints_locale_id: OPCUA_Binary::GetEndpointsLocaleId%);
+event opcua_binary_get_endpoints_profile_uri_event%(c: connection, get_endpoints_profile_uri: OPCUA_Binary::GetEndpointsProfileUri%);
 
 event opcua_binary_create_session_event%(c: connection, create_session: OPCUA_Binary::CreateSession%);
 event opcua_binary_create_session_discovery_event%(c: connection, create_session_discovery: OPCUA_Binary::CreateSessionDiscovery%);
 event opcua_binary_create_session_endpoints_event%(c: connection, create_session_endpoints: OPCUA_Binary::CreateSessionEndpoints%);
 event opcua_binary_create_session_user_token_event%(c: connection, create_session_user_token: OPCUA_Binary::CreateSessionUserToken%);
+
+event opcua_binary_activate_session_client_software_cert_event%(c: connection, activate_session_client_software_cert: OPCUA_Binary::ActivateSessionClientSoftwareCert%);
+event opcua_binary_activate_session_locale_id_event%(c: connection, activate_session_locale_id: OPCUA_Binary::ActivateSessionLocaleId%);
+event opcua_binary_activate_session_event%(c: connection, activate_session: OPCUA_Binary::ActivateSession%);
+event opcua_binary_activate_session_diagnostic_info_event%(c: connection, activate_session_diagnostic_info: OPCUA_Binary::ActivateSessionDiagnosticInfo%);
 
 event opcua_binary_browse_event%(c: connection, browse_event: OPCUA_Binary::Browse%);
 event opcua_binary_browse_description_event%(c: connection, browse_description_event: OPCUA_Binary::BrowseDescription%);
@@ -29,3 +37,5 @@ event opcua_binary_browse_request_continuation_point_event%(c: connection, brows
 event opcua_binary_browse_result_event%(c: connection, browse_result_event: OPCUA_Binary::BrowseResult%);
 event opcua_binary_browse_reference_event%(c: connection, browse_event: OPCUA_Binary::BrowseReference%);
 event opcua_binary_browse_diagnostic_info_event%(c: connection, browse_diagnostic_info: OPCUA_Binary::BrowseDiagnosticInfo%);
+
+event opcua_binary_create_subscription_event%(c: connection, create_subscription_event: OPCUA_Binary::CreateSubscription%);
