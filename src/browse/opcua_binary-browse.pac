@@ -37,7 +37,7 @@ type Browse_Description = record {
 type Browse_Res(service: Service) = record {
     res_hdr             : Response_Header;
     results_table_size  : int32;
-    results             : BrowseResult[$context.flow.bind_length(results_table_size)];
+    results             : Browse_Result[$context.flow.bind_length(results_table_size)];
     diag_info_size      : int32;
     diag_info           : OpcUA_DiagInfo[$context.flow.bind_length(diag_info_size)];
 } &let {
@@ -64,7 +64,7 @@ type Browse_Next_Req(service: Service) = record {
 # 7.25 - Table 167 - ReferenceDescription
 #
 
-type ReferenceDescription = record {
+type Browse_ReferenceDescription = record {
     ref_type_id      : OpcUA_NodeId;
     is_forward       : int8;
     target_node_id   : OpcUA_ExpandedNodeId;
@@ -80,9 +80,9 @@ type ReferenceDescription = record {
 # 7.39 - Table 114 - BrowseResult
 #
 
-type BrowseResult = record {
+type Browse_Result = record {
     status_code         : OpcUA_StatusCode;
     continuation_point  : OpcUA_ByteString;
     num_references      : int32;
-    references          : ReferenceDescription[$context.flow.bind_length(num_references)];
+    references          : Browse_ReferenceDescription[$context.flow.bind_length(num_references)];
 } &byteorder=littleendian;

@@ -67,7 +67,7 @@
     void printOpcUA_ViewDescription(int indent_width, OpcUA_ViewDescription *viewInfo) {
         printf("%s View: ViewDescription\n", indent(indent_width).c_str());
         printf("%s ViewId: NodeId\n", indent(indent_width + 1).c_str());
-        printOpcUaNodeId(indent_width + 2,viewInfo->view_id());
+        printOpcUA_NodeId(indent_width + 2,viewInfo->view_id());
         if (viewInfo->timestamp() > 0){
             printf("%s Timestamp: %lld\n", indent(indent_width + 1).c_str(), viewInfo->timestamp());
         } else {
