@@ -15,9 +15,12 @@
 #include <iomanip>
 #include <random>
 #include "types.bif.h"
+#include "extension_object_node_id.h"
 #include "index-consts.h"
 #include "statuscode-diagnostic-index-consts.h"
 #include "create-session/index-consts.h"
+#include "activate-session/index-consts.h"
+#include "create-subscription/index-consts.h"
 #include "get-endpoints/index-consts.h"
 #include "secure-channel/index-consts.h"
 #include "req-res-header/index-consts.h"

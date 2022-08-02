@@ -35,6 +35,8 @@ build/opcua_binary_pac.cc file(s) for details.
     uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
     string generateId();
+    string indent(int level);
+    uint32_t getExtensionObjectId(OpcUA_NodeId *typeId);
 %}
 
 %code{
@@ -286,6 +288,33 @@ build/opcua_binary_pac.cc file(s) for details.
             service_object->Assign((offset+7), zeek::val_mgr->Count(node_ptr->server_idx()));
         }
     }
+
+    string indent(int level) {
+        std::stringstream ss;
+        int padding = 4;
+
+        ss << setw(padding * level) << ' ';
+
+        return ss.str();
+    }
+
+    uint32_t getExtensionObjectId(OpcUA_NodeId *typeId) {
+        uint8_t  encoding = typeId->identifier_type();
+        uint32_t user_identity_token = 0;
+
+        if (encoding == node_encoding::TwoByte) {
+            user_identity_token = typeId->two_byte_numeric()->numeric();
+        } else if (encoding == node_encoding::FourByte) {
+            user_identity_token = typeId->four_byte_numeric()->numeric();
+        } else if (encoding == node_encoding::Numeric) {
+            return(typeId->numeric()->numeric());
+        } else {
+            throw binpac::Exception("Invalid User Identity Token");
+        } 
+
+        return(user_identity_token);
+    }
+
 %}
 
 refine flow OPCUA_Binary_Flow += {
@@ -342,5 +371,13 @@ refine flow OPCUA_Binary_Flow += {
     */
 
         return(uint8VectorToUint32(data));
+    %}
+
+    #
+    #
+    #
+    function get_extension_object_id(typeId: OpcUA_NodeId): uint32
+    %{
+        return(getExtensionObjectId(typeId));
     %}
 };

@@ -77,14 +77,14 @@ type OpcUA_DiagInfo = record {
         default  -> empty_namespace_uri : empty;
     };
 
-    has_locale : case $context.flow.is_bit_set(encoding_mask, hasLocale) of {
-        true     -> locale       : int32;
-        default  -> empty_locale : empty;
-    };
-
     has_localized_txt : case $context.flow.is_bit_set(encoding_mask, hasLocalizedTxt) of {
         true     -> localized_txt       : int32;
         default  -> empty_localized_txt : empty;
+    };
+
+    has_locale : case $context.flow.is_bit_set(encoding_mask, hasLocale) of {
+        true     -> locale       : int32;
+        default  -> empty_locale : empty;
     };
 
     has_addl_info : case $context.flow.is_bit_set(encoding_mask, hasAddlInfo) of {
@@ -192,7 +192,6 @@ type OpcUA_LocaleId = record {
     length : int32;
     locale_id : bytestring &length = $context.flow.bind_length(length);
 } &byteorder=littleendian;
-
 
 #
 #
@@ -321,6 +320,7 @@ type OpcUA_SignatureData = record {
 #
 # UA Specification Part 4 - Services 1.04.pdf
 #
+
 # 7.39 - Table 191 - ViewDescription
 #
 
@@ -330,3 +330,70 @@ type OpcUA_ViewDescription = record {
     view_version: uint32;
 
 } &byteorder=littleendian;
+
+# 7.33 Table 174 - SignedSoftwareCertificate
+#
+type OpcUA_SignedSoftwareCertificate = record {
+    certificate_data : OpcUA_ByteString;
+    signature        : OpcUA_ByteString;
+}
+
+#
+# UA Specification Part 6 - Mappings 1.04.pdf
+#
+# 5.2.2.15 Table 14 - ExtensionObject
+#
+type OpcUA_ExtensionObject = record {
+    type_id  : OpcUA_NodeId;
+    encoding : uint8;
+    length   : int32;
+
+    body : case $context.flow.get_extension_object_id(type_id) of {
+        AnonymousIdentityToken -> anonymous_identity_token : OpcUA_AnonymousIdentityToken;
+        UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
+        X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
+        IssuedIdentityToken    -> issued_identity_token    : OpcUA_IssuedIdentityToken;
+    };
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.36.3 Table 185 - AnonymousIdentityToken
+#
+type OpcUA_AnonymousIdentityToken = record {
+    policy_id : OpcUA_String;
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.36.4 Table 186 - UserNameIdentityToken
+#
+type OpcUA_UserNameIdentityToken = record {
+    policy_id             : OpcUA_String;
+    user_name             : OpcUA_String;
+    password              : OpcUA_ByteString;
+    encryption_algorithm  : OpcUA_String;
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.36.5 Table 188 - X509IdentityToken
+#
+type OpcUA_X509IdentityToken = record {
+    policy_id         : OpcUA_String;
+    certificate_data  : OpcUA_ByteString;
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.36.6 Table 189 - IssuedIdentityToken
+#
+type OpcUA_IssuedIdentityToken = record {
+    policy_id             : OpcUA_String;
+    token_data            : OpcUA_ByteString;
+    encryption_algorithm  : OpcUA_String;
+}
