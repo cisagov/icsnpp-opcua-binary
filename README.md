@@ -132,8 +132,8 @@ This log captures the details associated with calls to the Activate Session Serv
 
 This log captures the details associated with calls to the Browse Service.
 
-* See [browse-types.zeek](scripts/create-subscription-types.zeek) for a list of the fields logged.
-* See [opcua_binary-browse.pac](src/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-browse_analyzer.pac](src/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-browse_debug.pac](src/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service
+* See [browse-types.zeek](scripts/browse-types.zeek) for a list of the fields logged.
+* See [opcua_binary-browse.pac](src/browse/opcua_binary-browse.pac), [opcua_binary-browse_analyzer.pac](src/browse/opcua_binary-browse_analyzer.pac), and [opcua_binary-browse_debug.pac](src/browse/opcua_binary-browse_debug.pac) for details on parsing, processing, and logging this service
 
 ### Create Subscription Service (opcua-binary-create-subscription.log)
 
