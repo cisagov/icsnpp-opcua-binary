@@ -249,31 +249,34 @@ build/opcua_binary_pac.cc file(s) for details.
 
     // Utility function to flatten NodeID objects
     void flattenNodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset){
-        service_object->Assign((offset+0), zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(node_ptr->identifier_type())));
-        switch (node_ptr->identifier_type()) {
-            case node_encoding::TwoByte : service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->two_byte_numeric()->numeric()));
+        uint8_t encoding = node_ptr->identifier_type();
+        uint8_t node_id_encoding = encoding & 0x0f;
+
+        service_object->Assign((offset+0), zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(encoding)));
+        switch (node_id_encoding) {
+            case node_encoding::TwoByte : service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->two_byte_numeric()->numeric()));
                                         break;
             case node_encoding::FourByte :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->namespace_index()));
-                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->numeric()));
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->namespace_index()));
+                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->numeric()));
                                         break;
             case node_encoding::Numeric :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->numeric()->namespace_index()));
-                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->numeric()->numeric()));
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->numeric()->namespace_index()));
+                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->numeric()->numeric()));
                                         break;
             case node_encoding::String :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->string()->namespace_index()));
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->string()->namespace_index()));
                                         service_object->Assign((offset+3), zeek::make_intrusive<zeek::StringVal>(std_str(node_ptr->string()->string()->string())));
                                         break;
             case node_encoding::GUID :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->guid()->namespace_index()));
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->guid()->namespace_index()));
                                         service_object->Assign((offset+4), zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(node_ptr->guid()->guid()->data1(),
                                                                                                                                                     node_ptr->guid()->guid()->data2(),
                                                                                                                                                     node_ptr->guid()->guid()->data3(),
                                                                                                                                                     node_ptr->guid()->guid()->data4())));
                                         break;
             case node_encoding::Opaque :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->opaque()->namespace_index()));
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->opaque()->namespace_index()));
                                         service_object->Assign((offset+5), zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(node_ptr->opaque()->opaque()->byteString())));
                                         break;
         }
