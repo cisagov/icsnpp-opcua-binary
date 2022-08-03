@@ -1,4 +1,7 @@
 %header{
+
+    void printOpcUA_DiagInfo(int indent_width, OpcUA_DiagInfo *diagInfo);
+    void printOpcUA_ViewDescription(int indent_width, OpcUA_ViewDescription *viewInfo);
     void printOpcUA_ExtensionObject(int indent_width, OpcUA_ExtensionObject *obj);
     void printOpcUA_LocaleId(int indent_width, OpcUA_LocaleId *obj);
     void printOpcUA_LocaleIdVec(int indent_width, vector<OpcUA_LocaleId *> *obj);
@@ -59,6 +62,20 @@
 
         return;
     }
+
+
+    void printOpcUA_ViewDescription(int indent_width, OpcUA_ViewDescription *viewInfo) {
+        printf("%s View: ViewDescription\n", indent(indent_width).c_str());
+        printf("%s ViewId: NodeId\n", indent(indent_width + 1).c_str());
+        printOpcUA_NodeId(indent_width + 2,viewInfo->view_id());
+        if (viewInfo->timestamp() > 0){
+            printf("%s Timestamp: %lld\n", indent(indent_width + 1).c_str(), viewInfo->timestamp());
+        } else {
+            printf("%s Timestamp: No time specified (0)\n", indent(indent_width + 1).c_str());
+        }
+        printf("%s ViewVersion: %d\n", indent(indent_width + 1).c_str(), viewInfo->view_version());
+    }
+
 
     //
     // UA Specification Part 4 - Services 1.04.pdf
@@ -258,3 +275,4 @@
     }
 
 %}
+
