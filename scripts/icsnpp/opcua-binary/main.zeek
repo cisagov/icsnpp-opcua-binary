@@ -14,10 +14,11 @@ module ICSNPP_OPCUA_Binary;
 
 export {
 	redef enum Log::ID += { LOG, LOG_STATUS_CODE, LOG_DIAG_INFO, LOG_OPENSECURE_CHANNEL, 
-                           LOG_GET_ENDPOINTS, LOG_GET_ENDPOINTS_DISCOVERY,  LOG_GET_ENDPOINTS_USER_TOKEN,
-                           LOG_CREATE_SESSION, LOG_CREATE_SESSION_DISCOVERY, LOG_CREATE_SESSION_ENDPOINTS, LOG_CREATE_SESSION_USER_TOKEN,
-                           LOG_ACTIVATE_SESSION, LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT, LOG_ACTIVATE_SESSION_LOCALE_ID, LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO,
-                           LOG_CREATE_SUBSCRIPTION };
+                            LOG_GET_ENDPOINTS, LOG_GET_ENDPOINTS_DESCRIPTION, LOG_GET_ENDPOINTS_DISCOVERY,
+                            LOG_GET_ENDPOINTS_USER_TOKEN, LOG_GET_ENDPOINTS_LOCALE_ID, LOG_GET_ENDPOINTS_PROFILE_URI,
+                            LOG_CREATE_SESSION, LOG_CREATE_SESSION_DISCOVERY, LOG_CREATE_SESSION_ENDPOINTS, LOG_CREATE_SESSION_USER_TOKEN,
+                            LOG_ACTIVATE_SESSION, LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT, LOG_ACTIVATE_SESSION_LOCALE_ID, LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO,
+                            LOG_CREATE_SUBSCRIPTION };
 }
 
 # Port-based detection
@@ -31,9 +32,12 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_DIAG_INFO,                [$columns=OPCUA_Binary::DiagnosticInfoDetail,  $path="opcua-binary-diag-info-detail"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_OPENSECURE_CHANNEL,       [$columns=OPCUA_Binary::OpenSecureChannel,     $path="opcua-binary-opensecure-channel"]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS,            [$columns=OPCUA_Binary::GetEndpoints,          $path="opcua-binary-get-endpoints"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_DISCOVERY,  [$columns=OPCUA_Binary::GetEndpointsDiscovery, $path="opcua-binary-get-endpoints-discovery"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_USER_TOKEN, [$columns=OPCUA_Binary::GetEndpointsUserToken, $path="opcua-binary-get-endpoints-user-token"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS,             [$columns=OPCUA_Binary::GetEndpoints,            $path="opcua-binary-get-endpoints"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_DESCRIPTION, [$columns=OPCUA_Binary::GetEndpointsDescription, $path="opcua-binary-get-endpoints-description"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_DISCOVERY,   [$columns=OPCUA_Binary::GetEndpointsDiscovery,   $path="opcua-binary-get-endpoints-discovery"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_USER_TOKEN,  [$columns=OPCUA_Binary::GetEndpointsUserToken,   $path="opcua-binary-get-endpoints-user-token"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_LOCALE_ID,   [$columns=OPCUA_Binary::GetEndpointsLocaleId,    $path="opcua-binary-get-endpoints-locale_id"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_PROFILE_URI, [$columns=OPCUA_Binary::GetEndpointsProfileUri,  $path="opcua-binary-get-endpoints-profile_uri"]);
 
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION,            [$columns=OPCUA_Binary::CreateSession,          $path="opcua-binary-create-session"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_DISCOVERY,  [$columns=OPCUA_Binary::CreateSessionDiscovery, $path="opcua-binary-create-session-discovery"]);
@@ -107,6 +111,17 @@ event opcua_binary_get_endpoints_event(c: connection, get_endpoints: OPCUA_Binar
 
     }
 
+event opcua_binary_get_endpoints_description_event(c: connection, get_endpoints_description: OPCUA_Binary::GetEndpointsDescription)
+   {
+       set_service(c, "opcua-binary");
+       get_endpoints_description$ts  = network_time();
+       get_endpoints_description$uid = c$uid;
+       get_endpoints_description$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_DESCRIPTION, get_endpoints_description);
+
+    }
+
 event opcua_binary_get_endpoints_discovery_event(c: connection, get_endpoints_discovery: OPCUA_Binary::GetEndpointsDiscovery)
    {
        set_service(c, "opcua-binary");
@@ -126,6 +141,28 @@ event opcua_binary_get_endpoints_user_token_event(c: connection, get_endpoints_u
        get_endpoints_user_token$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_USER_TOKEN, get_endpoints_user_token);
+
+    }
+
+event opcua_binary_get_endpoints_locale_id_event(c: connection, get_endpoints_locale_id: OPCUA_Binary::GetEndpointsLocaleId)
+   {
+       set_service(c, "opcua-binary");
+       get_endpoints_locale_id$ts  = network_time();
+       get_endpoints_locale_id$uid = c$uid;
+       get_endpoints_locale_id$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_LOCALE_ID, get_endpoints_locale_id);
+
+    }
+
+event opcua_binary_get_endpoints_profile_uri_event(c: connection, get_endpoints_profile_uri: OPCUA_Binary::GetEndpointsProfileUri)
+   {
+       set_service(c, "opcua-binary");
+       get_endpoints_profile_uri$ts  = network_time();
+       get_endpoints_profile_uri$uid = c$uid;
+       get_endpoints_profile_uri$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_PROFILE_URI, get_endpoints_profile_uri);
 
     }
 
