@@ -102,38 +102,45 @@ This log captures the details of any diagnostic information present in the servi
 
 ### Open Secure Channel Service (opcua-binary-opensecure-channel.log)
 
-This log captures the details associated with call the Open Secure Channel Service.
+This log captures the details associated with calls to the Open Secure Channel Service.
 
 * See the ```OPCUA_Binary::OpenSecureChannel: record``` in file [secure-channel-types.zeek](scripts/secure-channel-types.zeek) for a list of the fields logged.
 * See [opcua_binary-secure_channel.pac](src/secure-channel/opcua_binary-secure_channel.pac), [opcua_binary-secure_channel_analyzer.pac](src/secure-channel/opcua_binary-secure_channel.pac), and [opcua_binary-secure_channel_debug.pac](src/secure-channel/opcua_binary-secure_channel_debug.pac) for details on parsing, processing, and logging this service.
 
 ### Get Endpoints Service (opcua-binary-get-endpoints.log, opcua-binary-get-endpoints-discovery.log, opcua-binary-get-endpoints-user_token.log, opcua-binary-get-endpoints-description.log, opcua-binary-get-endpoints-locale_id.log, opcua-binary-get-endpoints-profile_url.log)
 
-This log captures the details associated with call the Get Endpoints Service.
+This log captures the details associated with calls to the Get Endpoints Service.
 
 * See [get-endpoints-types.zeek](scripts/get-endpoints-types.zeek) for a list of the fields logged.
 * See [opcua_binary-get_endpoints.pac](src/get-endpoints/opcua_binary-get_endpoints.pac), [opcua_binary-get_endpoints_analyzer.pac](src/get-endpoints/opcua_binary-get_endpoints_analyzer.pac), and [opcua_binary-get_endpoints_debug.pac](src/get-endpoints/opcua_binary-get_endpoints_debug.pac) for details on parsing, processing, and logging this service.
 
 ### Create Session Service (opcua-binary-create-session.log, opcua-binary-create-session-user-token.log, opcua-binary-create-session-endpoints.log, opcua-binary-create-session-discovery.log)
 
-This log captures the details associated with call the Create Session Service.
+This log captures the details associated with calls to the Create Session Service.
 
 * See [create-session-types.zeek](scripts/create-session-types.zeek) for a list of the fields logged.
 * See [opcua_binary-create_session.pac](src/create-session/opcua_binary-create_session.pac), [opcua_binary-create_session_analyzer.pac](src/create-session/opcua_binary-create_session_analyzer.pac), and [opcua_binary-create_session_debug.pac](src/create-session/opcua_binary-create_session_debug.pac) for details on parsing, processing, and logging this service.
 
-### Create Subscription Service (opcua-binary-create-subscription.log)
-
-This log captures the details associated with call the Create Subscription Service.
-
-* See [create-subscription-types.zeek](scripts/create-subscription-types.zeek) for a list of the fields logged.
-* See [opcua_binary-create_subscription.pac](src/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-create_subscription_analyzer.pac](src/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-create_subscription_debug.pac](src/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service
-
 ### Activate Session Service (opcua-binary-activate-session.log, opcua-binary-activate-session-client-software-cert.log, opcua-binary-activate-session-locale-id.log, opcua-binary-activate-session-diagnostic-info.log)
 
-This log captures the details associated with call the Activate Session Service.
+This log captures the details associated with calls to the Activate Session Service.
 
 * See [activate-session-types.zeek](scripts/activate-session-types.zeek) for a list of the fields logged.
 * See [opcua_binary-activate_session.pac](src/activate-session/opcua_binary-activate_session.pac), [opcua_binary-activate_session_analyzer.pac](src/activate-session/opcua_binary-activate_session_analyzer.pac), and [opcua_binary-activate_session_debug.pac](src/activate-session/opcua_binary-activate_session_debug.pac) for details on parsing, processing, and logging this service.
+
+### Browse Service (opcua-binary-browse.log, opcua-binary-browse-description.log, opcua-binary-browse-request-continuation-point.log, opcua-binary-browse-result.log, opcua-binary-browse-response-references.log, opcua-binary-browse-diagnostic-info.log)
+
+This log captures the details associated with calls to the Browse Service.
+
+* See [browse-types.zeek](scripts/browse-types.zeek) for a list of the fields logged.
+* See [opcua_binary-browse.pac](src/browse/opcua_binary-browse.pac), [opcua_binary-browse_analyzer.pac](src/browse/opcua_binary-browse_analyzer.pac), and [opcua_binary-browse_debug.pac](src/browse/opcua_binary-browse_debug.pac) for details on parsing, processing, and logging this service
+
+### Create Subscription Service (opcua-binary-create-subscription.log)
+
+This log captures the details associated with calls to the Create Subscription Service.
+
+* See [create_subscription-types.zeek](scripts/create-subscription-types.zeek) for a list of the fields logged.
+* See [opcua_binary-create_subscription.pac](src/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-create_subscription_analyzer.pac](src/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-create_subscription_debug.pac](src/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service
 
 ## Developer's Guide
 
