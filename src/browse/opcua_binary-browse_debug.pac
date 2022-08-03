@@ -12,6 +12,7 @@
 %header{
     void printBrowseReq(Browse_Req *msg);
     void printBrowseRes(Browse_Res *msg);
+    void printBrowseNextReq (Browse_Next_Req *msg);
 %}
 
 %code{
