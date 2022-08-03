@@ -307,6 +307,14 @@ type OpcUA_Duration = record {
     duration : bytestring &length = 8;
 } &byteorder=littleendian;
 
+# NOTE: Binpac does not seem to have a double type so we will
+# parse it as a bytestring with a length of 8 and convert it
+# to a double in the analyzer
+#
+type OpcUA_Double = record {
+    value : bytestring &length = 8;
+} &byteorder=littleendian;
+
 #
 # UA Specification Part 4 - Services 1.04.pdf
 #
@@ -348,7 +356,7 @@ type OpcUA_ExtensionObject = record {
     encoding : uint8;
     length   : int32;
 
-    body : case $context.flow.get_extension_object_id(type_id) of {
+    body : case $context.flow.get_extension_type_id(type_id) of {
         AnonymousIdentityToken -> anonymous_identity_token : OpcUA_AnonymousIdentityToken;
         UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
         X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
@@ -396,4 +404,70 @@ type OpcUA_IssuedIdentityToken = record {
     policy_id             : OpcUA_String;
     token_data            : OpcUA_ByteString;
     encryption_algorithm  : OpcUA_String;
+}
+
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.24 Table 166 - ReadValueId
+#
+type OpcUA_ReadValueId = record {
+    node_id         : OpcUA_NodeId;
+    attribute_id    : uint32;
+    index_range     : OpcUA_NumericRange;
+    data_encoding   : OpcUA_QualifiedName;
+} 
+
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.22 Table 164 - NumericRange
+#
+type OpcUA_NumericRange = record {
+    numeric_range   : OpcUA_String
+} 
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.12 Table 137 - ExtensibleParameter Base Type
+#
+type OpcUA_ExtensibleParameter = record {
+    parameter_type_id   : OpcUA_NodeId;
+    body : case $context.flow.get_extension_type_id(type_id) of {
+        DataChangeFilter -> data_change_filter  : OpcUA_DataChangeFilter;
+        EventFilter      -> event_filter        : OpcUA_EventFilter;
+        AggregateFilter  -> aggregate_filter    : OpcUA_AggregateFilter;
+    };
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.17.2 Table 141 - DataChangeFilter
+#
+type OpcUA_DataChangeFilter = record {
+    trigger         : uint32;
+    deadband_type   : uint32;
+    deadband_value  : OpcUA_Double;
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.17.3 Table 141 - EventFilter
+#
+type OpcUA_EventFilter = record {
+    num_select_clauses  : int32;
+    select_clauses      : OpcUA_SimpleAttributeOperand[$context.flow.bind_length(num_select_clauses)];
+    where_clause        : OpcUA_ContentFilter;
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.4.4.5 Table 130 - SimpleAttributeOperand
+#
+type OpcUA_SimpleAttributeOperand = record {
+    type_id : OpcUA_NodeId;
+    numBrowse_paths : uint32;
+    
 }

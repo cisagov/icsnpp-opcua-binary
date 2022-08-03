@@ -135,7 +135,7 @@
     // 5.2.2.15 Table 14 - ExtensionObject
     //
     void printOpcUA_ExtensionObject(int indent_width, OpcUA_ExtensionObject *obj) {
-        string extension_obj_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(obj->type_id()))->second;
+        string extension_obj_str = EXTENSION_OBJECT_ID_MAP.find(getTypeId(obj->type_id()))->second;
         printf("%s %s: ExtensionObject\n", indent(indent_width).c_str(), extension_obj_str.c_str());
 
         // TypeId
@@ -152,7 +152,7 @@
         }
 
         // Extension Object
-        switch (getExtensionObjectId(obj->type_id())) {
+        switch (getTypeId(obj->type_id())) {
             case AnonymousIdentityToken_Key: 
                 printOpcUA_AnonymousIdentityToken(indent_width+1, obj->anonymous_identity_token());
                 break;

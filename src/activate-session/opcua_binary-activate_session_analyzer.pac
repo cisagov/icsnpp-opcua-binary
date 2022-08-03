@@ -110,14 +110,14 @@ refine flow OPCUA_Binary_Flow += {
                                         break;
         }
 
-        string ext_obj_type_id_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(msg->user_identity_token()->type_id()))->second;
+        string ext_obj_type_id_str = EXTENSION_OBJECT_ID_MAP.find(getTypeId(msg->user_identity_token()->type_id()))->second;
         activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(ext_obj_type_id_str));
 
         // OpcUA_ExtensionObject encoding
         activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_ENCODING_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(msg->user_identity_token()->encoding())));
 
         // OpcUA_ExtensionObject token
-        switch (getExtensionObjectId(msg->user_identity_token()->type_id())) {
+        switch (getTypeId(msg->user_identity_token()->type_id())) {
             case AnonymousIdentityToken_Key: 
                 // Policy Id
                 if (msg->user_identity_token()->anonymous_identity_token()->policy_id()->length() > 0) {
