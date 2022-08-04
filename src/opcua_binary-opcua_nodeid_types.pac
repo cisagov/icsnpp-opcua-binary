@@ -53,7 +53,7 @@ enum node_encoding
 #
 type OpcUA_NodeId = record {
     identifier_type : uint8;
-    identifier     : case(identifier_type) of {
+    identifier     : case(identifier_type & 0x0f) of {
        TwoByte  -> two_byte_numeric  : OpcUA_NodeId_TwoByte;
        FourByte -> four_byte_numeric : OpcUA_NodeId_FourByte;
        Numeric  -> numeric           : OpcUA_NodeId_Numeric;
@@ -120,4 +120,22 @@ type OpcUA_NodeId_Guid = record {
 type OpcUA_NodeId_Opaque = record {
     namespace_index : uint16;
     opaque          : OpcUA_ByteString;
+} &byteorder=littleendian;
+
+#
+# UA Specification Part 6 - Mappings 1.04.pdf
+#
+# Table 10 - ExpandedNodeId Binary DataEncoding
+#
+
+type OpcUA_ExpandedNodeId = record {
+    node_id  : OpcUA_NodeId;
+    has_namespace_uri : case $context.flow.is_bit_set(node_id.identifier_type, NamespaceUriFlag) of {
+        true     -> namespace_uri       : OpcUA_String;
+        default  -> empty_namespace_uri : empty;
+    };
+    has_server_idx : case $context.flow.is_bit_set(node_id.identifier_type, ServerIndexFlag) of {
+        true     -> server_idx          : uint32;
+        default  -> empty_server_idx    : empty;
+    };
 } &byteorder=littleendian;
