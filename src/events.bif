@@ -31,4 +31,11 @@ event opcua_binary_activate_session_locale_id_event%(c: connection, activate_ses
 event opcua_binary_activate_session_event%(c: connection, activate_session: OPCUA_Binary::ActivateSession%);
 event opcua_binary_activate_session_diagnostic_info_event%(c: connection, activate_session_diagnostic_info: OPCUA_Binary::ActivateSessionDiagnosticInfo%);
 
+event opcua_binary_browse_event%(c: connection, browse_event: OPCUA_Binary::Browse%);
+event opcua_binary_browse_description_event%(c: connection, browse_description_event: OPCUA_Binary::BrowseDescription%);
+event opcua_binary_browse_request_continuation_point_event%(c: connection, browse_request_continuation_point: OPCUA_Binary::BrowseRequestContinuationPoint%);
+event opcua_binary_browse_result_event%(c: connection, browse_result_event: OPCUA_Binary::BrowseResult%);
+event opcua_binary_browse_reference_event%(c: connection, browse_event: OPCUA_Binary::BrowseReference%);
+event opcua_binary_browse_diagnostic_info_event%(c: connection, browse_diagnostic_info: OPCUA_Binary::BrowseDiagnosticInfo%);
+
 event opcua_binary_create_subscription_event%(c: connection, create_subscription_event: OPCUA_Binary::CreateSubscription%);
