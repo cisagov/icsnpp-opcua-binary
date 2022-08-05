@@ -22,6 +22,8 @@
 %include get-endpoints/opcua_binary-get_endpoints.pac
 %include get-endpoints/opcua_binary-get_endpoints_debug.pac
 %include create-session/opcua_binary-create_session.pac
+%include browse/opcua_binary-browse.pac
+%include browse/opcua_binary-browse_debug.pac
 %include create-session/opcua_binary-create_session_debug.pac
 %include activate-session/opcua_binary-activate_session.pac
 %include activate-session/opcua_binary-activate_session_debug.pac
