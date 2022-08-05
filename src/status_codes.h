@@ -614,18 +614,20 @@ static std::map<uint8_t, std::string> HISTORIAN_BITS_MAP =
 // Internal constants used to associate detailed status code information
 // with the service/structure that generated the status code.
 static uint32_t StatusCode_ResHdrServiceResult_Key     = 0; 
-static uint32_t StatusCode_BrowseDiagInfo_Key          = 1;
-static uint32_t StatusCode_ActivateSession_Key         = 2;
-static uint32_t StatusCode_ActivateSessionDiagInfo_Key = 3; 
-static uint32_t StatusCode_DiagInfoInnerStatus_Key     = 4;
+static uint32_t StatusCode_Browse_Key                  = 1;
+static uint32_t StatusCode_BrowseDiagInfo_Key          = 2;
+static uint32_t StatusCode_ActivateSession_Key         = 3;
+static uint32_t StatusCode_ActivateSessionDiagInfo_Key = 4; 
+static uint32_t StatusCode_DiagInfoInnerStatus_Key     = 5;
 
 static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
 {
    {StatusCode_ResHdrServiceResult_Key,     "ResponseHeaderServiceResult"},
    {StatusCode_DiagInfoInnerStatus_Key,     "DiagInfoInnerStatusCode"},
-   {StatusCode_BrowseDiagInfo_Key,          "BrowseServiceDiagInfo"},
    {StatusCode_ActivateSession_Key,         "ActivateSessionService"},
-   {StatusCode_ActivateSessionDiagInfo_Key, "ActivateSessionServiceDiagInfo"}
+   {StatusCode_ActivateSessionDiagInfo_Key, "ActivateSessionServiceDiagInfo"},
+   {StatusCode_Browse_Key,                  "BrowseService"},
+   {StatusCode_BrowseDiagInfo_Key,          "BrowseServiceDiagInfo"}
 };
 
 // Structure to hold details of a status code to include the masked off
