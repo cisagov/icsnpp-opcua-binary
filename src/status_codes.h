@@ -613,12 +613,12 @@ static std::map<uint8_t, std::string> HISTORIAN_BITS_MAP =
 
 // Internal constants used to associate detailed status code information
 // with the service/structure that generated the status code.
-static uint32_t StatusCode_ResHdrServiceResult_Key     = 0; 
-static uint32_t StatusCode_Browse_Key                  = 1;
-static uint32_t StatusCode_BrowseDiagInfo_Key          = 2;
-static uint32_t StatusCode_ActivateSession_Key         = 3;
-static uint32_t StatusCode_ActivateSessionDiagInfo_Key = 4; 
-static uint32_t StatusCode_DiagInfoInnerStatus_Key     = 5;
+static uint32_t StatusCode_ResHdrServiceResult_Key     = 0x00000000; 
+static uint32_t StatusCode_DiagInfoInnerStatus_Key     = 0x00000001;
+static uint32_t StatusCode_ActivateSession_Key         = 0x00000010;
+static uint32_t StatusCode_ActivateSessionDiagInfo_Key = 0x00000100; 
+static uint32_t StatusCode_Browse_Key                  = 0x00001000;
+static uint32_t StatusCode_BrowseDiagInfo_Key          = 0x00010000;
 
 static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
 {
