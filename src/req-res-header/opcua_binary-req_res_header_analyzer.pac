@@ -81,7 +81,8 @@
 
         // If the status code is not "Good"; then log more detailed information
         if (res_hdr->service_result() != StatusCode_Good_Key) {
-            generateStatusCodeEvent(connection, info->GetField(OPCUA_ID_IDX), StatusCode_ResHdrServiceResult_Key, res_hdr->service_result());
+            uint32_t status_code_level = 0;
+            generateStatusCodeEvent(connection, info->GetField(OPCUA_ID_IDX), StatusCode_ResponseHeader_Key, res_hdr->service_result(), status_code_level);
         }
 
         // If there is DiagnosticInfo - then log the detailed information.
@@ -93,7 +94,7 @@
                 stringTable = res_hdr->string_table();
             }
 
-            generateDiagInfoEvent(connection, info->GetField(OPCUA_ID_IDX), res_hdr->service_diag(), stringTable, innerDiagLevel, StatusCode_ResHdrServiceResult_Key);
+            generateDiagInfoEvent(connection, info->GetField(OPCUA_ID_IDX), res_hdr->service_diag(), stringTable, innerDiagLevel, StatusCode_ResponseHeader_DiagInfo_Key, DiagInfo_ResponseHeader_Key);
         }
 
         // Log the Additional Header information
