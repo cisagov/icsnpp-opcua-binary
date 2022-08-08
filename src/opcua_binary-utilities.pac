@@ -37,8 +37,10 @@ build/opcua_binary_pac.cc file(s) for details.
     string generateId();
     string indent(int level);
     uint32_t getExtensionObjectId(OpcUA_NodeId *typeId);
-    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32_t innerDiagLevel, uint32_t status_code_src);
-    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code);
+    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32_t innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src);
+    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level);
+    uint32_t getInnerStatusCodeSource(uint32_t status_code_src);
+    uint32_t getInnerDiagInfoSource(uint32_t diag_info_src);
 
 %}
 
@@ -324,24 +326,25 @@ build/opcua_binary_pac.cc file(s) for details.
     //
     // Common code used to generate a status code event.
     //
-    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code) {
+    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level) {
             StatusCodeDetail detail = StatusCodeDetail(status_code);
             zeek::RecordValPtr status = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::StatusCodeDetail);
 
             // OpcUA_id
             status->Assign(STAT_CODE_OPCUA_ID_LINK_IDX, opcua_id);
 
-            status->Assign(SOURCE_IDX,            zeek::val_mgr->Count(status_code_src));
-            status->Assign(SOURCE_STR_IDX,        zeek::make_intrusive<zeek::StringVal>((STATUS_CODE_SRC_MAP.find(status_code_src)->second)));
-            status->Assign(STATUS_CODE_IDX,       zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(status_code)));
-            status->Assign(SEVERITY_IDX,          zeek::val_mgr->Count(detail.severity));
-            status->Assign(SEVERITY_STR_IDX,      zeek::make_intrusive<zeek::StringVal>(detail.severityStr));
-            status->Assign(SUBCODE_IDX,           zeek::val_mgr->Count(detail.subCode));
-            status->Assign(SUBCODE_STR_IDX,       zeek::make_intrusive<zeek::StringVal>(detail.subCodeStr));
-            status->Assign(STRUCTURE_CHANGED_IDX, zeek::val_mgr->Bool(detail.structureChanged));
-            status->Assign(SEMANTICS_CHANGED_IDX, zeek::val_mgr->Bool(detail.semanticsChanged));
-            status->Assign(INFO_TYPE_IDX,         zeek::val_mgr->Count(detail.infoType));
-            status->Assign(INFO_TYPE_STR_IDX,     zeek::make_intrusive<zeek::StringVal>(detail.infoTypeStr));
+            status->Assign(STAT_CODE_SOURCE_IDX,       zeek::val_mgr->Count(status_code_src));
+            status->Assign(STAT_CODE_SOURCE_STR_IDX,   zeek::make_intrusive<zeek::StringVal>((STATUS_CODE_SRC_MAP.find(status_code_src)->second)));
+            status->Assign(STAT_CODE_SOURCE_LEVEL_IDX, zeek::val_mgr->Count(status_code_level));
+            status->Assign(STATUS_CODE_IDX,            zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(status_code)));
+            status->Assign(SEVERITY_IDX,               zeek::val_mgr->Count(detail.severity));
+            status->Assign(SEVERITY_STR_IDX,           zeek::make_intrusive<zeek::StringVal>(detail.severityStr));
+            status->Assign(SUBCODE_IDX,                zeek::val_mgr->Count(detail.subCode));
+            status->Assign(SUBCODE_STR_IDX,            zeek::make_intrusive<zeek::StringVal>(detail.subCodeStr));
+            status->Assign(STRUCTURE_CHANGED_IDX,      zeek::val_mgr->Bool(detail.structureChanged));
+            status->Assign(SEMANTICS_CHANGED_IDX,      zeek::val_mgr->Bool(detail.semanticsChanged));
+            status->Assign(INFO_TYPE_IDX,              zeek::val_mgr->Count(detail.infoType));
+            status->Assign(INFO_TYPE_STR_IDX,          zeek::make_intrusive<zeek::StringVal>(detail.infoTypeStr));
 
             if (detail.infoType != InfoType_NotUsed_Key) {
                 status->Assign(LIMIT_BITS_IDX,         zeek::val_mgr->Count(detail.limitBits));
@@ -365,11 +368,16 @@ build/opcua_binary_pac.cc file(s) for details.
     // NOTE: This function is called recursively to  process any 
     // nested inner diagnostic information.
     //
-    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel, uint32_t status_code_src) {
+    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src) {
         zeek::RecordValPtr diag_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::DiagnosticInfoDetail);
 
         // OpcUA_id
         diag_info->Assign(DIAG_INFO_DETAIL_OPCUA_ID_LINK_IDX, opcua_id);
+
+        // Diagnostic Info Source
+        diag_info->Assign(DIAG_INFO_SOURCE_IDX,     zeek::val_mgr->Count(diag_info_src));
+        diag_info->Assign(DIAG_INFO_SOURCE_STR_IDX, zeek::make_intrusive<zeek::StringVal>((DIAGNOSTIC_INFO_SRC_MAP.find(diag_info_src)->second)));
+
 
         // Initialize the diagnostic info record
         diag_info->Assign(INNER_DIAG_LEVEL_IDX, zeek::val_mgr->Count(innerDiagLevel));
@@ -433,7 +441,7 @@ build/opcua_binary_pac.cc file(s) for details.
         if (isBitSet(diagInfo->encoding_mask(), hasInnerStatCode)) {
             diag_info->Assign(HAS_INNER_STAT_CODE_IDX, zeek::val_mgr->Bool(true));
             diag_info->Assign(INNER_STAT_CODE_IDX,     zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(diagInfo->inner_stat_code())));
-            generateStatusCodeEvent(connection, opcua_id, status_code_src, diagInfo->inner_stat_code());
+            generateStatusCodeEvent(connection, opcua_id, getInnerStatusCodeSource(diag_info_src), diagInfo->inner_stat_code(), innerDiagLevel);
         }
 
         // Inner Diagnostic Info
@@ -443,7 +451,7 @@ build/opcua_binary_pac.cc file(s) for details.
                                                             connection->bro_analyzer()->Conn(),
                                                             diag_info);
 
-            generateDiagInfoEvent(connection, opcua_id, diagInfo->inner_diag_info(), stringTable, innerDiagLevel+=1, status_code_src);
+            generateDiagInfoEvent(connection, opcua_id, diagInfo->inner_diag_info(), stringTable, innerDiagLevel+=1, getInnerStatusCodeSource(status_code_src), getInnerDiagInfoSource(diag_info_src));
         } else {
             zeek::BifEvent::enqueue_opcua_binary_diag_info_event(connection->bro_analyzer(),
                                                             connection->bro_analyzer()->Conn(),
@@ -452,6 +460,49 @@ build/opcua_binary_pac.cc file(s) for details.
 
         return;
     }
+
+    uint32_t getInnerStatusCodeSource(uint32_t diag_info_src) {
+        uint32_t inner_status_code_src;
+
+        switch(diag_info_src) {
+            case DiagInfo_ResponseHeader_Key: 
+            case DiagInfo_ResponseHeader_Inner_Key: inner_status_code_src = StatusCode_ResponseHeader_DiagInfo_Key;
+                                                    break;
+
+            case DiagInfo_Browse_Key:
+            case DiagInfo_Browse_Inner_Key: inner_status_code_src = StatusCode_Browse_DiagInfo_Key;
+                                            break;
+
+            case DiagInfo_ActivateSession_Key:
+            case DiagInfo_ActivateSession_Inner_Key: inner_status_code_src = StatusCode_ActivateSession_DiagInfo_Key;
+                                                     break;
+
+        }
+
+        return(inner_status_code_src);
+    }
+
+    uint32_t getInnerDiagInfoSource(uint32_t diag_info_src) {
+        uint32_t inner_diag_info_src;
+
+        switch(diag_info_src) {
+            case DiagInfo_ResponseHeader_Key: 
+            case DiagInfo_ResponseHeader_Inner_Key: inner_diag_info_src = DiagInfo_ResponseHeader_Inner_Key;
+                                                    break;
+
+            case DiagInfo_Browse_Key:
+            case DiagInfo_Browse_Inner_Key: inner_diag_info_src = DiagInfo_Browse_Inner_Key;
+                                            break;
+
+            case DiagInfo_ActivateSession_Key:
+            case DiagInfo_ActivateSession_Inner_Key: inner_diag_info_src = DiagInfo_ActivateSession_Inner_Key;
+                                                     break;
+
+        }
+
+        return(inner_diag_info_src);
+    }
+
 
 %}
 
