@@ -611,25 +611,6 @@ static std::map<uint8_t, std::string> HISTORIAN_BITS_MAP =
    {HistorianBits_Interpolated_Key , "HistorianBits_Interpolated"}
 };
 
-// Internal constants used to associate detailed status code information
-// with the service/structure that generated the status code.
-static uint32_t StatusCode_ResHdrServiceResult_Key     = 0x00000000; 
-static uint32_t StatusCode_DiagInfoInnerStatus_Key     = 0x00000001;
-static uint32_t StatusCode_ActivateSession_Key         = 0x00000010;
-static uint32_t StatusCode_ActivateSessionDiagInfo_Key = 0x00000100; 
-static uint32_t StatusCode_Browse_Key                  = 0x00001000;
-static uint32_t StatusCode_BrowseDiagInfo_Key          = 0x00010000;
-
-static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
-{
-   {StatusCode_ResHdrServiceResult_Key,     "ResponseHeaderServiceResult"},
-   {StatusCode_DiagInfoInnerStatus_Key,     "DiagInfoInnerStatusCode"},
-   {StatusCode_ActivateSession_Key,         "ActivateSessionService"},
-   {StatusCode_ActivateSessionDiagInfo_Key, "ActivateSessionServiceDiagInfo"},
-   {StatusCode_Browse_Key,                  "BrowseService"},
-   {StatusCode_BrowseDiagInfo_Key,          "BrowseServiceDiagInfo"}
-};
-
 // Structure to hold details of a status code to include the masked off
 // severity, subcode, etc.
 typedef struct StatusCodeDetail {
