@@ -156,35 +156,8 @@
     //
     zeek::RecordValPtr assignReqHdr(zeek::RecordValPtr info, Request_Header *req_hdr) {
 
-        info->Assign(REQ_HDR_NODE_ID_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(req_hdr->auth_token()->identifier_type())));
-
-        switch (req_hdr->auth_token()->identifier_type()) {
-            case node_encoding::TwoByte : info->Assign(REQ_HDR_NODE_ID_NUMERIC_IDX, zeek::val_mgr->Count(req_hdr->auth_token()->two_byte_numeric()->numeric()));
-                                          break;
-            case node_encoding::FourByte : 
-                                        info->Assign(REQ_HDR_NODE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(req_hdr->auth_token()->four_byte_numeric()->namespace_index()));
-                                        info->Assign(REQ_HDR_NODE_ID_NUMERIC_IDX, zeek::val_mgr->Count(req_hdr->auth_token()->four_byte_numeric()->numeric()));
-                                        break;
-            case node_encoding::Numeric : 
-                                        info->Assign(REQ_HDR_NODE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(req_hdr->auth_token()->numeric()->namespace_index()));
-                                        info->Assign(REQ_HDR_NODE_ID_NUMERIC_IDX, zeek::val_mgr->Count(req_hdr->auth_token()->numeric()->numeric()));
-                                        break;
-            case node_encoding::String : 
-                                        info->Assign(REQ_HDR_NODE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(req_hdr->auth_token()->string()->namespace_index()));
-                                        info->Assign(REQ_HDR_NODE_ID_STRING_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(req_hdr->auth_token()->string()->string()->string())));
-                                        break;
-            case node_encoding::GUID : 
-                                        info->Assign(REQ_HDR_NODE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(req_hdr->auth_token()->guid()->namespace_index()));
-                                        info->Assign(REQ_HDR_NODE_ID_GUID_IDX, zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(req_hdr->auth_token()->guid()->guid()->data1(),
-                                                                                                                                      req_hdr->auth_token()->guid()->guid()->data2(),
-                                                                                                                                      req_hdr->auth_token()->guid()->guid()->data3(),
-                                                                                                                                      req_hdr->auth_token()->guid()->guid()->data4())));
-                                        break;
-            case node_encoding::Opaque : 
-                                        info->Assign(REQ_HDR_NODE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(req_hdr->auth_token()->opaque()->namespace_index()));
-                                        info->Assign(REQ_HDR_NODE_ID_OPAQUE_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(req_hdr->auth_token()->opaque()->opaque()->byteString())));
-                                        break;
-        }
+        // Auth token
+        flattenNodeId(info, req_hdr->auth_token(), REQ_HDR_NODE_ID_TYPE_IDX);
 
         double unix_timestamp = winFiletimeToUnixTime(req_hdr->timestamp());
         info->Assign(REQ_HDR_TIMESTAMP_IDX, zeek::make_intrusive<zeek::TimeVal>(unix_timestamp));
