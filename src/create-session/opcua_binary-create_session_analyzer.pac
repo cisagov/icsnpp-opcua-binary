@@ -158,64 +158,10 @@ refine flow OPCUA_Binary_Flow += {
         create_session_res->Assign(CREATE_SESSION_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
 
         // Session Id
-        create_session_res->Assign(CREATE_SESSION_ID_ENCODING_MASK_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(msg->session_id()->identifier_type())));
-        switch (msg->session_id()->identifier_type()) {
-            case node_encoding::TwoByte : create_session_res->Assign(REQ_HDR_NODE_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->session_id()->two_byte_numeric()->numeric()));
-                                          break;
-            case node_encoding::FourByte :
-                                        create_session_res->Assign(CREATE_SESSION_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->session_id()->four_byte_numeric()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->session_id()->four_byte_numeric()->numeric()));
-                                        break;
-            case node_encoding::Numeric :
-                                        create_session_res->Assign(CREATE_SESSION_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->session_id()->numeric()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->session_id()->numeric()->numeric()));
-                                        break;
-            case node_encoding::String :
-                                        create_session_res->Assign(CREATE_SESSION_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->session_id()->string()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_ID_STRING_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->session_id()->string()->string()->string())));
-                                        break;
-            case node_encoding::GUID :
-                                        create_session_res->Assign(CREATE_SESSION_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->session_id()->guid()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_ID_GUID_IDX, zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(msg->session_id()->guid()->guid()->data1(),
-                                                                                                                                                      msg->session_id()->guid()->guid()->data2(),
-                                                                                                                                                      msg->session_id()->guid()->guid()->data3(),
-                                                                                                                                                      msg->session_id()->guid()->guid()->data4())));
-                                        break;
-            case node_encoding::Opaque :
-                                        create_session_res->Assign(CREATE_SESSION_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->session_id()->opaque()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_ID_OPAQUE_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->session_id()->opaque()->opaque()->byteString())));
-                                        break;
-        }
+        flattenNodeId(create_session_res, msg->session_id(), CREATE_SESSION_ID_ENCODING_MASK_IDX);
 
         // Authentication Token
-        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_ENCODING_MASK_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(msg->auth_token()->identifier_type())));
-        switch (msg->auth_token()->identifier_type()) {
-            case node_encoding::TwoByte : create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_NUMERIC_IDX, zeek::val_mgr->Count(msg->auth_token()->two_byte_numeric()->numeric()));
-                                          break;
-            case node_encoding::FourByte :
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_NAMESPACE_IDX, zeek::val_mgr->Count(msg->auth_token()->four_byte_numeric()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_NUMERIC_IDX, zeek::val_mgr->Count(msg->auth_token()->four_byte_numeric()->numeric()));
-                                        break;
-            case node_encoding::Numeric :
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_NAMESPACE_IDX, zeek::val_mgr->Count(msg->auth_token()->numeric()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_NUMERIC_IDX, zeek::val_mgr->Count(msg->auth_token()->numeric()->numeric()));
-                                        break;
-            case node_encoding::String :
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_NAMESPACE_IDX, zeek::val_mgr->Count(msg->auth_token()->string()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_STRING_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->auth_token()->string()->string()->string())));
-                                        break;
-            case node_encoding::GUID :
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_NAMESPACE_IDX, zeek::val_mgr->Count(msg->auth_token()->guid()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_GUID_IDX, zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(msg->auth_token()->guid()->guid()->data1(),
-                                                                                                                                                              msg->auth_token()->guid()->guid()->data2(),
-                                                                                                                                                              msg->auth_token()->guid()->guid()->data3(),
-                                                                                                                                                              msg->auth_token()->guid()->guid()->data4())));
-                                        break;
-            case node_encoding::Opaque :
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_NAMESPACE_IDX, zeek::val_mgr->Count(msg->auth_token()->opaque()->namespace_index()));
-                                        create_session_res->Assign(CREATE_SESSION_AUTH_TOKEN_OPAQUE_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->auth_token()->opaque()->opaque()->byteString())));
-                                        break;
-        }
+        flattenNodeId(create_session_res, msg->auth_token(), CREATE_SESSION_AUTH_TOKEN_ENCODING_MASK_IDX);
 
         // Revised Session Timeout
         create_session_res->Assign(CREATE_SESSION_RES_REVISED_SESSION_TIMEOUT_IDX, zeek::make_intrusive<zeek::TimeVal>(bytestringToDouble(msg->revised_session_timeout()->duration())));
