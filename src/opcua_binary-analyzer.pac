@@ -28,6 +28,7 @@
 #include "status_codes.h"
 #include "node_identifiers.h"
 #include "node_classes.h"
+#include "statuscode-diagnostic-source-consts.h"
 %}
 
 %header{
