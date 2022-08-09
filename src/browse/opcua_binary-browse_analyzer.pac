@@ -39,7 +39,7 @@ refine flow OPCUA_Binary_Flow += {
 
         // View Description Flattening
 
-        flattenNodeId(browse_req, msg->view_description()->view_id(), BROWSE_VIEW_ID_ENCODING_MASK_IDX);
+        flattenOpcUA_NodeId(browse_req, msg->view_description()->view_id(), BROWSE_VIEW_ID_ENCODING_MASK_IDX);
 
         
         browse_req->Assign(BROWSE_VIEW_DESCRIPTION_TIMESTAMP_IDX, zeek::val_mgr->Count(msg->view_description()->timestamp()));
@@ -58,7 +58,7 @@ refine flow OPCUA_Binary_Flow += {
             for (int32_t i=0; i < num_nodes_to_browse; i++){
                 zeek::RecordValPtr browse_description = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseDescription);
                 browse_description->Assign(BROWSE_DESCRIPTION_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(browse_description_idx));
-                flattenNodeId(browse_description, msg->nodes_to_browse()->at(i)->node_id(), BROWSE_DESCRIPTION_ID_ENCODING_MASK_IDX);
+                flattenOpcUA_NodeId(browse_description, msg->nodes_to_browse()->at(i)->node_id(), BROWSE_DESCRIPTION_ID_ENCODING_MASK_IDX);
 
                 if ((msg->nodes_to_browse()->at(i)->browse_direction_id()) == 0){
                     browse_description->Assign(BROWSE_DIRECTION_ID_IDX, zeek::make_intrusive<zeek::StringVal>("FWD"));
@@ -68,7 +68,7 @@ refine flow OPCUA_Binary_Flow += {
                     browse_description->Assign(BROWSE_DIRECTION_ID_IDX, zeek::make_intrusive<zeek::StringVal>("BOTH"));
                 }
 
-                flattenNodeId(browse_description, msg->nodes_to_browse()->at(i)->ref_type_id(), BROWSE_DESCRIPTION_REF_ID_ENCODING_MASK_IDX);
+                flattenOpcUA_NodeId(browse_description, msg->nodes_to_browse()->at(i)->ref_type_id(), BROWSE_DESCRIPTION_REF_ID_ENCODING_MASK_IDX);
 
                 browse_description->Assign(BROWSE_DESCRIPTION_INCLUDE_SUBTYPES_IDX, zeek::val_mgr->Bool(msg->nodes_to_browse()->at(i)->include_subtypes()));
                 
@@ -142,11 +142,11 @@ refine flow OPCUA_Binary_Flow += {
 
                         browse_ref->Assign(BROWSE_RESULT_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(browse_reference_id));
 
-                        flattenNodeId(browse_ref, msg->results()->at(i)->references()->at(j)->ref_type_id(), BROWSE_RESPONSE_REFERENCE_TYPE_ID_ENCODING_MASK_IDX);
+                        flattenOpcUA_NodeId(browse_ref, msg->results()->at(i)->references()->at(j)->ref_type_id(), BROWSE_RESPONSE_REFERENCE_TYPE_ID_ENCODING_MASK_IDX);
 
                         browse_ref->Assign(BROWSE_RESPONSE_IS_FWD_IDX, zeek::val_mgr->Bool(msg->results()->at(i)->references()->at(j)->is_forward()));
 
-                        flattenExpandedNodeId(browse_ref, msg->results()->at(i)->references()->at(j)->target_node_id(), BROWSE_RESPONSE_TARGET_ID_ENCODING_MASK_IDX);
+                        flattenOpcUA_ExpandedNodeId(browse_ref, msg->results()->at(i)->references()->at(j)->target_node_id(), BROWSE_RESPONSE_TARGET_ID_ENCODING_MASK_IDX);
 
                         if (msg->results()->at(i)->references()->at(j)->browse_name()->namespace_index()!= 0){
                             browse_ref->Assign(BROWSE_RESPONSE_BROWSE_NAMESPACE_IDX_IDX, zeek::val_mgr->Count(msg->results()->at(i)->references()->at(j)->browse_name()->namespace_index()));
@@ -168,7 +168,7 @@ refine flow OPCUA_Binary_Flow += {
                             browse_ref->Assign(BROWSE_RESPONSE_NODE_CLASS_IDX, zeek::make_intrusive<zeek::StringVal>(NODE_CLASSES_MAP.find(msg->results()->at(i)->references()->at(j)->node_class())->second));
                         }
                         
-                        flattenExpandedNodeId(browse_ref, msg->results()->at(i)->references()->at(j)->type_definition(), BROWSE_RESPONSE_TYPE_DEF_ENCODING_MASK_IDX);
+                        flattenOpcUA_ExpandedNodeId(browse_ref, msg->results()->at(i)->references()->at(j)->type_definition(), BROWSE_RESPONSE_TYPE_DEF_ENCODING_MASK_IDX);
                         zeek::BifEvent::enqueue_opcua_binary_browse_reference_event(connection()->bro_analyzer(),
                                                             connection()->bro_analyzer()->Conn(),
                                                             browse_ref);

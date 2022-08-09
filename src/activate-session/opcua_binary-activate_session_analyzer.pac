@@ -81,7 +81,7 @@ refine flow OPCUA_Binary_Flow += {
         // User Identity Token of type OpcUA_ExtensionObject
 
         // OpcUA_ExtensionObject type_id
-        flattenNodeId(activate_session_req, msg->user_identity_token()->type_id(), ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_ENCODING_IDX);
+        flattenOpcUA_NodeId(activate_session_req, msg->user_identity_token()->type_id(), ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_ENCODING_IDX);
 
         string ext_obj_type_id_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(msg->user_identity_token()->type_id()))->second;
         activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(ext_obj_type_id_str));

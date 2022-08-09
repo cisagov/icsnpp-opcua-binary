@@ -158,10 +158,10 @@ refine flow OPCUA_Binary_Flow += {
         create_session_res->Assign(CREATE_SESSION_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
 
         // Session Id
-        flattenNodeId(create_session_res, msg->session_id(), CREATE_SESSION_ID_ENCODING_MASK_IDX);
+        flattenOpcUA_NodeId(create_session_res, msg->session_id(), CREATE_SESSION_ID_ENCODING_MASK_IDX);
 
         // Authentication Token
-        flattenNodeId(create_session_res, msg->auth_token(), CREATE_SESSION_AUTH_TOKEN_ENCODING_MASK_IDX);
+        flattenOpcUA_NodeId(create_session_res, msg->auth_token(), CREATE_SESSION_AUTH_TOKEN_ENCODING_MASK_IDX);
 
         // Revised Session Timeout
         create_session_res->Assign(CREATE_SESSION_RES_REVISED_SESSION_TIMEOUT_IDX, zeek::make_intrusive<zeek::TimeVal>(bytestringToDouble(msg->revised_session_timeout()->duration())));

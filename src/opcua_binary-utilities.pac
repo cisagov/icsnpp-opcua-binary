@@ -29,8 +29,8 @@ build/opcua_binary_pac.cc file(s) for details.
     string uint8ToHexstring(uint8_t data);
     string getEndpointUrl(const_bytestring endpoint_url);
     bool isBitSet(uint8_t encoding, uint8_t mask);
-    void flattenNodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset);
-    void flattenExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset);
+    void flattenOpcUA_NodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset);
+    void flattenOpcUA_ExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset);
     bool validEncoding(uint8_t encoding);
     uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
@@ -248,7 +248,7 @@ build/opcua_binary_pac.cc file(s) for details.
     }
 
     // Utility function to flatten NodeID objects
-    void flattenNodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset){
+    void flattenOpcUA_NodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset){
         uint8_t encoding = node_ptr->identifier_type();
         uint8_t node_id_encoding = encoding & 0x0f;
 
@@ -281,9 +281,10 @@ build/opcua_binary_pac.cc file(s) for details.
                                         break;
         }
     }
+
     // Utility function to flatten ExpandedNodeID objects
-    void flattenExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset){
-        flattenNodeId(service_object, node_ptr->node_id(), offset);
+    void flattenOpcUA_ExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset){
+        flattenOpcUA_NodeId(service_object, node_ptr->node_id(), offset);
         if (isBitSet(node_ptr->node_id()->identifier_type(), NamespaceUriFlag)){
             service_object->Assign((offset+6), zeek::make_intrusive<zeek::StringVal>(std_str(node_ptr->namespace_uri()->string())));
         }
