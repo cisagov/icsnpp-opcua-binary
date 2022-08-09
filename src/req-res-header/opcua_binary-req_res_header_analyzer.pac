@@ -157,7 +157,7 @@
     zeek::RecordValPtr assignReqHdr(zeek::RecordValPtr info, Request_Header *req_hdr) {
 
         // Auth token
-        flattenNodeId(info, req_hdr->auth_token(), REQ_HDR_NODE_ID_TYPE_IDX);
+        flattenOpcUA_NodeId(info, req_hdr->auth_token(), REQ_HDR_NODE_ID_TYPE_IDX);
 
         double unix_timestamp = winFiletimeToUnixTime(req_hdr->timestamp());
         info->Assign(REQ_HDR_TIMESTAMP_IDX, zeek::make_intrusive<zeek::TimeVal>(unix_timestamp));
