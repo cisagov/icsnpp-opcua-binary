@@ -19,7 +19,8 @@ export {
         opcua_id            : string  &log;
         source              : count   &log;
         source_str          : string  &log;
-        status_code         : string   &log;
+        source_level        : count   &log;
+        status_code         : string  &log;
         severity            : count   &log;
         severity_str        : string  &log;
         sub_code            : count   &log;
@@ -43,6 +44,8 @@ export {
         uid                 : string  &log;
         id                  : conn_id &log;
         opcua_id            : string  &log;
+        source              : count   &log;
+        source_str          : string  &log;
         inner_diag_level    : count   &log;
         has_symbolic_id     : bool    &log;
         symbolic_id         : count   &log &optional;
