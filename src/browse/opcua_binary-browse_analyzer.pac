@@ -123,9 +123,10 @@ refine flow OPCUA_Binary_Flow += {
                 browse_result->Assign(BROWSE_RESULT_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(browse_res_id));
 
                 // Status Code
+                uint32_t status_code_level = 0;
                 std::string status_code_id = generateId();
                 browse_result->Assign(BROWSE_RESULT_STATUS_CODE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(status_code_id));
-                generateStatusCodeEvent(connection(), browse_result->GetField(BROWSE_RESULT_STATUS_CODE_ID_IDX), StatusCode_Browse_Key, msg->results()->at(i)->status_code());
+                generateStatusCodeEvent(connection(), browse_result->GetField(BROWSE_RESULT_STATUS_CODE_ID_IDX), StatusCode_Browse_Key, msg->results()->at(i)->status_code(), status_code_level);
 
                 if (msg->results()->at(i)->continuation_point()->length() > 0){
                     browse_result->Assign(BROWSE_RESULT_CONTINUATION_POINT_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->results()->at(i)->continuation_point()->byteString())));
@@ -207,7 +208,7 @@ refine flow OPCUA_Binary_Flow += {
 
 
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), browse_res_diagnostic_info->GetField(BROWSE_RES_DIAGNOSTIC_INFO_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_BrowseDiagInfo_Key);
+                generateDiagInfoEvent(connection(), browse_res_diagnostic_info->GetField(BROWSE_RES_DIAGNOSTIC_INFO_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_Browse_DiagInfo_Key, DiagInfo_Browse_Key);
 
                 // Generate an new link to tie OCPUA_Binary::BrowseDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
                 diagnostic_info_id = generateId();
