@@ -192,10 +192,11 @@ refine flow OPCUA_Binary_Flow += {
 
         // StatusCode Results
         if (msg->result_size() > 0) {
+            uint32_t status_code_level = 0;
             string result_idx = generateId();
             activate_session_res->Assign(ACTIVATE_SESSION_RES_RESULT_ID_IDX, zeek::make_intrusive<zeek::StringVal>(result_idx));
             for (int i = 0; i < msg->result_size(); i++) {
-                generateStatusCodeEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_RESULT_ID_IDX), StatusCode_ActivateSession_Key, msg->results()->at(i));
+                generateStatusCodeEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_RESULT_ID_IDX), StatusCode_ActivateSession_Key, msg->results()->at(i), status_code_level);
             }
         }
 
@@ -221,7 +222,7 @@ refine flow OPCUA_Binary_Flow += {
 
 
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), activate_session_res_diagnostic_info->GetField(ACTIVATE_SESSION_RES_DIAGNOSTIC_INFO_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSessionDiagInfo_Key);
+                generateDiagInfoEvent(connection(), activate_session_res_diagnostic_info->GetField(ACTIVATE_SESSION_RES_DIAGNOSTIC_INFO_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSession_DiagInfo_Key, DiagInfo_ActivateSession_Key);
 
                 // Generate an new link to tie OCPUA_Binary::ActivateSessionDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
                 diagnostic_info_id = generateId();
