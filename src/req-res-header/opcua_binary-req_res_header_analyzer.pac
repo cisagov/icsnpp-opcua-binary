@@ -49,16 +49,15 @@
         double unix_timestamp = winFiletimeToUnixTime(res_hdr->timestamp());
         info->Assign(RES_HDR_TIMESTAMP_IDX, zeek::make_intrusive<zeek::TimeVal>(unix_timestamp));
         info->Assign(RES_HDR_HANDLE_IDX, zeek::val_mgr->Count(res_hdr->request_handle()));
-        info->Assign(RES_HDR_SERVICE_RESULT_IDX, zeek::val_mgr->Count(res_hdr->service_result()));
-        info->Assign(RES_HDR_SERVICE_DIAG_ENCODING_IDX, zeek::val_mgr->Count(res_hdr->service_diag()->encoding_mask()));
 
-        // If the status code is not "Good"; then log more detailed information
-        if (res_hdr->service_result() != StatusCode_Good_Key) {
-            uint32_t status_code_level = 0;
-            generateStatusCodeEvent(connection, info->GetField(OPCUA_ID_IDX), StatusCode_ResponseHeader_Key, res_hdr->service_result(), status_code_level);
-        }
+        // Service Result aka Status Code
+        uint32_t status_code_level = 0;
+        string service_result_idx = generateId();
+        info->Assign(RES_HDR_SERVICE_RESULT_IDX, zeek::make_intrusive<zeek::StringVal>(service_result_idx));
+        generateStatusCodeEvent(connection, info->GetField(RES_HDR_SERVICE_RESULT_IDX), StatusCode_ResponseHeader_Key, res_hdr->service_result(), status_code_level);
 
         // If there is DiagnosticInfo - then log the detailed information.
+        info->Assign(RES_HDR_SERVICE_DIAG_ENCODING_IDX, zeek::val_mgr->Count(res_hdr->service_diag()->encoding_mask()));
         uint32 innerDiagLevel = 0;
         if (res_hdr->service_diag()->encoding_mask() != 0x00) {
 
