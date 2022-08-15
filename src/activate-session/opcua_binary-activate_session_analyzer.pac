@@ -81,72 +81,7 @@ refine flow OPCUA_Binary_Flow += {
         // User Identity Token of type OpcUA_ExtensionObject
 
         // OpcUA_ExtensionObject type_id
-        flattenOpcUA_NodeId(activate_session_req, msg->user_identity_token()->type_id(), ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_ENCODING_IDX);
-
-        string ext_obj_type_id_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(msg->user_identity_token()->type_id()))->second;
-        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(ext_obj_type_id_str));
-
-        // OpcUA_ExtensionObject encoding
-        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_ENCODING_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(msg->user_identity_token()->encoding())));
-
-        // OpcUA_ExtensionObject token
-        switch (getExtensionObjectId(msg->user_identity_token()->type_id())) {
-            case AnonymousIdentityToken_Key: 
-                // Policy Id
-                if (msg->user_identity_token()->anonymous_identity_token()->policy_id()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_POLICY_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->anonymous_identity_token()->policy_id()->string())));
-                }
-                break;
-            case UserNameIdentityToken_Key:  
-                // Policy Id
-                if (msg->user_identity_token()->username_identity_token()->policy_id()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_POLICY_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->username_identity_token()->policy_id()->string())));
-                }
-
-                // Username
-                if (msg->user_identity_token()->username_identity_token()->user_name()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_USERNAME_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->username_identity_token()->user_name()->string())));
-                }
-
-                // Password
-                if (msg->user_identity_token()->username_identity_token()->password()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_PASSWORD_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->username_identity_token()->password()->byteString())));
-                }
-
-                // Encryption Algorithm
-                if (msg->user_identity_token()->username_identity_token()->encryption_algorithm()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_ENCRYPTION_ALGORITHM_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->username_identity_token()->encryption_algorithm()->string())));
-                }
-                break;
-            case X509IdentityToken_Key:      
-                // Policy Id
-                if (msg->user_identity_token()->x509_identity_token()->policy_id()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_POLICY_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->x509_identity_token()->policy_id()->string())));
-                } 
-
-                // Certificate Data
-                if (msg->user_identity_token()->x509_identity_token()->certificate_data()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_CERT_DATA_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->user_identity_token()->x509_identity_token()->certificate_data()->byteString())));
-                } 
-                break;
-            case IssuedIdentityToken_Key:    
-
-                // Policy Id
-                if (msg->user_identity_token()->issued_identity_token()->policy_id()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_POLICY_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->issued_identity_token()->policy_id()->string())));
-                }
-
-                // Token Data
-                if (msg->user_identity_token()->issued_identity_token()->token_data()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TOKEN_DATA_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->user_identity_token()->issued_identity_token()->token_data()->byteString())));
-                } 
-
-                // Encryption Algorithm
-                if (msg->user_identity_token()->issued_identity_token()->encryption_algorithm()->length() > 0) {
-                    activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_ENCRYPTION_ALGORITHM_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->issued_identity_token()->encryption_algorithm()->string())));
-                }
-                break;
-        }
+        flattenOpcUA_ExtensionObject(activate_session_req, msg->user_identity_token(), ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_ENCODING_IDX);
 
         // User Token Signature
         if (msg->user_token_signature()->algorithm()->length() > 0) {
