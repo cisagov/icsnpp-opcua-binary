@@ -68,7 +68,7 @@ export {
         # Response Header
         res_hdr_timestamp             : time    &log &optional;
         res_hdr_request_handle        : count   &log &optional;
-        res_hdr_service_result        : count   &log &optional;
+        res_hdr_service_result_id     : string  &log &optional; # Link into StatusCodeDetail log
         res_hdr_service_diag_encoding : count   &log &optional;
         res_hdr_add_hdr_type_id       : count   &log &optional;
         res_hdr_add_hdr_enc_mask      : count   &log &optional;
