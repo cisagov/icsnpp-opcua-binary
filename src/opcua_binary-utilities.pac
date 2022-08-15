@@ -523,22 +523,26 @@ build/opcua_binary_pac.cc file(s) for details.
         // OpcUA_ExtensionObject encoding
         service_object->Assign(offset + 7, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(obj->encoding())));
 
-        // OpcUA_ExtensionObject token
-        switch (getExtensionObjectId(obj->type_id())) {
-            case AnonymousIdentityToken_Key: 
-                flattenOpcUA_AnonymousIdentityToken(service_object, obj->anonymous_identity_token(), offset);
-                break;
-            case UserNameIdentityToken_Key:  
-                flattenOpcUA_UserNameIdentityToken(service_object, obj->username_identity_token(), offset);
-                break;
-            case X509IdentityToken_Key:      
-                flattenOpcUA_X509IdentityToken(service_object, obj->x509_identity_token(), offset);
-                break;
-            case IssuedIdentityToken_Key:    
-                flattenOpcUA_IssuedIdentityToken(service_object, obj->issued_identity_token(), offset);
-                break;
-        }
+        // Check encoding
+        if (isBitSet(obj->encoding(), hasBinaryEncoding) || 
+            isBitSet(obj->encoding(), hasXMLEncoding) ) {
 
+            // OpcUA_ExtensionObject token
+            switch (getExtensionObjectId(obj->type_id())) {
+                case AnonymousIdentityToken_Key: 
+                    flattenOpcUA_AnonymousIdentityToken(service_object, obj->anonymous_identity_token(), offset);
+                    break;
+                case UserNameIdentityToken_Key:  
+                    flattenOpcUA_UserNameIdentityToken(service_object, obj->username_identity_token(), offset);
+                    break;
+                case X509IdentityToken_Key:      
+                    flattenOpcUA_X509IdentityToken(service_object, obj->x509_identity_token(), offset);
+                    break;
+                case IssuedIdentityToken_Key:    
+                    flattenOpcUA_IssuedIdentityToken(service_object, obj->issued_identity_token(), offset);
+                    break;
+            }
+        }
     }
 
     //
