@@ -50,12 +50,12 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_LOCALE_ID,             [$columns=OPCUA_Binary::ActivateSessionLocaleId,           $path="opcua-binary-activate-session-locale-id"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO,       [$columns=OPCUA_Binary::ActivateSessionDiagnosticInfo,     $path="opcua-binary-activate-session-diagnostic-info"]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE,                     [$columns=OPCUA_Binary::Browse,                  $path="opcua-binary-browse"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_DESCRIPTION,  [$columns=OPCUA_Binary::BrowseDescription, $path="opcua-binary-browse-description"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE,                            [$columns=OPCUA_Binary::Browse,                         $path="opcua-binary-browse"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_DESCRIPTION,                [$columns=OPCUA_Binary::BrowseDescription,              $path="opcua-binary-browse-description"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_REQUEST_CONTINUATION_POINT, [$columns=OPCUA_Binary::BrowseRequestContinuationPoint, $path="opcua-binary-browse-request-continuation-point"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESULT,  [$columns=OPCUA_Binary::BrowseResult, $path="opcua-binary-browse-result"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESPONSE_REFERENCES, [$columns=OPCUA_Binary::BrowseReference,         $path="opcua-binary-browse-response-references"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_DIAGNOSTIC_INFO,       [$columns=OPCUA_Binary::BrowseDiagnosticInfo,     $path="opcua-binary-browse-diagnostic-info"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESULT,                     [$columns=OPCUA_Binary::BrowseResult,                   $path="opcua-binary-browse-result"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESPONSE_REFERENCES,        [$columns=OPCUA_Binary::BrowseReference,                $path="opcua-binary-browse-response-references"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_DIAGNOSTIC_INFO,            [$columns=OPCUA_Binary::BrowseDiagnosticInfo,           $path="opcua-binary-browse-diagnostic-info"]);
     
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION,        [$columns=OPCUA_Binary::CreateSubscription, $path="opcua-binary-create-subscription"]);
 

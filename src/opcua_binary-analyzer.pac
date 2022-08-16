@@ -31,6 +31,7 @@
 #include "node_classes.h"
 #include "headers/timestamps_to_return.h"
 #include "headers/attribute_ids.h"
+#include "statuscode-diagnostic-source-consts.h"
 %}
 
 %header{

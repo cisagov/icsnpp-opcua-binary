@@ -29,14 +29,24 @@ build/opcua_binary_pac.cc file(s) for details.
     string uint8ToHexstring(uint8_t data);
     string getEndpointUrl(const_bytestring endpoint_url);
     bool isBitSet(uint8_t encoding, uint8_t mask);
-    void flattenNodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset);
-    void flattenExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset);
     bool validEncoding(uint8_t encoding);
     uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
     string generateId();
     string indent(int level);
-    uint32_t getTypeId(OpcUA_ExpandedNodeId *typeId);
+    uint32_t getExtensionObjectId(OpcUA_NodeId *typeId);
+    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32_t innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src);
+    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level);
+    uint32_t getInnerStatusCodeSource(uint32_t status_code_src);
+    uint32_t getInnerDiagInfoSource(uint32_t diag_info_src);
+    void flattenOpcUA_NodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset);
+    void flattenOpcUA_ExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset);
+    void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset);
+    void flattenOpcUA_AnonymousIdentityToken(zeek::RecordValPtr service_object, OpcUA_AnonymousIdentityToken *obj, uint32 offset);
+    void flattenOpcUA_UserNameIdentityToken(zeek::RecordValPtr service_object, OpcUA_UserNameIdentityToken *obj, uint32 offset);
+    void flattenOpcUA_X509IdentityToken(zeek::RecordValPtr service_object, OpcUA_X509IdentityToken *obj, uint32 offset);
+    void flattenOpcUA_IssuedIdentityToken(zeek::RecordValPtr service_object, OpcUA_IssuedIdentityToken *obj, uint32 offset);
+
 %}
 
 %code{
@@ -247,48 +257,6 @@ build/opcua_binary_pac.cc file(s) for details.
         return((encoding & mask) > 0);
     }
 
-    // Utility function to flatten NodeID objects
-    void flattenNodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset){
-        service_object->Assign((offset+0), zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(node_ptr->identifier_type())));
-        switch (node_ptr->identifier_type()) {
-            case node_encoding::TwoByte : service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->two_byte_numeric()->numeric()));
-                                        break;
-            case node_encoding::FourByte :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->namespace_index()));
-                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->numeric()));
-                                        break;
-            case node_encoding::Numeric :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->numeric()->namespace_index()));
-                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->numeric()->numeric()));
-                                        break;
-            case node_encoding::String :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->string()->namespace_index()));
-                                        service_object->Assign((offset+3), zeek::make_intrusive<zeek::StringVal>(std_str(node_ptr->string()->string()->string())));
-                                        break;
-            case node_encoding::GUID :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->guid()->namespace_index()));
-                                        service_object->Assign((offset+4), zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(node_ptr->guid()->guid()->data1(),
-                                                                                                                                                    node_ptr->guid()->guid()->data2(),
-                                                                                                                                                    node_ptr->guid()->guid()->data3(),
-                                                                                                                                                    node_ptr->guid()->guid()->data4())));
-                                        break;
-            case node_encoding::Opaque :
-                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->opaque()->namespace_index()));
-                                        service_object->Assign((offset+5), zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(node_ptr->opaque()->opaque()->byteString())));
-                                        break;
-        }
-    }
-    // Utility function to flatten ExpandedNodeID objects
-    void flattenExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset){
-        flattenNodeId(service_object, node_ptr->node_id(), offset);
-        if (isBitSet(node_ptr->node_id()->identifier_type(), NamespaceUriFlag)){
-            service_object->Assign((offset+6), zeek::make_intrusive<zeek::StringVal>(std_str(node_ptr->namespace_uri()->string())));
-        }
-        if (isBitSet(node_ptr->node_id()->identifier_type(), ServerIndexFlag)){
-            service_object->Assign((offset+7), zeek::val_mgr->Count(node_ptr->server_idx()));
-        }
-    }
-
     string indent(int level) {
         std::stringstream ss;
         int padding = 4;
@@ -314,6 +282,347 @@ build/opcua_binary_pac.cc file(s) for details.
 
         return(node_type_id);
     }
+
+    //
+    // Common code used to generate a status code event.
+    //
+    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level) {
+            StatusCodeDetail detail = StatusCodeDetail(status_code);
+            zeek::RecordValPtr status = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::StatusCodeDetail);
+
+            // OpcUA_id
+            status->Assign(STAT_CODE_OPCUA_ID_LINK_IDX, opcua_id);
+
+            status->Assign(STAT_CODE_SOURCE_IDX,       zeek::val_mgr->Count(status_code_src));
+            status->Assign(STAT_CODE_SOURCE_STR_IDX,   zeek::make_intrusive<zeek::StringVal>((STATUS_CODE_SRC_MAP.find(status_code_src)->second)));
+            status->Assign(STAT_CODE_SOURCE_LEVEL_IDX, zeek::val_mgr->Count(status_code_level));
+            status->Assign(STATUS_CODE_IDX,            zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(status_code)));
+            status->Assign(SEVERITY_IDX,               zeek::val_mgr->Count(detail.severity));
+            status->Assign(SEVERITY_STR_IDX,           zeek::make_intrusive<zeek::StringVal>(detail.severityStr));
+            status->Assign(SUBCODE_IDX,                zeek::val_mgr->Count(detail.subCode));
+            status->Assign(SUBCODE_STR_IDX,            zeek::make_intrusive<zeek::StringVal>(detail.subCodeStr));
+            status->Assign(STRUCTURE_CHANGED_IDX,      zeek::val_mgr->Bool(detail.structureChanged));
+            status->Assign(SEMANTICS_CHANGED_IDX,      zeek::val_mgr->Bool(detail.semanticsChanged));
+            status->Assign(INFO_TYPE_IDX,              zeek::val_mgr->Count(detail.infoType));
+            status->Assign(INFO_TYPE_STR_IDX,          zeek::make_intrusive<zeek::StringVal>(detail.infoTypeStr));
+
+            if (detail.infoType != InfoType_NotUsed_Key) {
+                status->Assign(LIMIT_BITS_IDX,         zeek::val_mgr->Count(detail.limitBits));
+                status->Assign(LIMIT_BITS_STR_IDX,     zeek::make_intrusive<zeek::StringVal>(detail.limitBitsStr));
+                status->Assign(OVERFLOW_IDX,           zeek::val_mgr->Bool(detail.overflow));
+
+                status->Assign(HISTORIAN_BITS_IDX,            zeek::val_mgr->Count(detail.historianBits));
+                status->Assign(HISTORIAN_BITS_STR_IDX,        zeek::make_intrusive<zeek::StringVal>(detail.historianBitsStr));
+                status->Assign(HISTORIAN_BITS_PARTIAL_IDX,    zeek::val_mgr->Bool(detail.historianPartial));
+                status->Assign(HISTORIAN_BITS_EXTRADATA_IDX,  zeek::val_mgr->Bool(detail.historianExtraData));
+                status->Assign(HISTORIAN_BITS_MULTIVALUE_IDX, zeek::val_mgr->Bool(detail.historianMultiValue));
+            }
+
+            zeek::BifEvent::enqueue_opcua_binary_status_code_event(connection->bro_analyzer(),
+                                                              connection->bro_analyzer()->Conn(),
+                                                              status);
+    }
+
+    //
+    // Common code used to generate a diagnostic information event.
+    // NOTE: This function is called recursively to  process any 
+    // nested inner diagnostic information.
+    //
+    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src) {
+        zeek::RecordValPtr diag_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::DiagnosticInfoDetail);
+
+        // OpcUA_id
+        diag_info->Assign(DIAG_INFO_DETAIL_OPCUA_ID_LINK_IDX, opcua_id);
+
+        // Diagnostic Info Source
+        diag_info->Assign(DIAG_INFO_SOURCE_IDX,     zeek::val_mgr->Count(diag_info_src));
+        diag_info->Assign(DIAG_INFO_SOURCE_STR_IDX, zeek::make_intrusive<zeek::StringVal>((DIAGNOSTIC_INFO_SRC_MAP.find(diag_info_src)->second)));
+
+
+        // Initialize the diagnostic info record
+        diag_info->Assign(INNER_DIAG_LEVEL_IDX, zeek::val_mgr->Count(innerDiagLevel));
+        diag_info->Assign(HAS_SYMBOLIC_ID_IDX,     zeek::val_mgr->Bool(false));
+        diag_info->Assign(HAS_NAMESPACE_URI_IDX,   zeek::val_mgr->Bool(false));
+        diag_info->Assign(HAS_LOCALE_IDX,          zeek::val_mgr->Bool(false));
+        diag_info->Assign(HAS_LOCALE_TXT_IDX,      zeek::val_mgr->Bool(false));
+        diag_info->Assign(HAS_ADDL_INFO_IDX,       zeek::val_mgr->Bool(false));
+        diag_info->Assign(HAS_INNER_STAT_CODE_IDX, zeek::val_mgr->Bool(false));
+        diag_info->Assign(HAS_INNER_DIAG_INFO_IDX, zeek::val_mgr->Bool(false));
+
+        // Symbolic Id
+        if (isBitSet(diagInfo->encoding_mask(), hasSymbolicId)) {
+            int32 idx = diagInfo->symbolic_id();
+            string str = std_str(stringTable->at(idx)->string());
+
+            diag_info->Assign(HAS_SYMBOLIC_ID_IDX, zeek::val_mgr->Bool(true));
+            diag_info->Assign(SYMBOLIC_ID_IDX,     zeek::val_mgr->Count(idx));
+            diag_info->Assign(SYMBOLIC_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(str));
+        }
+
+        // Namespace URI
+        if (isBitSet(diagInfo->encoding_mask(), hasNamespaceUri)) {
+            int32 idx = diagInfo->namespace_uri();
+            string str = std_str(stringTable->at(idx)->string());
+
+            diag_info->Assign(HAS_NAMESPACE_URI_IDX, zeek::val_mgr->Bool(true));
+            diag_info->Assign(NAMESPACE_URI_IDX,     zeek::val_mgr->Count(idx));
+            diag_info->Assign(NAMESPACE_URI_STR_IDX, zeek::make_intrusive<zeek::StringVal>(str));
+        }
+
+        // Localized Text
+        if (isBitSet(diagInfo->encoding_mask(), hasLocalizedTxt)) {
+            int32 idx = diagInfo->localized_txt();
+            string str = std_str(stringTable->at(idx)->string());
+
+            diag_info->Assign(HAS_LOCALE_TXT_IDX, zeek::val_mgr->Bool(true));
+            diag_info->Assign(LOCALE_TXT_IDX,     zeek::val_mgr->Count(idx));
+            diag_info->Assign(LOCALE_TXT_STR_IDX, zeek::make_intrusive<zeek::StringVal>(str));
+        }
+
+        // Locale
+        if (isBitSet(diagInfo->encoding_mask(), hasLocale)) {
+            int32 idx = diagInfo->locale();
+            string str = std_str(stringTable->at(idx)->string());
+
+            diag_info->Assign(HAS_LOCALE_IDX, zeek::val_mgr->Bool(true));
+            diag_info->Assign(LOCALE_IDX,     zeek::val_mgr->Count(idx));
+            diag_info->Assign(LOCALE_STR_IDX, zeek::make_intrusive<zeek::StringVal>(str));
+        }
+
+        // Additional Information
+        if (isBitSet(diagInfo->encoding_mask(), hasAddlInfo)) {
+            string str = std_str(diagInfo->addl_info()->string());
+
+            diag_info->Assign(HAS_ADDL_INFO_IDX, zeek::val_mgr->Bool(true));
+            diag_info->Assign(ADDL_INFO_IDX,     zeek::make_intrusive<zeek::StringVal>(str));
+        }
+
+        // Inner Status Code
+        if (isBitSet(diagInfo->encoding_mask(), hasInnerStatCode)) {
+            diag_info->Assign(HAS_INNER_STAT_CODE_IDX, zeek::val_mgr->Bool(true));
+            diag_info->Assign(INNER_STAT_CODE_IDX,     zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(diagInfo->inner_stat_code())));
+            generateStatusCodeEvent(connection, opcua_id, getInnerStatusCodeSource(diag_info_src), diagInfo->inner_stat_code(), innerDiagLevel);
+        }
+
+        // Inner Diagnostic Info
+        if (isBitSet(diagInfo->encoding_mask(), hasInnerDiagInfo)) {
+            diag_info->Assign(HAS_INNER_DIAG_INFO_IDX, zeek::val_mgr->Bool(true));
+            zeek::BifEvent::enqueue_opcua_binary_diag_info_event(connection->bro_analyzer(),
+                                                            connection->bro_analyzer()->Conn(),
+                                                            diag_info);
+
+            generateDiagInfoEvent(connection, opcua_id, diagInfo->inner_diag_info(), stringTable, innerDiagLevel+=1, getInnerStatusCodeSource(status_code_src), getInnerDiagInfoSource(diag_info_src));
+        } else {
+            zeek::BifEvent::enqueue_opcua_binary_diag_info_event(connection->bro_analyzer(),
+                                                            connection->bro_analyzer()->Conn(),
+                                                            diag_info);
+        }
+
+        return;
+    }
+
+    uint32_t getInnerStatusCodeSource(uint32_t diag_info_src) {
+        uint32_t inner_status_code_src;
+
+        switch(diag_info_src) {
+            case DiagInfo_ResponseHeader_Key: 
+            case DiagInfo_ResponseHeader_Inner_Key: inner_status_code_src = StatusCode_ResponseHeader_DiagInfo_Key;
+                                                    break;
+
+            case DiagInfo_Browse_Key:
+            case DiagInfo_Browse_Inner_Key: inner_status_code_src = StatusCode_Browse_DiagInfo_Key;
+                                            break;
+
+            case DiagInfo_ActivateSession_Key:
+            case DiagInfo_ActivateSession_Inner_Key: inner_status_code_src = StatusCode_ActivateSession_DiagInfo_Key;
+                                                     break;
+
+        }
+
+        return(inner_status_code_src);
+    }
+
+    uint32_t getInnerDiagInfoSource(uint32_t diag_info_src) {
+        uint32_t inner_diag_info_src;
+
+        switch(diag_info_src) {
+            case DiagInfo_ResponseHeader_Key: 
+            case DiagInfo_ResponseHeader_Inner_Key: inner_diag_info_src = DiagInfo_ResponseHeader_Inner_Key;
+                                                    break;
+
+            case DiagInfo_Browse_Key:
+            case DiagInfo_Browse_Inner_Key: inner_diag_info_src = DiagInfo_Browse_Inner_Key;
+                                            break;
+
+            case DiagInfo_ActivateSession_Key:
+            case DiagInfo_ActivateSession_Inner_Key: inner_diag_info_src = DiagInfo_ActivateSession_Inner_Key;
+                                                     break;
+
+        }
+
+        return(inner_diag_info_src);
+    }
+
+    // Utility function to flatten NodeID objects
+    void flattenOpcUA_NodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset){
+        uint8_t encoding = node_ptr->identifier_type();
+        uint8_t node_id_encoding = encoding & 0x0f;
+
+        service_object->Assign((offset+0), zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(encoding)));
+        switch (node_id_encoding) {
+            case node_encoding::TwoByte : service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->two_byte_numeric()->numeric()));
+                                        break;
+            case node_encoding::FourByte :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->namespace_index()));
+                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->numeric()));
+                                        break;
+            case node_encoding::Numeric :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->numeric()->namespace_index()));
+                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->numeric()->numeric()));
+                                        break;
+            case node_encoding::String :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->string()->namespace_index()));
+                                        service_object->Assign((offset+3), zeek::make_intrusive<zeek::StringVal>(std_str(node_ptr->string()->string()->string())));
+                                        break;
+            case node_encoding::GUID :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->guid()->namespace_index()));
+                                        service_object->Assign((offset+4), zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(node_ptr->guid()->guid()->data1(),
+                                                                                                                                                    node_ptr->guid()->guid()->data2(),
+                                                                                                                                                    node_ptr->guid()->guid()->data3(),
+                                                                                                                                                    node_ptr->guid()->guid()->data4())));
+                                        break;
+            case node_encoding::Opaque :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->opaque()->namespace_index()));
+                                        service_object->Assign((offset+5), zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(node_ptr->opaque()->opaque()->byteString())));
+                                        break;
+        }
+    }
+
+    // Utility function to flatten ExpandedNodeID objects
+    void flattenOpcUA_ExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset){
+        flattenOpcUA_NodeId(service_object, node_ptr->node_id(), offset);
+        if (isBitSet(node_ptr->node_id()->identifier_type(), NamespaceUriFlag)){
+            service_object->Assign((offset+6), zeek::make_intrusive<zeek::StringVal>(std_str(node_ptr->namespace_uri()->string())));
+        }
+        if (isBitSet(node_ptr->node_id()->identifier_type(), ServerIndexFlag)){
+            service_object->Assign((offset+7), zeek::val_mgr->Count(node_ptr->server_idx()));
+        }
+    }
+
+    //
+    // UA Specification Part 6 - Mappings 1.04.pdf
+    //
+    // 5.2.2.15 Table 14 - ExtensionObject
+    //
+    void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset) {
+        flattenOpcUA_NodeId(service_object, obj->type_id(), offset);
+
+        string ext_obj_type_id_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(obj->type_id()))->second;
+        service_object->Assign(offset + 6, zeek::make_intrusive<zeek::StringVal>(ext_obj_type_id_str));
+
+        // OpcUA_ExtensionObject encoding
+        service_object->Assign(offset + 7, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(obj->encoding())));
+
+        // Check encoding
+        if (isBitSet(obj->encoding(), hasBinaryEncoding) || 
+            isBitSet(obj->encoding(), hasXMLEncoding) ) {
+
+            // OpcUA_ExtensionObject token
+            switch (getExtensionObjectId(obj->type_id())) {
+                case AnonymousIdentityToken_Key: 
+                    flattenOpcUA_AnonymousIdentityToken(service_object, obj->anonymous_identity_token(), offset);
+                    break;
+                case UserNameIdentityToken_Key:  
+                    flattenOpcUA_UserNameIdentityToken(service_object, obj->username_identity_token(), offset);
+                    break;
+                case X509IdentityToken_Key:      
+                    flattenOpcUA_X509IdentityToken(service_object, obj->x509_identity_token(), offset);
+                    break;
+                case IssuedIdentityToken_Key:    
+                    flattenOpcUA_IssuedIdentityToken(service_object, obj->issued_identity_token(), offset);
+                    break;
+            }
+        }
+    }
+
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.36.3 Table 185 - AnonymousIdentityToken
+    //
+    void flattenOpcUA_AnonymousIdentityToken(zeek::RecordValPtr service_object, OpcUA_AnonymousIdentityToken *obj, uint32 offset) {
+        // Policy Id
+        if (obj->policy_id()->length() > 0) {
+            service_object->Assign(offset + 8, zeek::make_intrusive<zeek::StringVal>(std_str(obj->policy_id()->string())));
+        }
+    }
+
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.36.4 Table 186 - UserNameIdentityToken
+    //
+    void flattenOpcUA_UserNameIdentityToken(zeek::RecordValPtr service_object, OpcUA_UserNameIdentityToken *obj, uint32 offset) {
+        // Policy Id
+        if (obj->policy_id()->length() > 0) {
+            service_object->Assign(offset + 8, zeek::make_intrusive<zeek::StringVal>(std_str(obj->policy_id()->string())));
+        }
+
+        // Username
+        if (obj->user_name()->length() > 0) {
+            service_object->Assign(offset + 9, zeek::make_intrusive<zeek::StringVal>(std_str(obj->user_name()->string())));
+        }
+
+        // Password
+        if (obj->password()->length() > 0) {
+            service_object->Assign(offset + 10, zeek::make_intrusive<zeek::StringVal>(std_str(obj->password()->byteString())));
+        }
+
+        // Encryption Algorithm
+        if (obj->encryption_algorithm()->length() > 0) {
+            service_object->Assign(offset + 11, zeek::make_intrusive<zeek::StringVal>(std_str(obj->encryption_algorithm()->string())));
+        }
+    }
+
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.36.5 Table 188 - X509IdentityToken
+    //
+    void flattenOpcUA_X509IdentityToken(zeek::RecordValPtr service_object, OpcUA_X509IdentityToken *obj, uint32 offset) {
+        // Policy Id
+        if (obj->policy_id()->length() > 0) {
+            service_object->Assign(offset + 8, zeek::make_intrusive<zeek::StringVal>(std_str(obj->policy_id()->string())));
+        } 
+
+        // Certificate Data
+        if (obj->certificate_data()->length() > 0) {
+            service_object->Assign(offset + 12, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(obj->certificate_data()->byteString())));
+        } 
+    }
+
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.36.6 Table 189 - IssuedIdentityToken
+    //
+    void flattenOpcUA_IssuedIdentityToken(zeek::RecordValPtr service_object, OpcUA_IssuedIdentityToken *obj, uint32 offset) {
+        // Policy Id
+        if (obj->policy_id()->length() > 0) {
+            service_object->Assign(offset + 8, zeek::make_intrusive<zeek::StringVal>(std_str(obj->policy_id()->string())));
+        }
+
+        // Token Data
+        if (obj->token_data()->length() > 0) {
+            service_object->Assign(offset + 13, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(obj->token_data()->byteString())));
+        } 
+
+        // Encryption Algorithm
+        if (obj->encryption_algorithm()->length() > 0) {
+            service_object->Assign(offset + 11, zeek::make_intrusive<zeek::StringVal>(std_str(obj->encryption_algorithm()->string())));
+        }
+    }
+
 
 %}
 

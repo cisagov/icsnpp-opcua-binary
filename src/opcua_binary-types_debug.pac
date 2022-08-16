@@ -157,36 +157,39 @@
             printf("%s Encoding Mask: 0x%02x has XML body\n", indent(indent_width+1).c_str(), obj->encoding());
         }
 
-        // Extension Object
-        switch (getTypeId(obj->type_id())) {
-            case AnonymousIdentityToken_Key: 
-                printOpcUA_AnonymousIdentityToken(indent_width+1, obj->anonymous_identity_token());
-                break;
-            case UserNameIdentityToken_Key:  
-                printOpcUA_UserNameIdentityToken(indent_width+1, obj->username_identity_token());
-                break;
-            case X509IdentityToken_Key:      
-                printOpcUA_X509IdentityToken(indent_width+1, obj->x509_identity_token());
-                break;
-            case IssuedIdentityToken_Key:    
-                printOpcUA_IssuedIdentityToken(indent_width+1, obj->issued_identity_token());
-                break;
-            case DataChangeFilter_Key:
-                break;
-            case EventFilter_Key:
-                break;
-            case AggregateFilter_Key:
-                break;
-            case ElementOperand_Key:
-                break;
-            case LiteralOperand_Key:
-                break;
-            case AttributeOperand_Key:
-                break;
-            case SimpleAttributeOperand_Key:
-                break;
-            default:
-                break;
+        // Check encoding
+        if (isBitSet(obj->encoding(), hasBinaryEncoding) || 
+            isBitSet(obj->encoding(), hasXMLEncoding) ) {
+
+            // Extension Object
+            switch (getExtensionObjectId(obj->type_id())) {
+                case AnonymousIdentityToken_Key: 
+                    printOpcUA_AnonymousIdentityToken(indent_width+1, obj->anonymous_identity_token());
+                    break;
+                case UserNameIdentityToken_Key:  
+                    printOpcUA_UserNameIdentityToken(indent_width+1, obj->username_identity_token());
+                    break;
+                case X509IdentityToken_Key:      
+                    printOpcUA_X509IdentityToken(indent_width+1, obj->x509_identity_token());
+                    break;
+                case IssuedIdentityToken_Key:    
+                    printOpcUA_IssuedIdentityToken(indent_width+1, obj->issued_identity_token());
+                    break;
+                case DataChangeFilter_Key:
+                    break;
+                case EventFilter_Key:
+                    break;
+                case AggregateFilter_Key:
+                    break;
+                case ElementOperand_Key:
+                    break;
+                case LiteralOperand_Key:
+                    break;
+                case AttributeOperand_Key:
+                    break;
+                case SimpleAttributeOperand_Key:
+                    break;
+            }
         }
     }
 
