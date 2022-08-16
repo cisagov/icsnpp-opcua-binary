@@ -29,6 +29,7 @@
 #define OPCUA_BINARY_EXTENSION_OBJECT_NODE_ID_H
 #include <map>
 
+const static uint32_t NoneType_Key                            = 0;
 const static uint32_t TrustListDataType_Key                   = 12680;
 const static uint32_t Node_Key                                = 260;
 const static uint32_t InstanceNode_Key                        = 11889;
@@ -172,6 +173,7 @@ const static uint32_t Annotation_Key                          = 893;
 
 static std::map<uint32_t, std::string> EXTENSION_OBJECT_ID_MAP =
 {
+    { NoneType_Key,                            "NoneType"},
     { TrustListDataType_Key,                   "TrustListDataType" },
     { Node_Key,                                "Node" },
     { InstanceNode_Key,                        "InstanceNode" },

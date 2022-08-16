@@ -15,6 +15,7 @@
 %include opcua_binary-opcua_nodeid_types.pac
 %include opcua_binary-opcua_nodeid_types_debug.pac
 %include opcua_binary-services.pac
+%include opcua_binary-opcua_filter_types.pac
 %include req-res-header/opcua_binary-req_res_header.pac
 %include req-res-header/opcua_binary-req_res_header_debug.pac
 %include secure-channel/opcua_binary-secure_channel.pac
@@ -29,6 +30,8 @@
 %include activate-session/opcua_binary-activate_session_debug.pac
 %include create-subscription/opcua_binary-create_subscription.pac
 %include create-subscription/opcua_binary-create_subscription_debug.pac
+%include create-monitored-items/opcua_binary-create_monitored_items.pac
+%include create-monitored-items/opcua_binary-create_monitored_items_debug.pac
 %include stubbed-out/opcua_binary-stubbed_out_service.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_debug.pac
 %include opcua_binary-protocol_debug.pac

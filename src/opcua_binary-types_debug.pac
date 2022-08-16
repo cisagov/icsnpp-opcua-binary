@@ -1,5 +1,5 @@
 %header{
-
+    void printOpcUA_QualifiedName(int indent_width, OpcUA_QualifiedName *qualifiedName);
     void printOpcUA_DiagInfo(int indent_width, OpcUA_DiagInfo *diagInfo);
     void printOpcUA_ViewDescription(int indent_width, OpcUA_ViewDescription *viewInfo);
     void printOpcUA_ExtensionObject(int indent_width, OpcUA_ExtensionObject *obj);
@@ -13,9 +13,15 @@
     void printOpcUA_X509IdentityToken(int indent_width, OpcUA_X509IdentityToken *obj);
     void printOpcUA_IssuedIdentityToken(int indent_width, OpcUA_IssuedIdentityToken *obj);
     void printOpcUA_DiagInfo(int indent_width, OpcUA_DiagInfo *diagInfo);
+    void printOpcUA_ReadValueId(int indent_width, OpcUA_ReadValueId *readValueId);
 %}
 
 %code{
+    void printOpcUA_QualifiedName(int indent_width, OpcUA_QualifiedName *qualifiedName) {
+        printf("%s Id: %d\n", indent(indent_width).c_str(), qualifiedName->namespace_index());
+        printf("%s Name: %s\n", indent(indent_width).c_str(), std_str(qualifiedName->name()->string()).c_str());
+    }
+
     void printOpcUA_DiagInfo(int indent_width, OpcUA_DiagInfo *diagInfo) {
         printf("%s EncodingMask: 0x%02x\n", indent(indent_width).c_str(), diagInfo->encoding_mask());
 
@@ -140,7 +146,7 @@
 
         // TypeId
         printf("%s TypeId: ExpandedNodeId\n", indent(indent_width+1).c_str());
-        printOpcUA_NodeId(indent_width+2, obj->type_id());
+        printOpcUA_ExpandedNodeId(indent_width+2, obj->type_id());
         
         // Extension Object Encoding Mask
         if (isBitSet(obj->encoding(), hasNoEncoding)) {
@@ -164,6 +170,22 @@
                 break;
             case IssuedIdentityToken_Key:    
                 printOpcUA_IssuedIdentityToken(indent_width+1, obj->issued_identity_token());
+                break;
+            case DataChangeFilter_Key:
+                break;
+            case EventFilter_Key:
+                break;
+            case AggregateFilter_Key:
+                break;
+            case ElementOperand_Key:
+                break;
+            case LiteralOperand_Key:
+                break;
+            case AttributeOperand_Key:
+                break;
+            case SimpleAttributeOperand_Key:
+                break;
+            default:
                 break;
         }
     }
@@ -272,6 +294,24 @@
         } else {
             printf("%s EncryptionAlgorithm: [OpcUa Null String]\n", indent(indent_width+1).c_str());
         }
+    }
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.24 Table 166 - ReadValueId
+    //
+    void printOpcUA_ReadValueId(int indent_width, OpcUA_ReadValueId *readValueId){
+        printf("%s NodeId: NodeId\n", indent(indent_width).c_str());
+        printOpcUA_NodeId(indent_width + 1, readValueId->node_id());
+        printf("%s AttributeId: %s (%08x)\n", indent(indent_width).c_str(), ATTRIBUTE_IDENTIFIERS.find(readValueId->attribute_id())->second.c_str(), readValueId->attribute_id());
+        if (readValueId->index_range()->numeric_range()->length() > 0){
+            printf("%s IndexRange: %s\n", indent(indent_width).c_str(), std_str(readValueId->index_range()->numeric_range()->string()).c_str());
+        }
+        else {
+            printf("%s IndexRange: [OpcUa Null String]\n", indent(indent_width).c_str());
+        }
+        printf("%s DataEncoding: QualifiedName\n", indent(indent_width).c_str());
+        printOpcUA_QualifiedName((indent_width + 1), readValueId->data_encoding());
     }
 
 %}

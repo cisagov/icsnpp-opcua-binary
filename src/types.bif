@@ -31,5 +31,7 @@ type BrowseDiagnosticInfo: record;
 
 type CreateSubscription: record;
 
+type CreateMonitoredItems: record;
+
 module GLOBAL;
 

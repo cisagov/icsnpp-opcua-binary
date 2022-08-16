@@ -95,7 +95,7 @@ type Service(msg_body: Msg_Body) = record {
         CallRequest  -> call_req : Stubbed_Out_Req(this);
         CallResponse -> call_res : Stubbed_Out_Res(this);
 
-        CreateMonitoredItemsRequest  -> create_monitored_items_req : Stubbed_Out_Req(this);
+        CreateMonitoredItemsRequest  -> create_monitored_items_req : CreateMonitoredItems_Req(this);
         CreateMonitoredItemsResponse -> create_monitored_items_res : Stubbed_Out_Res(this);
 
         ModifyMonitoredItemsRequest  -> modify_monitored_items_req : Stubbed_Out_Req(this);

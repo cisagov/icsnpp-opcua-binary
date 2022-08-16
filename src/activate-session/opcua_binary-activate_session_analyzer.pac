@@ -17,11 +17,10 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_ActivateSessionReq(msg : Activate_Session_Req): bool
         %{
-        /* Debug
+        /* Debug*/
         printf("deliver_Svc_ActivateSessionReq - begin\n");
         printActivateSessionReq(msg);
         printf("deliver_Svc_ActivateSessionReq - end\n");
-        */
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
@@ -81,32 +80,32 @@ refine flow OPCUA_Binary_Flow += {
         // User Identity Token of type OpcUA_ExtensionObject
 
         // OpcUA_ExtensionObject type_id
-        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_ENCODING_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(msg->user_identity_token()->type_id()->identifier_type())));
-        switch (msg->user_identity_token()->type_id()->identifier_type()) {
-            case node_encoding::TwoByte : activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->two_byte_numeric()->numeric()));
+        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_ENCODING_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(msg->user_identity_token()->type_id()->node_id()->identifier_type())));
+        switch (msg->user_identity_token()->type_id()->node_id()->identifier_type()) {
+            case node_encoding::TwoByte : activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->node_id()->two_byte_numeric()->numeric()));
                                           break;
             case node_encoding::FourByte :
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->four_byte_numeric()->namespace_index()));
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->four_byte_numeric()->numeric()));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->node_id()->four_byte_numeric()->namespace_index()));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->node_id()->four_byte_numeric()->numeric()));
                                         break;
             case node_encoding::Numeric :
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->numeric()->namespace_index()));
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->numeric()->numeric()));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->node_id()->numeric()->namespace_index()));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NUMERIC_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->node_id()->numeric()->numeric()));
                                         break;
             case node_encoding::String :
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->string()->namespace_index()));
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_STRING_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->type_id()->string()->string()->string())));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->node_id()->string()->namespace_index()));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_STRING_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->user_identity_token()->type_id()->node_id()->string()->string()->string())));
                                         break;
             case node_encoding::GUID :
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->guid()->namespace_index()));
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_GUID_IDX, zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(msg->user_identity_token()->type_id()->guid()->guid()->data1(),
-                                                                                                                                                              msg->user_identity_token()->type_id()->guid()->guid()->data2(),
-                                                                                                                                                              msg->user_identity_token()->type_id()->guid()->guid()->data3(),
-                                                                                                                                                              msg->user_identity_token()->type_id()->guid()->guid()->data4())));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->node_id()->guid()->namespace_index()));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_GUID_IDX, zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(msg->user_identity_token()->type_id()->node_id()->guid()->guid()->data1(),
+                                                                                                                                                              msg->user_identity_token()->type_id()->node_id()->guid()->guid()->data2(),
+                                                                                                                                                              msg->user_identity_token()->type_id()->node_id()->guid()->guid()->data3(),
+                                                                                                                                                              msg->user_identity_token()->type_id()->node_id()->guid()->guid()->data4())));
                                         break;
             case node_encoding::Opaque :
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->opaque()->namespace_index()));
-                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_OPAQUE_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->user_identity_token()->type_id()->opaque()->opaque()->byteString())));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_NAMESPACE_IDX, zeek::val_mgr->Count(msg->user_identity_token()->type_id()->node_id()->opaque()->namespace_index()));
+                                        activate_session_req->Assign(ACTIVATE_SESSION_REQ_EXT_OBJ_TYPE_ID_OPAQUE_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->user_identity_token()->type_id()->node_id()->opaque()->opaque()->byteString())));
                                         break;
         }
 

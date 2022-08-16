@@ -6,3 +6,4 @@
 @load ./secure-channel-types
 @load ./activate-session-types
 @load ./create-subscription-types
+@load ./create-monitored-items-types

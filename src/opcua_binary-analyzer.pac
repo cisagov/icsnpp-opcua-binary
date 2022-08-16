@@ -25,9 +25,12 @@
 #include "secure-channel/index-consts.h"
 #include "req-res-header/index-consts.h"
 #include "browse/index-consts.h"
+#include "create-monitored-items/index-consts.h"
 #include "status_codes.h"
 #include "node_identifiers.h"
 #include "node_classes.h"
+#include "headers/timestamps_to_return.h"
+#include "headers/attribute_ids.h"
 %}
 
 %header{

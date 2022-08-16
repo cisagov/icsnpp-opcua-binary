@@ -41,5 +41,6 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 %include activate-session/opcua_binary-activate_session_analyzer.pac
 %include browse/opcua_binary-browse_analyzer.pac
 %include create-subscription/opcua_binary-create_subscription_analyzer.pac
+%include create-monitored-items/opcua_binary-create_monitored_items_analyzer.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_analyzer.pac
 

@@ -213,6 +213,7 @@ enum localized_text_mask
 #
 enum extension_object_node
 {
+    NoneType                            = 0,
     TrustListDataType                   = 12680,
     Node                                = 260,
     InstanceNode                        = 11889,

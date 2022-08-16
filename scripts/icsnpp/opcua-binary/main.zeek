@@ -19,7 +19,7 @@ export {
                             LOG_CREATE_SESSION, LOG_CREATE_SESSION_DISCOVERY, LOG_CREATE_SESSION_ENDPOINTS, LOG_CREATE_SESSION_USER_TOKEN,
                             LOG_ACTIVATE_SESSION, LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT, LOG_ACTIVATE_SESSION_LOCALE_ID, LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO, 
                             LOG_BROWSE, LOG_BROWSE_DESCRIPTION, LOG_BROWSE_REQUEST_CONTINUATION_POINT, LOG_BROWSE_RESULT, LOG_BROWSE_RESPONSE_REFERENCES,
-                            LOG_BROWSE_DIAGNOSTIC_INFO, LOG_CREATE_SUBSCRIPTION };
+                            LOG_BROWSE_DIAGNOSTIC_INFO, LOG_CREATE_SUBSCRIPTION, LOG_CREATE_MONITORED_ITEMS };
 }
 
 # Port-based detection
@@ -58,6 +58,8 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_DIAGNOSTIC_INFO,       [$columns=OPCUA_Binary::BrowseDiagnosticInfo,     $path="opcua-binary-browse-diagnostic-info"]);
     
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION,        [$columns=OPCUA_Binary::CreateSubscription, $path="opcua-binary-create-subscription"]);
+
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS,        [$columns=OPCUA_Binary::CreateMonitoredItems, $path="opcua-binary-create-monitored-items"]);
    
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
    }
@@ -323,4 +325,15 @@ event opcua_binary_create_subscription_event(c: connection, create_subscription_
        create_subscription_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION, create_subscription_event);
+   }
+
+event opcua_binary_create_monitored_items_event(c: connection, create_monitored_items_event: OPCUA_Binary::CreateMonitoredItems)
+   {
+       print("Yo!");
+       set_service(c, "opcua-binary");
+       create_monitored_items_event$ts  = network_time();
+       create_monitored_items_event$uid = c$uid;
+       create_monitored_items_event$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS, create_monitored_items_event);
    }

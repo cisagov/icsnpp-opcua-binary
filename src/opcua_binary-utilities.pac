@@ -36,7 +36,7 @@ build/opcua_binary_pac.cc file(s) for details.
     double bytestringToDouble(bytestring data);
     string generateId();
     string indent(int level);
-    uint32_t getTypeId(OpcUA_NodeId *typeId);
+    uint32_t getTypeId(OpcUA_ExpandedNodeId *typeId);
 %}
 
 %code{
@@ -298,16 +298,16 @@ build/opcua_binary_pac.cc file(s) for details.
         return ss.str();
     }
 
-    uint32_t getTypeId(OpcUA_NodeId *typeId) {
-        uint8_t  encoding = typeId->identifier_type();
+    uint32_t getTypeId(OpcUA_ExpandedNodeId *typeId) {
+        uint8_t  encoding = typeId->node_id()->identifier_type() & 0x0f;
         uint32_t node_type_id = 0;
 
         if (encoding == node_encoding::TwoByte) {
-            node_type_id = typeId->two_byte_numeric()->numeric();
+            node_type_id = typeId->node_id()->two_byte_numeric()->numeric();
         } else if (encoding == node_encoding::FourByte) {
-            node_type_id = typeId->four_byte_numeric()->numeric();
+            node_type_id = typeId->node_id()->four_byte_numeric()->numeric();
         } else if (encoding == node_encoding::Numeric) {
-            return(typeId->numeric()->numeric());
+            return(typeId->node_id()->numeric()->numeric());
         } else {
             throw binpac::Exception("Invalid TypeId Node");
         } 
@@ -376,7 +376,7 @@ refine flow OPCUA_Binary_Flow += {
     #
     #
     #
-    function get_extension_type_id(typeId: OpcUA_NodeId): uint32
+    function get_extension_type_id(typeId: OpcUA_ExpandedNodeId): uint32
     %{
         return(getTypeId(typeId));
     %}

@@ -352,15 +352,23 @@ type OpcUA_SignedSoftwareCertificate = record {
 # 5.2.2.15 Table 14 - ExtensionObject
 #
 type OpcUA_ExtensionObject = record {
-    type_id  : OpcUA_NodeId;
+    type_id  : OpcUA_ExpandedNodeId;
     encoding : uint8;
-    length   : int32;
 
     body : case $context.flow.get_extension_type_id(type_id) of {
-        AnonymousIdentityToken -> anonymous_identity_token : OpcUA_AnonymousIdentityToken;
-        UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
-        X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
-        IssuedIdentityToken    -> issued_identity_token    : OpcUA_IssuedIdentityToken;
+        NoneType               -> none_type_value           : empty;
+        AnonymousIdentityToken -> anonymous_identity_token  : OpcUA_AnonymousIdentityToken;
+        UserNameIdentityToken  -> username_identity_token   : OpcUA_UserNameIdentityToken;
+        X509IdentityToken      -> x509_identity_token       : OpcUA_X509IdentityToken;
+        IssuedIdentityToken    -> issued_identity_token     : OpcUA_IssuedIdentityToken;
+        DataChangeFilter       -> data_change_filter        : OpcUA_DataChangeFilter;
+        EventFilter            -> event_filter              : OpcUA_EventFilter;
+        AggregateFilter        -> aggregate_filter          : OpcUA_AggregateFilter;
+        ElementOperand         -> element_operand           : uint32; # TODO obscure for convention
+        LiteralOperand         -> literal_operand           : OpcUA_NodeId; # TODO obscure for convention
+        AttributeOperand       -> attribute_operand         : OpcUA_AttributeOperand;
+        SimpleAttributeOperand -> simple_attribute_operand  : OpcUA_SimpleAttributeOperand;
+        default                -> unknown_type_value        : empty;
     };
 }
 
@@ -370,6 +378,7 @@ type OpcUA_ExtensionObject = record {
 # 7.36.3 Table 185 - AnonymousIdentityToken
 #
 type OpcUA_AnonymousIdentityToken = record {
+    length                : int32; # I have no idea what this does but it doesn't work without it. Although in all logic it shouldn't work WITH this
     policy_id : OpcUA_String;
 }
 
@@ -379,11 +388,12 @@ type OpcUA_AnonymousIdentityToken = record {
 # 7.36.4 Table 186 - UserNameIdentityToken
 #
 type OpcUA_UserNameIdentityToken = record {
+    length                : int32; # I have no idea what this does but it doesn't work without it. Although in all logic it shouldn't work WITH this
     policy_id             : OpcUA_String;
     user_name             : OpcUA_String;
     password              : OpcUA_ByteString;
     encryption_algorithm  : OpcUA_String;
-}
+} &byteorder = littleendian;
 
 #
 # UA Specification Part 4 - Services 1.04.pdf
@@ -422,52 +432,22 @@ type OpcUA_ReadValueId = record {
 # 7.22 Table 164 - NumericRange
 #
 type OpcUA_NumericRange = record {
-    numeric_range   : OpcUA_String
+    numeric_range   : OpcUA_String;
 } 
 
-#
 # UA Specification Part 4 - Services 1.04.pdf
 #
-# 7.12 Table 137 - ExtensibleParameter Base Type
+# 7.26 Table 168 - RelativePath
 #
-type OpcUA_ExtensibleParameter = record {
-    parameter_type_id   : OpcUA_NodeId;
-    body : case $context.flow.get_extension_type_id(type_id) of {
-        DataChangeFilter -> data_change_filter  : OpcUA_DataChangeFilter;
-        EventFilter      -> event_filter        : OpcUA_EventFilter;
-        AggregateFilter  -> aggregate_filter    : OpcUA_AggregateFilter;
-    };
+
+type OpcUA_RelativePath = record {
+    num_elements    : int32;
+    elements        : OpcUA_RelativePathElement[$context.flow.bind_length(num_elements)];
 }
 
-#
-# UA Specification Part 4 - Services 1.04.pdf
-#
-# 7.17.2 Table 141 - DataChangeFilter
-#
-type OpcUA_DataChangeFilter = record {
-    trigger         : uint32;
-    deadband_type   : uint32;
-    deadband_value  : OpcUA_Double;
-}
-
-#
-# UA Specification Part 4 - Services 1.04.pdf
-#
-# 7.17.3 Table 141 - EventFilter
-#
-type OpcUA_EventFilter = record {
-    num_select_clauses  : int32;
-    select_clauses      : OpcUA_SimpleAttributeOperand[$context.flow.bind_length(num_select_clauses)];
-    where_clause        : OpcUA_ContentFilter;
-}
-
-#
-# UA Specification Part 4 - Services 1.04.pdf
-#
-# 7.4.4.5 Table 130 - SimpleAttributeOperand
-#
-type OpcUA_SimpleAttributeOperand = record {
-    type_id : OpcUA_NodeId;
-    numBrowse_paths : uint32;
-    
+type OpcUA_RelativePathElement = record {
+    reference_type_id   : OpcUA_NodeId;
+    is_inverse          : int8;
+    include_subtypes    : int8;
+    target_name         : OpcUA_QualifiedName;
 }

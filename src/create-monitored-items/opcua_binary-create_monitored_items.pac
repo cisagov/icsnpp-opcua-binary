@@ -2,7 +2,7 @@
 ##
 ## OPCUA Binary Protocol Analyzer
 ##
-## Binpac code for processing the create subscription service.
+## Binpac code for processing the create monitored items service.
 ##
 ## Author:   Melanie Pierce
 ## Contact:  Melanie.Pierce@inl.gov
@@ -19,7 +19,7 @@ type CreateMonitoredItems_Req(service: Service) = record {
     req_hdr                         : Request_Header;
     subscription_id                 : uint32;
     timestamps_to_return            : uint32;
-    num_items_to_create             : int32; # Not documsented in UA Specifications, found in pcap captures
+    num_items_to_create             : int32; # Not documented in UA Specifications, found in pcap captures
     items_to_create                 : MonitoredItem_Create_Request[$context.flow.bind_length(num_items_to_create)];
 } &let {
     deliver: bool = $context.flow.deliver_Svc_CreateMonitoredItemsReq(this);
@@ -37,9 +37,9 @@ type CreateMonitoredItems_Res(service: Service) = record {
 } &byteorder=littleendian;
 
 type MonitoredItem_Create_Request = record {
-    item_to_monitor         : OpcUA_ReadValueID;
+    item_to_monitor         : OpcUA_ReadValueId;
     monitoring_mode         : uint32;
-    requested_parameters    : MonitoringParameters;
+    requested_parameters    : Monitoring_Parameters;
 } &byteorder=littleendian;
 
 type MonitoredItem_Create_Response = record {
@@ -55,10 +55,10 @@ type MonitoredItem_Create_Response = record {
 # 7.16 - Table 139 - MonitoringParameters
 #
 
-type MonitoringParameters = record {
+type Monitoring_Parameters = record {
     client_handle       : uint32;
     sampling_interval   : OpcUA_Duration;
     filter              : OpcUA_ExtensionObject;
     queue_size          : uint32; 
-    discard_oldest      : uint8;
+    discard_oldest      : int8;
 } &byteorder=littleendian;

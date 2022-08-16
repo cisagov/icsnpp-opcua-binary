@@ -39,3 +39,5 @@ event opcua_binary_browse_reference_event%(c: connection, browse_event: OPCUA_Bi
 event opcua_binary_browse_diagnostic_info_event%(c: connection, browse_diagnostic_info: OPCUA_Binary::BrowseDiagnosticInfo%);
 
 event opcua_binary_create_subscription_event%(c: connection, create_subscription_event: OPCUA_Binary::CreateSubscription%);
+
+event opcua_binary_create_monitored_items_event%(c: connection, create_monitored_items_event: OPCUA_Binary::CreateMonitoredItems%);
