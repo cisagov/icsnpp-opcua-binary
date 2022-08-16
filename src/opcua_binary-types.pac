@@ -351,24 +351,34 @@ type OpcUA_SignedSoftwareCertificate = record {
 #
 # 5.2.2.15 Table 14 - ExtensionObject
 #
+# Based on the encoding, there may or may not be an associated
+# object body containing additional information.
+#
 type OpcUA_ExtensionObject = record {
     type_id  : OpcUA_ExpandedNodeId;
     encoding : uint8;
+    body : case(encoding) of {
+        hasBinaryEncoding -> binary_object_body : OpcUA_ObjectBody($context.flow.get_extension_object_id(type_id));
+        hasXMLEncoding    -> xml_object_body    : OpcUA_ObjectBody($context.flow.get_extension_object_id(type_id));
+        default           -> empty_object_body  : empty;
+    };
+}
 
-    body : case $context.flow.get_extension_type_id(type_id) of {
-        NoneType               -> none_type_value           : empty;
-        AnonymousIdentityToken -> anonymous_identity_token  : OpcUA_AnonymousIdentityToken;
-        UserNameIdentityToken  -> username_identity_token   : OpcUA_UserNameIdentityToken;
-        X509IdentityToken      -> x509_identity_token       : OpcUA_X509IdentityToken;
-        IssuedIdentityToken    -> issued_identity_token     : OpcUA_IssuedIdentityToken;
-        DataChangeFilter       -> data_change_filter        : OpcUA_DataChangeFilter;
-        EventFilter            -> event_filter              : OpcUA_EventFilter;
-        AggregateFilter        -> aggregate_filter          : OpcUA_AggregateFilter;
-        ElementOperand         -> element_operand           : uint32; # TODO obscure for convention
-        LiteralOperand         -> literal_operand           : OpcUA_NodeId; # TODO obscure for convention
-        AttributeOperand       -> attribute_operand         : OpcUA_AttributeOperand;
-        SimpleAttributeOperand -> simple_attribute_operand  : OpcUA_SimpleAttributeOperand;
-        default                -> unknown_type_value        : empty;
+type OpcUA_ObjectBody(extension_object_id : uint32) = record {
+    length   : int32;
+
+    body : case(extension_object_id) of {
+        AnonymousIdentityToken -> anonymous_identity_token : OpcUA_AnonymousIdentityToken;
+        UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
+        X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
+        IssuedIdentityToken    -> issued_identity_token    : OpcUA_IssuedIdentityToken;
+        DataChangeFilter       -> data_change_filter       : OpcUA_DataChangeFilter;
+        EventFilter            -> event_filter             : OpcUA_EventFilter;
+        AggregateFilter        -> aggregate_filter         : OpcUA_AggregateFilter;
+        ElementOperand         -> element_operand          : uint32; # TODO obscure for convention
+        LiteralOperand         -> literal_operand          : OpcUA_NodeId; # TODO obscure for convention
+        AttributeOperand       -> attribute_operand        : OpcUA_AttributeOperand;
+        SimpleAttributeOperand -> simple_attribute_operand : OpcUA_SimpleAttributeOperand;
     };
 }
 
@@ -378,7 +388,6 @@ type OpcUA_ExtensionObject = record {
 # 7.36.3 Table 185 - AnonymousIdentityToken
 #
 type OpcUA_AnonymousIdentityToken = record {
-    length                : int32; # I have no idea what this does but it doesn't work without it. Although in all logic it shouldn't work WITH this
     policy_id : OpcUA_String;
 }
 
@@ -388,7 +397,6 @@ type OpcUA_AnonymousIdentityToken = record {
 # 7.36.4 Table 186 - UserNameIdentityToken
 #
 type OpcUA_UserNameIdentityToken = record {
-    length                : int32; # I have no idea what this does but it doesn't work without it. Although in all logic it shouldn't work WITH this
     policy_id             : OpcUA_String;
     user_name             : OpcUA_String;
     password              : OpcUA_ByteString;

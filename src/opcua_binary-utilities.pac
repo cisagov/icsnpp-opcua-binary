@@ -523,6 +523,14 @@ build/opcua_binary_pac.cc file(s) for details.
         // OpcUA_ExtensionObject encoding
         service_object->Assign(offset + 7, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(obj->encoding())));
 
+        // See if there is an object body
+        OpcUA_ObjectBody *object_body;
+        if (isBitSet(obj->encoding(), hasBinaryEncoding)) {
+            object_body = obj->binary_object_body();
+        } else if (isBitSet(obj->encoding(), hasXMLEncoding)) {
+            object_body = obj->xml_object_body();
+        }
+
         // Check encoding
         if (isBitSet(obj->encoding(), hasBinaryEncoding) || 
             isBitSet(obj->encoding(), hasXMLEncoding) ) {
@@ -530,16 +538,16 @@ build/opcua_binary_pac.cc file(s) for details.
             // OpcUA_ExtensionObject token
             switch (getExtensionObjectId(obj->type_id())) {
                 case AnonymousIdentityToken_Key: 
-                    flattenOpcUA_AnonymousIdentityToken(service_object, obj->anonymous_identity_token(), offset);
+                    flattenOpcUA_AnonymousIdentityToken(service_object, object_body->anonymous_identity_token(), offset);
                     break;
                 case UserNameIdentityToken_Key:  
-                    flattenOpcUA_UserNameIdentityToken(service_object, obj->username_identity_token(), offset);
+                    flattenOpcUA_UserNameIdentityToken(service_object, object_body->username_identity_token(), offset);
                     break;
                 case X509IdentityToken_Key:      
-                    flattenOpcUA_X509IdentityToken(service_object, obj->x509_identity_token(), offset);
+                    flattenOpcUA_X509IdentityToken(service_object, object_body->x509_identity_token(), offset);
                     break;
                 case IssuedIdentityToken_Key:    
-                    flattenOpcUA_IssuedIdentityToken(service_object, obj->issued_identity_token(), offset);
+                    flattenOpcUA_IssuedIdentityToken(service_object, object_body->issued_identity_token(), offset);
                     break;
             }
         }

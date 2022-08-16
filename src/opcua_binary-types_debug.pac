@@ -149,12 +149,15 @@
         printOpcUA_ExpandedNodeId(indent_width+2, obj->type_id());
         
         // Extension Object Encoding Mask
+        OpcUA_ObjectBody *object_body;
         if (isBitSet(obj->encoding(), hasNoEncoding)) {
             printf("%s Encoding Mask: 0x%02x has no encoding\n", indent(indent_width+1).c_str(), obj->encoding());
         } else if (isBitSet(obj->encoding(), hasBinaryEncoding)) {
             printf("%s Encoding Mask: 0x%02x has binary body\n", indent(indent_width+1).c_str(), obj->encoding());
+            object_body = obj->binary_object_body();
         } else if (isBitSet(obj->encoding(), hasXMLEncoding)) {
             printf("%s Encoding Mask: 0x%02x has XML body\n", indent(indent_width+1).c_str(), obj->encoding());
+            object_body = obj->xml_object_body();
         }
 
         // Check encoding
@@ -164,16 +167,16 @@
             // Extension Object
             switch (getExtensionObjectId(obj->type_id())) {
                 case AnonymousIdentityToken_Key: 
-                    printOpcUA_AnonymousIdentityToken(indent_width+1, obj->anonymous_identity_token());
+                    printOpcUA_AnonymousIdentityToken(indent_width+1, object_body->anonymous_identity_token());
                     break;
                 case UserNameIdentityToken_Key:  
-                    printOpcUA_UserNameIdentityToken(indent_width+1, obj->username_identity_token());
+                    printOpcUA_UserNameIdentityToken(indent_width+1, object_body->username_identity_token());
                     break;
                 case X509IdentityToken_Key:      
-                    printOpcUA_X509IdentityToken(indent_width+1, obj->x509_identity_token());
+                    printOpcUA_X509IdentityToken(indent_width+1, object_body->x509_identity_token());
                     break;
                 case IssuedIdentityToken_Key:    
-                    printOpcUA_IssuedIdentityToken(indent_width+1, obj->issued_identity_token());
+                    printOpcUA_IssuedIdentityToken(indent_width+1, object_body->issued_identity_token());
                     break;
                 case DataChangeFilter_Key:
                     break;
