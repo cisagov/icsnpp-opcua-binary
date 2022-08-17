@@ -50,7 +50,7 @@ enum extension_object_encoding
 {
     hasNoEncoding     = 0x00,
     hasBinaryEncoding = 0x01,
-    hasXMLEncoding    = 0x00
+    hasXMLEncoding    = 0x02
 }
 
 #
