@@ -119,7 +119,7 @@ refine flow OPCUA_Binary_Flow += {
         }
 
         // Requested Session Timeout
-        create_session_req->Assign(CREATE_SESSION_REQ_SESSION_TIMEOUT_IDX, zeek::make_intrusive<zeek::TimeVal>(bytestringToDouble(msg->req_session_timeout()->duration())));
+        create_session_req->Assign(CREATE_SESSION_REQ_SESSION_TIMEOUT_IDX, zeek::val_mgr->Count(bytestringToDouble(msg->req_session_timeout()->duration())));
 
         // Max Response Message Size
         create_session_req->Assign(CREATE_SESSION_REQ_MAX_RES_MSG_SIZE_IDX, zeek::val_mgr->Count(msg->max_res_msg_size()));
@@ -164,7 +164,7 @@ refine flow OPCUA_Binary_Flow += {
         flattenOpcUA_NodeId(create_session_res, msg->auth_token(), CREATE_SESSION_AUTH_TOKEN_ENCODING_MASK_IDX);
 
         // Revised Session Timeout
-        create_session_res->Assign(CREATE_SESSION_RES_REVISED_SESSION_TIMEOUT_IDX, zeek::make_intrusive<zeek::TimeVal>(bytestringToDouble(msg->revised_session_timeout()->duration())));
+        create_session_res->Assign(CREATE_SESSION_RES_REVISED_SESSION_TIMEOUT_IDX, zeek::val_mgr->Count(bytestringToDouble(msg->revised_session_timeout()->duration())));
 
         // Server Nonce
         if (msg->server_nonce()->length() > 0) {

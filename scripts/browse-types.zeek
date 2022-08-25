@@ -27,7 +27,7 @@ export {
         browse_view_id_guid          : string  &log &optional;
         browse_view_id_opaque        : string  &log &optional;
 
-        browse_view_description_timestamp    : count &log &optional;
+        browse_view_description_timestamp    : time &log &optional;
         browse_view_description_view_version : count &log &optional;
 
         req_max_ref_nodes            : count &log &optional;
