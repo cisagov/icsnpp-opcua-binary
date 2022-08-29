@@ -12,7 +12,7 @@ Sample packet captures used for testing were generated using the open2541 OPC-UA
 | Filename                                                          | Description                                                                                                                                         |
 | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | open62541_client-server_encrypted.pcap                            | Example showing encrypted communications.                                                                                                           |
-| open62541_client-server-getEndpoints.pcap                         | Example showing a simple getEndpoints service request/response                                                                                       |
+| open62541_client-server-getEndpoints.pcap                         | Example showing a simple getEndpoints service request/response                                                                                      |
 | open62541_discover_getendpoints_discover_urls.pcap                | Example showing the getEndpoints service response with an array of DiscoveryUrls and an array of UserIdentityTokens in the response.                |
 | open62541_client-server_mainloop-hasInnerStatusCode.pcap          | Example showing the OpenSecureChannel service response with an inner status code.                                                                   |
 | open62541_client-server_mainloop-hasInnerDiagInfo.pcap            | Example showing the OpenSecureChannel service response with 1 inner diagnostic info along with an inner status code.                                |
@@ -25,4 +25,8 @@ Sample packet captures used for testing were generated using the open2541 OPC-UA
 | python_opcua-client-server_encrypted.pcap                         | Example showing encrypted communications.                                                                                                           |
 | python_opcua-client-server_minimal-2.pcap                         | Generic OPCUA Binary communications.                                                                                                                |
 | python_opcua-client-server_minimal.pcap                           | Generic OPCUA Binary communications.                                                                                                                |
-
+| open62541_browse_has_server_idx.pcap                              | Example showing the browse service with a server index.                                                                                             |
+| open62541_browse_next.pcap                                        | Example showing the browse next service.                                                                                                            |
+| open62541_browse_request_with_results.pcap                        | Example showing the browse service with cooresponding results.                                                                                      |
+| open62541_browse_with_diagnostic_info.pcap                        | Example showing the browse service with diagnostic information in the response.                                                                     |
+| open62541_client-server_mainloop-ActivateSession-diagInfo.pcap    | Example showing the activate session service with diagnotic information in the response.                                                            |
