@@ -343,12 +343,23 @@ type OpcUA_SignedSoftwareCertificate = record {
 #
 # 5.2.2.15 Table 14 - ExtensionObject
 #
+# Based on the encoding, there may or may not be an associated
+# object body containing additional information.
+#
 type OpcUA_ExtensionObject = record {
     type_id  : OpcUA_NodeId;
     encoding : uint8;
+    body : case(encoding) of {
+        hasBinaryEncoding -> binary_object_body : OpcUA_ObjectBody($context.flow.get_extension_object_id(type_id));
+        hasXMLEncoding    -> xml_object_body    : OpcUA_ObjectBody($context.flow.get_extension_object_id(type_id));
+        default           -> empty_object_body  : empty;
+    };
+}
+
+type OpcUA_ObjectBody(extension_object_id : uint32) = record {
     length   : int32;
 
-    body : case $context.flow.get_extension_object_id(type_id) of {
+    body : case(extension_object_id) of {
         AnonymousIdentityToken -> anonymous_identity_token : OpcUA_AnonymousIdentityToken;
         UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
         X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
