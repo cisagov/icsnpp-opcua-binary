@@ -151,20 +151,25 @@
             printf("%s Encoding Mask: 0x%02x has XML body\n", indent(indent_width+1).c_str(), obj->encoding());
         }
 
-        // Extension Object
-        switch (getExtensionObjectId(obj->type_id())) {
-            case AnonymousIdentityToken_Key: 
-                printOpcUA_AnonymousIdentityToken(indent_width+1, obj->anonymous_identity_token());
-                break;
-            case UserNameIdentityToken_Key:  
-                printOpcUA_UserNameIdentityToken(indent_width+1, obj->username_identity_token());
-                break;
-            case X509IdentityToken_Key:      
-                printOpcUA_X509IdentityToken(indent_width+1, obj->x509_identity_token());
-                break;
-            case IssuedIdentityToken_Key:    
-                printOpcUA_IssuedIdentityToken(indent_width+1, obj->issued_identity_token());
-                break;
+        // Check encoding
+        if (isBitSet(obj->encoding(), hasBinaryEncoding) || 
+            isBitSet(obj->encoding(), hasXMLEncoding) ) {
+
+            // Extension Object
+            switch (getExtensionObjectId(obj->type_id())) {
+                case AnonymousIdentityToken_Key: 
+                    printOpcUA_AnonymousIdentityToken(indent_width+1, obj->anonymous_identity_token());
+                    break;
+                case UserNameIdentityToken_Key:  
+                    printOpcUA_UserNameIdentityToken(indent_width+1, obj->username_identity_token());
+                    break;
+                case X509IdentityToken_Key:      
+                    printOpcUA_X509IdentityToken(indent_width+1, obj->x509_identity_token());
+                    break;
+                case IssuedIdentityToken_Key:    
+                    printOpcUA_IssuedIdentityToken(indent_width+1, obj->issued_identity_token());
+                    break;
+            }
         }
     }
 
