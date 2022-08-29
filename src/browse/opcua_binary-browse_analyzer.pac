@@ -42,7 +42,7 @@ refine flow OPCUA_Binary_Flow += {
         flattenOpcUA_NodeId(browse_req, msg->view_description()->view_id(), BROWSE_VIEW_ID_ENCODING_MASK_IDX);
 
         
-        browse_req->Assign(BROWSE_VIEW_DESCRIPTION_TIMESTAMP_IDX, zeek::val_mgr->Count(msg->view_description()->timestamp()));
+        browse_req->Assign(BROWSE_VIEW_DESCRIPTION_TIMESTAMP_IDX, zeek::make_intrusive<zeek::TimeVal>(msg->view_description()->timestamp()));
         
 
         browse_req->Assign(BROWSE_VIEW_DESCRIPTION_VIEW_VERSION_IDX, zeek::val_mgr->Count(msg->view_description()->view_version()));

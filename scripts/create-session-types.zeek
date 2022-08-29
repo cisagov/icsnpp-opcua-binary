@@ -44,7 +44,7 @@ export {
         client_cert_size         : count   &log &optional;
         client_cert              : string  &log &optional;
 
-        req_session_timeout      : time &log &optional;
+        req_session_timeout      : count &log &optional;
         max_res_msg_size         : count &log &optional;
 
         #
@@ -67,7 +67,7 @@ export {
         auth_token_guid          : string  &log &optional;
         auth_token_opaque        : string  &log &optional;
 
-        revised_session_timeout  : time &log &optional;
+        revised_session_timeout  : count &log &optional;
         server_nonce             : string  &log &optional;
 
         # Server Certificate

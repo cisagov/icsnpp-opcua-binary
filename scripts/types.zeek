@@ -61,7 +61,7 @@ export {
         req_hdr_request_handle        : count   &log &optional;
         req_hdr_return_diag           : count   &log &optional;
         req_hdr_audit_entry_id        : string  &log &optional;
-        req_hdr_timeout_hint          : time    &log &optional;
+        req_hdr_timeout_hint          : count    &log &optional;
         req_hdr_add_hdr_type_id       : count   &log &optional;
         req_hdr_add_hdr_enc_mask      : count   &log &optional;
 

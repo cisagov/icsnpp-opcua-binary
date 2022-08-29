@@ -33,7 +33,7 @@
         info->Assign(REQ_HDR_RET_DIAG_IDX, zeek::val_mgr->Count(req_hdr->return_diag()));
 
         info->Assign(REQ_HDR_AUDIT_ENTRY_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(req_hdr->audit_entry_id()->string())));
-        info->Assign(REQ_HDR_TIMEOUT_HINT_IDX, zeek::make_intrusive<zeek::TimeVal>((double)req_hdr->timeout_hint()));
+        info->Assign(REQ_HDR_TIMEOUT_HINT_IDX, zeek::val_mgr->Count((double)req_hdr->timeout_hint()));
 
         info->Assign(REQ_HDR_ADD_HDR_TYPE_ID_IDX,  zeek::val_mgr->Count(req_hdr->additional_hdr()->type_id()));
         info->Assign(REQ_HDR_ADD_HDR_ENC_MASK_IDX, zeek::val_mgr->Count(req_hdr->additional_hdr()->encoding_mask()));
