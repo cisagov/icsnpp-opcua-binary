@@ -35,7 +35,7 @@ refine flow OPCUA_Binary_Flow += {
         zeek::RecordValPtr create_session_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSession);
 
         // OpcUA_id
-        create_session_req->Assign(CREATE_SESSION_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        create_session_req->Assign(CREATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
                                                         
         // Application URI
         if (msg->client_description()->application_uri()->length() > 0) {
@@ -74,13 +74,13 @@ refine flow OPCUA_Binary_Flow += {
 
             // Discovery Profile Id into the CreateSessionDiscovery log
             string discovery_profile_id = generateId();
-            create_session_req->Assign(CREATE_SESSION_REQ_DISCOVERY_PROFILE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
+            create_session_req->Assign(CREATE_SESSION_REQ_DISCOVERY_PROFILE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
 
             for (int32_t j = 0; j < msg->client_description()->discovery_urls_size(); j++) {
                 zeek::RecordValPtr create_session_discovery = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSessionDiscovery);
 
                 // Discovery Profile Id back into the CreateSession log
-                create_session_discovery->Assign(CREATE_SESSION_DISCOVERY_PROFILE_ID_LINK_IDX,  zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
+                create_session_discovery->Assign(CREATE_SESSION_DISCOVERY_PROFILE_LINK_ID_DST_IDX,  zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
 
                 create_session_discovery->Assign(CREATE_SESSION_DISCOVERY_URI_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_description()->discovery_profile_uri()->string())));
                 create_session_discovery->Assign(CREATE_SESSION_DISCOVORY_URL_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_description()->discovery_urls()->at(j)->string())));
@@ -155,7 +155,7 @@ refine flow OPCUA_Binary_Flow += {
         zeek::RecordValPtr create_session_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSession);
 
         // OpcUA_id
-        create_session_res->Assign(CREATE_SESSION_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        create_session_res->Assign(CREATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         // Session Id
         flattenOpcUA_NodeId(create_session_res, msg->session_id(), CREATE_SESSION_ID_ENCODING_MASK_IDX);
@@ -179,14 +179,14 @@ refine flow OPCUA_Binary_Flow += {
 
         // Server Endpoint Id into CreateSessionEndpoints log
         std::string endpoint_idx = generateId();
-        create_session_res->Assign(CREATE_SESSION_RES_ENDPOINT_ID_IDX, zeek::make_intrusive<zeek::StringVal>(endpoint_idx));
+        create_session_res->Assign(CREATE_SESSION_RES_ENDPOINT_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(endpoint_idx));
 
         // Server Endpoints
         for (int32_t i = 0; i < msg->endpoints_size(); i++) {
             zeek::RecordValPtr endpoint_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSessionEndpoints);
 
             // Endpoint id link back into CreateSession Response
-            endpoint_res->Assign(CREATE_SESSION_RES_ENDPOINT_ID_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(endpoint_idx));
+            endpoint_res->Assign(CREATE_SESSION_RES_ENDPOINT_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(endpoint_idx));
 
             // Endpoint URL
             if (msg->endpoints()->at(i)->endpoint_uri()->length() > 0) {
@@ -238,13 +238,13 @@ refine flow OPCUA_Binary_Flow += {
 
                 // Discovery Profile Id into the CreateSessionDiscovery log
                 string discovery_profile_id = generateId();
-                endpoint_res->Assign(CREATE_SESSION_RES_ENDPOINT_DISCOVERY_PROFILE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
+                endpoint_res->Assign(CREATE_SESSION_RES_ENDPOINT_DISCOVERY_PROFILE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
 
                 for (int32_t j = 0; j < msg->endpoints()->at(i)->server()->discovery_urls_size(); j++) {
                     zeek::RecordValPtr endpoint_discovery_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSessionDiscovery);
 
                     // Discovery Profile Id back into the CreateSessionEndpoints log
-                    endpoint_discovery_res->Assign(CREATE_SESSION_DISCOVERY_PROFILE_ID_LINK_IDX,  zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
+                    endpoint_discovery_res->Assign(CREATE_SESSION_DISCOVERY_PROFILE_LINK_ID_DST_IDX,  zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
 
                     endpoint_discovery_res->Assign(CREATE_SESSION_DISCOVERY_URI_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->server()->discovery_profile_uri()->string())));
                     endpoint_discovery_res->Assign(CREATE_SESSION_DISCOVORY_URL_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->server()->discovery_urls()->at(j)->string())));
@@ -274,27 +274,27 @@ refine flow OPCUA_Binary_Flow += {
             {
                 // User Token Id into the CreateSessionUserToken log
                 string user_token_id = generateId();
-                endpoint_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_ID_IDX, zeek::make_intrusive<zeek::StringVal>(user_token_id));
+                endpoint_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(user_token_id));
 
                 for (int32_t k = 0; k < msg->endpoints()->at(i)->user_identity_tokens_size(); k++) {
                     zeek::RecordValPtr endpoint_user_token_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSessionUserToken);
 
                     // User Token Id back into the CreateSessionEndpoints log
-                    endpoint_user_token_res->Assign(CREATE_SESSION_RES_USER_TOKEN_ID_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(user_token_id));
+                    endpoint_user_token_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(user_token_id));
 
-                    endpoint_user_token_res->Assign(CREATE_SESSION_RES_USER_TOKEN_POLICY_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->policy_id()->string())));
-                    endpoint_user_token_res->Assign(CREATE_SESSION_RES_USER_TOKEN_TYPE_IDX, zeek::val_mgr->Count(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->token_type()));
+                    endpoint_user_token_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_POLICY_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->policy_id()->string())));
+                    endpoint_user_token_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_TYPE_IDX, zeek::val_mgr->Count(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->token_type()));
 
                     if (msg->endpoints()->at(i)->user_identity_tokens()->at(k)->issued_token_type()->length() > 0) {
-                        endpoint_user_token_res->Assign(CREATE_SESSION_RES_USER_TOKEN_ISSUED_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->issued_token_type()->string())));
+                        endpoint_user_token_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_ISSUED_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->issued_token_type()->string())));
                     }
 
                     if (msg->endpoints()->at(i)->user_identity_tokens()->at(k)->issuer_endpoint_url()->length() > 0) {
-                        endpoint_user_token_res->Assign(CREATE_SESSION_RES_USER_TOKEN_ENDPOINT_URL_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->issuer_endpoint_url()->string())));
+                        endpoint_user_token_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_ENDPOINT_URL_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->issuer_endpoint_url()->string())));
                     }
 
                     if (msg->endpoints()->at(i)->user_identity_tokens()->at(k)->security_policy_uri()->length() > 0) {
-                        endpoint_user_token_res->Assign(CREATE_SESSION_RES_USER_TOKEN_SECURITY_POLICY_URI_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->security_policy_uri()->string())));
+                        endpoint_user_token_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_SECURITY_POLICY_URI_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->user_identity_tokens()->at(k)->security_policy_uri()->string())));
                     }
 
                     zeek::BifEvent::enqueue_opcua_binary_create_session_user_token_event(connection()->bro_analyzer(),

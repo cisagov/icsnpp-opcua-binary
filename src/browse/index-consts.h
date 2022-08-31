@@ -14,7 +14,7 @@
 // Index constants for setting values in OPCUA_Binary::Browse
 // based on the parsed values from Browse_Req and Browse_Res
 //
-#define BROWSE_OPCUA_ID_LINK_IDX                                3
+#define BROWSE_OPCUA_LINK_ID_DST_IDX                            3
 #define BROWSE_SERVICE_TYPE_IDX                                 4
 // The ID_ENCODING_MASK is also used as the offset
 #define BROWSE_VIEW_ID_ENCODING_MASK_IDX                        5
@@ -27,17 +27,17 @@
 #define BROWSE_VIEW_DESCRIPTION_TIMESTAMP_IDX                  11 
 #define BROWSE_VIEW_DESCRIPTION_VIEW_VERSION_IDX               12 
 #define BROWSE_REQ_MAX_REFS_IDX                                13
-#define BROWSE_DESCRTIPTION_ID_IDX                             14 // Id into OPCUA_Binary::BrowseDescription log
+#define BROWSE_DESCRTIPTION_LINK_ID_SRC_IDX                    14 // Id into OPCUA_Binary::BrowseDescription log
 
 #define BROWSE_NEXT_RELEASE_CONTINUATION_POINTS_IDX            15
-#define BROWSE_NEXT_CONTINUATION_POINTS_ID_IDX                 16
+#define BROWSE_NEXT_LINK_ID_SRC_IDX                            16 // Id into OPCUA_Binary::BrowseRequestContinuationPoint
 
-#define BROWSE_RESULT_ID_IDX                                   17
-#define BROSWE_RESPONSE_DIAG_INFO_ID_IDX                       18
+#define BROWSE_RESPONSE_LINK_ID_SRC_IDX                        17
+#define BROWSE_RESPONSE_DIAG_INFO_LINK_ID_SRC_IDX              18 // Id into OPCUA_Binary::BrowseDiagnosticInfo log
 
 //Browse Description Constants
 
-#define BROWSE_DESCRIPTION_LINK_IDX                             3
+#define BROWSE_DESCRIPTION_LINK_ID_DST_IDX                      3
 #define BROWSE_DESCRIPTION_ID_ENCODING_MASK_IDX                 4
 #define BROWSE_DESCRIPTION_ID_NAMESPACE_IDX                     5
 #define BROWSE_DESCRIPTION_ID_NUMERIC_IDX                       6
@@ -60,19 +60,19 @@
 
 //Browse Response Objects
 
-#define BROWSE_RESULT_LINK_IDX                                  3
-#define BROWSE_RESULT_STATUS_CODE_ID_IDX                        4
-#define BROWSE_RESULT_CONTINUATION_POINT_IDX                    5
-#define BROWSE_REFERENCE_ID_IDX                                 6
+#define BROWSE_RESPONSE_LINK_ID_DST_IDX                         3
+#define BROWSE_RESPONSE_STATUS_CODE_LINK_ID_SRC_IDX             4 // Id into OPCUA_Binary::StatusCodeDetail log
+#define BROWSE_RESPONSE_CONTINUATION_POINT_IDX                  5
+#define BROWSE_RESPONSE_REFERENCE_LINK_ID_SRC_IDX               6
 
 // Browse Continuation Points
 
-#define BROWSE_CONTINUATION_POINTS_LINK                         3
+#define BROWSE_NEXT_LINK_ID_DST_IDX                             3
 #define BROWSE_CONTINUATION_POINT_IDX                           4
 
 // Log reference events in a separate file
 
-#define BROWSE_RESULT_LINK_IDX                                  3
+#define BROWSE_RESPONSE_REFERENCE_LINK_ID_DST_IDX               3
 #define BROWSE_RESPONSE_REFERENCE_TYPE_ID_ENCODING_MASK_IDX     4
 #define BROWSE_RESPONSE_REFERENCE_TYPE_ID_NAMESPACE_IDX         5
 #define BROWSE_RESPONSE_REFERENCE_TYPE_ID_NUMERIC_IDX           6                 
@@ -85,7 +85,7 @@
 //Expanded Node IDs are very similar to standard NodeIDs.
 //However, Expanded Node IDs require two extra indexes
 #define BROWSE_RESPONSE_TARGET_ID_ENCODING_MASK_IDX            11
-#define BBROWSE_RESPONSE_TARGET_ID_NAMESPACE_IDX               12 
+#define BROWSE_RESPONSE_TARGET_ID_NAMESPACE_IDX                12 
 #define BROWSE_RESPONSE_TARGET_ID_NUMERIC_IDX                  13           
 #define BROWSE_RESPONSE_TARGET_ID_STRING_IDX                   14             
 #define BROWSE_RESPONSE_TARGET_ID_GUID_IDX                     15              
@@ -101,7 +101,7 @@
 #define BROWSE_RESPONSE_NODE_CLASS_IDX                         24
 
 #define BROWSE_RESPONSE_TYPE_DEF_ENCODING_MASK_IDX             25
-#define BBROWSE_RESPONSE_TYPE_DEF_NAMESPACE_IDX                26 
+#define BROWSE_RESPONSE_TYPE_DEF_NAMESPACE_IDX                 26 
 #define BROWSE_RESPONSE_TYPE_DEF_NUMERIC_IDX                   27           
 #define BROWSE_RESPONSE_TYPE_DEF_STRING_IDX                    28             
 #define BROWSE_RESPONSE_TYPE_DEF_GUID_IDX                      29              
@@ -110,7 +110,7 @@
 #define BROWSE_RESPONSE_TYPE_DEF_SERVER_IDX_IDX                32  
 
 // Diagnostic Info Constants
-#define BROWSE_RES_DIAGNOSTIC_INFO_LINK_IDX                     3 // Id back into OPCUA_Binary::Browse
-#define BROWSE_RES_DIAGNOSTIC_INFO_IDX                          4 // Id into OPCUA_Binary::DiagnosticInfoDetail
+#define BROWSE_RESPONSE_DIAG_INFO_LINK_ID_DST_IDX              3 // Id back into OPCUA_Binary::Browse
+#define BROWSE_DIAG_INFO_LINK_ID_SRC_IDX                       4 // Id into OPCUA_Binary::DiagnosticInfoDetail
 
 #endif
