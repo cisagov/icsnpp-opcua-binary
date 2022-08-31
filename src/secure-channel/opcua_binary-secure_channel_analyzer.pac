@@ -35,7 +35,7 @@ refine flow OPCUA_Binary_Flow += {
         zeek::RecordValPtr opensecure_channel_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::OpenSecureChannel);
 
         // OpcUA_id
-        opensecure_channel_req->Assign(OPENSECURE_CHANNEL_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        opensecure_channel_req->Assign(OPENSECURE_CHANNEL_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         opensecure_channel_req->Assign(CLIENT_PROTO_VER_IDX,        zeek::val_mgr->Count(msg->service()->opn_sec_chnl_req()->client_proto_ver()));
         opensecure_channel_req->Assign(SECURITY_TOKEN_REQ_TYPE_IDX, zeek::val_mgr->Count(msg->service()->opn_sec_chnl_req()->req_type()));
@@ -74,7 +74,7 @@ refine flow OPCUA_Binary_Flow += {
         zeek::RecordValPtr opensecure_channel_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::OpenSecureChannel);
 
         // OpcUA_id
-        opensecure_channel_res->Assign(OPENSECURE_CHANNEL_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        opensecure_channel_res->Assign(OPENSECURE_CHANNEL_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         opensecure_channel_res->Assign(SERVER_PROTO_VER_IDX,           zeek::val_mgr->Count(msg->server_proto_ver()));
         opensecure_channel_res->Assign(SEC_TOKEN_CHANNEL_ID_IDX,       zeek::val_mgr->Count(msg->security_token()->secure_channel_id()));

@@ -32,7 +32,7 @@ refine flow OPCUA_Binary_Flow += {
         zeek::RecordValPtr create_subscription_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSubscription);
 
         // OpcUA_id
-        create_subscription_req->Assign(CREATE_SUB_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        create_subscription_req->Assign(CREATE_SUB_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         create_subscription_req->Assign(CREATE_SUB_REQ_PUB_INT_IDX, zeek::val_mgr->Count(bytestringToDouble(msg->req_publishing_interval()->duration())));
         create_subscription_req->Assign(CREATE_SUB_REQ_LIFETIME_COUNT_IDX, zeek::val_mgr->Count(msg->req_lifetime_count()));
@@ -68,7 +68,7 @@ refine flow OPCUA_Binary_Flow += {
         zeek::RecordValPtr create_subscription_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSubscription);
 
         // OpcUA_id
-        create_subscription_res->Assign(CREATE_SUB_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        create_subscription_res->Assign(CREATE_SUB_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         create_subscription_res->Assign(CREATE_SUB_SUB_ID_IDX, zeek::val_mgr->Count(msg->subscription_id()));
         create_subscription_res->Assign(CREATE_SUB_REV_PUB_INT_IDX, zeek::val_mgr->Count(bytestringToDouble(msg->revised_publishing_interval()->duration())));
