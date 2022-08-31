@@ -16,7 +16,7 @@ export {
         ts                       : time    &log;
         uid                      : string  &log;
         id                       : conn_id &log;
-        opcua_id                 : string  &log;       # Id back into OCPUA_Binary::Info
+        opcua_link_id            : string  &log;       # Id back into OCPUA_Binary::Info
 
         requested_publishing_interval   : count &log &optional;
         requested_lifetime_count        : count &log &optional;

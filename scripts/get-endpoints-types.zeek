@@ -13,23 +13,23 @@
 module ICSNPP_OPCUA_Binary;
 export {
     type OPCUA_Binary::GetEndpoints: record {
-        ts                        : time    &log;
-        uid                       : string  &log;
-        id                        : conn_id &log;
-        opcua_id                  : string  &log; # Link back into OPCUA_Binary::Info:
-        endpoint_url              : string  &log;
-        locale_id                 : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsLocaleId
-        profile_uri_id            : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsProfileUri
-        endpoint_description_id   : string &log &optional;  # Link into OPCUA_Binary::GetEndpointsDescription
+        ts                           : time    &log;
+        uid                          : string  &log;
+        id                           : conn_id &log;
+        opcua_link_id                : string  &log; # Link back into OPCUA_Binary::Info:
+        endpoint_url                 : string  &log;
+        locale_link_id               : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsLocaleId
+        profile_uri_link_id          : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsProfileUri
+        endpoint_description_link_id : string &log &optional;  # Link into OPCUA_Binary::GetEndpointsDescription
 
     };
 
     type OPCUA_Binary::GetEndpointsDescription: record {
-        ts                        : time    &log;
-        uid                       : string  &log;
-        id                        : conn_id &log;
-        endpoint_description_id   : string  &log; # Link back into OPCUA_Binary::GetEndpoints
-        endpoint_uri              : string  &log &optional;
+        ts                           : time    &log;
+        uid                          : string  &log;
+        id                           : conn_id &log;
+        endpoint_description_link_id : string  &log; # Link back into OPCUA_Binary::GetEndpoints
+        endpoint_uri                 : string  &log &optional;
         
         # OpcUA_ApplicationDescription
         application_uri           : string  &log &optional;
@@ -42,7 +42,7 @@ export {
         discovery_profile_uri     : string  &log &optional;
 
         # OpcUA_ApplicationDescription array of OpcUA_String
-        discovery_profile_id      : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsDiscovery
+        discovery_profile_link_id : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsDiscovery
 
         # OpcUA_ApplicationInstanceCertificate
         cert_size                 : count   &log &optional;
@@ -52,7 +52,7 @@ export {
         security_policy_uri       : string  &log &optional;
 
         # Array of OpcUA_UserTokenPolicy
-        user_token_id             : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsUserToken
+        user_token_link_id        : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsUserToken
 
         transport_profile_uri     : string  &log &optional;
         security_level            : count   &log &optional;
@@ -62,7 +62,7 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
-        discovery_profile_id      : string  &log; # Link back into OPCUA_Binary::GetEndpointsDescription
+        discovery_profile_link_id : string  &log; # Link back into OPCUA_Binary::GetEndpointsDescription
         discovery_profile_url     : string  &log;
     };
 
@@ -70,7 +70,7 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
-        user_token_id             : string  &log; # Link back into OPCUA_Binary::GetEndpointsDescription
+        user_token_link_id        : string  &log; # Link back into OPCUA_Binary::GetEndpointsDescription
         user_token_policy_id      : string  &log;
         user_token_type           : count   &log;
         user_token_issued_type    : string  &log &optional;
@@ -82,7 +82,7 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
-        locale_id_link            : string  &log; # Link back into OPCUA_Binary::GetEndpoints
+        locale_link_id            : string  &log; # Link back into OPCUA_Binary::GetEndpoints
         locale_id                 : string  &log;
     };
 
@@ -90,7 +90,7 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
-        profile_uri_id            : string  &log; # Link back into OPCUA_Binary::GetEndpoints
+        profile_uri_link_id       : string  &log; # Link back into OPCUA_Binary::GetEndpoints
         profile_uri               : string  &log;
     };
 
