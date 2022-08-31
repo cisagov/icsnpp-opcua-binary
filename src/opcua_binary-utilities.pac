@@ -291,11 +291,11 @@ build/opcua_binary_pac.cc file(s) for details.
             zeek::RecordValPtr status = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::StatusCodeDetail);
 
             // OpcUA_id
-            status->Assign(STAT_CODE_OPCUA_ID_LINK_IDX, opcua_id);
+            status->Assign(STATUS_CODE_LINK_ID_DST_IDX, opcua_id);
 
-            status->Assign(STAT_CODE_SOURCE_IDX,       zeek::val_mgr->Count(status_code_src));
-            status->Assign(STAT_CODE_SOURCE_STR_IDX,   zeek::make_intrusive<zeek::StringVal>((STATUS_CODE_SRC_MAP.find(status_code_src)->second)));
-            status->Assign(STAT_CODE_SOURCE_LEVEL_IDX, zeek::val_mgr->Count(status_code_level));
+            status->Assign(STATUS_CODE_SOURCE_IDX,       zeek::val_mgr->Count(status_code_src));
+            status->Assign(STATUS_CODE_SOURCE_STR_IDX,   zeek::make_intrusive<zeek::StringVal>((STATUS_CODE_SRC_MAP.find(status_code_src)->second)));
+            status->Assign(STATUS_CODE_SOURCE_LEVEL_IDX, zeek::val_mgr->Count(status_code_level));
             status->Assign(STATUS_CODE_IDX,            zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(status_code)));
             status->Assign(SEVERITY_IDX,               zeek::val_mgr->Count(detail.severity));
             status->Assign(SEVERITY_STR_IDX,           zeek::make_intrusive<zeek::StringVal>(detail.severityStr));
@@ -332,7 +332,7 @@ build/opcua_binary_pac.cc file(s) for details.
         zeek::RecordValPtr diag_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::DiagnosticInfoDetail);
 
         // OpcUA_id
-        diag_info->Assign(DIAG_INFO_DETAIL_OPCUA_ID_LINK_IDX, opcua_id);
+        diag_info->Assign(DIAG_INFO_LINK_ID_DST_IDX, opcua_id);
 
         // Diagnostic Info Source
         diag_info->Assign(DIAG_INFO_SOURCE_IDX,     zeek::val_mgr->Count(diag_info_src));
