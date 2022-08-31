@@ -16,7 +16,7 @@ export {
         ts                       : time    &log;
         uid                      : string  &log;
         id                       : conn_id &log;
-        opcua_id                 : string  &log;       # Id back into OCPUA_Binary::Info
+        opcua_link_id            : string  &log;       # Id back into OCPUA_Binary::Info
 
         #
         # Request
@@ -27,10 +27,10 @@ export {
         client_signature : string &log &optional;
 
         # Client Software Certificate
-        client_software_cert_id : string  &log &optional;  # Id into OCPUA_Binary::ActivateSessionClientSoftwareCert
+        client_software_cert_link_id : string  &log &optional;  # Id into OCPUA_Binary::ActivateSessionClientSoftwareCert
 
         # Locale Id
-        opcua_locale_id : string &log &optional;   # Id into OPCUA_Binary::ActivateSessionLocaleId
+        opcua_locale_link_id : string &log &optional;   # Id into OPCUA_Binary::ActivateSessionLocaleId
 
         # Extension Object
         ext_obj_type_id_encoding_mask : string   &log &optional;
@@ -64,35 +64,35 @@ export {
         #
         # Response
         #
-        server_nonce       : string  &log &optional;
-        result_id          : string  &log &optional; # Id into OPCUA_Binary::StatusCodeDetail log
-        diagnostic_info_id : string  &log &optional; # Id into OPCUA_Binary::DiagnosticInfoDetail log
+        server_nonce                       : string  &log &optional;
+        status_code_link_id                : string  &log &optional; # Id into OPCUA_Binary::StatusCodeDetail log
+        activate_session_diag_info_link_id : string  &log &optional; # Id into OPCUA_Binary::ActivateSessionDiagnosticInfo log
         
     };
 
     type OPCUA_Binary::ActivateSessionClientSoftwareCert: record {
-        ts                        : time    &log;
-        uid                       : string  &log;
-        id                        : conn_id &log;
-        client_software_cert_id   : string  &log;  # Id back into OCPUA_Binary::ActivateSession
-        cert_data                 : string  &log;
-        cert_signature            : string  &log;
+        ts                           : time    &log;
+        uid                          : string  &log;
+        id                           : conn_id &log;
+        client_software_cert_link_id : string  &log;  # Id back into OCPUA_Binary::ActivateSession
+        cert_data                    : string  &log;
+        cert_signature               : string  &log;
     };
 
     type OPCUA_Binary::ActivateSessionLocaleId: record {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
-        opcua_locale_id           : string  &log;  # Id back into OCPUA_Binary::ActivateSession
+        opcua_locale_link_id      : string  &log;  # Id back into OCPUA_Binary::ActivateSession
         local_id                  : string  &log;
     };
 
     type OPCUA_Binary::ActivateSessionDiagnosticInfo: record {
-        ts                        : time    &log;
-        uid                       : string  &log;
-        id                        : conn_id &log;
-        diagnostic_info_link_id   : string  &log;  # Id back into OCPUA_Binary::ActivateSession
-        diagnostic_info_id        : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
+        ts                                 : time    &log;
+        uid                                : string  &log;
+        id                                 : conn_id &log;
+        activate_session_diag_info_link_id : string  &log;  # Id back into OCPUA_Binary::ActivateSession
+        diag_info_link_id                  : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
     };
 
 }

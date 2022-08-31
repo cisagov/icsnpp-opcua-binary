@@ -16,7 +16,7 @@ export {
         ts                  : time    &log;
         uid                 : string  &log;
         id                  : conn_id &log;
-        opcua_id            : string  &log;
+        status_code_link_id : string  &log;
         source              : count   &log;
         source_str          : string  &log;
         source_level        : count   &log;
@@ -43,7 +43,7 @@ export {
         ts                  : time    &log;
         uid                 : string  &log;
         id                  : conn_id &log;
-        opcua_id            : string  &log;
+        diag_info_link_id   : string  &log;
         source              : count   &log;
         source_str          : string  &log;
         inner_diag_level    : count   &log;
