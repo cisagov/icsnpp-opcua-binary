@@ -34,7 +34,7 @@ build/opcua_binary_pac.cc file(s) for details.
     double bytestringToDouble(bytestring data);
     string generateId();
     string indent(int level);
-    uint32_t getExtensionObjectId(OpcUA_NodeId *typeId);
+    uint32_t getExtensionObjectId(OpcUA_ExpandedNodeId *typeId);
     void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32_t innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src);
     void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level);
     uint32_t getInnerStatusCodeSource(uint32_t status_code_src);
@@ -266,7 +266,7 @@ build/opcua_binary_pac.cc file(s) for details.
         return ss.str();
     }
 
-    uint32_t getTypeId(OpcUA_ExpandedNodeId *typeId) {
+    uint32_t getExtensionObjectId(OpcUA_ExpandedNodeId *typeId) {
         uint8_t  encoding = typeId->node_id()->identifier_type() & 0x0f;
         uint32_t node_type_id = 0;
 
@@ -515,7 +515,7 @@ build/opcua_binary_pac.cc file(s) for details.
     // 5.2.2.15 Table 14 - ExtensionObject
     //
     void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset) {
-        flattenOpcUA_NodeId(service_object, obj->type_id(), offset);
+        flattenOpcUA_ExpandedNodeId(service_object, obj->type_id(), offset);
 
         string ext_obj_type_id_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(obj->type_id()))->second;
         service_object->Assign(offset + 6, zeek::make_intrusive<zeek::StringVal>(ext_obj_type_id_str));
@@ -552,7 +552,6 @@ build/opcua_binary_pac.cc file(s) for details.
             }
         }
     }
-
     //
     // UA Specification Part 4 - Services 1.04.pdf
     //
@@ -693,8 +692,8 @@ refine flow OPCUA_Binary_Flow += {
     #
     #
     #
-    function get_extension_type_id(typeId: OpcUA_ExpandedNodeId): uint32
+    function get_extension_object_id(typeId: OpcUA_ExpandedNodeId): uint32
     %{
-        return(getTypeId(typeId));
+        return(getExtensionObjectId(typeId));
     %}
 };
