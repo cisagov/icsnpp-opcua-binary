@@ -32,7 +32,7 @@ refine flow OPCUA_Binary_Flow += {
         zeek::RecordValPtr browse_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Browse);
 
         // OpcUA_id
-        browse_req->Assign(BROWSE_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        browse_req->Assign(BROWSE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         // Include if Service is Browse or BrowseNext
         browse_req->Assign(BROWSE_SERVICE_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second));
@@ -53,11 +53,11 @@ refine flow OPCUA_Binary_Flow += {
 
         if (num_nodes_to_browse > 0){
             std::string browse_description_idx = generateId();
-            browse_req->Assign(BROWSE_DESCRTIPTION_ID_IDX, zeek::make_intrusive<zeek::StringVal>(browse_description_idx));
+            browse_req->Assign(BROWSE_DESCRTIPTION_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(browse_description_idx));
             // Flatten each browse request
             for (int32_t i=0; i < num_nodes_to_browse; i++){
                 zeek::RecordValPtr browse_description = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseDescription);
-                browse_description->Assign(BROWSE_DESCRIPTION_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(browse_description_idx));
+                browse_description->Assign(BROWSE_DESCRIPTION_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(browse_description_idx));
                 flattenOpcUA_NodeId(browse_description, msg->nodes_to_browse()->at(i)->node_id(), BROWSE_DESCRIPTION_ID_ENCODING_MASK_IDX);
 
                 if ((msg->nodes_to_browse()->at(i)->browse_direction_id()) == 0){
@@ -110,38 +110,38 @@ refine flow OPCUA_Binary_Flow += {
         int32_t num_results = msg->results_table_size();
 
         zeek::RecordValPtr browse_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Browse);
-        browse_res->Assign(BROWSE_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        browse_res->Assign(BROWSE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
         // Include if Service is Browse or BrowseNext
         browse_res->Assign(BROWSE_SERVICE_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second));
 
         if (num_results > 0){
             std::string browse_res_id = generateId();
-            browse_res->Assign(BROWSE_RESULT_ID_IDX, zeek::make_intrusive<zeek::StringVal>(browse_res_id));
+            browse_res->Assign(BROWSE_RESPONSE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(browse_res_id));
             // Loop through the Reference Description Array
             for (int32_t i=0; i < num_results; i++){
                 zeek::RecordValPtr browse_result = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseResult);
-                browse_result->Assign(BROWSE_RESULT_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(browse_res_id));
+                browse_result->Assign(BROWSE_RESPONSE_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(browse_res_id));
 
                 // Status Code
                 uint32_t status_code_level = 0;
                 std::string status_code_id = generateId();
-                browse_result->Assign(BROWSE_RESULT_STATUS_CODE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(status_code_id));
-                generateStatusCodeEvent(connection(), browse_result->GetField(BROWSE_RESULT_STATUS_CODE_ID_IDX), StatusCode_Browse_Key, msg->results()->at(i)->status_code(), status_code_level);
+                browse_result->Assign(BROWSE_RESPONSE_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(status_code_id));
+                generateStatusCodeEvent(connection(), browse_result->GetField(BROWSE_RESPONSE_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_Browse_Key, msg->results()->at(i)->status_code(), status_code_level);
 
                 if (msg->results()->at(i)->continuation_point()->length() > 0){
-                    browse_result->Assign(BROWSE_RESULT_CONTINUATION_POINT_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->results()->at(i)->continuation_point()->byteString())));
+                    browse_result->Assign(BROWSE_RESPONSE_CONTINUATION_POINT_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->results()->at(i)->continuation_point()->byteString())));
                 }
 
                 int32_t num_references = msg->results()->at(i)->num_references();
                 if (num_references > 0){
                     std::string browse_reference_id = generateId();
-                    browse_result->Assign(BROWSE_REFERENCE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(browse_reference_id));
+                    browse_result->Assign(BROWSE_RESPONSE_REFERENCE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(browse_reference_id));
 
                     // References are logged in a separate file for clarity
                     for (int32_t j=0; j < num_references; j++){
                         zeek::RecordValPtr browse_ref = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseReference);
 
-                        browse_ref->Assign(BROWSE_RESULT_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(browse_reference_id));
+                        browse_ref->Assign(BROWSE_RESPONSE_REFERENCE_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(browse_reference_id));
 
                         flattenOpcUA_NodeId(browse_ref, msg->results()->at(i)->references()->at(j)->ref_type_id(), BROWSE_RESPONSE_REFERENCE_TYPE_ID_ENCODING_MASK_IDX);
 
@@ -192,7 +192,7 @@ refine flow OPCUA_Binary_Flow += {
             string diagnostic_info_id      = generateId(); // Link to tie OCPUA_Binary::BrowseDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
 
             // Assign the linkage in the OCPUA_Binary::Browse
-            browse_res->Assign(BROSWE_RESPONSE_DIAG_INFO_ID_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
+            browse_res->Assign(BROWSE_RESPONSE_DIAG_INFO_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
 
             uint32 innerDiagLevel = 0;
             vector<OpcUA_String *>  *stringTable = NULL;
@@ -200,15 +200,15 @@ refine flow OPCUA_Binary_Flow += {
 
                 // Assign the linkage in the OCPUA_Binary::BrowseDiagnosticInfo and enqueue the logging event
                 zeek::RecordValPtr browse_res_diagnostic_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseDiagnosticInfo);
-                browse_res_diagnostic_info->Assign(BROWSE_RES_DIAGNOSTIC_INFO_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
-                browse_res_diagnostic_info->Assign(BROWSE_RES_DIAGNOSTIC_INFO_IDX,      zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id));
+                browse_res_diagnostic_info->Assign(BROWSE_RESPONSE_DIAG_INFO_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
+                browse_res_diagnostic_info->Assign(BROWSE_DIAG_INFO_LINK_ID_SRC_IDX,      zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id));
                 zeek::BifEvent::enqueue_opcua_binary_browse_diagnostic_info_event(connection()->bro_analyzer(),
                                                                                             connection()->bro_analyzer()->Conn(),
                                                                                             browse_res_diagnostic_info);
 
 
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), browse_res_diagnostic_info->GetField(BROWSE_RES_DIAGNOSTIC_INFO_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_Browse_DiagInfo_Key, DiagInfo_Browse_Key);
+                generateDiagInfoEvent(connection(), browse_res_diagnostic_info->GetField(BROWSE_DIAG_INFO_LINK_ID_SRC_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_Browse_DiagInfo_Key, DiagInfo_Browse_Key);
 
                 // Generate an new link to tie OCPUA_Binary::BrowseDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
                 diagnostic_info_id = generateId();
@@ -242,7 +242,7 @@ refine flow OPCUA_Binary_Flow += {
         int32_t num_continuation_points = msg->num_continuation_points();
 
         zeek::RecordValPtr browse_next_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Browse);
-        browse_next_req->Assign(BROWSE_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_ID_IDX));
+        browse_next_req->Assign(BROWSE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         // Include if Service is Browse or BrowseNext
         browse_next_req->Assign(BROWSE_SERVICE_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second));
@@ -251,10 +251,10 @@ refine flow OPCUA_Binary_Flow += {
 
         if (num_continuation_points > 0){
             std::string browse_continuation_points_id = generateId();
-            browse_next_req->Assign(BROWSE_NEXT_CONTINUATION_POINTS_ID_IDX, zeek::make_intrusive<zeek::StringVal>(browse_continuation_points_id));
+            browse_next_req->Assign(BROWSE_NEXT_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(browse_continuation_points_id));
             for (int32_t i=0; i < num_continuation_points; i++){
                 zeek::RecordValPtr browse_continuation_point = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseRequestContinuationPoint);
-                browse_continuation_point->Assign(BROWSE_CONTINUATION_POINTS_LINK, zeek::make_intrusive<zeek::StringVal>(browse_continuation_points_id));
+                browse_continuation_point->Assign(BROWSE_NEXT_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(browse_continuation_points_id));
                 browse_continuation_point->Assign(BROWSE_CONTINUATION_POINT_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->continuation_points()->at(i)->byteString())));
                 zeek::BifEvent::enqueue_opcua_binary_browse_request_continuation_point_event(connection()->bro_analyzer(),
                                                     connection()->bro_analyzer()->Conn(),
