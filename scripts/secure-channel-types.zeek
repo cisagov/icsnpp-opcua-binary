@@ -17,7 +17,7 @@ export {
         ts                            : time    &log;
         uid                           : string  &log;
         id                            : conn_id &log;
-        opcua_id                      : string  &log;
+        opcua_link_id                 : string  &log; # Link back into OPCUA_Binary::Info
 
         # OpenSecureChannel Request
         client_proto_ver              : count   &log &optional;
