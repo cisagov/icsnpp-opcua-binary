@@ -23,6 +23,7 @@ build/opcua_binary_pac.cc file(s) for details.
     #define ID_LEN 9
 
     double winFiletimeToUnixTime(uint64 win_filetime);
+    string unixTimestampToString(time_t unixTimestamp);
     string bytestringToHexstring(const_bytestring data);
     string guidToGuidstring(const_bytestring data1, const_bytestring data2, const_bytestring data3, const_bytestring data4);
     string uint32ToHexstring(uint32_t data);
@@ -32,6 +33,7 @@ build/opcua_binary_pac.cc file(s) for details.
     bool validEncoding(uint8_t encoding);
     uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
+    float bytestringToFloat(bytestring data);
     string generateId();
     string indent(int level);
     uint32_t getExtensionObjectId(OpcUA_ExpandedNodeId *typeId);
@@ -97,6 +99,16 @@ build/opcua_binary_pac.cc file(s) for details.
         memcpy(&d, data.begin(), sizeof(double));
 
         return d;
+    }
+
+    //
+    // Utility function to convert a bytestring to float
+    // 
+    float bytestringToFloat(bytestring data) {
+        float f;
+        memcpy(&f, data.begin(), sizeof(float));
+
+        return f;
     }
 
     //
@@ -696,4 +708,46 @@ refine flow OPCUA_Binary_Flow += {
     %{
         return(getExtensionObjectId(typeId));
     %}
+
+    #
+    # UA Specification Part 6 - Mappings 1.04.pdf
+    #
+    # 5.2.2.16 Variant Table 15 - Variant Binary DataEncoding
+    # 
+    # Encoding mask:
+    #    0:5 Built-in Type Id
+    #    6   True if the array dimensions field is encoded
+    #    7   True if an array of values is encoded
+    #
+    function get_variant_data_built_in_type(mask: uint8 ): uint8
+    %{
+        // Mask off bits 0:5 to determine the built in type id.
+        printf("get_variant_data_built_in_type: %d\n", mask & 0x3F);
+        return(mask & 0x3F);
+    %}
+
+    #
+    # UA Specification Part 6 - Mappings 1.04.pdf
+    #
+    # 5.2.2.16 Variant Table 15 - Variant Binary DataEncoding
+    # 
+    # Encoding mask:
+    #    0:5 Built-in Type Id
+    #    6   True if the array dimensions field is encoded
+    #    7   True if an array of values is encoded
+    #
+    function get_variant_data_type(mask: uint8 ): uint32
+    %{
+        if (isBitSet(mask, variantHasArrayValues)) {
+            if (isBitSet(mask, variantHasArrayDimensions)) {
+                printf("get_variant_data_type: variantIsMultiDimensionalArray\n");
+                return variantIsMultiDimensionalArray;
+            }
+            printf("get_variant_data_type: variantIsArray\n");
+            return variantIsArray;
+        }
+        printf("get_variant_data_type: variantIsValue\n");
+        return variantIsValue;
+    %}
+
 };

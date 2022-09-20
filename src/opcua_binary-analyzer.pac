@@ -14,6 +14,7 @@
 #include <sstream>
 #include <iomanip>
 #include <random>
+#include <time.h>
 #include "types.bif.h"
 #include "extension_object_node_id.h"
 #include "index-consts.h"
@@ -31,6 +32,7 @@
 #include "node_classes.h"
 #include "headers/timestamps_to_return.h"
 #include "headers/attribute_ids.h"
+#include "headers/filter_enums.h"
 #include "statuscode-diagnostic-source-consts.h"
 %}
 

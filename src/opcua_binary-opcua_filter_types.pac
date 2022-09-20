@@ -42,7 +42,7 @@ type OpcUA_ContentFilterElement = record {
 # 7.17.4 Table 145 - AggregateFilter Structure
 #
 type OpcUA_AggregateFilter = record {
-    start_time              : OpcUA_DateTime; #Maybe change
+    start_time              : OpcUA_DateTime; # Maybe change
     aggregate_type          : OpcUA_NodeId;
     processing_interval     : OpcUA_Duration;
     aggregate_configuration : OpcUA_AggregateConfiguration;
@@ -54,10 +54,10 @@ type OpcUA_AggregateFilter = record {
 # 4.2.1.2 Table 2 - AggregateConfigurationType Definition
 #
 type OpcUA_AggregateConfiguration = record {
-    use_server_capabilities_default : int8;
+    use_server_capabilities_default : OpcUA_Boolean;
     treat_uncertain_as_bad          : int8;
-    percent_data_bad                : bytestring &length = 1;
-    percent_data_good               : bytestring &length = 1;
+    percent_data_bad                : uint8;
+    percent_data_good               : uint8;
     use_sloped_extrapolation        : int8;
 };
 
@@ -69,7 +69,7 @@ type OpcUA_AggregateConfiguration = record {
 type OpcUA_SimpleAttributeOperand = record {
     type_id             : OpcUA_NodeId;
     num_browse_paths    : uint32;
-    browse_path         : OpcUA_QualifiedName[$context.flow.bind_length(num_browse_paths)];
+    browse_paths        : OpcUA_QualifiedName[$context.flow.bind_length(num_browse_paths)];
     attribute_id        : uint32;
     index_range         : OpcUA_NumericRange;
 };
@@ -85,4 +85,22 @@ type OpcUA_AttributeOperand = record {
     browse_path     : OpcUA_RelativePath;
     attribute_id    : uint32;
     index_range     : OpcUA_NumericRange;
+}; 
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.4.4.2 Table 127 - ElementOperand
+#
+type OpcUA_ElementOperand = record {
+    index   : uint32;
+}; 
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.4.4.2 Table 128 - LiteralOperand
+#
+type OpcUA_LiteralOperand = record {
+    value   : OpcUA_Variant; 
 }; 

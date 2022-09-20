@@ -46,6 +46,7 @@
 // 26 AccessRestrictions
 // 27 AccessLevelEx
 
+static uint32_t Unknown_Key                 = 0;
 static uint32_t NodeId_Key                  = 1;
 static uint32_t NodeClass_Key               = 2;
 static uint32_t BrowseName_Key              = 3;
@@ -77,6 +78,7 @@ static uint32_t AccessLevelEx_Key           = 27;
 
 static std::map<uint32_t, std::string> ATTRIBUTE_IDENTIFIERS =
 {
+   {   Unknown_Key,                 "Unknown"},
    {   NodeId_Key,                  "NodeId"},
    {   NodeClass_Key,               "NodeClass"},
    {   BrowseName_Key,              "BrowseName"},

@@ -14,6 +14,7 @@
     void printOpcUA_IssuedIdentityToken(int indent_width, OpcUA_IssuedIdentityToken *obj);
     void printOpcUA_DiagInfo(int indent_width, OpcUA_DiagInfo *diagInfo);
     void printOpcUA_ReadValueId(int indent_width, OpcUA_ReadValueId *readValueId);
+    void printOpcUA_RelativePath(int indent_width, OpcUA_RelativePath *relativePath);
 %}
 
 %code{
@@ -142,7 +143,11 @@
     //
     void printOpcUA_ExtensionObject(int indent_width, OpcUA_ExtensionObject *obj) {
         string extension_obj_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(obj->type_id()))->second;
-        printf("%s %s: ExtensionObject\n", indent(indent_width).c_str(), extension_obj_str.c_str());
+        if (extension_obj_str.find("Filter")){
+            printf("%s Filter: ExtensionObject\n", indent(indent_width).c_str());
+        } else {
+            printf("%s %s: ExtensionObject\n", indent(indent_width).c_str(), extension_obj_str.c_str());
+        }
 
         // TypeId
         printf("%s TypeId: ExpandedNodeId\n", indent(indent_width+1).c_str());
@@ -179,10 +184,13 @@
                     printOpcUA_IssuedIdentityToken(indent_width+1, object_body->issued_identity_token());
                     break;
                 case DataChangeFilter_Key:
+                    printOpcUA_DataChangeFilter(indent_width+1, object_body->data_change_filter());
                     break;
                 case EventFilter_Key:
+                    printOpcUA_EventFilter(indent_width+1, object_body->event_filter());
                     break;
                 case AggregateFilter_Key:
+                    printOpcUA_AggregateFilter(indent_width+1, object_body->aggregate_filter());
                     break;
                 case ElementOperand_Key:
                     break;
@@ -191,7 +199,7 @@
                 case AttributeOperand_Key:
                     break;
                 case SimpleAttributeOperand_Key:
-                    break;
+                    printOpcUA_SimpleAttributeOperand(indent_width+1, object_body->simple_attribute_operand());
             }
         }
     }
@@ -309,7 +317,7 @@
     void printOpcUA_ReadValueId(int indent_width, OpcUA_ReadValueId *readValueId){
         printf("%s NodeId: NodeId\n", indent(indent_width).c_str());
         printOpcUA_NodeId(indent_width + 1, readValueId->node_id());
-        printf("%s AttributeId: %s (%08x)\n", indent(indent_width).c_str(), ATTRIBUTE_IDENTIFIERS.find(readValueId->attribute_id())->second.c_str(), readValueId->attribute_id());
+        printf("%s AttributeId: %s (0x%08x)\n", indent(indent_width).c_str(), ATTRIBUTE_IDENTIFIERS.find(readValueId->attribute_id())->second.c_str(), readValueId->attribute_id());
         if (readValueId->index_range()->numeric_range()->length() > 0){
             printf("%s IndexRange: %s\n", indent(indent_width).c_str(), std_str(readValueId->index_range()->numeric_range()->string()).c_str());
         }
@@ -319,6 +327,28 @@
         printf("%s DataEncoding: QualifiedName\n", indent(indent_width).c_str());
         printOpcUA_QualifiedName((indent_width + 1), readValueId->data_encoding());
     }
+    void printOpcUA_RelativePath(int indent_width, OpcUA_RelativePath *relativePath){
+        printf("%s Elements: Array of RelativePathElement\n", indent(indent_width).c_str());
+        printf("%s ArraySize: %d\n", indent(indent_width + 1).c_str(), relativePath->num_elements());
+        for (int32_t i = 0; i < relativePath->num_elements(); i++) {
+            printf("%s [%d]: RelativePathElement\n", indent(indent_width + 1).c_str(), i);
+            printf("%s ReferenceTypeId: NodeId \n", indent(indent_width + 2).c_str());
+            printOpcUA_NodeId(indent_width + 3, relativePath->elements()->at(i)->reference_type_id());
+            if (relativePath->elements()->at(i)->is_inverse() == 1){
+                printf("%s IsInverse: True \n", indent(indent_width + 2).c_str());
+            } else {
+                printf("%s IsInverse: False \n", indent(indent_width + 2).c_str());
+            }
+            if (relativePath->elements()->at(i)->include_subtypes() == 1){
+                printf("%s IncludeSubtypes: True \n", indent(indent_width + 2).c_str());
+            } else {
+                printf("%s IncludeSubtypes: False \n", indent(indent_width + 2).c_str());
+            }
+            printf("%s TargetName: QualifiedName\n", indent(indent_width + 2).c_str());
+            printOpcUA_QualifiedName(indent_width + 3, relativePath->elements()->at(i)->target_name());
+        }
+    }
+    
 
 %}
 
