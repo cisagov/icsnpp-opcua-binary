@@ -56,7 +56,7 @@
     //
     zeek::RecordValPtr assignMsgHeader(zeek::RecordValPtr info, Msg_Header *msg_header) {
         // OpcUA_id
-        info->Assign(OPCUA_ID_IDX, zeek::make_intrusive<zeek::StringVal>(generateId()));
+        info->Assign(OPCUA_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(generateId()));
 
         // Msg header: msg_type
         stringstream ssMsgType;

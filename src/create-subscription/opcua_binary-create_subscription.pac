@@ -12,7 +12,7 @@
 
 #
 # UA Specification Part 4 - Services 1.04.pdf - Create Subscription
-# 5.13.2.2 - Table 34 - CreateSubscription Service Parameters
+# 5.13.2.2 - Table 88 - CreateSubscription Service Parameters
 #
 
 type CreateSubscription_Req(service: Service) = record {

@@ -107,7 +107,7 @@ This log captures the details associated with calls to the Open Secure Channel S
 * See the ```OPCUA_Binary::OpenSecureChannel: record``` in file [secure-channel-types.zeek](scripts/secure-channel-types.zeek) for a list of the fields logged.
 * See [opcua_binary-secure_channel.pac](src/secure-channel/opcua_binary-secure_channel.pac), [opcua_binary-secure_channel_analyzer.pac](src/secure-channel/opcua_binary-secure_channel.pac), and [opcua_binary-secure_channel_debug.pac](src/secure-channel/opcua_binary-secure_channel_debug.pac) for details on parsing, processing, and logging this service.
 
-### Get Endpoints Service (opcua-binary-get-endpoints.log, opcua-binary-get-endpoints-discovery.log, opcua-binary-get-endpoints-user_token.log, opcua-binary-get-endpoints-description.log, opcua-binary-get-endpoints-locale_id.log, opcua-binary-get-endpoints-profile_url.log)
+### Get Endpoints Service (opcua-binary-get-endpoints.log, opcua-binary-get-endpoints-discovery.log, opcua-binary-get-endpoints-user_token.log, opcua-binary-get-endpoints-description.log, opcua-binary-get-endpoints-locale_id.log, opcua-binary-get-endpoints-profile_uri.log)
 
 This log captures the details associated with calls to the Get Endpoints Service.
 

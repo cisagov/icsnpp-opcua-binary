@@ -13,10 +13,10 @@
 //
 // Index constants for setting values in OPCUA_Binary::StatusCodeDetail
 //
-#define STAT_CODE_OPCUA_ID_LINK_IDX   3
-#define STAT_CODE_SOURCE_IDX          4
-#define STAT_CODE_SOURCE_STR_IDX      5
-#define STAT_CODE_SOURCE_LEVEL_IDX    6
+#define STATUS_CODE_LINK_ID_DST_IDX   3
+#define STATUS_CODE_SOURCE_IDX        4
+#define STATUS_CODE_SOURCE_STR_IDX    5
+#define STATUS_CODE_SOURCE_LEVEL_IDX  6
 #define STATUS_CODE_IDX               7
 #define SEVERITY_IDX                  8
 #define SEVERITY_STR_IDX              9
@@ -38,7 +38,7 @@
 //
 // Index constants for setting values in OPCUA_Binary::DiagnosticInfoDetail
 //
-#define DIAG_INFO_DETAIL_OPCUA_ID_LINK_IDX 3
+#define DIAG_INFO_LINK_ID_DST_IDX          3
 #define DIAG_INFO_SOURCE_IDX               4
 #define DIAG_INFO_SOURCE_STR_IDX           5
 #define INNER_DIAG_LEVEL_IDX               6

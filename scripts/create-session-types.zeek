@@ -13,39 +13,39 @@
 module ICSNPP_OPCUA_Binary;
 export {
     type OPCUA_Binary::CreateSession: record {
-        ts                       : time    &log;
-        uid                      : string  &log;
-        id                       : conn_id &log;
-        opcua_id                 : string  &log;       # Id back into OCPUA_Binary::Info
+        ts                        : time    &log;
+        uid                       : string  &log;
+        id                        : conn_id &log;
+        opcua_link_id             : string  &log;       # Id back into OCPUA_Binary::Info
 
         #
         # Request
         #
-        application_uri          : string  &log &optional;
-        product_uri              : string  &log &optional;
+        application_uri           : string  &log &optional;
+        product_uri               : string  &log &optional;
 
         # Application Name
-        encoding_mask            : count   &log &optional;
-        locale                   : string  &log &optional;
-        text                     : string  &log &optional;
+        encoding_mask             : count   &log &optional;
+        locale                    : string  &log &optional;
+        text                      : string  &log &optional;
 
-        application_type         : count   &log &optional;
-        gateway_server_uri       : string  &log &optional;
-        discovery_profile_uri    : string  &log &optional;
+        application_type          : count   &log &optional;
+        gateway_server_uri        : string  &log &optional;
+        discovery_profile_uri     : string  &log &optional;
 
-        discovery_profile_id     : string  &log &optional; # Id into OCPUA_Binary::CreateSessionDiscovery
+        discovery_profile_link_id : string  &log &optional; # Id into OCPUA_Binary::CreateSessionDiscovery
 
-        server_uri               : string  &log &optional;
-        endpoint_url             : string  &log &optional;
-        session_name             : string  &log &optional;
-        client_nonce             : string  &log &optional;
+        server_uri                : string  &log &optional;
+        endpoint_url              : string  &log &optional;
+        session_name              : string  &log &optional;
+        client_nonce              : string  &log &optional;
 
         # Client Certificate
-        client_cert_size         : count   &log &optional;
-        client_cert              : string  &log &optional;
+        client_cert_size          : count   &log &optional;
+        client_cert               : string  &log &optional;
 
-        req_session_timeout      : time &log &optional;
-        max_res_msg_size         : count &log &optional;
+        req_session_timeout       : count &log &optional;
+        max_res_msg_size          : count &log &optional;
 
         #
         # Response
@@ -67,14 +67,14 @@ export {
         auth_token_guid          : string  &log &optional;
         auth_token_opaque        : string  &log &optional;
 
-        revised_session_timeout  : time &log &optional;
+        revised_session_timeout  : count &log &optional;
         server_nonce             : string  &log &optional;
 
         # Server Certificate
         server_cert_size         : count   &log &optional;
         server_cert              : string  &log &optional;
 
-        endpoint_id              : string &log &optional;
+        endpoint_link_id         : string &log &optional; # Id into OPCUA_Binary::CreateSessionEndpoints
 
         #
         # From Table 15 - CreateSession Service Parameters: Response
@@ -100,7 +100,7 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
-        discovery_profile_id      : string  &log;  # Id back into OCPUA_Binary::CreateSession
+        discovery_profile_link_id : string  &log;  # Id back into OCPUA_Binary::CreateSession
         discovery_profile_uri     : string  &log;
         discovery_profile_url     : string  &log;
     };
@@ -109,7 +109,7 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log; 
-        endpoint_id               : string  &log; # Id back into OPCUA_Binary::CreateSession
+        endpoint_link_id          : string  &log; # Id back into OPCUA_Binary::CreateSession
         endpoint_url              : string  &log;
         application_uri           : string  &log &optional;
         product_uri               : string  &log &optional;
@@ -119,12 +119,12 @@ export {
         application_type          : count   &log &optional;
         gateway_server_uri        : string  &log &optional;
         discovery_profile_uri     : string  &log &optional;
-        discovery_profile_id      : string  &log &optional;
+        discovery_profile_link_id : string  &log &optional;
         cert_size                 : count   &log &optional;
         server_cert               : string  &log &optional;
         message_security_mode     : count   &log &optional;
         security_policy_uri       : string  &log &optional;
-        user_token_id             : string  &log &optional; # Id into OPCUA_Binary::CreateSessionUserToken
+        user_token_link_id        : string  &log &optional; # Id into OPCUA_Binary::CreateSessionUserToken
         transport_profile_uri     : string  &log &optional;
         security_level            : count   &log &optional;
     };
@@ -133,7 +133,7 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
-        user_token_id             : string  &log; # Id back into OPCUA_Binary::CreateSessionEndpoints
+        user_token_link_id        : string  &log; # Id back into OPCUA_Binary::CreateSessionEndpoints
         user_token_policy_id      : string  &log;
         user_token_type           : count   &log;
         user_token_issued_type    : string  &log &optional;

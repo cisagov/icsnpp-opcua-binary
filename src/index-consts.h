@@ -19,7 +19,7 @@
 // together - e.g. any nested log files such as the status code detail log will contain
 // this id which can be used to reference back to the primary OpcUA log file.
 //
-#define OPCUA_ID_IDX                      3
+#define OPCUA_LINK_ID_SRC_IDX             3
 
 // Msg Header
 #define MSG_TYPE_IDX                      4

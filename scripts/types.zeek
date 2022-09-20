@@ -18,7 +18,7 @@ export {
         id                            : conn_id &log;
 
         # Msg Header
-        opcua_id                      : string  &log;
+        opcua_link_id                 : string  &log;
         msg_type                      : string  &log;
         is_final                      : string  &log;
         msg_size                      : count   &log;
@@ -61,14 +61,14 @@ export {
         req_hdr_request_handle        : count   &log &optional;
         req_hdr_return_diag           : count   &log &optional;
         req_hdr_audit_entry_id        : string  &log &optional;
-        req_hdr_timeout_hint          : time    &log &optional;
+        req_hdr_timeout_hint          : count    &log &optional;
         req_hdr_add_hdr_type_id       : count   &log &optional;
         req_hdr_add_hdr_enc_mask      : count   &log &optional;
 
         # Response Header
         res_hdr_timestamp             : time    &log &optional;
         res_hdr_request_handle        : count   &log &optional;
-        res_hdr_service_result_id     : string  &log &optional; # Link into StatusCodeDetail log
+        status_code_link_id           : string  &log &optional; # Link into StatusCodeDetail log
         res_hdr_service_diag_encoding : count   &log &optional;
         res_hdr_add_hdr_type_id       : count   &log &optional;
         res_hdr_add_hdr_enc_mask      : count   &log &optional;
