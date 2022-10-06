@@ -23,6 +23,7 @@ build/opcua_binary_pac.cc file(s) for details.
     #define ID_LEN 9
 
     double winFiletimeToUnixTime(uint64 win_filetime);
+    string unixTimestampToString(time_t unixTimestamp);
     string bytestringToHexstring(const_bytestring data);
     string guidToGuidstring(const_bytestring data1, const_bytestring data2, const_bytestring data3, const_bytestring data4);
     string uint32ToHexstring(uint32_t data);
@@ -32,6 +33,7 @@ build/opcua_binary_pac.cc file(s) for details.
     bool validEncoding(uint8_t encoding);
     uint32_t uint8VectorToUint32(vector<binpac::uint8> *data);
     double bytestringToDouble(bytestring data);
+    float bytestringToFloat(bytestring data);
     string generateId();
     string indent(int level);
     uint32_t getExtensionObjectId(OpcUA_NodeId *typeId);
@@ -39,6 +41,8 @@ build/opcua_binary_pac.cc file(s) for details.
     void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level);
     uint32_t getInnerStatusCodeSource(uint32_t status_code_src);
     uint32_t getInnerDiagInfoSource(uint32_t diag_info_src);
+    uint32_t getVariantDataType(uint8_t encoding_mask);
+    uint32_t getVariantBuiltInDataType(uint8_t encoding_mask);
     void flattenOpcUA_NodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset);
     void flattenOpcUA_ExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset);
     void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset);
@@ -100,6 +104,16 @@ build/opcua_binary_pac.cc file(s) for details.
     }
 
     //
+    // Utility function to convert a bytestring to float
+    // 
+    float bytestringToFloat(bytestring data) {
+        float f;
+        memcpy(&f, data.begin(), sizeof(float));
+
+        return f;
+    }
+
+    //
     // Utility function to validate the encoding mask
     // 
     bool validEncoding(uint8_t encoding) {
@@ -136,6 +150,19 @@ build/opcua_binary_pac.cc file(s) for details.
 
         // Convert Win32 filetime to seconds, then adjust time to UNIX epoch.
         return((win_filetime / WINDOWS_TICK) - SEC_TO_UNIX_EPOCH);
+    }
+
+    //
+    // Format a unix timestamp to a human readable string.
+    //
+    string unixTimestampToString(time_t unixTimestamp) {
+        struct tm  ts;
+        char       buf[80];
+
+        ts = *localtime(&unixTimestamp);
+        strftime(buf, sizeof(buf), "%b %d, %Y %X %Z", &ts);
+        return string(buf);
+
     }
 
     //
@@ -631,6 +658,57 @@ build/opcua_binary_pac.cc file(s) for details.
         }
     }
 
+    // 
+    // UA Specification Part 6 - Mappings 1.04.pdf
+    //
+    // 5.2.2.16 Variant Table 15 - Variant Binary DataEncoding and 5.1.6 Variant
+    //
+    // The type of data encoded in the stream.
+    // A value of 0 specifies a NULL and that no other fields are encoded. 
+    //
+    // The mask has the following bits assigned:
+    //   0:5 Built-in Type Id (see Table 1).
+    //   6 True if the Array Dimensions field is encoded.
+    //   7 True if an array of values is encoded.
+    //
+    // The Built-in Type Ids 26 through 31 are not currently assigned but may be used in 
+    // the future. Decoders shall accept these IDs, assume the Value contains a ByteString
+    // and pass both onto the application. Encoders shall not use these IDs.
+    //
+    // Determine if the data type is a value, an array, or a multi-dimensional array.
+    //
+    uint32_t getVariantDataType(uint8_t mask) {
+        if (isBitSet(mask, variantHasArrayValues)) {
+            if (isBitSet(mask, variantHasArrayDimensions)) {
+                return variantIsMultiDimensionalArray;
+            }
+            return variantIsArray;
+        }
+        return variantIsValue;
+    }
+
+    // 
+    // UA Specification Part 6 - Mappings 1.04.pdf
+    //
+    // 5.2.2.16 Variant Table 15 - Variant Binary DataEncoding and 5.1.6 Variant
+    //
+    // The type of data encoded in the stream.
+    // A value of 0 specifies a NULL and that no other fields are encoded. 
+    //
+    // The mask has the following bits assigned:
+    //   0:5 Built-in Type Id (see Table 1).
+    //   6 True if the Array Dimensions field is encoded.
+    //   7 True if an array of values is encoded.
+    //
+    // The Built-in Type Ids 26 through 31 are not currently assigned but may be used in 
+    // the future. Decoders shall accept these IDs, assume the Value contains a ByteString
+    // and pass both onto the application. Encoders shall not use these IDs.
+    //
+    // Mask off bits 6 and 7 to determine the built in data type
+    //
+    uint32_t getVariantBuiltInDataType(uint8_t mask) {
+        return(mask & 0x3F); // 0x3F = 0011 1111
+    }
 
 %}
 
@@ -697,4 +775,36 @@ refine flow OPCUA_Binary_Flow += {
     %{
         return(getExtensionObjectId(typeId));
     %}
+
+    #
+    # UA Specification Part 6 - Mappings 1.04.pdf
+    #
+    # 5.2.2.16 Variant Table 15 - Variant Binary DataEncoding
+    # 
+    # Encoding mask:
+    #    0:5 Built-in Type Id
+    #    6   True if the array dimensions field is encoded
+    #    7   True if an array of values is encoded
+    #
+    function get_variant_data_built_in_type(mask: uint8 ): uint8
+    %{
+        // Mask off bits 0:5 to determine the built in type id.
+        return(mask & 0x3F);
+    %}
+
+    #
+    # UA Specification Part 6 - Mappings 1.04.pdf
+    #
+    # 5.2.2.16 Variant Table 15 - Variant Binary DataEncoding
+    # 
+    # Encoding mask:
+    #    0:5 Built-in Type Id
+    #    6   True if the array dimensions field is encoded
+    #    7   True if an array of values is encoded
+    #
+    function get_variant_data_type(mask: uint8 ): uint32
+    %{
+        return(getVariantDataType(mask));
+    %}
+
 };
