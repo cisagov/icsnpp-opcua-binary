@@ -354,3 +354,71 @@ enum extension_object_node
     ProgramDiagnosticDataType           = 896,
     Annotation                          = 893
 }
+
+#
+# UA Specification Part 6 - Mappings 1.04.pdf 
+#
+# 5.1.2 Built-in Types Table 1 - Built-in Data Types
+#
+enum built_in_data_types
+{
+    BuiltIn_Boolean         = 1,
+    BuiltIn_SByte           = 2,
+    BuiltIn_Byte            = 3,
+    BuiltIn_Int16           = 4,
+    BuiltIn_Uint16          = 5,
+    BuiltIn_Int32           = 6,
+    BuiltIn_Uint32          = 7,
+    BuiltIn_Int64           = 8,
+    BuiltIn_Uint64          = 9,
+    BuiltIn_Float           = 10,
+    BuiltIn_Double          = 11,
+    BuiltIn_String          = 12,
+    BuiltIn_DateTime        = 13,
+    BuiltIn_Guid            = 14,
+    BuiltIn_ByteString      = 15,
+    BuiltIn_XmlElement      = 16,
+    BuiltIn_NodeId          = 17,
+    BuiltIn_ExpandedNodeId  = 18,
+    BuiltIn_StatusCode      = 19,
+    BuiltIn_QualifiedName   = 20,
+    BuiltIn_LocalizedText   = 21,
+    BuiltIn_ExtensionObject = 22,
+    BuiltIn_DataValue       = 23,
+    BuiltIn_Variant         = 24,
+    BuiltIn_DiagnosticInfo  = 25
+}
+
+
+#
+# UA Specification Part 6 - Mappings 1.04.pdf
+#
+# 5.2.2.17 DataValue Table 16 - Data Value Binary DataEncoding
+#
+enum data_value_mask
+{
+    dataValueHasValue             = 0x01,
+    dataValueHasStatusCode        = 0x02,
+    dataValueHasSourceTimestamp   = 0x04,
+    dataValueHasServerTimestamp   = 0x08,
+    dataValueHasSourcePicoseconds = 0x10,
+    dataValueHasServerPicoseconds = 0x20
+}
+
+#
+# UA Specification Part 6 - Mappings 1.04.pdf
+#
+# 5.2.2.16 Variant Table 15 - Variant Binary Binary DataEncoding
+#
+enum variant_mask
+{
+    variantHasArrayDimensions = 0x40,
+    variantHasArrayValues     = 0x80
+}
+
+enum variant
+{
+    variantIsValue                 = 0,
+    variantIsArray                 = 1,
+    variantIsMultiDimensionalArray = 2
+}
