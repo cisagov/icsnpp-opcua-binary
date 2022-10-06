@@ -10,7 +10,7 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %header{
-    void printExpandedNodeId(int indent_width, OpcUA_ExpandedNodeId *nodeId);
+    void printOpcUA_ExpandedNodeId(int indent_width, OpcUA_ExpandedNodeId *nodeId);
     void printOpcUA_NodeId(int indent_width, OpcUA_NodeId *nodeId);
     void printOpcUA_NodeId_TwoByte(int indent_width, OpcUA_NodeId_TwoByte *nodeId);
     void printOpcUA_NodeId_FourByte(int indent_width, OpcUA_NodeId_FourByte *nodeId);
@@ -21,7 +21,7 @@
 %}
 
 %code{
-    void printExpandedNodeId(int indent_width, OpcUA_ExpandedNodeId *nodeId) {
+    void printOpcUA_ExpandedNodeId(int indent_width, OpcUA_ExpandedNodeId *nodeId) {
         uint8_t encoding = nodeId->node_id()->identifier_type();
 
         uint8_t node_id_encoding = encoding & 0x0f;
