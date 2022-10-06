@@ -80,7 +80,7 @@
                     printf("%s IsForward: False\n", indent(7).c_str());
                 }
                 printf("%s NodeId: ExpandedNodeId\n", indent(7).c_str());
-                printExpandedNodeId(8, msg->results()->at(i)->references()->at(j)->target_node_id());
+                printOpcUA_ExpandedNodeId(8, msg->results()->at(i)->references()->at(j)->target_node_id());
 
                 printf("%s BrowseName: QualifiedName\n", indent(7).c_str());
                 printf("%s Id: %d\n", indent(8).c_str(), msg->results()->at(i)->references()->at(j)->browse_name()->namespace_index());
@@ -98,7 +98,7 @@
 
                 printf("%s NodeClass: %s (0x%08x)\n", indent(7).c_str(), NODE_CLASSES_MAP.find(msg->results()->at(i)->references()->at(j)->node_class())->second.c_str(), msg->results()->at(i)->references()->at(j)->node_class());
                 printf("%s TypeDefinition: ExpandedNodeId\n", indent(7).c_str());
-                printExpandedNodeId(8, msg->results()->at(i)->references()->at(j)->type_definition());
+                printOpcUA_ExpandedNodeId(8, msg->results()->at(i)->references()->at(j)->type_definition());
             }  
 
         }
