@@ -57,7 +57,7 @@
     }
     void printOpcUA_ElementOperand(int indent_width, OpcUA_ElementOperand *operand){
         printf("%s ElementOperand: ElementOperand\n", indent(indent_width).c_str());
-        printf("%s Index: %d", indent(indent_width + 1).c_str(), operand->index());
+        printf("%s Index: %d\n", indent(indent_width + 1).c_str(), operand->index());
     }
     void printOpcUA_AttributeOperand(int indent_width, OpcUA_AttributeOperand *operand){
         printf("%s AttributeOperand: AttributeOperand\n", indent(indent_width).c_str());

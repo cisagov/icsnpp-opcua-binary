@@ -150,8 +150,8 @@
         }
 
         // TypeId
-        printf("%s TypeId: ExpandedNodeId\n", indent(indent_width+1).c_str());
-        printOpcUA_ExpandedNodeId(indent_width+2, obj->type_id());
+        printf("%s TypeId: NodeId\n", indent(indent_width+1).c_str());
+        printOpcUA_NodeId(indent_width+2, obj->type_id());
         
         // Extension Object Encoding Mask
         OpcUA_ObjectBody *object_body;
@@ -193,10 +193,12 @@
                     printOpcUA_AggregateFilter(indent_width+1, object_body->aggregate_filter());
                     break;
                 case ElementOperand_Key:
+                    printOpcUA_ElementOperand(indent_width+1, object_body->element_operand());
                     break;
                 case LiteralOperand_Key:
                     break;
                 case AttributeOperand_Key:
+                    printOpcUA_AttributeOperand(indent_width+1, object_body->attribute_operand());
                     break;
                 case SimpleAttributeOperand_Key:
                     printOpcUA_SimpleAttributeOperand(indent_width+1, object_body->simple_attribute_operand());

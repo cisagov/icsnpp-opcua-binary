@@ -14,7 +14,7 @@
 #
 type OpcUA_SecurityTokenReqType = uint32;
 
-type OpcUA_Boolean = uint8;
+type OpcUA_Boolean = int8;
 
 #
 # Binpac does not seem to have a float type so we will
@@ -329,7 +329,7 @@ type OpcUA_EndpointDescription = record {
 # to a double in the analyzer
 #
 type OpcUA_Duration = record {
-    duration : bytestring &length = 8;
+    duration : OpcUA_Double;
 } &byteorder=littleendian;
 
 #
@@ -372,7 +372,7 @@ type OpcUA_SignedSoftwareCertificate = record {
 # object body containing additional information.
 #
 type OpcUA_ExtensionObject = record {
-    type_id  : OpcUA_ExpandedNodeId;
+    type_id  : OpcUA_NodeId;
     encoding : uint8;
     body : case(encoding) of {
         hasBinaryEncoding -> binary_object_body : OpcUA_ObjectBody($context.flow.get_extension_object_id(type_id));
@@ -472,8 +472,8 @@ type OpcUA_RelativePath = record {
 
 type OpcUA_RelativePathElement = record {
     reference_type_id   : OpcUA_NodeId;
-    is_inverse          : int8;
-    include_subtypes    : int8;
+    is_inverse          : OpcUA_Boolean;
+    include_subtypes    : OpcUA_Boolean;
     target_name         : OpcUA_QualifiedName;
 }
 

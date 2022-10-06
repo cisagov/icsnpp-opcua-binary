@@ -60,5 +60,5 @@ type Monitoring_Parameters = record {
     sampling_interval   : OpcUA_Duration;
     filter              : OpcUA_ExtensionObject;
     queue_size          : uint32; 
-    discard_oldest      : int8;
+    discard_oldest      : OpcUA_Boolean;
 } &byteorder=littleendian;

@@ -27,12 +27,13 @@
 #include "req-res-header/index-consts.h"
 #include "browse/index-consts.h"
 #include "create-monitored-items/index-consts.h"
+#include "filters/filter_enums.h"
+#include "filters/index-consts.h"
 #include "status_codes.h"
 #include "node_identifiers.h"
 #include "node_classes.h"
 #include "headers/timestamps_to_return.h"
 #include "headers/attribute_ids.h"
-#include "headers/filter_enums.h"
 #include "statuscode-diagnostic-source-consts.h"
 %}
 

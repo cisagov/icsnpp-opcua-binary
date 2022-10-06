@@ -42,7 +42,7 @@ type OpcUA_ContentFilterElement = record {
 # 7.17.4 Table 145 - AggregateFilter Structure
 #
 type OpcUA_AggregateFilter = record {
-    start_time              : OpcUA_DateTime; # Maybe change
+    start_time              : OpcUA_DateTime; # Maybe change, proper type is UTC time
     aggregate_type          : OpcUA_NodeId;
     processing_interval     : OpcUA_Duration;
     aggregate_configuration : OpcUA_AggregateConfiguration;
@@ -55,10 +55,10 @@ type OpcUA_AggregateFilter = record {
 #
 type OpcUA_AggregateConfiguration = record {
     use_server_capabilities_default : OpcUA_Boolean;
-    treat_uncertain_as_bad          : int8;
+    treat_uncertain_as_bad          : OpcUA_Boolean;
     percent_data_bad                : uint8;
     percent_data_good               : uint8;
-    use_sloped_extrapolation        : int8;
+    use_sloped_extrapolation        : OpcUA_Boolean;
 };
 
 #

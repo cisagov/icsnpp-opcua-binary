@@ -7,3 +7,4 @@
 @load ./activate-session-types
 @load ./create-subscription-types
 @load ./create-monitored-items-types
+@load ./filter-types

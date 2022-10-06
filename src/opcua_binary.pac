@@ -33,6 +33,7 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 };
 
 %include opcua_binary-utilities.pac
+%include opcua_binary-types_analyzer.pac
 %include opcua_binary-analyzer.pac
 %include req-res-header/opcua_binary-req_res_header_analyzer.pac
 %include secure-channel/opcua_binary-secure_channel_analyzer.pac
@@ -42,5 +43,6 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 %include browse/opcua_binary-browse_analyzer.pac
 %include create-subscription/opcua_binary-create_subscription_analyzer.pac
 %include create-monitored-items/opcua_binary-create_monitored_items_analyzer.pac
+%include filters/opcua_binary-opcua_filter_types_analyzer.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_analyzer.pac
 

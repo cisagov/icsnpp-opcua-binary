@@ -29,7 +29,7 @@ type Browse_Description = record {
     node_id             : OpcUA_NodeId;
     browse_direction_id : int32;
     ref_type_id         : OpcUA_NodeId;
-    include_subtypes    : int8;
+    include_subtypes    : OpcUA_Boolean;
     node_class_mask     : uint32;
     result_mask         : uint32;
 } &byteorder=littleendian;
@@ -51,7 +51,7 @@ type Browse_Res(service: Service) = record {
 
 type Browse_Next_Req(service: Service) = record {
     req_hdr                     : Request_Header;
-    release_continuation_points : uint8; # Actually a boolean but represented as an unsigned int;
+    release_continuation_points : OpcUA_Boolean;
     num_continuation_points     : int32;
     continuation_points         : OpcUA_ByteString[$context.flow.bind_length(num_continuation_points)];
 } &let {
@@ -66,7 +66,7 @@ type Browse_Next_Req(service: Service) = record {
 
 type Browse_ReferenceDescription = record {
     ref_type_id      : OpcUA_NodeId;
-    is_forward       : int8;
+    is_forward       : OpcUA_Boolean;
     target_node_id   : OpcUA_ExpandedNodeId;
     browse_name      : OpcUA_QualifiedName;
     display_name     : OpcUA_LocalizedText;
