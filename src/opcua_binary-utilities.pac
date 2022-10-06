@@ -41,6 +41,15 @@ build/opcua_binary_pac.cc file(s) for details.
     void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level);
     uint32_t getInnerStatusCodeSource(uint32_t status_code_src);
     uint32_t getInnerDiagInfoSource(uint32_t diag_info_src);
+    uint32_t getVariantDataType(uint8_t encoding_mask);
+    uint32_t getVariantBuiltInDataType(uint8_t encoding_mask);
+    void flattenOpcUA_NodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset);
+    void flattenOpcUA_ExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset);
+    void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset);
+    void flattenOpcUA_AnonymousIdentityToken(zeek::RecordValPtr service_object, OpcUA_AnonymousIdentityToken *obj, uint32 offset);
+    void flattenOpcUA_UserNameIdentityToken(zeek::RecordValPtr service_object, OpcUA_UserNameIdentityToken *obj, uint32 offset);
+    void flattenOpcUA_X509IdentityToken(zeek::RecordValPtr service_object, OpcUA_X509IdentityToken *obj, uint32 offset);
+    void flattenOpcUA_IssuedIdentityToken(zeek::RecordValPtr service_object, OpcUA_IssuedIdentityToken *obj, uint32 offset);
 
 %}
 
@@ -141,6 +150,19 @@ build/opcua_binary_pac.cc file(s) for details.
 
         // Convert Win32 filetime to seconds, then adjust time to UNIX epoch.
         return((win_filetime / WINDOWS_TICK) - SEC_TO_UNIX_EPOCH);
+    }
+
+    //
+    // Format a unix timestamp to a human readable string.
+    //
+    string unixTimestampToString(time_t unixTimestamp) {
+        struct tm  ts;
+        char       buf[80];
+
+        ts = *localtime(&unixTimestamp);
+        strftime(buf, sizeof(buf), "%b %d, %Y %X %Z", &ts);
+        return string(buf);
+
     }
 
     //
@@ -467,6 +489,227 @@ build/opcua_binary_pac.cc file(s) for details.
 
         return(inner_diag_info_src);
     }
+
+    // Utility function to flatten NodeID objects
+    void flattenOpcUA_NodeId(zeek::RecordValPtr service_object, OpcUA_NodeId *node_ptr, uint32 offset){
+        uint8_t encoding = node_ptr->identifier_type();
+        uint8_t node_id_encoding = encoding & 0x0f;
+
+        service_object->Assign((offset+0), zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(encoding)));
+        switch (node_id_encoding) {
+            case node_encoding::TwoByte : service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->two_byte_numeric()->numeric()));
+                                        break;
+            case node_encoding::FourByte :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->namespace_index()));
+                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->four_byte_numeric()->numeric()));
+                                        break;
+            case node_encoding::Numeric :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->numeric()->namespace_index()));
+                                        service_object->Assign((offset+2), zeek::val_mgr->Count(node_ptr->numeric()->numeric()));
+                                        break;
+            case node_encoding::String :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->string()->namespace_index()));
+                                        service_object->Assign((offset+3), zeek::make_intrusive<zeek::StringVal>(std_str(node_ptr->string()->string()->string())));
+                                        break;
+            case node_encoding::GUID :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->guid()->namespace_index()));
+                                        service_object->Assign((offset+4), zeek::make_intrusive<zeek::StringVal>(guidToGuidstring(node_ptr->guid()->guid()->data1(),
+                                                                                                                                                    node_ptr->guid()->guid()->data2(),
+                                                                                                                                                    node_ptr->guid()->guid()->data3(),
+                                                                                                                                                    node_ptr->guid()->guid()->data4())));
+                                        break;
+            case node_encoding::Opaque :
+                                        service_object->Assign((offset+1), zeek::val_mgr->Count(node_ptr->opaque()->namespace_index()));
+                                        service_object->Assign((offset+5), zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(node_ptr->opaque()->opaque()->byteString())));
+                                        break;
+        }
+    }
+
+    // Utility function to flatten ExpandedNodeID objects
+    void flattenOpcUA_ExpandedNodeId(zeek::RecordValPtr service_object, OpcUA_ExpandedNodeId *node_ptr, uint32 offset){
+        flattenOpcUA_NodeId(service_object, node_ptr->node_id(), offset);
+        if (isBitSet(node_ptr->node_id()->identifier_type(), NamespaceUriFlag)){
+            service_object->Assign((offset+6), zeek::make_intrusive<zeek::StringVal>(std_str(node_ptr->namespace_uri()->string())));
+        }
+        if (isBitSet(node_ptr->node_id()->identifier_type(), ServerIndexFlag)){
+            service_object->Assign((offset+7), zeek::val_mgr->Count(node_ptr->server_idx()));
+        }
+    }
+
+    //
+    // UA Specification Part 6 - Mappings 1.04.pdf
+    //
+    // 5.2.2.15 Table 14 - ExtensionObject
+    //
+    void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset) {
+        flattenOpcUA_NodeId(service_object, obj->type_id(), offset);
+
+        string ext_obj_type_id_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(obj->type_id()))->second;
+        service_object->Assign(offset + 6, zeek::make_intrusive<zeek::StringVal>(ext_obj_type_id_str));
+
+        // OpcUA_ExtensionObject encoding
+        service_object->Assign(offset + 7, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(obj->encoding())));
+
+        // See if there is an object body
+        OpcUA_ObjectBody *object_body;
+        if (isBitSet(obj->encoding(), hasBinaryEncoding)) {
+            object_body = obj->binary_object_body();
+        } else if (isBitSet(obj->encoding(), hasXMLEncoding)) {
+            object_body = obj->xml_object_body();
+        }
+
+        // Check encoding
+        if (isBitSet(obj->encoding(), hasBinaryEncoding) || 
+            isBitSet(obj->encoding(), hasXMLEncoding) ) {
+
+            // OpcUA_ExtensionObject token
+            switch (getExtensionObjectId(obj->type_id())) {
+                case AnonymousIdentityToken_Key: 
+                    flattenOpcUA_AnonymousIdentityToken(service_object, object_body->anonymous_identity_token(), offset);
+                    break;
+                case UserNameIdentityToken_Key:  
+                    flattenOpcUA_UserNameIdentityToken(service_object, object_body->username_identity_token(), offset);
+                    break;
+                case X509IdentityToken_Key:      
+                    flattenOpcUA_X509IdentityToken(service_object, object_body->x509_identity_token(), offset);
+                    break;
+                case IssuedIdentityToken_Key:    
+                    flattenOpcUA_IssuedIdentityToken(service_object, object_body->issued_identity_token(), offset);
+                    break;
+            }
+        }
+    }
+
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.36.3 Table 185 - AnonymousIdentityToken
+    //
+    void flattenOpcUA_AnonymousIdentityToken(zeek::RecordValPtr service_object, OpcUA_AnonymousIdentityToken *obj, uint32 offset) {
+        // Policy Id
+        if (obj->policy_id()->length() > 0) {
+            service_object->Assign(offset + 8, zeek::make_intrusive<zeek::StringVal>(std_str(obj->policy_id()->string())));
+        }
+    }
+
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.36.4 Table 186 - UserNameIdentityToken
+    //
+    void flattenOpcUA_UserNameIdentityToken(zeek::RecordValPtr service_object, OpcUA_UserNameIdentityToken *obj, uint32 offset) {
+        // Policy Id
+        if (obj->policy_id()->length() > 0) {
+            service_object->Assign(offset + 8, zeek::make_intrusive<zeek::StringVal>(std_str(obj->policy_id()->string())));
+        }
+
+        // Username
+        if (obj->user_name()->length() > 0) {
+            service_object->Assign(offset + 9, zeek::make_intrusive<zeek::StringVal>(std_str(obj->user_name()->string())));
+        }
+
+        // Password
+        if (obj->password()->length() > 0) {
+            service_object->Assign(offset + 10, zeek::make_intrusive<zeek::StringVal>(std_str(obj->password()->byteString())));
+        }
+
+        // Encryption Algorithm
+        if (obj->encryption_algorithm()->length() > 0) {
+            service_object->Assign(offset + 11, zeek::make_intrusive<zeek::StringVal>(std_str(obj->encryption_algorithm()->string())));
+        }
+    }
+
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.36.5 Table 188 - X509IdentityToken
+    //
+    void flattenOpcUA_X509IdentityToken(zeek::RecordValPtr service_object, OpcUA_X509IdentityToken *obj, uint32 offset) {
+        // Policy Id
+        if (obj->policy_id()->length() > 0) {
+            service_object->Assign(offset + 8, zeek::make_intrusive<zeek::StringVal>(std_str(obj->policy_id()->string())));
+        } 
+
+        // Certificate Data
+        if (obj->certificate_data()->length() > 0) {
+            service_object->Assign(offset + 12, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(obj->certificate_data()->byteString())));
+        } 
+    }
+
+    //
+    // UA Specification Part 4 - Services 1.04.pdf
+    //
+    // 7.36.6 Table 189 - IssuedIdentityToken
+    //
+    void flattenOpcUA_IssuedIdentityToken(zeek::RecordValPtr service_object, OpcUA_IssuedIdentityToken *obj, uint32 offset) {
+        // Policy Id
+        if (obj->policy_id()->length() > 0) {
+            service_object->Assign(offset + 8, zeek::make_intrusive<zeek::StringVal>(std_str(obj->policy_id()->string())));
+        }
+
+        // Token Data
+        if (obj->token_data()->length() > 0) {
+            service_object->Assign(offset + 13, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(obj->token_data()->byteString())));
+        } 
+
+        // Encryption Algorithm
+        if (obj->encryption_algorithm()->length() > 0) {
+            service_object->Assign(offset + 11, zeek::make_intrusive<zeek::StringVal>(std_str(obj->encryption_algorithm()->string())));
+        }
+    }
+
+    // 
+    // UA Specification Part 6 - Mappings 1.04.pdf
+    //
+    // 5.2.2.16 Variant Table 15 - Variant Binary DataEncoding and 5.1.6 Variant
+    //
+    // The type of data encoded in the stream.
+    // A value of 0 specifies a NULL and that no other fields are encoded. 
+    //
+    // The mask has the following bits assigned:
+    //   0:5 Built-in Type Id (see Table 1).
+    //   6 True if the Array Dimensions field is encoded.
+    //   7 True if an array of values is encoded.
+    //
+    // The Built-in Type Ids 26 through 31 are not currently assigned but may be used in 
+    // the future. Decoders shall accept these IDs, assume the Value contains a ByteString
+    // and pass both onto the application. Encoders shall not use these IDs.
+    //
+    // Determine if the data type is a value, an array, or a multi-dimensional array.
+    //
+    uint32_t getVariantDataType(uint8_t mask) {
+        if (isBitSet(mask, variantHasArrayValues)) {
+            if (isBitSet(mask, variantHasArrayDimensions)) {
+                return variantIsMultiDimensionalArray;
+            }
+            return variantIsArray;
+        }
+        return variantIsValue;
+    }
+
+    // 
+    // UA Specification Part 6 - Mappings 1.04.pdf
+    //
+    // 5.2.2.16 Variant Table 15 - Variant Binary DataEncoding and 5.1.6 Variant
+    //
+    // The type of data encoded in the stream.
+    // A value of 0 specifies a NULL and that no other fields are encoded. 
+    //
+    // The mask has the following bits assigned:
+    //   0:5 Built-in Type Id (see Table 1).
+    //   6 True if the Array Dimensions field is encoded.
+    //   7 True if an array of values is encoded.
+    //
+    // The Built-in Type Ids 26 through 31 are not currently assigned but may be used in 
+    // the future. Decoders shall accept these IDs, assume the Value contains a ByteString
+    // and pass both onto the application. Encoders shall not use these IDs.
+    //
+    // Mask off bits 6 and 7 to determine the built in data type
+    //
+    uint32_t getVariantBuiltInDataType(uint8_t mask) {
+        return(mask & 0x3F); // 0x3F = 0011 1111
+    }
+
 %}
 
 refine flow OPCUA_Binary_Flow += {
@@ -546,7 +789,6 @@ refine flow OPCUA_Binary_Flow += {
     function get_variant_data_built_in_type(mask: uint8 ): uint8
     %{
         // Mask off bits 0:5 to determine the built in type id.
-        printf("get_variant_data_built_in_type: %d\n", mask & 0x3F);
         return(mask & 0x3F);
     %}
 
@@ -562,16 +804,7 @@ refine flow OPCUA_Binary_Flow += {
     #
     function get_variant_data_type(mask: uint8 ): uint32
     %{
-        if (isBitSet(mask, variantHasArrayValues)) {
-            if (isBitSet(mask, variantHasArrayDimensions)) {
-                printf("get_variant_data_type: variantIsMultiDimensionalArray\n");
-                return variantIsMultiDimensionalArray;
-            }
-            printf("get_variant_data_type: variantIsArray\n");
-            return variantIsArray;
-        }
-        printf("get_variant_data_type: variantIsValue\n");
-        return variantIsValue;
+        return(getVariantDataType(mask));
     %}
 
 };

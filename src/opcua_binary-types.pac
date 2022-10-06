@@ -14,7 +14,8 @@
 #
 type OpcUA_SecurityTokenReqType = uint32;
 
-type OpcUA_Boolean = int8;
+
+type OpcUA_Boolean = uint8;
 
 #
 # Binpac does not seem to have a float type so we will
@@ -29,7 +30,6 @@ type OpcUA_Float = bytestring &length = 4;
 # to a double in the analyzer
 #
 type OpcUA_Double = bytestring &length = 8;
-
 
 #
 # Not specifically called out in the documentaion, but uint32 determined
@@ -667,9 +667,7 @@ type OpcUA_VariantData(built_in_type : uint32) = record {
         BuiltIn_DiagnosticInfo  -> diag_info_variant        : OpcUA_DiagInfo;
         BuiltIn_Float           -> float_variant            : OpcUA_Float;
         BuiltIn_Double          -> double_variant           : OpcUA_Double;
-        default         -> empty_variant_data               : empty;
-#        BuiltIn_Variant         -> variant                
-#        BuiltIn_XmlElement      ->
+        default                 -> empty_variant_data       : empty;
     };
 }
 
@@ -679,8 +677,7 @@ type OpcUA_VariantData_Array(encoding_mask : uint8) = record {
 }
 
 type OpcUA_VariantData_MultiDim_Array(encoding_mask : uint8) = record {
-    array_length : int32;
-    array        : OpcUA_VariantData(encoding_mask)[$context.flow.bind_length(array_length)];
+    array        : OpcUA_VariantData_Array(encoding_mask);
 
     array_dimensions_length : int32;
     array_dimensions        : int32[$context.flow.bind_length(array_dimensions_length)];

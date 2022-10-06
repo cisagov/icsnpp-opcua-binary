@@ -389,6 +389,7 @@ enum built_in_data_types
     BuiltIn_DiagnosticInfo  = 25
 }
 
+
 #
 # UA Specification Part 6 - Mappings 1.04.pdf
 #

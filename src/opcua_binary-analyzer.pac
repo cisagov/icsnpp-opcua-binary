@@ -30,6 +30,7 @@
 #include "filters/filter_enums.h"
 #include "filters/index-consts.h"
 #include "status_codes.h"
+#include "built_in_data_types.h"
 #include "node_identifiers.h"
 #include "node_classes.h"
 #include "headers/timestamps_to_return.h"
