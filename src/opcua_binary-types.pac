@@ -559,3 +559,22 @@ type OpcUA_VariantData_MultiDim_Array(encoding_mask : uint8) = record {
     array_dimensions_length : int32;
     array_dimensions        : int32[$context.flow.bind_length(array_dimensions_length)];
 }
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.22 Table 164 - NumericRange
+#
+type OpcUA_NumericRange = OpcUA_String;
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.24 Table 166 - ReadValueId
+#
+type OpcUA_ReadValueId = record {
+    node_id       : OpcUA_NodeId;
+    attribute_id  : uint32;
+    index_range   : OpcUA_NumericRange;
+    data_encoding : OpcUA_QualifiedName;
+}
