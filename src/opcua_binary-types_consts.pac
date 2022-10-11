@@ -422,3 +422,17 @@ enum variant
     variantIsArray                 = 1,
     variantIsMultiDimensionalArray = 2
 }
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.35 - Table 179 - TimestampsToReturn
+#
+enum timestamps_to_return
+{
+    timestampToReturn_Source_0  = 0,
+    timestampToReturn_Server_1  = 1,
+    timestampToReturn_Both_2    = 2,
+    timestampToReturn_Neither_3 = 3
+
+}
