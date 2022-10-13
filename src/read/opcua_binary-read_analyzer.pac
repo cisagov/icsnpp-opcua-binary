@@ -17,11 +17,10 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_ReadReq(msg : Read_Req): bool
         %{
-       printf("deliver_Svc_ReadReq\n");
         /* Debug
-        printf("deliver_Svc_ActivateSessionReq - begin\n");
-        printActivateSessionReq(msg);
-        printf("deliver_Svc_ActivateSessionReq - end\n");
+        printf("deliver_Svc_ReadReq - begin\n");
+        printReadReq(msg);
+        printf("deliver_Svc_ReadReq - end\n");
         */
 
 /*
@@ -106,11 +105,11 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_ReadRes(msg : Read_Res): bool
         %{
-        /* Debug */
+        /* Debug
         printf("deliver_Svc_ReadRes - begin\n");
         printReadRes(msg);
         printf("deliver_Svc_ReadRes - end\n");
-        /* */
+        */
 /*
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
