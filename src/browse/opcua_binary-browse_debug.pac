@@ -64,7 +64,7 @@
         for (int32_t i = 0; i < msg->results_table_size(); i++) {
             printf("%s [%d]: BrowseResult\n", indent(4).c_str(), i);
 
-            printf("%s StatusCode: 0x%08x\n", indent(5).c_str(), msg->results()->at(i)->status_code());
+            printf("%s StatusCode: 0x%08x [%s]\n", indent(5).c_str(), msg->results()->at(i)->status_code(), STATUS_CODE_MAP.find(msg->results()->at(i)->status_code())->second.c_str());
             printf("%s ContinuationPoint: %s\n", indent(5).c_str(), bytestringToHexstring(msg->results()->at(i)->continuation_point()->byteString()).c_str());
 
             printf("%s References: Array of ReferenceDescription\n", indent(5).c_str());
