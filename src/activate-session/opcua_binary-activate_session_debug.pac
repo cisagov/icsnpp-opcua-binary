@@ -38,6 +38,7 @@
         printOpcUA_LocaleIdVec(3, msg->locale_id());
 
         // User Identity Token
+        printf("%s UserIdentityToken: ExtensionObject\n", indent(3).c_str());
         printOpcUA_ExtensionObject(3, msg->user_identity_token());
         
         // User Token Signature
