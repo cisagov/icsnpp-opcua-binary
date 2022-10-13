@@ -565,7 +565,11 @@ type OpcUA_VariantData_MultiDim_Array(encoding_mask : uint8) = record {
 #
 # 7.22 Table 164 - NumericRange
 #
-type OpcUA_NumericRange = OpcUA_String;
+type OpcUA_NumericRange = record {
+    length : int32;
+    string : bytestring &length = $context.flow.bind_length(length);
+} &byteorder=littleendian;
+
 
 #
 # UA Specification Part 4 - Services 1.04.pdf
