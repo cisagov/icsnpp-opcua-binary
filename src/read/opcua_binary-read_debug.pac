@@ -21,31 +21,30 @@
         printMsgType( msg->service()->msg_body()->header());
         printService(msg->service());
 
-/*
         printf("%s %s\n", indent(2).c_str(), NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second.c_str());
         printReqHdr(msg->req_hdr());
 
-        // Client Signature
-        printOpcUA_SignatureData(3, "ClientSignature", msg->client_signature());
+        // Max Age
+        printf("%s MaxAge: %f\n", indent(3).c_str(), bytestringToDouble(msg->max_age()->duration()));
 
-        // Client Software Cert
-        printf("%s ClientSoftwareCertificates: Array of SignedSoftwareCertificate\n", indent(3).c_str());
-        printf("%s ArraySize: %d\n", indent(4).c_str(), msg->client_software_size());
-        printOpcUA_SignedSoftwareCertificateVec(3, msg->client_software_cert());
+        // Timestamps to return
+        if (msg->timestamps_to_return() == 0) {
+            printf("%s TimestampsToReturn: Source (0x%08x)\n", indent(3).c_str(), msg->timestamps_to_return());
+        } else if (msg->timestamps_to_return() == 1) {
+            printf("%s TimestampsToReturn: Server (0x%08x)\n", indent(3).c_str(), msg->timestamps_to_return());
+        } else if (msg->timestamps_to_return() == 1) {
+            printf("%s TimestampsToReturn: Both (0x%08x)\n", indent(3).c_str(), msg->timestamps_to_return());
+        } else if (msg->timestamps_to_return() == 1) {
+            printf("%s TimestampsToReturn: Neither (0x%08x)\n", indent(3).c_str(), msg->timestamps_to_return());
+        }
 
-        // Locale Id
-        printf("%s LocaleIds: Array of String\n", indent(3).c_str());
-        printf("%s ArraySize: %d\n", indent(4).c_str(),  msg->locale_id_size());
-        printOpcUA_LocaleIdVec(3, msg->locale_id());
-
-        // User Identity Token
-        printf("%s UserIdentityToken: ExtensionObject\n", indent(3).c_str());
-        printOpcUA_ExtensionObject(3, msg->user_identity_token());
-        
-        // User Token Signature
-        printOpcUA_SignatureData(3, "UserTokenSignature", msg->user_token_signature());
-*/
-
+        // Nodes to read
+        printf("%s NodesToRead: Array of ReadValueId\n", indent(3).c_str());
+        printf("%s ArraySize: %d\n", indent(4).c_str(), msg->nodes_to_read_size());
+        for (int i = 0; i < msg->nodes_to_read_size(); i++) {
+            printf("%s [%d]: ReadValueId\n", indent(4).c_str(), i);
+            printOpcUA_ReadValueId(5, msg->nodes_to_read()->at(i));
+        }
     }
 
     void printReadRes(Read_Res *msg) {
