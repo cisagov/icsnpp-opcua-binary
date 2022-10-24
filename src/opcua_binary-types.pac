@@ -388,6 +388,7 @@ type OpcUA_ObjectBody(extension_object_id : uint32) = record {
         UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
         X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
         IssuedIdentityToken    -> issued_identity_token    : OpcUA_IssuedIdentityToken;
+        default                -> not_yet_implemented_body : bytestring &length = length;
     };
 }
 
