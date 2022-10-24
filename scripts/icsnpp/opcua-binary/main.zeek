@@ -19,7 +19,9 @@ export {
                             LOG_CREATE_SESSION, LOG_CREATE_SESSION_DISCOVERY, LOG_CREATE_SESSION_ENDPOINTS, LOG_CREATE_SESSION_USER_TOKEN,
                             LOG_ACTIVATE_SESSION, LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT, LOG_ACTIVATE_SESSION_LOCALE_ID, LOG_ACTIVATE_SESSION_DIAGNOSTIC_INFO, 
                             LOG_BROWSE, LOG_BROWSE_DESCRIPTION, LOG_BROWSE_REQUEST_CONTINUATION_POINT, LOG_BROWSE_RESULT, LOG_BROWSE_RESPONSE_REFERENCES,
-                            LOG_BROWSE_DIAGNOSTIC_INFO, LOG_CREATE_SUBSCRIPTION };
+                            LOG_BROWSE_DIAGNOSTIC_INFO, LOG_CREATE_SUBSCRIPTION,
+                            LOG_READ, LOG_READ_NODES_TO_READ, LOG_READ_RESULTS_LINK, LOG_READ_RESULTS, LOG_READ_VARIANT_DATA_LINK, LOG_READ_VARIANT_DATA, LOG_READ_ARRAY_DIMS_LINK, LOG_READ_ARRAY_DIMS,
+                            LOG_READ_DIAG_INFO, LOG_READ_STATUS_CODE, LOG_READ_EXTENSION_OBJECT, LOG_READ_EXTENSION_OBJECT_IDENTITY_TOKEN };
 }
 
 # Port-based detection
@@ -58,6 +60,20 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_DIAGNOSTIC_INFO,            [$columns=OPCUA_Binary::BrowseDiagnosticInfo,           $path="opcua-binary-browse-diagnostic-info"]);
     
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION,        [$columns=OPCUA_Binary::CreateSubscription, $path="opcua-binary-create-subscription"]);
+
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ,                                 [$columns=OPCUA_Binary::Read,                             $path="opcua-binary-read"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_NODES_TO_READ,                   [$columns=OPCUA_Binary::ReadNodesToRead,                  $path="opcua-binary-read-nodes-to-read"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS_LINK,                    [$columns=OPCUA_Binary::ReadResultsLink,                  $path="opcua-binary-read-results-link"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS,                         [$columns=OPCUA_Binary::ReadResults,                      $path="opcua-binary-read-results"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_VARIANT_DATA_LINK,               [$columns=OPCUA_Binary::ReadVariantDataLink,              $path="opcua-binary-read-variant-data-link"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_VARIANT_DATA,                    [$columns=OPCUA_Binary::ReadVariantData,                  $path="opcua-binary-read-variant-data"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_ARRAY_DIMS_LINK,                 [$columns=OPCUA_Binary::ReadArrayDimsLink,                $path="opcua-binary-read-array-dims-link"]) ;
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_ARRAY_DIMS,                      [$columns=OPCUA_Binary::ReadArrayDims,                    $path="opcua-binary-read-array-dims"]) ;
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_DIAG_INFO,                       [$columns=OPCUA_Binary::ReadDiagnosticInfo,               $path="opcua-binary-read-diagnostic-info"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_STATUS_CODE,                     [$columns=OPCUA_Binary::ReadStatusCode,                   $path="opcua-binary-read-status-code"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_EXTENSION_OBJECT,                [$columns=OPCUA_Binary::ReadExtensionObject,              $path="opcua-binary-read-extension-object"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_EXTENSION_OBJECT_IDENTITY_TOKEN, [$columns=OPCUA_Binary::ReadExtensionObjectIdentityToken, $path="opcua-binary-read-extension-object-identity-token"]);
+
    
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
    }
@@ -324,3 +340,124 @@ event opcua_binary_create_subscription_event(c: connection, create_subscription_
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION, create_subscription_event);
    }
+   
+event opcua_binary_read_event(c: connection, event_to_log: OPCUA_Binary::Read)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ, event_to_log);
+   }
+   
+event opcua_binary_read_nodes_to_read_event(c: connection, event_to_log: OPCUA_Binary::ReadNodesToRead)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_NODES_TO_READ, event_to_log);
+   }
+   
+event opcua_binary_read_results_link_event(c: connection, event_to_log: OPCUA_Binary::ReadResultsLink)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS_LINK, event_to_log);
+   }
+   
+event opcua_binary_read_results_event(c: connection, event_to_log: OPCUA_Binary::ReadResults)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS, event_to_log);
+   }
+   
+event opcua_binary_read_variant_data_link_event(c: connection, event_to_log: OPCUA_Binary::ReadVariantDataLink)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_VARIANT_DATA_LINK, event_to_log);
+   }
+   
+event opcua_binary_read_variant_data_event(c: connection, event_to_log: OPCUA_Binary::ReadVariantData)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_VARIANT_DATA, event_to_log);
+   }
+   
+event opcua_binary_read_read_array_dims_link_event(c: connection, event_to_log: OPCUA_Binary::ReadArrayDimsLink)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_ARRAY_DIMS_LINK, event_to_log);
+   }
+   
+event opcua_binary_read_read_array_dims_event(c: connection, event_to_log: OPCUA_Binary::ReadArrayDims)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_ARRAY_DIMS, event_to_log);
+   }
+   
+event opcua_binary_read_diagnostic_info_event(c: connection, event_to_log: OPCUA_Binary::ReadDiagnosticInfo)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_DIAG_INFO, event_to_log);
+   }
+   
+event opcua_binary_read_status_code_event(c: connection, event_to_log: OPCUA_Binary::ReadStatusCode)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_STATUS_CODE, event_to_log);
+   }
+   
+event opcua_binary_read_extension_object_event(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObject)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_EXTENSION_OBJECT, event_to_log);
+   }
+   
+event opcua_binary_read_extension_object_identity_token_event(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObjectIdentityToken)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_EXTENSION_OBJECT_IDENTITY_TOKEN, event_to_log);
+   }
+   

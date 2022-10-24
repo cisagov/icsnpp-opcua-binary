@@ -31,5 +31,18 @@ type BrowseDiagnosticInfo: record;
 
 type CreateSubscription: record;
 
+type OPCUA_Binary::Read: record;
+type OPCUA_Binary::ReadNodesToRead: record;
+type OPCUA_Binary::ReadResultsLink: record;
+type OPCUA_Binary::ReadResults: record;
+type OPCUA_Binary::ReadVariantDataLink: record;
+type OPCUA_Binary::ReadVariantData: record;
+type OPCUA_Binary::ReadArrayDimsLink: record ;
+type OPCUA_Binary::ReadArrayDims: record ;
+type OPCUA_Binary::ReadDiagnosticInfo: record;
+type OPCUA_Binary::ReadStatusCode: record;
+type OPCUA_Binary::ReadExtensionObject: record;
+type OPCUA_Binary::ReadExtensionObjectIdentityToken: record;
+
 module GLOBAL;
 
