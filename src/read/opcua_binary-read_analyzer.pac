@@ -35,7 +35,38 @@
         string read_results_variant_data_link_id = generateId();
         read_results->Assign(READ_RES_RESULTS_VARIANT_DATA_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(read_results_variant_data_link_id));
 
-        analyze_DataVariant(connection, data_value->value(), read_results_variant_data_link_id);
+        OpcUA_Variant *data_variant = data_value->value();
+
+        // Multi-dimensional array
+        if (variant_data_type == VariantIsMultiDimensionalArray) {
+            read_results->Assign(READ_RES_RESULTS_VARIANT_DATA_ARRAY_DIM_IDX, zeek::val_mgr->Count(data_variant->variant_multidim_array()->array_dimensions_length()));
+
+            // ReadArrayDimsLink
+            string variant_data_array_dim_link_id = generateId();
+            string array_dim_link_id = generateId();
+            read_results->Assign(READ_RES_RESULTS_VARIANT_DATA_ARRAY_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(variant_data_array_dim_link_id));
+
+            zeek::RecordValPtr read_array_dims_link = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ReadArrayDimsLink);
+            read_array_dims_link->Assign(READ_RES_RESULTS_VARIANT_DATA_ARRAY_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(variant_data_array_dim_link_id));
+            read_array_dims_link->Assign(READ_RES_ARRAY_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(array_dim_link_id));
+
+            zeek::BifEvent::enqueue_opcua_binary_read_read_array_dims_link_event(connection->bro_analyzer(),
+                                                                                 connection->bro_analyzer()->Conn(),
+                                                                                 read_array_dims_link);
+
+            // ReadArrayDims
+            for (int j=0; j<data_variant->variant_multidim_array()->array_dimensions_length(); j++) {
+                zeek::RecordValPtr read_array_dims = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ReadArrayDims);
+                read_array_dims->Assign(READ_RES_ARRAY_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(array_dim_link_id));
+                read_array_dims->Assign(READ_RES_DIMENSION_IDX, zeek::val_mgr->Count(data_variant->variant_multidim_array()->array_dimensions()->at(j)));
+
+                zeek::BifEvent::enqueue_opcua_binary_read_read_array_dims_event(connection->bro_analyzer(),
+                                                                                connection->bro_analyzer()->Conn(),
+                                                                                read_array_dims);
+            }
+        }
+
+        analyze_DataVariant(connection, data_variant, read_results_variant_data_link_id);
 
         return;
     }
@@ -79,37 +110,6 @@
             zeek::RecordValPtr read_variant_data = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ReadVariantData);
             read_variant_data->Assign(READ_RES_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(read_variant_data_link_id));
 
-            // Multi-dimensional array
-            if (variant_data_type == VariantIsMultiDimensionalArray) {
-                read_variant_data->Assign(READ_RES_VARIANT_DATA_ARRAY_DIM_IDX, zeek::val_mgr->Count(data_variant->variant_multidim_array()->array_dimensions_length()));
-
-                // ReadArrayDimsLink
-                string variant_data_array_dim_link_id = generateId();
-                string array_dim_link_id = generateId();
-                read_variant_data->Assign(READ_RES_VARIANT_DATA_ARRAY_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(variant_data_array_dim_link_id));
-
-                zeek::RecordValPtr read_array_dims_link = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ReadArrayDimsLink);
-                read_array_dims_link->Assign(READ_RES_VARIANT_DATA_ARRAY_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(variant_data_array_dim_link_id));
-                read_array_dims_link->Assign(READ_RES_ARRAY_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(array_dim_link_id));
-
-                zeek::BifEvent::enqueue_opcua_binary_read_read_array_dims_link_event(connection->bro_analyzer(),
-                                                                                     connection->bro_analyzer()->Conn(),
-                                                                                     read_array_dims_link);
-
-                // ReadArrayDims
-                for (int j=0; j<data_variant->variant_multidim_array()->array_dimensions_length(); j++) {
-                    zeek::RecordValPtr read_array_dims = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ReadArrayDims);
-                    read_array_dims->Assign(READ_RES_ARRAY_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(array_dim_link_id));
-                    read_array_dims->Assign(READ_RES_DIMENSION_IDX, zeek::val_mgr->Count(data_variant->variant_multidim_array()->array_dimensions()->at(j)));
-
-                    zeek::BifEvent::enqueue_opcua_binary_read_read_array_dims_event(connection->bro_analyzer(),
-                                                                                    connection->bro_analyzer()->Conn(),
-                                                                                    read_array_dims);
-
-                }
-                
-
-            }
 
             switch(built_in_data_type) {
 
