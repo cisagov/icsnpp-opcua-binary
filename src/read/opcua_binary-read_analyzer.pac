@@ -233,11 +233,17 @@
                     }
                     break;
                 case DataValue_Key: {
-                    string data_value_link_id = generateId();
-                    read_variant_data->Assign(READ_RES_VARIANT_DATA_DATA_VALUE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(data_value_link_id));
+                    // 
+                    // The processing for a OpcUA_DataValue that is itself of type OpcUA_DataValue is to recursively call the read variant
+                    // data processing and link back into the OPCUA_Binary::ReadVariantDataLink log file.
+                    // 
+
+                    // Set the link into OPCUA_Binary::ReadVariantDataLink
+                    string read_results_variant_data_link_id = generateId();
+                    read_variant_data->Assign(READ_RES_VARIANT_DATA_DATA_VALUE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(read_results_variant_data_link_id));
 
                     // Recursively call ourselves
-                    analyze_DataVariant(connection, variant_data_array->at(i)->datavalue_variant()->value(), data_value_link_id);
+                    analyze_DataVariant(connection, variant_data_array->at(i)->datavalue_variant()->value(), read_results_variant_data_link_id);
                     }
                     break;
                 case String_Key:
@@ -259,121 +265,6 @@
                                                                          read_variant_data);
         }
     }
-/*
-        read_results_variant_data_link_id  : string &log &optional; # Link into OPCUA_Binary::ReadVariantDataLink log
-    };
-
-    type OPCUA_Binary::ReadVariantDataLink: record {
-        ts                     : time    &log;
-        uid                    : string  &log;
-        id                     : conn_id &log;
-        read_results_variant_data_link_id : string  &log; # Link back into OPCUA_Binary::ReadResults
-        read_variant_data_link_id         : string  &log; # Link into OPCUA_Binary::ReadVariantData
-    };
-
-    type OPCUA_Binary::ReadVariantData: record {
-        ts                         : time    &log;
-        uid                        : string  &log;
-        id                         : conn_id &log;
-        read_variant_data_link_id  : string  &log; # Link back into OPCUA_Binary::ReadResults
-
-        # OpcUA_Boolean,  OpcUA_SByte,  OpcUA_Byte, etc
-        variant_data_value_numeric : count &log &optional;
-
-        # OpcUA_String, OpcUA_Guid, OpcUA_ByteString, etc
-        variant_data_value_string  : count &log &optional;
-
-        # OpcUA_NodeId & OpcUA_ExpandedNodeId
-        variant_data_node_id_encoding_mask : string &log &optional;
-        variant_data_node_id_namespace_idx : count  &log &optional;
-        variant_data_node_id_numeric       : count  &log &optional;
-        variant_data_node_id_string        : string &log &optional;
-        variant_data_node_id_guid          : string &log &optional;
-        variant_data_node_id_opaque        : string &log &optional;
-        variant_data_node_id_namespace_uri : string &log &optional;
-        variant_data_node_id_server_idx    : count  &log &optional; 
-
-        #OpcUA_DateTime
-        variant_data_value_time    : time  &log &optional;
-
-        # OpcUA_QualifiedName
-        variant_data_encoding_name_idx : count &log &optional;
-        variant_data_encoding_name     : string &log &optional;
-
-        # OpcUA_LocalizedText
-        variant_data_mask   : string &log &optional;
-        variant_data_locale : string &log &optional;
-        variant_data_text   : string &log &optional;
-
-        # OpcUA_Float & OpcUA_Double
-        variant_data_value_decimal : double &log &optional;
-
-        # OpcUA_StatusCode
-        variant_data_status_code_link_id   : string &log &optional; # Link into OPCUA_Binary::ReadStatusCode log
-
-        # OpcUA_DiagnosticInfo
-        variant_data_diag_info_link_id     : string &log &optional; # Link into OPCUA_Binary::ReadDiagnosticInfo log
-
-        # Array Dimensions
-        variant_data_array_dim         : count &log &optional;
-        variant_data_array_dim_link_id : string &log &optional; # Link into OPCUA_Binary::ReadArrayDimsLink
-
-        variant_data_ext_obj_link_id   : string &log &optional; # Link into OPCUA_Binary::ReadExtensionObject
-    };
-
-    #define READ_RES_RESULTS_VARIANT_DATA_LINK_ID_SRC_IDX 13 // Id into OPCUA_Binary::ReadVariantDataLink
-
-type OpcUA_Variant = record {
-    encoding_mask : uint8;
-    body : case($context.flow.get_variant_data_type(encoding_mask)) of {
-        variantIsValue                 -> variant_value          : OpcUA_VariantData($context.flow.get_variant_data_built_in_type(encoding_mask));
-        variantIsArray                 -> variant_array          : OpcUA_VariantData_Array($context.flow.get_variant_data_built_in_type(encoding_mask));
-        variantIsMultiDimensionalArray -> variant_multidim_array : OpcUA_VariantData_MultiDim_Array($context.flow.get_variant_data_built_in_type(encoding_mask));
-        default                        -> empty_variant          : empty;
-    };
-};
-
-type OpcUA_VariantData(built_in_type : uint32) = record {
-    body : case(built_in_type) of {
-        BuiltIn_Boolean         -> boolean_variant          : OpcUA_Boolean; 
-        BuiltIn_SByte           -> sbyte_variant            : int8;
-        BuiltIn_Byte            -> byte_variant             : uint8;
-        BuiltIn_Int16           -> int16_variant            : int16;
-        BuiltIn_Uint16          -> uint16_variant           : uint16;
-        BuiltIn_Int32           -> int32_variant            : int32;
-        BuiltIn_Uint32          -> uint32_variant           : uint32;
-        BuiltIn_Int64           -> int64_variant            : int64;
-        BuiltIn_Uint64          -> uint64_variant           : uint64;
-        BuiltIn_String          -> string_variant           : OpcUA_String;
-        BuiltIn_DateTime        -> datetime_variant         : OpcUA_DateTime;
-        BuiltIn_Guid            -> guid_variant             : OpcUA_Guid;
-        BuiltIn_ByteString      -> bytestring_variant       : OpcUA_ByteString;
-        BuiltIn_NodeId          -> nodeid_variant           : OpcUA_NodeId;
-        BuiltIn_ExpandedNodeId  -> expanded_nodeid_variant  : OpcUA_ExpandedNodeId;
-        BuiltIn_StatusCode      -> status_code_variant      : OpcUA_StatusCode;
-        BuiltIn_QualifiedName   -> qualified_name_variant   : OpcUA_QualifiedName;
-        BuiltIn_LocalizedText   -> localized_text_variant   : OpcUA_LocalizedText;
-        BuiltIn_ExtensionObject -> extension_object_variant : OpcUA_ExtensionObject;
-        BuiltIn_DataValue       -> datavalue_variant        : OpcUA_DataValue;
-        BuiltIn_DiagnosticInfo  -> diag_info_variant        : OpcUA_DiagInfo;
-        BuiltIn_Float           -> float_variant            : OpcUA_Float;
-        BuiltIn_Double          -> double_variant           : OpcUA_Double;
-        default                 -> empty_variant_data       : empty;
-    };
-}
-type OpcUA_VariantData_Array(encoding_mask : uint8) = record {
-    array_length : int32;
-    array        : OpcUA_VariantData(encoding_mask)[$context.flow.bind_length(array_length)];
-}
-
-type OpcUA_VariantData_MultiDim_Array(encoding_mask : uint8) = record {
-    array        : OpcUA_VariantData_Array(encoding_mask);
-
-    array_dimensions_length : int32;
-    array_dimensions        : int32[$context.flow.bind_length(array_dimensions_length)];
-}
-
-*/
 %}
 
 refine flow OPCUA_Binary_Flow += {
@@ -557,9 +448,6 @@ refine flow OPCUA_Binary_Flow += {
                                                                          read_results_link);
 
         }
-/*
-*/
-
 
         // Diagnostic Information
         if (msg->diagnostic_info_size() > 0) {
@@ -596,67 +484,6 @@ refine flow OPCUA_Binary_Flow += {
                                                         connection()->bro_analyzer()->Conn(),
                                                         read_res);
 
-
-/*
-
-    results_size : int32;
-    results      : OpcUA_DataValue[$context.flow.bind_length(results_size)];
-
-    diagnostic_info_size : int32;
-    diagnostic_info      : OpcUA_DiagInfo[$context.flow.bind_length(diagnostic_info_size)];
-
-
-
-
-
-        // Server Nonce
-        activate_session_res->Assign(ACTIVATE_SESSION_RES_SERVER_NONCE_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->server_nonce()->byteString())));
-
-        // StatusCode Results
-        if (msg->result_size() > 0) {
-            uint32_t status_code_level = 0;
-            string result_idx = generateId();
-            activate_session_res->Assign(ACTIVATE_SESSION_RES_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(result_idx));
-            for (int i = 0; i < msg->result_size(); i++) {
-                generateStatusCodeEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_ActivateSession_Key, msg->results()->at(i), status_code_level);
-            }
-        }
-
-        // Diagnostic Information
-        if (msg->diagnostic_info_size() > 0) {
-            string diagnostic_info_id_link = generateId(); // Link to tie OCPUA_Binary::ActivateSession and OPCUA_Binary::ActivateSessionDiagnosticInfo together
-            string diagnostic_info_id      = generateId(); // Link to tie OCPUA_Binary::ActivateSessionDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
-
-            // Assign the linkage in the OCPUA_Binary::ActivateSession
-            activate_session_res->Assign(ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id_link));
-
-            uint32 innerDiagLevel = 0;
-            vector<OpcUA_String *>  *stringTable = NULL;
-            for (int i = 0; i < msg->diagnostic_info_size(); i++) {
-
-                // Assign the linkage in the OCPUA_Binary::ActivateSessionDiagnosticInfo and enqueue the logging event  
-                zeek::RecordValPtr activate_session_res_diagnostic_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSessionDiagnosticInfo);
-                activate_session_res_diagnostic_info->Assign(ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id_link));
-                activate_session_res_diagnostic_info->Assign(ACTIVATE_SESSION_DIAG_INFO_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id));
-                zeek::BifEvent::enqueue_opcua_binary_activate_session_diagnostic_info_event(connection()->bro_analyzer(),
-                                                                                            connection()->bro_analyzer()->Conn(),
-                                                                                            activate_session_res_diagnostic_info);
-
-
-                // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), activate_session_res_diagnostic_info->GetField(ACTIVATE_SESSION_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSession_DiagInfo_Key, DiagInfo_ActivateSession_Key);
-
-                // Generate an new link to tie OCPUA_Binary::ActivateSessionDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
-                diagnostic_info_id = generateId();
-            }
-        }
-
-        // Enqueue the OCPUA_Binary::ActivateSession event.
-        zeek::BifEvent::enqueue_opcua_binary_activate_session_event(connection()->bro_analyzer(),
-                                                                    connection()->bro_analyzer()->Conn(),
-                                                                    activate_session_res);
-
-*/
         return true;
     %}
 };
