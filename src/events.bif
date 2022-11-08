@@ -52,4 +52,3 @@ event opcua_binary_read_diagnostic_info_event%(c: connection, event_to_log: OPCU
 event opcua_binary_read_status_code_event%(c: connection, event_to_log: OPCUA_Binary::ReadStatusCode%);
 event opcua_binary_read_extension_object_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObjectLink%);
 event opcua_binary_read_extension_object_event%(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObject%);
-event opcua_binary_read_extension_object_identity_token_event%(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObjectIdentityToken%);

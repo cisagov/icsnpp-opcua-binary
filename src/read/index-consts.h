@@ -187,26 +187,5 @@
 
     #define READ_RES_EXT_OBJ_TYPE_ID_STR_IDX        10
     #define READ_RES_EXT_OBJ_ENCODING_IDX           11
-    #define READ_RES_IDENTITY_TOKEN_LINK_ID_SRC_IDX 12 // Link into OPCUA_Binary::ReadExtensionObjectIdentityToken
-
-//
-// Index constants for setting values in OPCUA_Binary::ReadExtensionObjectIdentityToken
-// based on the parsed values from Read_Res
-//
-    #define READ_RES_IDENTITY_TOKEN_LINK_ID_DST_IDX 3 // Link back into OPCUA_Binary::ReadExtensionObject
-
-    // Common among all IdentityTokens; Only field for AnonymousIdentityToken
-    #define READ_RES_EXT_OBJ_POLICY_ID_IDX          4
-
-    // UsernameIdentityToken
-    #define READ_RES_EXT_OBJ_USER_NAME_IDX          5
-    #define READ_RES_EXT_OBJ_PASSWORD_IDX           6  
-    #define READ_RES_EXT_OBJ_ENCRYPT_ALG_IDX        7 
-
-    // Common in X509IdentityToken and IssuedIdentityToken
-    #define READ_RES_EXT_OBJ_CERT_DATA_IDX          8 
-
-    // IssuedIdentityToken
-    #define READ_RES_EXT_OBJ_TOKEN_DATA_IDX         9
 
 #endif
