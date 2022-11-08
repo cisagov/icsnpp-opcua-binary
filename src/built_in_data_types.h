@@ -72,4 +72,15 @@ static std::map<uint32_t, std::string> BUILT_IN_DATA_TYPES_MAP =
     { DiagnosticInfo_Key,  "DiagnosticInfo" }
 };
 
+const static uint32_t VariantIsValue_Key             = 0;
+const static uint32_t VariantIsArray_Key             = 1;
+const static uint32_t VariantIsMultiDimensionalArray = 2;
+
+static std::map<uint32_t, std::string> VARIANT_DATA_TYPES_MAP =
+{
+    { VariantIsValue_Key,             "Value" },
+    { VariantIsArray_Key,             "Array" },
+    { VariantIsMultiDimensionalArray, "MultiDimArray" }
+};
+
 #endif

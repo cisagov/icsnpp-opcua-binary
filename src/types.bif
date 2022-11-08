@@ -41,6 +41,7 @@ type OPCUA_Binary::ReadArrayDimsLink: record ;
 type OPCUA_Binary::ReadArrayDims: record ;
 type OPCUA_Binary::ReadDiagnosticInfo: record;
 type OPCUA_Binary::ReadStatusCode: record;
+type OPCUA_Binary::ReadExtensionObjectLink: record;
 type OPCUA_Binary::ReadExtensionObject: record;
 type OPCUA_Binary::ReadExtensionObjectIdentityToken: record;
 

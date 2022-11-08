@@ -430,9 +430,8 @@ enum variant
 #
 enum timestamps_to_return
 {
-    timestampToReturn_Source_0  = 0,
-    timestampToReturn_Server_1  = 1,
-    timestampToReturn_Both_2    = 2,
-    timestampToReturn_Neither_3 = 3
-
+    timestamp_Source  = 0,
+    timestamp_Server  = 1,
+    timestamp_Both    = 2,
+    timestamp_Neither = 3
 }
