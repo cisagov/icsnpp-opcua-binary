@@ -211,26 +211,4 @@ export {
 
         identity_token_link_id : string &log &optional; # Link into OPCUA_Binary::ReadExtensionObjectIdentityToken
     };
-
-    type OPCUA_Binary::ReadExtensionObjectIdentityToken: record {
-        ts                           : time    &log;
-        uid                          : string  &log;
-        id                           : conn_id &log;
-        identity_token_link_id : string &log &optional; # Link back into OPCUA_Binary::ReadExtensionObject
-
-        # Common among all IdentityTokens; Only field for AnonymousIdentityToken
-        ext_obj_policy_id : string &log &optional;
-
-        # UsernameIdentityToken
-        ext_obj_user_name   : string &log &optional;
-        ext_obj_password    : string &log &optional;
-        ext_obj_encrypt_alg : string &log &optional;
-
-        # Common in X509IdentityToken and IssuedIdentityToken
-        ext_obj_cert_data : string &log &optional;
-
-        # IssuedIdentityToken
-        ext_obj_token_data : string &log &optional;
-    };
-
 }

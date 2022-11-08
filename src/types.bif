@@ -43,7 +43,6 @@ type OPCUA_Binary::ReadDiagnosticInfo: record;
 type OPCUA_Binary::ReadStatusCode: record;
 type OPCUA_Binary::ReadExtensionObjectLink: record;
 type OPCUA_Binary::ReadExtensionObject: record;
-type OPCUA_Binary::ReadExtensionObjectIdentityToken: record;
 
 module GLOBAL;
 
