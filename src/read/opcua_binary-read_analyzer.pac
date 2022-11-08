@@ -60,8 +60,6 @@
             array_length = data_variant->variant_multidim_array()->array()->array_length();
         }
 
-
-        printf("read_results_variant_data_link_id: %s\n", read_results_variant_data_link_id.c_str());
         string read_status_code_link_id     = generateId();
         string read_diag_info_link_id       = generateId();
         string variant_data_ext_obj_link_id = generateId();
@@ -112,41 +110,6 @@
                 
 
             }
-
-// Array Dimensions
-//    #define READ_RES_VARIANT_DATA_ARRAY_DIM_IDX                24 
-//    #define READ_RES_VARIANT_DATA_ARRAY_LINK_ID_SRC_IDX        25 // Link into OPCUA_Binary::ReadArrayDimsLink
-/*
-        # Array Dimensions
-        variant_data_array_dim         : count &log &optional;
-        variant_data_array_dim_link_id : string &log &optional; # Link into OPCUA_Binary::ReadArrayDimsLink
-    };
-
-    type OPCUA_Binary::ReadArrayDimsLink: record {
-        ts                             : time    &log;
-        uid                            : string  &log;
-        id                             : conn_id &log;
-        variant_data_array_dim_link_id : string  &log; # Link back into OPCUA_Binary::ReadVariantData
-        array_dim_link_id              : string  &log; # Link into OPCUA_Binary::ReadArrayDims
-    };
-
-    type OPCUA_Binary::ReadArrayDims: record {
-        ts                : time    &log;
-        uid               : string  &log;
-        id                : conn_id &log;
-        array_dim_link_id : string  &log; # Link back into OPCUA_Binary::ReadArrayDimsLink
-        dimension         : count   &log; 
-    };
-
-type OpcUA_VariantData_MultiDim_Array(encoding_mask : uint8) = record {
-    array        : OpcUA_VariantData_Array(encoding_mask);
-
-    array_dimensions_length : int32;
-    array_dimensions        : int32[$context.flow.bind_length(array_dimensions_length)];
-}
-
-*/
-
 
             switch(built_in_data_type) {
 
@@ -272,7 +235,6 @@ type OpcUA_VariantData_MultiDim_Array(encoding_mask : uint8) = record {
                 case DataValue_Key: {
                     string data_value_link_id = generateId();
                     read_variant_data->Assign(READ_RES_VARIANT_DATA_DATA_VALUE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(data_value_link_id));
-                    printf("\tLOOK: %s\n", data_value_link_id.c_str());
 
                     // Recursively call ourselves
                     analyze_DataVariant(connection, variant_data_array->at(i)->datavalue_variant()->value(), data_value_link_id);
@@ -295,11 +257,7 @@ type OpcUA_VariantData_MultiDim_Array(encoding_mask : uint8) = record {
             zeek::BifEvent::enqueue_opcua_binary_read_variant_data_event(connection->bro_analyzer(),
                                                                          connection->bro_analyzer()->Conn(),
                                                                          read_variant_data);
-
-            // If the built in data type is itself a DataValue; recurse?
-
         }
-        printf("\n");
     }
 /*
         read_results_variant_data_link_id  : string &log &optional; # Link into OPCUA_Binary::ReadVariantDataLink log
