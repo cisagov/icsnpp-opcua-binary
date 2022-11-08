@@ -464,6 +464,10 @@ build/opcua_binary_pac.cc file(s) for details.
             case DiagInfo_ActivateSession_Inner_Key: inner_status_code_src = StatusCode_ActivateSession_DiagInfo_Key;
                                                      break;
 
+            case DiagInfo_Read_Key:
+            case DiagInfo_Read_Inner_Key: inner_status_code_src = StatusCode_Read_DiagInfo_Key;
+                                          break;
+
         }
 
         return(inner_status_code_src);
@@ -484,6 +488,10 @@ build/opcua_binary_pac.cc file(s) for details.
             case DiagInfo_ActivateSession_Key:
             case DiagInfo_ActivateSession_Inner_Key: inner_diag_info_src = DiagInfo_ActivateSession_Inner_Key;
                                                      break;
+
+            case DiagInfo_Read_Key:
+            case DiagInfo_Read_Inner_Key: inner_diag_info_src = DiagInfo_Read_Inner_Key;
+                                          break;
 
         }
 

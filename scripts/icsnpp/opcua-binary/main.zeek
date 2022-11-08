@@ -21,7 +21,7 @@ export {
                             LOG_BROWSE, LOG_BROWSE_DESCRIPTION, LOG_BROWSE_REQUEST_CONTINUATION_POINT, LOG_BROWSE_RESULT, LOG_BROWSE_RESPONSE_REFERENCES,
                             LOG_BROWSE_DIAGNOSTIC_INFO, LOG_CREATE_SUBSCRIPTION,
                             LOG_READ, LOG_READ_NODES_TO_READ, LOG_READ_RESULTS_LINK, LOG_READ_RESULTS, LOG_READ_VARIANT_DATA_LINK, LOG_READ_VARIANT_DATA, LOG_READ_ARRAY_DIMS_LINK, LOG_READ_ARRAY_DIMS,
-                            LOG_READ_DIAG_INFO, LOG_READ_STATUS_CODE, LOG_READ_EXTENSION_OBJECT, LOG_READ_EXTENSION_OBJECT_IDENTITY_TOKEN };
+                            LOG_READ_DIAG_INFO, LOG_READ_STATUS_CODE, LOG_READ_EXTENSION_OBJECT_LINK, LOG_READ_EXTENSION_OBJECT, LOG_READ_EXTENSION_OBJECT_IDENTITY_TOKEN };
 }
 
 # Port-based detection
@@ -71,6 +71,7 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_ARRAY_DIMS,                      [$columns=OPCUA_Binary::ReadArrayDims,                    $path="opcua-binary-read-array-dims"]) ;
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_DIAG_INFO,                       [$columns=OPCUA_Binary::ReadDiagnosticInfo,               $path="opcua-binary-read-diagnostic-info"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_STATUS_CODE,                     [$columns=OPCUA_Binary::ReadStatusCode,                   $path="opcua-binary-read-status-code"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_EXTENSION_OBJECT_LINK,           [$columns=OPCUA_Binary::ReadExtensionObjectLink,          $path="opcua-binary-read-extension-object-link"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_EXTENSION_OBJECT,                [$columns=OPCUA_Binary::ReadExtensionObject,              $path="opcua-binary-read-extension-object"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_EXTENSION_OBJECT_IDENTITY_TOKEN, [$columns=OPCUA_Binary::ReadExtensionObjectIdentityToken, $path="opcua-binary-read-extension-object-identity-token"]);
 
@@ -439,6 +440,16 @@ event opcua_binary_read_status_code_event(c: connection, event_to_log: OPCUA_Bin
        event_to_log$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_READ_STATUS_CODE, event_to_log);
+   }
+   
+event opcua_binary_read_extension_object_link_event(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObjectLink)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_READ_EXTENSION_OBJECT_LINK, event_to_log);
    }
    
 event opcua_binary_read_extension_object_event(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObject)

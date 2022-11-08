@@ -79,10 +79,11 @@ export {
 
         # value : OpcUA_Variant
         data_variant_encoding_mask : string &log &optional;
-        data_variant_str           : string &log &optional;
+        data_variant_data_type     : count  &log &optional;
+        data_variant_data_type_str : string &log &optional;
 
-        data_variant_type          : count  &log &optional;
-        data_variant_type_str      : string &log &optional;
+        built_in_data_type          : count  &log &optional;
+        built_in_data_type_str      : string &log &optional;
 
         read_results_variant_data_link_id  : string &log &optional; # Link into OPCUA_Binary::ReadVariantDataLink log
     };
@@ -99,13 +100,16 @@ export {
         ts                         : time    &log;
         uid                        : string  &log;
         id                         : conn_id &log;
-        read_variant_data_link_id  : string  &log; # Link back into OPCUA_Binary::ReadResults
+        read_variant_data_link_id  : string  &log; # Link back into OPCUA_Binary::ReadVariantDataLink
 
-        # OpcUA_Boolean,  OpcUA_SByte,  OpcUA_Byte, etc
-        variant_data_value_numeric : count &log &optional;
+        # Signed numeric - e.g int8, int16, etc.
+        variant_data_value_signed_numeric : int &log &optional;
+
+        # Unsigned numeric - e.g uint8, uint16, etc.
+        variant_data_value_unsigned_numeric : count &log &optional;
 
         # OpcUA_String, OpcUA_Guid, OpcUA_ByteString, etc
-        variant_data_value_string  : count &log &optional;
+        variant_data_value_string  : string &log &optional;
 
         # OpcUA_NodeId & OpcUA_ExpandedNodeId
         variant_data_node_id_encoding_mask : string &log &optional;
@@ -142,7 +146,9 @@ export {
         variant_data_array_dim         : count &log &optional;
         variant_data_array_dim_link_id : string &log &optional; # Link into OPCUA_Binary::ReadArrayDimsLink
 
-        variant_data_ext_obj_link_id   : string &log &optional; # Link into OPCUA_Binary::ReadExtensionObject
+        variant_data_ext_obj_link_id   : string &log &optional; # Link into OPCUA_Binary::ReadExtensionObjectLink
+
+        read_results_variant_data_link_id : string &log &optional; #Link into OPCUA_Binary::ReadVariantDataLink
     };
 
     type OPCUA_Binary::ReadArrayDimsLink: record {
@@ -178,13 +184,28 @@ export {
         status_code_link_id      : string  &log; # Link into OPCUA_Binary::StatusCodeDetail
     };
 
-    type OPCUA_Binary::ReadExtensionObject: record {
+    type OPCUA_Binary::ReadExtensionObjectLink: record {
         ts                           : time    &log;
         uid                          : string  &log;
         id                           : conn_id &log;
-        variant_data_ext_obj_link_id : string &log; # Link into OPCUA_Binary::ReadVariantData
+        variant_data_ext_obj_link_id : string  &log; # Link back into OPCUA_Binary::ReadVariantData
+        ext_obj_link_id              : string  &log; # Link into OPCUA_Binary::ReadExtensionObject
+    };
 
-        ext_obj_type_id     : count  &log;
+    type OPCUA_Binary::ReadExtensionObject: record {
+        ts              : time    &log;
+        uid             : string  &log;
+        id              : conn_id &log;
+        ext_obj_link_id : string &log; # Link into OPCUA_Binary::ReadExtensionObjectLink
+
+        # NodeId
+        ext_obj_node_id_encoding_mask : string &log &optional;
+        ext_obj_node_id_namespace_idx : count  &log &optional;
+        ext_obj_node_id_numeric       : count  &log &optional;
+        ext_obj_node_id_string        : string &log &optional;
+        ext_obj_node_id_guid          : string &log &optional;
+        ext_obj_node_id_opaque        : string &log &optional;
+
         ext_obj_type_id_str : string &log; # String representation of type id (AnonymousIdentityToken, UserNameIdentityToken, X509IdentityToken, etc.)
         ext_obj_encoding    : string &log;
 
