@@ -86,6 +86,10 @@ export {
         built_in_data_type_str      : string &log &optional;
 
         read_results_variant_data_link_id  : string &log &optional; # Link into OPCUA_Binary::ReadVariantDataLink log
+
+        # Array Dimensions
+        variant_data_array_dim         : count &log &optional;
+        variant_data_array_dim_link_id : string &log &optional; # Link into OPCUA_Binary::ReadArrayDimsLink
     };
 
     #
@@ -146,10 +150,7 @@ export {
         # OpcUA_DiagnosticInfo
         variant_data_diag_info_link_id     : string &log &optional; # Link into OPCUA_Binary::ReadDiagnosticInfo log
 
-        # Array Dimensions
-        variant_data_array_dim         : count &log &optional;
-        variant_data_array_dim_link_id : string &log &optional; # Link into OPCUA_Binary::ReadArrayDimsLink
-
+        # OpcUA_ExtensionObject
         variant_data_ext_obj_link_id   : string &log &optional; # Link into OPCUA_Binary::ReadExtensionObjectLink
 
         #

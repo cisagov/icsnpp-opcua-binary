@@ -59,20 +59,22 @@
 // Index constants for setting values in OPCUA_Binary::ReadResults
 // based on the parsed values from Read_Res
 //
-    #define READ_RES_LINK_ID_DST_IDX                       3 // Id back into OPCUA_Binary::ReadResultsLink
-    #define READ_RES_LEVEL_IDX                             4
-    #define READ_RES_DATA_VALUE_ENCODING_MASK_IDX          5
-    #define READ_RES_STATUS_CODE_LINK_ID_SRC_IDX           6 // Id into OPCUA_Binary::StatusCodeDetail log
-    #define READ_RES_SOURCE_TIMESTAMP_IDX                  7
-    #define READ_RES_SOURCE_PICO_SEC_IDX                   8
-    #define READ_RES_SERVER_TIMESTAMP_IDX                  9
-    #define READ_RES_SERVER_PICO_SEC_IDX                  10 
-    #define READ_RES_DATA_VARIANT_ENCODING_MASK_IDX       11
-    #define READ_RES_DATA_VARIANT_TYPE_IDX                12
-    #define READ_RES_DATA_VARIANT_TYPE_STR_IDX            13
-    #define READ_RES_BUILT_IN_DATA_TYPE_IDX               14
-    #define READ_RES_BUILT_IN_DATA_TYPE_STR_IDX           15
-    #define READ_RES_RESULTS_VARIANT_DATA_LINK_ID_SRC_IDX 16 // Id into OPCUA_Binary::ReadVariantDataLink
+    #define READ_RES_LINK_ID_DST_IDX                             3 // Id back into OPCUA_Binary::ReadResultsLink
+    #define READ_RES_LEVEL_IDX                                   4
+    #define READ_RES_DATA_VALUE_ENCODING_MASK_IDX                5
+    #define READ_RES_STATUS_CODE_LINK_ID_SRC_IDX                 6 // Id into OPCUA_Binary::StatusCodeDetail log
+    #define READ_RES_SOURCE_TIMESTAMP_IDX                        7
+    #define READ_RES_SOURCE_PICO_SEC_IDX                         8
+    #define READ_RES_SERVER_TIMESTAMP_IDX                        9
+    #define READ_RES_SERVER_PICO_SEC_IDX                        10 
+    #define READ_RES_DATA_VARIANT_ENCODING_MASK_IDX             11
+    #define READ_RES_DATA_VARIANT_TYPE_IDX                      12
+    #define READ_RES_DATA_VARIANT_TYPE_STR_IDX                  13
+    #define READ_RES_BUILT_IN_DATA_TYPE_IDX                     14
+    #define READ_RES_BUILT_IN_DATA_TYPE_STR_IDX                 15
+    #define READ_RES_RESULTS_VARIANT_DATA_LINK_ID_SRC_IDX       16 // Id into OPCUA_Binary::ReadVariantDataLink
+    #define READ_RES_RESULTS_VARIANT_DATA_ARRAY_DIM_IDX         17 
+    #define READ_RES_RESULTS_VARIANT_DATA_ARRAY_LINK_ID_SRC_IDX 18 // Link into OPCUA_Binary::ReadArrayDimsLink
 
 //
 // Index constants for setting values in OPCUA_Binary::ReadVariantDataLink
@@ -130,26 +132,22 @@
     // OpcUA_DiagInfo
     #define READ_RES_VARIANT_DATA_DIAG_INFO_LINK_ID_SRC_IDX    23 // Link into OPCUA_Binary::ReadDiagnosticInfo log
     
-    // Array Dimensions
-    #define READ_RES_VARIANT_DATA_ARRAY_DIM_IDX                24 
-    #define READ_RES_VARIANT_DATA_ARRAY_LINK_ID_SRC_IDX        25 // Link into OPCUA_Binary::ReadArrayDimsLink
-
     // OpcUA_ExtensionObject
-    #define READ_RES_VARIANT_DATA_EXT_OBJ_LINK_ID_SRC_IDX      26 // Link into OPCUA_Binary::ReadExtensionObjectLink
+    #define READ_RES_VARIANT_DATA_EXT_OBJ_LINK_ID_SRC_IDX      24 // Link into OPCUA_Binary::ReadExtensionObjectLink
 
     //
     // OpcUA_DataValue
     // Note: A OpcUA_DataValue that is itself of type OpcUA_DataValue is handled by recursively calling the read variant
     // data processing and linking into the OPCUA_Binary::ReadVariantDataLink
     //
-    #define READ_RES_VARIANT_DATA_DATA_VALUE_LINK_ID_SRC_IDX   27 // Link into OPCUA_Binary::ReadVariantDataLink
+    #define READ_RES_VARIANT_DATA_DATA_VALUE_LINK_ID_SRC_IDX   25 // Link into OPCUA_Binary::ReadVariantDataLink
 
 //
 // Index constants for setting values in OPCUA_Binary::ReadArrayDimsLink
 // based on the parsed values from Read_Res
 //
-    #define READ_RES_VARIANT_DATA_ARRAY_LINK_ID_DST_IDX 3 // Link back into OPCUA_Binary::ReadVariantData
-    #define READ_RES_ARRAY_LINK_ID_SRC_IDX              4 // Link into OPCUA_Binary::ReadArrayDims
+    #define READ_RES_RESULTS_VARIANT_DATA_ARRAY_LINK_ID_DST_IDX 3 // Link back into OPCUA_Binary::ReadVariantData
+    #define READ_RES_ARRAY_LINK_ID_SRC_IDX                      4 // Link into OPCUA_Binary::ReadArrayDims
 
 //
 // Index constants for setting values in OPCUA_Binary::ReadArrayDims
