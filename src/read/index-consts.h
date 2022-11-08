@@ -78,6 +78,9 @@
 // Index constants for setting values in OPCUA_Binary::ReadVariantDataLink
 // based on the parsed values from Read_Res
 //
+// Note: The processing for a OpcUA_DataValue that is itself of type OpcUA_DataValue is to recursively call the read variant
+// data processing and link back into the OPCUA_Binary::ReadVariantDataLink log file.
+//
     #define READ_RES_RESULTS_VARIANT_DATA_LINK_ID_DST_IDX 3 // Id back into OPCUA_Binary::ReadVariantDataLink
     #define READ_RES_VARIANT_DATA_LINK_ID_SRC_IDX         4 // Id into OPCUA_Binary::ReadVariantData
 
@@ -134,7 +137,11 @@
     // OpcUA_ExtensionObject
     #define READ_RES_VARIANT_DATA_EXT_OBJ_LINK_ID_SRC_IDX      26 // Link into OPCUA_Binary::ReadExtensionObjectLink
 
+    //
     // OpcUA_DataValue
+    // Note: A OpcUA_DataValue that is itself of type OpcUA_DataValue is handled by recursively calling the read variant
+    // data processing and linking into the OPCUA_Binary::ReadVariantDataLink
+    //
     #define READ_RES_VARIANT_DATA_DATA_VALUE_LINK_ID_SRC_IDX   27 // Link into OPCUA_Binary::ReadVariantDataLink
 
 //
