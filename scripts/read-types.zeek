@@ -88,11 +88,15 @@ export {
         read_results_variant_data_link_id  : string &log &optional; # Link into OPCUA_Binary::ReadVariantDataLink log
     };
 
+    #
+    # Note: The processing for a OpcUA_DataValue that is itself of type OpcUA_DataValue is to recursively call the read variant
+    # data processing and link back into the OPCUA_Binary::ReadVariantDataLink log file.
+    #
     type OPCUA_Binary::ReadVariantDataLink: record {
         ts                     : time    &log;
         uid                    : string  &log;
         id                     : conn_id &log;
-        read_results_variant_data_link_id : string  &log; # Link back into OPCUA_Binary::ReadResults
+        read_results_variant_data_link_id : string  &log; # Link back into OPCUA_Binary::ReadResults as well as link back into OPCUA_Binary::ReadVariantData
         read_variant_data_link_id         : string  &log; # Link into OPCUA_Binary::ReadVariantData
     };
 
@@ -148,6 +152,12 @@ export {
 
         variant_data_ext_obj_link_id   : string &log &optional; # Link into OPCUA_Binary::ReadExtensionObjectLink
 
+        #
+        # OpcUA_DataValue
+        #
+        # Note: A OpcUA_DataValue that is itself of type OpcUA_DataValue is handled by recursively calling the read variant
+        # data processing and linking into the OPCUA_Binary::ReadVariantDataLink
+        #
         read_results_variant_data_link_id : string &log &optional; #Link into OPCUA_Binary::ReadVariantDataLink
     };
 
