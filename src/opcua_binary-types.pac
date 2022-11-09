@@ -398,6 +398,7 @@ type OpcUA_ObjectBody(extension_object_id : uint32) = record {
         SimpleAttributeOperand -> simple_attribute_operand  : OpcUA_SimpleAttributeOperand;
         EventFilterResult      -> event_filter_result       : OpcUA_EventFilterResult;
         AggregateFilterResult  -> aggregate_filter_result   : OpcUA_AggregateFilterResult;
+        default                -> not_yet_implemented_body : bytestring &length = length;
     };
 }
 
@@ -683,4 +684,27 @@ type OpcUA_VariantData_MultiDim_Array(encoding_mask : uint8) = record {
 
     array_dimensions_length : int32;
     array_dimensions        : int32[$context.flow.bind_length(array_dimensions_length)];
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.22 Table 164 - NumericRange
+#
+type OpcUA_NumericRange = record {
+    length : int32;
+    string : bytestring &length = $context.flow.bind_length(length);
+} &byteorder=littleendian;
+
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 7.24 Table 166 - ReadValueId
+#
+type OpcUA_ReadValueId = record {
+    node_id       : OpcUA_NodeId;
+    attribute_id  : uint32;
+    index_range   : OpcUA_NumericRange;
+    data_encoding : OpcUA_QualifiedName;
 }

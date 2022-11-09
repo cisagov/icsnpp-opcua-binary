@@ -19,6 +19,8 @@ static uint32_t StatusCode_ContentFilterElement_Key            = 10;
 static uint32_t StatusCode_ContentFilterElement_DiagInfo_Key   = 11;
 static uint32_t StatusCode_FilterOperand_Key                   = 12;
 static uint32_t StatusCode_FilterOperand_DiagInfo_Key          = 13;
+static uint32_t StatusCode_Read_Key                            = 14;
+static uint32_t StatusCode_Read_DiagInfo_Key                   = 15;
 
 static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
 {
@@ -35,8 +37,12 @@ static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
    {StatusCode_ContentFilterElement_Key,           "ContentFilterElement"},
    {StatusCode_ContentFilterElement_DiagInfo_Key,  "ContentFilterElement_DiagInfo"},
    {StatusCode_FilterOperand_Key,                  "ContentFilterElementOperand"},
-   {StatusCode_FilterOperand_DiagInfo_Key,         "ContentFilterElementOperand_DiagInfo"}
-};
+   {StatusCode_FilterOperand_DiagInfo_Key,         "ContentFilterElementOperand_DiagInfo"},
+   {StatusCode_Read_Key,                           "Read"},
+   {StatusCode_Read_DiagInfo_Key,                  "Read_DiagInfo"}
+}
+
+
 
 // Internal constants used to associate detailed diagnostic information
 // with the service/structure that generated the diagnostic
@@ -61,6 +67,8 @@ static const uint32_t DiagInfo_ContentFilterElement_Inner_Key  = 11;
 static const uint32_t DiagInfo_FilterOperand_Key               = 12;
 static const uint32_t DiagInfo_FilterOperand_Inner_Key         = 13;
 
+static const uint32_t DiagInfo_Read_Key                        = 14; 
+static const uint32_t DiagInfo_Read_Inner_Key                  = 15; 
 
 static std::map<uint32_t, std::string> DIAGNOSTIC_INFO_SRC_MAP =
 {
@@ -80,6 +88,9 @@ static std::map<uint32_t, std::string> DIAGNOSTIC_INFO_SRC_MAP =
    {DiagInfo_ContentFilterElement_Inner_Key, "ContentFilterElement_InnerDiagInfo"},
 
    {DiagInfo_FilterOperand_Key,              "ContentFilterElementOperand_DiagInfo"},
-   {DiagInfo_FilterOperand_Inner_Key,        "ContentFilterElementOperand_InnerDiagInfo"}
+   {DiagInfo_FilterOperand_Inner_Key,        "ContentFilterElementOperand_InnerDiagInfo"},
+
+   {DiagInfo_Read_Key,                       "Read_DiagInfo"},
+   {DiagInfo_Read_Inner_Key,                 "Read_InnerDiagInfo"}
 };
 #endif

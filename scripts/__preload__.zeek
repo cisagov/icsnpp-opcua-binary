@@ -8,3 +8,4 @@
 @load ./create-subscription-types
 @load ./create-monitored-items-types
 @load ./filter-types
+@load ./read-types

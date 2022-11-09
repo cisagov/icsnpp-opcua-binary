@@ -59,3 +59,15 @@ event opcua_binary_create_monitored_items_diagnostic_info_event%(c: connection, 
 event opcua_binary_event_filter_select_clause_diagnostic_info_event%(c: connection, select_clause_diagnostic_info: OPCUA_Binary::EventFilterDiagnosticInfo%);
 event opcua_binary_content_filter_element_diagnostic_info_event%(c: connection, content_filter_element_diagnostic_info: OPCUA_Binary::ContentFilterElementDiagnosticInfo%);
 event opcua_binary_content_filter_element_operand_diag_info_event%(c: connection, content_filter_element_operand_diagnostic_info: OPCUA_Binary::OperandDiagnosticInfo%);
+event opcua_binary_read_event%(c: connection, event_to_log: OPCUA_Binary::Read%);
+event opcua_binary_read_nodes_to_read_event%(c: connection, event_to_log: OPCUA_Binary::ReadNodesToRead%);
+event opcua_binary_read_results_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadResultsLink%);
+event opcua_binary_read_results_event%(c: connection, event_to_log: OPCUA_Binary::ReadResults%);
+event opcua_binary_read_variant_data_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadVariantDataLink%);
+event opcua_binary_read_variant_data_event%(c: connection, event_to_log: OPCUA_Binary::ReadVariantData%);
+event opcua_binary_read_read_array_dims_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadArrayDimsLink%);
+event opcua_binary_read_read_array_dims_event%(c: connection, event_to_log: OPCUA_Binary::ReadArrayDims%);
+event opcua_binary_read_diagnostic_info_event%(c: connection, event_to_log: OPCUA_Binary::ReadDiagnosticInfo%);
+event opcua_binary_read_status_code_event%(c: connection, event_to_log: OPCUA_Binary::ReadStatusCode%);
+event opcua_binary_read_extension_object_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObjectLink%);
+event opcua_binary_read_extension_object_event%(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObject%);

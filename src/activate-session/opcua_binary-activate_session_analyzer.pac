@@ -122,6 +122,9 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr activate_session_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSession);
 
+        // OpcUA_id
+        activate_session_res->Assign(ACTIVATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
+
         // Server Nonce
         activate_session_res->Assign(ACTIVATE_SESSION_RES_SERVER_NONCE_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->server_nonce()->byteString())));
 

@@ -379,7 +379,7 @@
         }
 
         if (isBitSet(obj->encoding_mask(), dataValueHasStatusCode)) {
-            printf("%s StatusCode: 0x%08x\n", indent(indent_width).c_str(), obj->status_code());
+            printf("%s StatusCode: 0x%08x [%s]\n", indent(indent_width).c_str(), obj->status_code(), STATUS_CODE_MAP.find(obj->status_code())->second.c_str());
         }
 
         if (isBitSet(obj->encoding_mask(), dataValueHasSourceTimestamp)) {
@@ -511,7 +511,7 @@
         }
 
         if (built_in_type == BuiltIn_StatusCode) {
-            printf("%s StatusCode: 0x%08x\n", indent(indent_width).c_str(), obj->status_code_variant());
+            printf("%s StatusCode: 0x%08x [%s]\n", indent(indent_width).c_str(), obj->status_code_variant(),STATUS_CODE_MAP.find(obj->status_code_variant())->second.c_str());
         }
 
         if (built_in_type == BuiltIn_QualifiedName) {
@@ -557,7 +557,6 @@
     }
 
     void printOpcUA_VariantDataMultiDimArray(int indent_width, uint8_t encoding_mask, OpcUA_VariantData_MultiDim_Array *obj) {
-        // printf("%s VariantDataMultiDimArray:\n", indent(indent_width).c_str());
 
         printOpcUA_VariantDataArray(indent_width + 1, encoding_mask, obj->array());
 
@@ -572,10 +571,17 @@
 
     void printOpcUA_QualifiedName(int indent_width, OpcUA_QualifiedName *obj) {
         printf("%s NamespaceIndex: %d\n", indent(indent_width).c_str(), obj->namespace_index());
-        printf("%s Name: %s\n", indent(indent_width).c_str(), std_str(obj->name()->string()).c_str());
+        if (obj->name()->length() > 0) {
+            printf("%s Name: %s\n", indent(indent_width).c_str(), std_str(obj->name()->string()).c_str());
+        } else {
+            printf("%s Name: [OpcUa Null String]\n", indent(indent_width).c_str());
+        }
+
     }
 
     void printOpcUA_LocalizedText(int indent_width, OpcUA_LocalizedText *obj) {
+        printf("%s EncodingMask: 0x%02x\n", indent(indent_width).c_str(), obj->encoding_mask());
+
         if (isBitSet(obj->encoding_mask(), localizedTextHasLocale)) {
             printf("%s Locale: %s\n", indent(indent_width).c_str(), std_str(obj->locale()->string()).c_str());
         } else {
@@ -587,6 +593,26 @@
         } else {
             printf("%s Text: Empty\n", indent(indent_width).c_str());
         }
+    }
+
+    void printOpcUA_ReadValueId(int indent_width, OpcUA_ReadValueId *obj) {
+        // Node Id
+        printf("%s NodeId: NodeId\n", indent(indent_width + 1).c_str());
+        printOpcUA_NodeId(indent_width + 2, obj->node_id());
+
+        // Attibute Id
+        printf("%s AttributeId: %s (0x%08x)\n", indent(indent_width + 1).c_str(), ATTRIBUTE_ID_MAP.find(obj->attribute_id())->second.c_str(), obj->attribute_id());
+
+        // Index Range
+        if (obj->index_range()->length() > 0) {
+            printf("%s IndexRange: %s\n", indent(indent_width + 1).c_str(), std_str(obj->index_range()->string()).c_str());
+        } else {
+            printf("%s IndexRange: [OpcUa Null String]\n", indent(indent_width+1).c_str());
+        }
+
+        // Data Encoding
+        printf("%s DataEncoding: QualifiedName\n", indent(indent_width + 1).c_str());
+        printOpcUA_QualifiedName(indent_width + 2, obj->data_encoding());
     }
 %}
 

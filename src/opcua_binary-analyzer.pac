@@ -17,6 +17,7 @@
 #include <time.h>
 #include "types.bif.h"
 #include "extension_object_node_id.h"
+#include "attribute_id.h"
 #include "index-consts.h"
 #include "statuscode-diagnostic-index-consts.h"
 #include "create-session/index-consts.h"
@@ -29,6 +30,7 @@
 #include "create-monitored-items/index-consts.h"
 #include "filters/filter_enums.h"
 #include "filters/index-consts.h"
+#include "read/index-consts.h"
 #include "status_codes.h"
 #include "built_in_data_types.h"
 #include "node_identifiers.h"
