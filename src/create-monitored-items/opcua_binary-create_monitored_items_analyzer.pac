@@ -42,7 +42,7 @@ refine flow OPCUA_Binary_Flow += {
                 std::string monitored_items_id = generateId();
                 create_monitored_items_req->Assign(CREATE_MONITORED_ITEMS_MONITORED_ITEM_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(monitored_items_id));
                 for (int i=0; i < num_items_to_create; i++){
-                    zeek::RecordValPtr monitored_item_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateItemRequest);
+                    zeek::RecordValPtr monitored_item_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateItem);
                     monitored_item_req->Assign(MONITORED_ITEM_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(monitored_items_id));
                     flattenOpcUA_ReadValueId(monitored_item_req, msg->items_to_create()->at(i)->item_to_monitor(), ITEM_TO_MONITOR_NODE_ID_ENCODING_MASK_IDX);
                     switch(msg->items_to_create()->at(i)->monitoring_mode()){
@@ -61,8 +61,8 @@ refine flow OPCUA_Binary_Flow += {
                     monitored_item_req->Assign(MONITORING_PARAMETERS_QUEUE_SIZE_IDX, zeek::val_mgr->Count(msg->items_to_create()->at(i)->requested_parameters()->queue_size()));
                     monitored_item_req->Assign(MONITORING_PARAMETERS_DISCARD_OLDEST_IDX, zeek::val_mgr->Bool(msg->items_to_create()->at(i)->requested_parameters()->discard_oldest()));
                     std::string filter_id = generateId();
-                    monitored_item_req->Assign(MONITORING_PARAMETERS_FILTER_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(filter_id)); 
-                    flattenOpcUA_ExtensionObject(monitored_item_req, msg->items_to_create()->at(i)->requested_parameters()->filter(), MONITORING_PARAMETERS_FILTER_EXT_OBJ_TYPE_ID_ENCODING_MASK_IDX, filter_id, connection());
+                    monitored_item_req->Assign(MONITORING_PARAMETERS_FILTER_INFO_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(filter_id)); 
+                    flattenOpcUA_ExtensionObject(monitored_item_req, msg->items_to_create()->at(i)->requested_parameters()->filter(), MONITORING_PARAMETERS_FILTER_INFO_EXT_OBJ_TYPE_ID_ENCODING_MASK_IDX, filter_id, connection());
                     zeek::BifEvent::enqueue_opcua_binary_create_monitored_items_create_item_event(connection()->bro_analyzer(),
                                                                                                   connection()->bro_analyzer()->Conn(),
                                                                                                   monitored_item_req);
@@ -80,9 +80,12 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_CreateMonitoredItemsRes(msg: CreateMonitoredItems_Res): bool
         %{
-            // Debug printf("deliver_Svc_BrowseRes - begin\n");
-            // Debug printBrowseRes(msg);
-            // Debug printf("deliver_Svc_BrowseRes - end\n");
+            // Debug 
+            printf("deliver_Svc_CreateMonitoredItemsRes - begin\n");
+            // Debug 
+            printCreateMonitoredItemsRes(msg);
+            // Debug 
+            printf("deliver_Svc_CreateMonitoredItemsRes - end\n");
             zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
             info = assignMsgHeader(info, msg->service()->msg_body()->header());
@@ -93,6 +96,61 @@ refine flow OPCUA_Binary_Flow += {
             zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
                                                        connection()->bro_analyzer()->Conn(),
                                                        info);
+
+            zeek::RecordValPtr create_monitored_items_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateMonitoredItems);
+            int32_t num_results = msg->num_results();  
+            if (num_results > 0){
+                std::string monitored_items_id = generateId();
+                create_monitored_items_res->Assign(CREATE_MONITORED_ITEMS_MONITORED_ITEM_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(monitored_items_id));
+                for (int i=0; i < num_results; i++){
+                    zeek::RecordValPtr monitored_item_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateItem);
+                    monitored_item_res->Assign(MONITORED_ITEM_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(monitored_items_id));
+                    uint32_t status_code_level = 0;
+                    std::string status_code_id = generateId();
+                    // create_monitored_items_res->Assign(MONITORED_ITEM_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(status_code_id));
+                    generateStatusCodeEvent(connection(),  monitored_item_res->GetField(MONITORED_ITEM_LINK_ID_DST_IDX), StatusCode_CreateMonitoredItems_Key, msg->results()->at(i)->status_code(), status_code_level);
+                    monitored_item_res->Assign(MONTORED_ITEM_INDEX_ID_IDX, zeek::val_mgr->Count(msg->results()->at(i)->monitored_item_id()));
+                    monitored_item_res->Assign(MONITORING_PARAMETERS_REVISED_SAMPLING_INTERVAL_IDX, zeek::make_intrusive<zeek::DoubleVal>(bytestringToDouble((msg->results()->at(i)->revised_sampling_interval()->duration()))));                
+                    monitored_item_res->Assign(MONITORING_PARAMETERS_REVISED_QUEUE_SIZE_IDX, zeek::val_mgr->Count(msg->results()->at(i)->revised_queue_size()));
+                    std::string filter_id = generateId();
+                    monitored_item_res->Assign(MONITORING_PARAMETERS_FILTER_INFO_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(filter_id)); 
+                    flattenOpcUA_ExtensionObject(monitored_item_res, msg->results()->at(i)->filter_result(), MONITORING_PARAMETERS_FILTER_INFO_EXT_OBJ_TYPE_ID_ENCODING_MASK_IDX, filter_id, connection());
+                    zeek::BifEvent::enqueue_opcua_binary_create_monitored_items_create_item_event(connection()->bro_analyzer(),
+                                                                                                  connection()->bro_analyzer()->Conn(),
+                                                                                                  monitored_item_res);
+                }
+            }
+            if (msg->diag_info_size() > 0) {
+                string diagnostic_info_link_id = generateId(); // Link to tie OCPUA_Binary::CreateMonitoredItems and OPCUA_Binary::CreateMonitoredItemsDiagnosticInfo together
+                string diagnostic_info_id      = generateId(); // Link to tie OCPUA_Binary::CreateMonitoredItemsDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
+
+                // Assign the linkage in the OCPUA_Binary::CreateMonitoredItems
+                create_monitored_items_res->Assign(CREATE_MONITORED_ITEMS_RESPONSE_DIAG_INFO_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
+
+                uint32 innerDiagLevel = 0;
+                vector<OpcUA_String *>  *stringTable = NULL;
+                for (int i = 0; i < msg->diag_info_size(); i++) {
+
+                    // Assign the linkage in the OCPUA_Binary::CreateMonitoredItemsDiagnosticInfo and enqueue the logging event
+                    zeek::RecordValPtr create_monitored_items_res_diagnostic_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateMonitoredItemsDiagnosticInfo);
+                    create_monitored_items_res_diagnostic_info->Assign(CREATE_MONITORED_ITEMS_RESPONSE_DIAG_INFO_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
+                    create_monitored_items_res_diagnostic_info->Assign(CREATE_MONITORED_ITEMS_DIAG_INFO_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id));
+                    zeek::BifEvent::enqueue_opcua_binary_create_monitored_items_diagnostic_info_event(connection()->bro_analyzer(),
+                                                                                                      connection()->bro_analyzer()->Conn(),
+                                                                                                      create_monitored_items_res_diagnostic_info);
+
+
+                    // Process the details of the Diagnostic Information
+                    generateDiagInfoEvent(connection(), create_monitored_items_res_diagnostic_info->GetField(CREATE_MONITORED_ITEMS_DIAG_INFO_LINK_ID_SRC_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_FilterOperand_DiagInfo_Key, DiagInfo_FilterOperand_Key);
+
+                    // Generate an new link to tie OCPUA_Binary::CreateMonitoredItemsDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
+                    diagnostic_info_id = generateId();
+                }
+            }
+            zeek::BifEvent::enqueue_opcua_binary_create_monitored_items_event(connection()->bro_analyzer(),
+                                                                              connection()->bro_analyzer()->Conn(),
+                                                                              create_monitored_items_res);
+
             return true;       
         %}
 }

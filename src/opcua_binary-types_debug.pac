@@ -22,15 +22,9 @@
     void printOpcUA_VariantDataMultiDimArray(int indent_width, uint8_t encoding_mask, OpcUA_VariantData_MultiDim_Array *obj);
     void printOpcUA_QualifiedName(int indent_width, OpcUA_QualifiedName *obj);
     void printOpcUA_LocalizedText(int indent_width, OpcUA_LocalizedText *obj);
-
 %}
 
 %code{
-    void printOpcUA_QualifiedName(int indent_width, OpcUA_QualifiedName *qualifiedName) {
-        printf("%s Id: %d\n", indent(indent_width).c_str(), qualifiedName->namespace_index());
-        printf("%s Name: %s\n", indent(indent_width).c_str(), std_str(qualifiedName->name()->string()).c_str());
-    }
-
     void printOpcUA_DiagInfo(int indent_width, OpcUA_DiagInfo *diagInfo) {
         printf("%s EncodingMask: 0x%02x\n", indent(indent_width).c_str(), diagInfo->encoding_mask());
 
@@ -151,11 +145,7 @@
     //
     void printOpcUA_ExtensionObject(int indent_width, OpcUA_ExtensionObject *obj) {
         string extension_obj_str = EXTENSION_OBJECT_ID_MAP.find(getExtensionObjectId(obj->type_id()))->second;
-        if (extension_obj_str.find("Filter")){
-            printf("%s Filter: ExtensionObject\n", indent(indent_width).c_str());
-        } else {
-            printf("%s %s: ExtensionObject\n", indent(indent_width).c_str(), extension_obj_str.c_str());
-        }
+        printf("%s %s: ExtensionObject\n", indent(indent_width).c_str(), extension_obj_str.c_str());
 
         // TypeId
         printf("%s TypeId: NodeId\n", indent(indent_width+1).c_str());
@@ -204,12 +194,20 @@
                     printOpcUA_ElementOperand(indent_width+1, object_body->element_operand());
                     break;
                 case LiteralOperand_Key:
+                    printOpcUA_LiteralOperand(indent_width+1, object_body->literal_operand());
                     break;
                 case AttributeOperand_Key:
                     printOpcUA_AttributeOperand(indent_width+1, object_body->attribute_operand());
                     break;
                 case SimpleAttributeOperand_Key:
                     printOpcUA_SimpleAttributeOperand(indent_width+1, object_body->simple_attribute_operand());
+                    break;
+                case AggregateFilterResult_Key:
+                    printOpcUA_AggregateFilterResult(indent_width+1, object_body->aggregate_filter_result());
+                    break;
+                case EventFilterResult_Key:
+                    printOpcUA_EventFilterResult(indent_width+1, object_body->event_filter_result());
+                    break;
             }
         }
     }
@@ -421,7 +419,7 @@
         string built_in_type_str = BUILT_IN_DATA_TYPES_MAP.find(built_in_type)->second;
         if (getVariantDataType(obj->encoding_mask()) == variantIsValue) {
             printf("%s Variant Type: %s (0x%02x)\n", indent(indent_width).c_str(), built_in_type_str.c_str(), obj->encoding_mask());
-            printOpcUA_VariantData(indent_width + 1, obj->encoding_mask(), obj->variant_value());
+            printOpcUA_VariantData(indent_width, obj->encoding_mask(), obj->variant_value());
         }
 
         if (getVariantDataType(obj->encoding_mask()) == variantIsArray) {

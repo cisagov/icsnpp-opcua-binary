@@ -23,7 +23,9 @@ export {
                             LOG_DATA_CHANGE_FILTER, LOG_AGGREGATE_FILTER, LOG_EVENT_FILTER, LOG_EVENT_FILTER_SELECT_CLAUSE, 
                             LOG_EVENT_FILTER_SELECT_CLAUSE_BROWSE_PATHS, LOG_EVENT_FILTER_CONTENT_FILTER, LOG_EVENT_FILTER_CONTENT_FILTER_ELEMENT,
                             LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND, LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATHS, LOG_EVENT_FILTER_ATTRIBUTE_OPERAND, 
-                            LOG_EVENT_FILTER_ATTRIBUTE_OPERAND_BROWSE_PATHS, LOG_EVENT_FILTER_ELEMENT_OPERAND};
+                            LOG_EVENT_FILTER_ATTRIBUTE_OPERAND_BROWSE_PATHS, LOG_EVENT_FILTER_ELEMENT_OPERAND, LOG_CREATE_MONITORED_ITEMS_DIAGNOSTIC_INFO,
+                            LOG_SELECT_CLAUSE_DIAGNOSTIC_INFO, LOG_CONTENT_FILTER_ELEMENT_DIAGNOSTIC_INFO, LOG_CONTENT_FILTER_ELEMENT_OPERAND_DIAGNOSTIC_INFO,
+                            LOG_OPERAND_DIAGNOSTIC_INFO};
 }
 
 # Port-based detection
@@ -64,12 +66,12 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION,        [$columns=OPCUA_Binary::CreateSubscription, $path="opcua-binary-create-subscription"]);
 
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS,              [$columns=OPCUA_Binary::CreateMonitoredItems, $path="opcua-binary-create-monitored-items"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS_CREATE_ITEM,  [$columns=OPCUA_Binary::CreateItemRequest, $path="opcua-binary-create-monitored-items-create-item"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS_CREATE_ITEM,  [$columns=OPCUA_Binary::CreateItem, $path="opcua-binary-create-monitored-items-create-item"]);
    
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_DATA_CHANGE_FILTER,                                 [$columns=OPCUA_Binary::DataChangeFilter, $path="opcua-binary-data-change-filters"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_AGGREGATE_FILTER,                                   [$columns=OPCUA_Binary::AggregateFilter, $path="opcua-binary-aggregate-filters"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER,                                       [$columns=OPCUA_Binary::EventFilter, $path="opcua-binary-event-filters"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SELECT_CLAUSE,                         [$columns=OPCUA_Binary::SimpleAttributeOperand, $path="opcua-binary-event-filters-select-clause"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SELECT_CLAUSE,                         [$columns=OPCUA_Binary::SelectClause, $path="opcua-binary-event-filters-select-clause"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SELECT_CLAUSE_BROWSE_PATHS,            [$columns=OPCUA_Binary::SimpleAttributeOperandBrowsePaths, $path="opcua-binary-event-filters-select-clause-browse-paths"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_CONTENT_FILTER,                        [$columns=OPCUA_Binary::ContentFilter, $path="opcua-binary-event-filters-where-clause"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_CONTENT_FILTER_ELEMENT,                [$columns=OPCUA_Binary::ContentFilterElement, $path="opcua-binary-event-filters-where-clause-elements"]);
@@ -78,6 +80,11 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ATTRIBUTE_OPERAND,                     [$columns=OPCUA_Binary::AttributeOperand, $path="opcua-binary-event-filters-attribute-operand"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ATTRIBUTE_OPERAND_BROWSE_PATHS,        [$columns=OPCUA_Binary::AttributeOperandBrowsePathElement, $path="opcua-binary-event-filters-attribute-operand-browse-paths"]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ELEMENT_OPERAND,                       [$columns=OPCUA_Binary::ElementOperand, $path="opcua-binary-event-filters-element-operand"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS_DIAGNOSTIC_INFO,             [$columns=OPCUA_Binary::CreateMonitoredItemsDiagnosticInfo, $path="opcua-binary-create-monitored-items-diagnostic-info"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_SELECT_CLAUSE_DIAGNOSTIC_INFO,                      [$columns=OPCUA_Binary::EventFilterDiagnosticInfo, $path="opcua-binary-select-clause-diagnostic-info"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CONTENT_FILTER_ELEMENT_DIAGNOSTIC_INFO,             [$columns=OPCUA_Binary::ContentFilterElementDiagnosticInfo, $path="opcua-binary-content-filter-element-diagnostic-info"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_OPERAND_DIAGNOSTIC_INFO,                            [$columns=OPCUA_Binary::OperandDiagnosticInfo, $path="opcua-binary-operand-diagnostic-info"]);
+
 
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
    }
@@ -212,7 +219,7 @@ event opcua_binary_create_session_discovery_event(c: connection, create_session_
        create_session_discovery$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_DISCOVERY, create_session_discovery);
-   }
+    }
 
 
 event opcua_binary_create_session_endpoints_event(c: connection, create_session_endpoints: OPCUA_Binary::CreateSessionEndpoints)
@@ -223,7 +230,7 @@ event opcua_binary_create_session_endpoints_event(c: connection, create_session_
        create_session_endpoints$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_ENDPOINTS, create_session_endpoints);
-   }
+    }
 
 event opcua_binary_create_session_user_token_event(c: connection, create_session_user_token: OPCUA_Binary::CreateSessionUserToken)
    {
@@ -233,10 +240,10 @@ event opcua_binary_create_session_user_token_event(c: connection, create_session
        create_session_user_token$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_USER_TOKEN, create_session_user_token);
-   }
+    }
 
 event opcua_binary_activate_session_event(c: connection, activate_session: OPCUA_Binary::ActivateSession)
-    {
+   {
        set_service(c, "opcua-binary");
        activate_session$ts  = network_time();
        activate_session$uid = c$uid;
@@ -246,7 +253,7 @@ event opcua_binary_activate_session_event(c: connection, activate_session: OPCUA
     }
 
 event opcua_binary_activate_session_client_software_cert_event(c: connection, activate_session_client_software_cert: OPCUA_Binary::ActivateSessionClientSoftwareCert)
-    {
+   {
        set_service(c, "opcua-binary");
        activate_session_client_software_cert$ts  = network_time();
        activate_session_client_software_cert$uid = c$uid;
@@ -256,7 +263,7 @@ event opcua_binary_activate_session_client_software_cert_event(c: connection, ac
     }
 
 event opcua_binary_activate_session_locale_id_event(c: connection, activate_session_locale_id: OPCUA_Binary::ActivateSessionLocaleId)
-    {
+   {
        set_service(c, "opcua-binary");
        activate_session_locale_id$ts  = network_time();
        activate_session_locale_id$uid = c$uid;
@@ -266,7 +273,7 @@ event opcua_binary_activate_session_locale_id_event(c: connection, activate_sess
     }
 
 event opcua_binary_activate_session_diagnostic_info_event(c: connection, activate_session_diagnostic_info: OPCUA_Binary::ActivateSessionDiagnosticInfo)
-    {
+   {
        set_service(c, "opcua-binary");
        activate_session_diagnostic_info$ts  = network_time();
        activate_session_diagnostic_info$uid = c$uid;
@@ -282,7 +289,7 @@ event opcua_binary_browse_event(c: connection, browse_event: OPCUA_Binary::Brows
        browse_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_BROWSE, browse_event);
-   }
+    }
 
 event opcua_binary_browse_description_event(c: connection, browse_description_event: OPCUA_Binary::BrowseDescription)
    {
@@ -292,10 +299,10 @@ event opcua_binary_browse_description_event(c: connection, browse_description_ev
        browse_description_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_BROWSE_DESCRIPTION, browse_description_event);
-   }
+    }
 
 event opcua_binary_browse_request_continuation_point_event(c: connection, browse_request_continuation_point: OPCUA_Binary::BrowseRequestContinuationPoint)
-    {
+   {
        set_service(c, "opcua-binary");
        browse_request_continuation_point$ts  = network_time();
        browse_request_continuation_point$uid = c$uid;
@@ -305,14 +312,14 @@ event opcua_binary_browse_request_continuation_point_event(c: connection, browse
     }
 
 event opcua_binary_browse_result_event(c: connection, browse_result_event: OPCUA_Binary::BrowseResult)
-    {
+   {
        set_service(c, "opcua-binary");
        browse_result_event$ts  = network_time();
        browse_result_event$uid = c$uid;
        browse_result_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESULT, browse_result_event);
-   }
+    }
 
 
 event opcua_binary_browse_reference_event(c: connection, browse_reference_event: OPCUA_Binary::BrowseReference)
@@ -323,7 +330,7 @@ event opcua_binary_browse_reference_event(c: connection, browse_reference_event:
        browse_reference_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESPONSE_REFERENCES, browse_reference_event);
-   }
+    }
 
 event opcua_binary_browse_diagnostic_info_event(c: connection, browse_diagnostic_info: OPCUA_Binary::BrowseDiagnosticInfo)
    {
@@ -343,7 +350,7 @@ event opcua_binary_create_subscription_event(c: connection, create_subscription_
        create_subscription_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION, create_subscription_event);
-   }
+    }
 
 event opcua_binary_create_monitored_items_event(c: connection, create_monitored_items_event: OPCUA_Binary::CreateMonitoredItems)
    {
@@ -353,9 +360,9 @@ event opcua_binary_create_monitored_items_event(c: connection, create_monitored_
        create_monitored_items_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS, create_monitored_items_event);
-   }
-event opcua_binary_create_monitored_items_create_item_event(c: connection, create_monitored_items_create_item_event: OPCUA_Binary::CreateItemRequest)
-    {
+    }
+event opcua_binary_create_monitored_items_create_item_event(c: connection, create_monitored_items_create_item_event: OPCUA_Binary::CreateItem)
+   {
        set_service(c, "opcua-binary");
        create_monitored_items_create_item_event$ts  = network_time();
        create_monitored_items_create_item_event$uid = c$uid;
@@ -363,99 +370,150 @@ event opcua_binary_create_monitored_items_create_item_event(c: connection, creat
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS_CREATE_ITEM, create_monitored_items_create_item_event);
     }
-event opcua_binary_data_change_filter_event(c: connection, data_change_filter_event: OPCUA_Binary::DataChangeFilter){
+event opcua_binary_data_change_filter_event(c: connection, data_change_filter_event: OPCUA_Binary::DataChangeFilter)
+   {
        set_service(c, "opcua-binary");
        data_change_filter_event$ts  = network_time();
        data_change_filter_event$uid = c$uid;
        data_change_filter_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_DATA_CHANGE_FILTER, data_change_filter_event);
-}
-event opcua_binary_aggregate_filter_event(c: connection, aggregate_filter_event: OPCUA_Binary::AggregateFilter){
+    }
+event opcua_binary_aggregate_filter_event(c: connection, aggregate_filter_event: OPCUA_Binary::AggregateFilter)
+   {
        set_service(c, "opcua-binary");
        aggregate_filter_event$ts  = network_time();
        aggregate_filter_event$uid = c$uid;
        aggregate_filter_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_AGGREGATE_FILTER, aggregate_filter_event);
-}
-event opcua_binary_event_filter_event(c: connection, event_filter_details_event: OPCUA_Binary::EventFilter){
+    }
+event opcua_binary_event_filter_event(c: connection, event_filter_details_event: OPCUA_Binary::EventFilter)
+   {
        set_service(c, "opcua-binary");
        event_filter_details_event$ts  = network_time();
        event_filter_details_event$uid = c$uid;
        event_filter_details_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER, event_filter_details_event);
-}
-event opcua_binary_event_filter_select_clauses_event(c: connection, select_clause_event: OPCUA_Binary::SimpleAttributeOperand){
+    }
+event opcua_binary_event_filter_select_clause_event(c: connection, select_clause_event: OPCUA_Binary::SelectClause)
+   {
        set_service(c, "opcua-binary");
        select_clause_event$ts  = network_time();
        select_clause_event$uid = c$uid;
        select_clause_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SELECT_CLAUSE, select_clause_event);
-}
-event opcua_binary_event_filter_select_clauses_browse_path_event(c: connection, select_clause_browse_path_event: OPCUA_Binary::SimpleAttributeOperandBrowsePaths){
+    }
+event opcua_binary_event_filter_select_clause_browse_path_event(c: connection, select_clause_browse_path_event: OPCUA_Binary::SimpleAttributeOperandBrowsePaths)
+   {
        set_service(c, "opcua-binary");
        select_clause_browse_path_event$ts  = network_time();
        select_clause_browse_path_event$uid = c$uid;
        select_clause_browse_path_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SELECT_CLAUSE_BROWSE_PATHS, select_clause_browse_path_event);
-}
-event opcua_binary_event_filter_content_filter_event(c: connection, content_filter_event: OPCUA_Binary::ContentFilter){
+    }
+event opcua_binary_event_filter_content_filter_event(c: connection, content_filter_event: OPCUA_Binary::ContentFilter)
+   {
        set_service(c, "opcua-binary");
        content_filter_event$ts  = network_time();
        content_filter_event$uid = c$uid;
        content_filter_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_CONTENT_FILTER, content_filter_event);
-}
-event opcua_binary_event_filter_content_filter_element_event(c: connection, content_filter_element_event: OPCUA_Binary::ContentFilterElement){
+    }
+event opcua_binary_event_filter_content_filter_element_event(c: connection, content_filter_element_event: OPCUA_Binary::ContentFilterElement)
+   {
        set_service(c, "opcua-binary");
        content_filter_element_event$ts  = network_time();
        content_filter_element_event$uid = c$uid;
        content_filter_element_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_CONTENT_FILTER_ELEMENT, content_filter_element_event);
-}
-event opcua_binary_event_filter_simple_attribute_operand_event(c: connection, simple_attribute_operand_event: OPCUA_Binary::SimpleAttributeOperand){
+    }
+event opcua_binary_event_filter_simple_attribute_operand_event(c: connection, simple_attribute_operand_event: OPCUA_Binary::SimpleAttributeOperand)
+   {
        set_service(c, "opcua-binary");
        simple_attribute_operand_event$ts  = network_time();
        simple_attribute_operand_event$uid = c$uid;
        simple_attribute_operand_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND, simple_attribute_operand_event);
-}
-event opcua_binary_event_filter_simple_attribute_operand_browse_path_event(c: connection, simple_attribute_operand_browse_path_event: OPCUA_Binary::SimpleAttributeOperandBrowsePaths){
+    }
+event opcua_binary_event_filter_simple_attribute_operand_browse_path_event(c: connection, simple_attribute_operand_browse_path_event: OPCUA_Binary::SimpleAttributeOperandBrowsePaths)
+   {
+
        set_service(c, "opcua-binary");
        simple_attribute_operand_browse_path_event$ts  = network_time();
        simple_attribute_operand_browse_path_event$uid = c$uid;
        simple_attribute_operand_browse_path_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATHS, simple_attribute_operand_browse_path_event);
-}
-event opcua_binary_event_filter_attribute_operand_event(c: connection, attribute_operand_event: OPCUA_Binary::AttributeOperand){
+    }
+event opcua_binary_event_filter_attribute_operand_event(c: connection, attribute_operand_event: OPCUA_Binary::AttributeOperand)
+   {
        set_service(c, "opcua-binary");
        attribute_operand_event$ts  = network_time();
        attribute_operand_event$uid = c$uid;
        attribute_operand_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ATTRIBUTE_OPERAND, attribute_operand_event);
-}
-event opcua_binary_event_filter_attribute_operand_browse_path_element_event(c: connection, attribute_operand_browse_path_event: OPCUA_Binary::AttributeOperandBrowsePathElement){
+    }
+event opcua_binary_event_filter_attribute_operand_browse_path_element_event(c: connection, attribute_operand_browse_path_event: OPCUA_Binary::AttributeOperandBrowsePathElement)
+   {
        set_service(c, "opcua-binary");
        attribute_operand_browse_path_event$ts  = network_time();
        attribute_operand_browse_path_event$uid = c$uid;
        attribute_operand_browse_path_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ATTRIBUTE_OPERAND_BROWSE_PATHS, attribute_operand_browse_path_event);
-}
-event opcua_binary_event_filter_element_operand_event(c: connection, element_operand_event: OPCUA_Binary::ElementOperand){
+    }
+event opcua_binary_event_filter_element_operand_event(c: connection, element_operand_event: OPCUA_Binary::ElementOperand)
+   {
        set_service(c, "opcua-binary");
        element_operand_event$ts  = network_time();
        element_operand_event$uid = c$uid;
        element_operand_event$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ELEMENT_OPERAND, element_operand_event);
-}
+    }
+event opcua_binary_create_monitored_items_diagnostic_info_event(c: connection, create_monitored_items_diagnostic_info: OPCUA_Binary::CreateMonitoredItemsDiagnosticInfo)
+   {
+       set_service(c, "opcua-binary");
+       print("Hi3");
+       create_monitored_items_diagnostic_info$ts  = network_time();
+       create_monitored_items_diagnostic_info$uid = c$uid;
+       create_monitored_items_diagnostic_info$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS_DIAGNOSTIC_INFO, create_monitored_items_diagnostic_info);
+    }
+event opcua_binary_event_filter_select_clause_diagnostic_info_event(c: connection, select_clause_diagnostic_info: OPCUA_Binary::EventFilterDiagnosticInfo)
+   {
+       set_service(c, "opcua-binary");
+       select_clause_diagnostic_info$ts  = network_time();
+       select_clause_diagnostic_info$uid = c$uid;
+       select_clause_diagnostic_info$id  = c$id;
+   
+       Log::write(ICSNPP_OPCUA_Binary::LOG_SELECT_CLAUSE_DIAGNOSTIC_INFO, select_clause_diagnostic_info);
+    }
+event opcua_binary_content_filter_element_diagnostic_info_event(c: connection, content_filter_element_diagnostic_info: OPCUA_Binary::ContentFilterElementDiagnosticInfo)
+   {
+       set_service(c, "opcua-binary");
+       content_filter_element_diagnostic_info$ts  = network_time();
+       content_filter_element_diagnostic_info$uid = c$uid;
+       content_filter_element_diagnostic_info$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_CONTENT_FILTER_ELEMENT_DIAGNOSTIC_INFO, content_filter_element_diagnostic_info);
+    }
+
+event opcua_binary_content_filter_element_operand_diag_info_event(c: connection, operand_diagnostic_info: OPCUA_Binary::OperandDiagnosticInfo)
+  {
+       set_service(c, "opcua-binary");
+       operand_diagnostic_info$ts  = network_time();
+       operand_diagnostic_info$uid = c$uid;
+       operand_diagnostic_info$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_OPERAND_DIAGNOSTIC_INFO, operand_diagnostic_info);
+    }

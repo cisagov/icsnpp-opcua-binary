@@ -152,8 +152,14 @@ build/opcua_binary_pac.cc file(s) for details.
                 case EventFilter:
                     flattenOpcUA_EventFilter(object_body->event_filter(), link_id, connection);
                     break;
+                case EventFilterResult:
+                    flattenOpcUA_EventFilterResult(object_body->event_filter_result(), link_id, connection);
+                    break;
                 case AggregateFilter:
                     flattenOpcUA_AggregateFilter(object_body->aggregate_filter(), link_id, connection);
+                    break;
+                case AggregateFilterResult:
+                    flattenOpcUA_AggregateFilterResult(object_body->aggregate_filter_result(), link_id, connection);
                     break;
                 case SimpleAttributeOperand:
                     flattenOpcUA_SimpleAttributeOperand(object_body->simple_attribute_operand(), link_id, connection);

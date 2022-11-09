@@ -32,7 +32,7 @@ type BrowseDiagnosticInfo: record;
 type CreateSubscription: record;
 
 type CreateMonitoredItems: record;
-type CreateItemRequest: record;
+type CreateItem: record;
 
 type DataChangeFilter: record;
 type AggregateFilter: record;
@@ -44,6 +44,11 @@ type ContentFilterElement: record;
 type AttributeOperand: record;
 type AttributeOperandBrowsePathElement: record;
 type ElementOperand: record;
+type CreateMonitoredItemsDiagnosticInfo: record;
+type SelectClause: record; 
+type EventFilterDiagnosticInfo: record; 
+type ContentFilterElementDiagnosticInfo: record;
+type OperandDiagnosticInfo: record;
 
 
 module GLOBAL;

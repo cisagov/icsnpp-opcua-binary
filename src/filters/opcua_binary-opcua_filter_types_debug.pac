@@ -15,9 +15,14 @@
     void printOpcUA_ContentFilter(int indent_width, OpcUA_ContentFilter *filter);
     void printOpcUA_ContentFilterElement(int indent_width, OpcUA_ContentFilterElement *element);
     void printOpcUA_ElementOperand(int indent_width, OpcUA_ElementOperand *operand);
+    void printOpcUA_LiteralOperand(int indent_width, OpcUA_LiteralOperand *operand);
     void printOpcUA_AttributeOperand(int indent_width, OpcUA_AttributeOperand *operand);
     void printOpcUA_SimpleAttributeOperand(int indent_width, OpcUA_SimpleAttributeOperand *operand);
     void printOpcUA_AggregateFilter(int indent_width, OpcUA_AggregateFilter *filter);
+    void printOpcUA_AggregateFilterResult(int indent_width, OpcUA_AggregateFilterResult *filter_result);
+    void printOpcUA_EventFilterResult(int indent_width, OpcUA_EventFilterResult *filter_result);
+    void printOpcUA_ContentFilterResult(int indent_width, OpcUA_ContentFilterResult* filter_result);
+    void printOpcUA_ContentFilterElementResult(int indent_width, OpcUA_ContentFilterElementResult* element_result);
 %}
 
 %code{
@@ -59,6 +64,11 @@
         printf("%s ElementOperand: ElementOperand\n", indent(indent_width).c_str());
         printf("%s Index: %d\n", indent(indent_width + 1).c_str(), operand->index());
     }
+    void printOpcUA_LiteralOperand(int indent_width, OpcUA_LiteralOperand *operand){
+        printf("%s LiteralOperand: LiteralOperand\n", indent(indent_width).c_str());
+        printf("%s Value: Variant\n", indent(indent_width+ 1).c_str());
+        printOpcUA_Variant(indent_width + 2, operand->value());
+    }
     void printOpcUA_AttributeOperand(int indent_width, OpcUA_AttributeOperand *operand){
         printf("%s AttributeOperand: AttributeOperand\n", indent(indent_width).c_str());
         printf("%s NodeId: NodeId \n", indent(indent_width + 1).c_str());
@@ -95,9 +105,10 @@
         }
     }
     void printOpcUA_AggregateFilter(int indent_width, OpcUA_AggregateFilter *filter){
-        printf("%s AggregateConfiguration: AggregateConfiguration\n", indent(indent_width).c_str());
+        printf("%s AggregateFilter: AggregateFilter\n", indent(indent_width).c_str());
         if (filter->start_time() > 0){
-            printf("%s StartTime: %lld\n", indent(indent_width + 1).c_str(), filter->start_time());
+            double unix_timestamp = winFiletimeToUnixTime(filter->start_time());
+            printf("%s StartTime: %s\n", indent(indent_width + 1).c_str(), unixTimestampToString(unix_timestamp).c_str());
         } else {
             printf("%s StartTime: No time specified (0)\n", indent(indent_width + 1).c_str());
         }
@@ -121,6 +132,78 @@
             printf("%s UseSlopedExtrapolation: True \n", indent(indent_width + 2).c_str());
         } else {
             printf("%s UseSlopedExtrapolation: False \n", indent(indent_width + 2).c_str());
+        }
+    }
+    void printOpcUA_AggregateFilterResult(int indent_width, OpcUA_AggregateFilterResult *filter_result){
+        printf("%s AggregateFilterResult: AggregateFilterResult\n", indent(indent_width).c_str());
+        if (filter_result->revised_start_time() > 0){
+            double unix_timestamp = winFiletimeToUnixTime(filter_result->revised_start_time());
+            printf("%s RevisedStartTime: %s\n", indent(indent_width + 1).c_str(), unixTimestampToString(unix_timestamp).c_str());
+        } else {
+            printf("%s RevisedStartTime: No time specified (0)\n", indent(indent_width + 1).c_str());
+        }
+        printf("%s RevisedProcessingInterval %f\n", indent(indent_width + 1).c_str(), bytestringToDouble(filter_result->revised_processing_interval()->duration()));
+        printf("%s RevisedAggregateConfiguration: AggregateConfiguration\n", indent(indent_width + 1).c_str());
+        if (filter_result->revised_aggregate_configuration()->use_server_capabilities_default() == 1){
+            printf("%s UseServerCapabilitiesDefault: True \n", indent(indent_width + 2).c_str());
+        } else {
+            printf("%s UseServerCapabilitiesDefault: False \n", indent(indent_width + 2).c_str());
+        }
+        if (filter_result->revised_aggregate_configuration()->treat_uncertain_as_bad() == 1){
+            printf("%s TreatUncertainAsBad: True \n", indent(indent_width + 2).c_str());
+        } else {
+            printf("%s TreatUncertainAsBad: False \n", indent(indent_width + 2).c_str());
+        }
+        printf("%s PercentDataBad: %d\n", indent(indent_width + 2).c_str(), filter_result->revised_aggregate_configuration()->percent_data_bad());
+        printf("%s PercentDataGood: %d\n", indent(indent_width + 2).c_str(), filter_result->revised_aggregate_configuration()->percent_data_good());
+        if (filter_result->revised_aggregate_configuration()->use_sloped_extrapolation() == 1){
+            printf("%s UseSlopedExtrapolation: True \n", indent(indent_width + 2).c_str());
+        } else {
+            printf("%s UseSlopedExtrapolation: False \n", indent(indent_width + 2).c_str());
+        }
+    }
+    void printOpcUA_EventFilterResult(int indent_width, OpcUA_EventFilterResult *filter_result){
+        printf("%s EventFilterResult: EventFilterResult\n", indent(indent_width).c_str());
+        printf("%s SelectClauseResult: Array of Status Code\n", indent(indent_width + 1).c_str());
+        printf("%s Array Size: %d\n", indent(indent_width + 2).c_str(), filter_result->num_select_clause_results());
+        for (int32_t i = 0; i < filter_result->num_select_clause_results(); i++) {
+            printf("%s [%d]: SelectClauseResults: 0x%08x [%s]\n", indent(indent_width + 2).c_str(), i, filter_result->select_clause_results()->at(i), STATUS_CODE_MAP.find(filter_result->select_clause_results()->at(i))->second.c_str());
+        }
+        printf("%s SelectClauseDiagnosticInfos: Array of Diagnostic Info\n", indent(indent_width + 1).c_str());
+        printf("%s Array Size: %d\n", indent(indent_width + 2).c_str(), filter_result->num_select_clause_diag_infos());
+        for (int32_t i = 0; i < filter_result->num_select_clause_diag_infos(); i++) {
+            printf("%s [%d]: DiagnosticInfo\n", indent(indent_width + 2).c_str(), i);
+            printOpcUA_DiagInfo(indent_width + 3, filter_result->select_clause_diag_infos()->at(i));
+        }
+        printf("%s WhereClauseResult: ContentFilterResult\n", indent(indent_width + 1).c_str());
+        printOpcUA_ContentFilterResult(indent_width + 2, filter_result->where_clause_result());
+    }
+    void printOpcUA_ContentFilterResult(int indent_width, OpcUA_ContentFilterResult* filter_result){
+        printf("%s ElementResults: Array of ContentFilterElementResult\n", indent(indent_width).c_str());
+        printf("%s ArraySize: %d\n", indent(indent_width + 1).c_str(), filter_result->num_element_results());
+        for (int32_t i = 0; i < filter_result->num_element_results(); i++) {
+            printf("%s [%d]: ContentFilterElementResult\n", indent(indent_width + 1).c_str(), i);
+            printOpcUA_ContentFilterElementResult(indent_width + 2, filter_result->elements_results()->at(i));
+        }
+        printf("%s ElementDiganosticInfos: Array of DiagnosticInfo\n", indent(indent_width).c_str());
+        printf("%s Array Size: %d\n", indent(indent_width + 1).c_str(), filter_result->num_element_diag_infos());
+        for (int32_t i = 0; i < filter_result->num_element_diag_infos(); i++) {
+            printf("%s [%d]: DiagnosticInfo\n", indent(indent_width + 2).c_str(), i);
+            printOpcUA_DiagInfo(indent_width + 3, filter_result->element_diag_infos  ()->at(i));
+        }
+    }
+    void printOpcUA_ContentFilterElementResult(int indent_width, OpcUA_ContentFilterElementResult* element_result){
+        printf("%s StatusCode: 0x%08x [%s]\n", indent(indent_width).c_str(), element_result->status_code(), STATUS_CODE_MAP.find(element_result->status_code())->second.c_str());
+        printf("%s OperandStatusCodes: Array of StatusCode\n", indent(indent_width).c_str());
+        printf("%s Array Size: %d\n", indent(indent_width + 1).c_str(), element_result->num_operand_status_codes());
+        for (int32_t i = 0; i < element_result->num_operand_status_codes(); i++) {
+            printf("%s [%d]: OperandStatusCodes: 0x%08x [%s]\n", indent(indent_width + 1).c_str(), i, element_result->operand_status_codes()->at(i), STATUS_CODE_MAP.find(element_result->operand_status_codes()->at(i))->second.c_str());
+        }
+        printf("%s OperandDiganosticInfos: Array of DiagnosticInfo\n", indent(indent_width).c_str());
+        printf("%s Array Size: %d\n", indent(indent_width + 1).c_str(), element_result->num_operand_diag_infos());
+        for (int32_t i = 0; i < element_result->num_operand_diag_infos(); i++) {
+            printf("%s [%d]: DiagnosticInfo\n", indent(indent_width + 2).c_str(), i);
+            printOpcUA_DiagInfo(indent_width + 3, element_result->operand_diag_infos()->at(i));
         }
     }
 %}
