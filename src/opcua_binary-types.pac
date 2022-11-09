@@ -385,17 +385,19 @@ type OpcUA_ObjectBody(extension_object_id : uint32) = record {
     length   : int32;
 
     body : case(extension_object_id) of {
-        AnonymousIdentityToken -> anonymous_identity_token : OpcUA_AnonymousIdentityToken;
-        UserNameIdentityToken  -> username_identity_token  : OpcUA_UserNameIdentityToken;
-        X509IdentityToken      -> x509_identity_token      : OpcUA_X509IdentityToken;
-        IssuedIdentityToken    -> issued_identity_token    : OpcUA_IssuedIdentityToken;
-        DataChangeFilter       -> data_change_filter       : OpcUA_DataChangeFilter;
-        EventFilter            -> event_filter             : OpcUA_EventFilter;
-        AggregateFilter        -> aggregate_filter         : OpcUA_AggregateFilter;
-        ElementOperand         -> element_operand          : OpcUA_ElementOperand;
-        LiteralOperand         -> literal_operand          : OpcUA_LiteralOperand;
-        AttributeOperand       -> attribute_operand        : OpcUA_AttributeOperand;
-        SimpleAttributeOperand -> simple_attribute_operand : OpcUA_SimpleAttributeOperand;
+        AnonymousIdentityToken -> anonymous_identity_token  : OpcUA_AnonymousIdentityToken;
+        UserNameIdentityToken  -> username_identity_token   : OpcUA_UserNameIdentityToken;
+        X509IdentityToken      -> x509_identity_token       : OpcUA_X509IdentityToken;
+        IssuedIdentityToken    -> issued_identity_token     : OpcUA_IssuedIdentityToken;
+        DataChangeFilter       -> data_change_filter        : OpcUA_DataChangeFilter;
+        EventFilter            -> event_filter              : OpcUA_EventFilter;
+        AggregateFilter        -> aggregate_filter          : OpcUA_AggregateFilter;
+        ElementOperand         -> element_operand           : OpcUA_ElementOperand;
+        LiteralOperand         -> literal_operand           : OpcUA_LiteralOperand;
+        AttributeOperand       -> attribute_operand         : OpcUA_AttributeOperand;
+        SimpleAttributeOperand -> simple_attribute_operand  : OpcUA_SimpleAttributeOperand;
+        EventFilterResult      -> event_filter_result       : OpcUA_EventFilterResult;
+        AggregateFilterResult  -> aggregate_filter_result   : OpcUA_AggregateFilterResult;
     };
 }
 

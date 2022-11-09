@@ -19,11 +19,12 @@ export {
         id                          : conn_id &log;
         opcua_id                    : string  &log;       # Id back into OCPUA_Binary::Info
 
-        subscription_id             : count &log &optional;
-        timestamps_to_return        : string &log &optional;
-        create_item_link_id         : string &log &optional; #Id into OPCUA_Binary:CreateItemRequest
+        subscription_id                             : count &log &optional;
+        timestamps_to_return                        : string &log &optional;
+        create_item_link_id                         : string &log &optional; #Id into OPCUA_Binary:CreateItem
+        create_monitored_items_diag_info_link_id    : string &log &optional; #Id into CreateMonitoredItemsDiagnosticInfo log
     };
-    type OPCUA_Binary::CreateItemRequest: record {
+    type OPCUA_Binary::CreateItem: record {
         ts                          : time    &log;
         uid                         : string  &log;
         id                          : conn_id &log;
@@ -45,15 +46,27 @@ export {
         monitoring_parameters_queue_size        : count  &log &optional;
         monitoring_parameters_discard_oldest    : bool   &log &optional;
 
-        monitoring_parameters_filter_type_id_encoding_mask   : string &log &optional;
-        monitoring_parameters_filter_type_id_namespace_idx   : count  &log &optional;
-        monitoring_parameters_filter_type_id_numeric         : count  &log &optional;
-        monitoring_parameters_filter_type_id_string          : string &log &optional;
-        monitoring_parameters_filter_type_id_guid            : string &log &optional;
-        monitoring_parameters_filter_type_id_opaque          : string &log &optional;
-        monitoring_parameters_filter_type_id_string          : string &log &optional;
-        monitoring_parameters_filter_type_id_encoding        : string &log &optional;
+        monitoring_parameters_filter_info_type_id_encoding_mask   : string &log &optional;
+        monitoring_parameters_filter_info_type_id_namespace_idx   : count  &log &optional;
+        monitoring_parameters_filter_info_type_id_numeric         : count  &log &optional;
+        monitoring_parameters_filter_info_type_id_string          : string &log &optional;
+        monitoring_parameters_filter_info_type_id_guid            : string &log &optional;
+        monitoring_parameters_filter_info_type_id_opaque          : string &log &optional;
+        monitoring_parameters_filter_info_type_id_string          : string &log &optional;
+        monitoring_parameters_filter_info_type_id_encoding        : string &log &optional;   
 
-        filter_details_link_id  : string &log &optional; 
+        filter_info_details_link_id  : string &log &optional; 
+
+        monitoring_parameters_status_code_link_id       : string &log &optional;
+        monitored_item_index_id                         : count  &log &optional;
+        monitoring_parameters_revised_sampling_interval : double &log &optional;
+        monitoring_parameters_revised_queue_size        : count  &log &optional;
+    };
+    type OPCUA_Binary::CreateMonitoredItemsDiagnosticInfo: record {
+        ts                                          : time    &log;
+        uid                                         : string  &log;
+        id                                          : conn_id &log;
+        create_monitored_items_diag_info_link_id    : string  &log;  # Id back into OCPUA_Binary::Browse
+        diag_info_link_id                           : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
     };
 }

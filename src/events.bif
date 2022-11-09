@@ -41,17 +41,21 @@ event opcua_binary_browse_diagnostic_info_event%(c: connection, browse_diagnosti
 event opcua_binary_create_subscription_event%(c: connection, create_subscription_event: OPCUA_Binary::CreateSubscription%);
 
 event opcua_binary_create_monitored_items_event%(c: connection, create_monitored_items_event: OPCUA_Binary::CreateMonitoredItems%);
-event opcua_binary_create_monitored_items_create_item_event%(c: connection, create_monitored_items_create_item_event: OPCUA_Binary::CreateItemRequest%);
+event opcua_binary_create_monitored_items_create_item_event%(c: connection, create_monitored_items_create_item_event: OPCUA_Binary::CreateItem%);
 
 event opcua_binary_data_change_filter_event%(c: connection, data_change_filter_details_event: OPCUA_Binary::DataChangeFilter%);
 event opcua_binary_aggregate_filter_event%(c: connection, aggregate_filter_details_event: OPCUA_Binary::AggregateFilter%);
 event opcua_binary_event_filter_event%(c: connection, event_filter_details_event: OPCUA_Binary::EventFilter%);
 event opcua_binary_event_filter_content_filter_event%(c: connection, content_filter_event: OPCUA_Binary::ContentFilter%);
 event opcua_binary_event_filter_content_filter_element_event%(c: connection, content_filter_element_event: OPCUA_Binary::ContentFilterElement%);
-event opcua_binary_event_filter_select_clauses_event%(c: connection, select_clause_event: OPCUA_Binary::SimpleAttributeOperand%);
-event opcua_binary_event_filter_select_clauses_browse_path_event%(c: connection, select_clause_event: OPCUA_Binary::SimpleAttributeOperandBrowsePaths%);
+event opcua_binary_event_filter_select_clause_event%(c: connection, select_clause_event: OPCUA_Binary::SelectClause%);
+event opcua_binary_event_filter_select_clause_browse_path_event%(c: connection, select_clause_browse_path_event: OPCUA_Binary::SimpleAttributeOperandBrowsePaths%);
 event opcua_binary_event_filter_simple_attribute_operand_event%(c: connection, select_clause_event: OPCUA_Binary::SimpleAttributeOperand%);
 event opcua_binary_event_filter_simple_attribute_operand_browse_path_event%(c: connection, select_clause_event: OPCUA_Binary::SimpleAttributeOperandBrowsePaths%);
 event opcua_binary_event_filter_attribute_operand_event%(c: connection, attribute_operand_event: OPCUA_Binary::AttributeOperand%);
 event opcua_binary_event_filter_attribute_operand_browse_path_element_event%(c: connection, attribute_operand_browse_path_event: OPCUA_Binary::AttributeOperandBrowsePathElement%);
 event opcua_binary_event_filter_element_operand_event%(c: connection, attribute_operand_event: OPCUA_Binary::ElementOperand%);
+event opcua_binary_create_monitored_items_diagnostic_info_event%(c: connection, create_monitored_items_diagnostic_info: OPCUA_Binary::CreateMonitoredItemsDiagnosticInfo%);
+event opcua_binary_event_filter_select_clause_diagnostic_info_event%(c: connection, select_clause_diagnostic_info: OPCUA_Binary::EventFilterDiagnosticInfo%);
+event opcua_binary_content_filter_element_diagnostic_info_event%(c: connection, content_filter_element_diagnostic_info: OPCUA_Binary::ContentFilterElementDiagnosticInfo%);
+event opcua_binary_content_filter_element_operand_diag_info_event%(c: connection, content_filter_element_operand_diagnostic_info: OPCUA_Binary::OperandDiagnosticInfo%);

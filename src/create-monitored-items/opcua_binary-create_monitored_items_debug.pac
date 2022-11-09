@@ -57,6 +57,29 @@
         return;
     }
     void printCreateMonitoredItemsRes(CreateMonitoredItems_Res *msg){
-        
+        printMsgHeader(msg->service()->msg_body()->header());
+        printMsgType(msg->service()->msg_body()->header());
+        printService(msg->service());   
+
+        printf("%s %s\n", indent(2).c_str(), NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second.c_str());
+        printResHdr(msg->res_hdr());
+
+        printf("%s Results: Array of MonitoredItemCreateResult\n", indent(3).c_str());
+        printf("%s ArraySize: %d\n", indent(4).c_str(), msg->num_results());
+        for (int32_t i = 0; i < msg->num_results(); i++) {
+            printf("%s [%d]: MonitoredItemCreateResult\n", indent(4).c_str(), i);
+            printf("%s StatusCode: 0x%08x %s\n", indent(5).c_str(), msg->results()->at(i)->status_code(), STATUS_CODE_MAP.find(msg->results()->at(i)->status_code())->second.c_str());
+            printf("%s MonitoredItemId: %d\n", indent(5).c_str(), msg->results()->at(i)->monitored_item_id());
+            printf("%s RevisedSamplingInterval: %lf\n", indent(5).c_str(), bytestringToDouble(msg->results()->at(i)->revised_sampling_interval()->duration()));
+            printf("%s RevisedQueueSize: %d\n", indent(5).c_str(), msg->results()->at(i)->revised_queue_size());
+            printOpcUA_ExtensionObject(5, msg->results()->at(i)->filter_result());
+        }
+        // Array of DiagnosticInfo(s)
+        printf("%s DiagnosticInfos: Array of DiagnosticInfo\n", indent(3).c_str());
+        printf("%s ArraySize: %d\n", indent(4).c_str(), msg->diag_info_size());
+        for (int i = 0; i < msg->diag_info_size(); i++) {
+            printf("%s [%d]: DiagnosticInfo\n", indent(4).c_str(), i);
+            printOpcUA_DiagInfo(5, msg->diag_info()->at(i));
+        }
     }
 %}
