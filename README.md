@@ -142,6 +142,13 @@ This log captures the details associated with calls to the Create Subscription S
 * See [create_subscription-types.zeek](scripts/create-subscription-types.zeek) for a list of the fields logged.
 * See [opcua_binary-create_subscription.pac](src/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-create_subscription_analyzer.pac](src/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-create_subscription_debug.pac](src/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service
 
+### Read Subscription Service (opcua-binary-read.log)
+
+This log captures the details associated with calls to the Read Subscription Service.
+
+* See [read-types.zeek](scripts/read-types.zeek) for a list of the fields logged.
+* See [opcua_binary-read.pac](src/read/opcua_binary-read.pac), [opcua_binary-read_analyzer.pac](src/read/opcua_binary-read_analyzer.pac), and [opcua_binary-read_debug.pac](src/read/opcua_binary-read_debug.pac) for details on parsing, processing, and logging this service
+
 ## Developer's Guide
 
 For development and implementation details, see the [developer_guide](developer_guide.md)
