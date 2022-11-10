@@ -80,8 +80,8 @@ type Service(msg_body: Msg_Body) = record {
         QueryNextRequest  -> query_next_req : Stubbed_Out_Req(this);
         QueryNextResponse -> query_next_res : Stubbed_Out_Res(this);
 
-        ReadRequest  -> read_req : Stubbed_Out_Req(this);
-        ReadResponse -> read_res : Stubbed_Out_Res(this);
+        ReadRequest  -> read_req : Read_Req(this);
+        ReadResponse -> read_res : Read_Res(this);
 
         HistoryReadRequest  -> history_read_req : Stubbed_Out_Req(this);
         HistoryReadResponse -> history_read_res : Stubbed_Out_Res(this);

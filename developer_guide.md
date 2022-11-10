@@ -162,7 +162,7 @@ The following table shows the services that have been stubbed out and currently 
 | `TranslateBrowsePathsToNodeIdsRequest` | `TranslateBrowsePathsToNodeIdsResponse` | `RegisterNodesRequest`                  |
 | `RegisterNodesResponse`                | `UnregisterNodesRequest`                | `UnregisterNodesResponse`               | 
 | `QueryFirstRequest`                    | `QueryFirstResponse`                    | `QueryNextRequest`                      |
-| `QueryNextResponse`                    | `ReadRequest`                           | `ReadResponse`                          |
+| `QueryNextResponse`                    |                                         |                                         |
 | `HistoryReadRequest`                   | `HistoryReadResponse`                   | `WriteRequest`                          | 
 | `WriteResponse`                        | `HistoryUpdateRequest`                  | `HistoryUpdateResponse`                 |
 | `CallRequest`                          | `CallResponse`                          | `CreateMonitoredItemsRequest`           | 

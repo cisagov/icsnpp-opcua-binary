@@ -45,70 +45,70 @@
         } else if (node_id_encoding == node_encoding::FourByte) {
             printf("%s EncodingMask: FourByte (0x%02x)\n", indent(indent_width).c_str(), node_encoding::FourByte);
             if (has_server_idx) {
-                printf("%s has server index: True\n", indent(indent_width).c_str());
+                printf("%s has server index: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has server index: False\n", indent(indent_width).c_str());
+                printf("%s has server index: False\n", indent(indent_width + 1).c_str());
             }
             if (has_namespace_uri) {
-                printf("%s has namespace uri: True\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has namespace uri: False\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: False\n", indent(indent_width + 1).c_str());
             }
             printOpcUA_NodeId_FourByte(indent_width, nodeId->node_id()->four_byte_numeric());
 
         } else if (node_id_encoding == node_encoding::Numeric) {
             printf("%s EncodingMask: Numeric (0x%02x)\n", indent(indent_width).c_str(), node_encoding::Numeric);
             if (has_server_idx) {
-                printf("%s has server index: True\n", indent(indent_width).c_str());
+                printf("%s has server index: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has server index: False\n", indent(indent_width).c_str());
+                printf("%s has server index: False\n", indent(indent_width + 1).c_str());
             }
             if (has_namespace_uri) {
-                printf("%s has namespace uri: True\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has namespace uri: False\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: False\n", indent(indent_width + 1).c_str());
             }
             printOpcUA_NodeId_Numeric(indent_width, nodeId->node_id()->numeric());
 
         } else if (node_id_encoding == node_encoding::String) {
             printf("%s EncodingMask: String (0x%02x)\n", indent(indent_width).c_str(), node_encoding::String);
             if (has_server_idx) {
-                printf("%s has server index: True\n", indent(indent_width).c_str());
+                printf("%s has server index: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has server index: False\n", indent(indent_width).c_str());
+                printf("%s has server index: False\n", indent(indent_width + 1).c_str());
             }
             if (has_namespace_uri) {
-                printf("%s has namespace uri: True\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has namespace uri: False\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: False\n", indent(indent_width + 1).c_str());
             }
             printOpcUA_NodeId_String(indent_width, nodeId->node_id()->string());
 
         } else if (node_id_encoding == node_encoding::GUID) {
             printf("%s EncodingMask: GUID (0x%02x)\n", indent(indent_width).c_str(), node_encoding::GUID);
             if (has_server_idx) {
-                printf("%s has server index: True\n", indent(indent_width).c_str());
+                printf("%s has server index: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has server index: False\n", indent(indent_width).c_str());
+                printf("%s has server index: False\n", indent(indent_width + 1).c_str());
             }
             if (has_namespace_uri) {
-                printf("%s has namespace uri: True\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has namespace uri: False\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: False\n", indent(indent_width + 1).c_str());
             }
             printOpcUA_NodeId_Guid(indent_width, nodeId->node_id()->guid());
 
         } else if (node_id_encoding == node_encoding::Opaque) {
             printf("%s EncodingMask: Opaque (0x%02x)\n", indent(indent_width).c_str(), node_encoding::Opaque);
             if (has_server_idx) {
-                printf("%s has server index: True\n", indent(indent_width).c_str());
+                printf("%s has server index: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has server index: False\n", indent(indent_width).c_str());
+                printf("%s has server index: False\n", indent(indent_width + 1).c_str());
             }
             if (has_namespace_uri) {
-                printf("%s has namespace uri: True\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: True\n", indent(indent_width + 1).c_str());
             } else {
-                printf("%s has namespace uri: False\n", indent(indent_width).c_str());
+                printf("%s has namespace uri: False\n", indent(indent_width + 1).c_str());
             }
             printOpcUA_NodeId_Opaque(indent_width, nodeId->node_id()->opaque());
         }

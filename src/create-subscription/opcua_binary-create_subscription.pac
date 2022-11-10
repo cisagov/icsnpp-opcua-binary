@@ -21,7 +21,7 @@ type CreateSubscription_Req(service: Service) = record {
     req_lifetime_count              : uint32;
     req_max_keep_alive_count        : uint32;
     max_notifications_per_publish   : uint32;
-    publishing_enabled              : uint8;
+    publishing_enabled              : OpcUA_Boolean;
     priority                        : uint8;
 } &let {
     deliver: bool = $context.flow.deliver_Svc_CreateSubscriptionReq(this);
