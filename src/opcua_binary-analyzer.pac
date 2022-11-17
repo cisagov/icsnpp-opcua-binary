@@ -33,6 +33,7 @@
 #include "node_identifiers.h"
 #include "node_classes.h"
 #include "statuscode-diagnostic-source-consts.h"
+#include "close-session/index-consts.h"
 %}
 
 %header{

@@ -44,5 +44,7 @@ type OPCUA_Binary::ReadStatusCode: record;
 type OPCUA_Binary::ReadExtensionObjectLink: record;
 type OPCUA_Binary::ReadExtensionObject: record;
 
+type CloseSession: record;
+
 module GLOBAL;
 

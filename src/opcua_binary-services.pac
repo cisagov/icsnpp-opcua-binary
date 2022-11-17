@@ -137,6 +137,9 @@ type Service(msg_body: Msg_Body) = record {
         TestStackExRequest  -> test_stack_ex_req : Stubbed_Out_Req(this);
         TestStackExResponse -> test_stack_ex_res : Stubbed_Out_Res(this);
 
+        CloseSessionRequest     -> close_session_req : Stubbed_Out_Req(this);
+        CloseSessionResponse    -> close_session_res : Stubbed_Out_Res(this);
+
         # UA Specification Part 4 - Services: Table 172
         ServiceFault -> service_fault_res : Stubbed_Out_Res(this);
 

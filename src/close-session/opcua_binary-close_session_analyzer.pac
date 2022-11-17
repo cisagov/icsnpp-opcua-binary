@@ -11,18 +11,23 @@
 
 refine flow OPCUA_Binary_Flow += {
     # CloseSessionRequest
-    function deliver_Svc_CloseSessionReq(msg : Close_Session_Req): bool
+    function deliver_Svc_CloseSessionReq(close_session_req : Close_Session_Req): bool
     %{
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info->Assign();
-        
+        info->Assign(3, zeek::make_intrusive<zeek::bool>(close_session_req->del_subscriptions()));
+
+        zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(), info);
+
+        return true;
     %}
 
-    function deliver_Svc_CloseSessionRes(msg : Close_Session_Res): bool
+    function deliver_Svc_CloseSessionRes(close_session_res : Close_Session_Res): bool
     %{
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info->Assign();
+        zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(), info);
+
+        return true;
     %}
 }
