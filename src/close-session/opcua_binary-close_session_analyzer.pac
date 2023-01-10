@@ -11,21 +11,39 @@
 
 refine flow OPCUA_Binary_Flow += {
     # CloseSessionRequest
-    function deliver_Svc_CloseSessionReq(close_session_req : Close_Session_Req): bool
+    function deliver_Svc_CloseSessionReq(msg : Close_Session_Req): bool
     %{
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
+        
+        info = assignMsgHeader(info, msg->service()->msg_body()->header());
+        info = assignMsgType(info, msg->service()->msg_body()->header());
+        info = assignReqHdr(info, msg->req_hdr());
+        info = assignService(info, msg->service());
+        zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
+                                                   connection()->bro_analyzer()->Conn(),
+                                                   info);
 
-        info->Assign(3, zeek::make_intrusive<zeek::bool>(close_session_req->del_subscriptions()));
+        zeek::RecordValPtr close_session_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CloseSession);
 
-        zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(), info);
+        // OpcUA_id
+        close_session_req->Assign(CLOSE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
+
+        close_session_req->Assign(CLOSE_SESSION_DEL_SUBSCRIPTIONS_IDX, zeek::val_mgr->Bool(msg->del_subscriptions()));
+
+        zeek::BifEvent::enqueue_opcua_binary_close_session_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(), info);
 
         return true;
     %}
 
-    function deliver_Svc_CloseSessionRes(close_session_res : Close_Session_Res): bool
+    function deliver_Svc_CloseSessionRes(msg : Close_Session_Res): bool
     %{
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
+        info = assignMsgHeader(info, msg->service()->msg_body()->header());
+        info = assignMsgType(info, msg->service()->msg_body()->header());
+        info = assignResHdr(connection(), info, msg->res_hdr());
+        info = assignService(info, msg->service());
+        
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(), info);
 
         return true;

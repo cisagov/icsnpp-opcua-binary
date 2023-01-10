@@ -16,7 +16,7 @@
 #
 type Close_Session_Req(service: Service) = record {
     req_hdr             : Request_Header;
-    del_subscriptions   : bool;
+    del_subscriptions   : OpcUA_Boolean;
 } &let {
     deliver: bool = $context.flow.deliver_Svc_CloseSessionReq(this);
 } &byteorder=littleendian;

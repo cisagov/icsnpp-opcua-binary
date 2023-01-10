@@ -34,6 +34,8 @@
 %include stubbed-out/opcua_binary-stubbed_out_service.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_debug.pac
 %include opcua_binary-protocol_debug.pac
+%include close-session/opcua_binary-close_session.pac
+%include close-session/opcua_binary-close_session_debug.pac
 
 #
 # The below type definitions were taken from:

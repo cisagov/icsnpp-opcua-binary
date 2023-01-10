@@ -7,3 +7,4 @@
 @load ./activate-session-types
 @load ./create-subscription-types
 @load ./read-types
+@load ./close-session-types
