@@ -30,7 +30,7 @@ refine flow OPCUA_Binary_Flow += {
 
         close_session_req->Assign(CLOSE_SESSION_DEL_SUBSCRIPTIONS_IDX, zeek::val_mgr->Bool(msg->del_subscriptions()));
 
-        zeek::BifEvent::enqueue_opcua_binary_close_session_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(), info);
+        zeek::BifEvent::enqueue_opcua_binary_close_session_event(connection()->bro_analyzer(), connection()->bro_analyzer()->Conn(), close_session_req);
 
         return true;
     %}
