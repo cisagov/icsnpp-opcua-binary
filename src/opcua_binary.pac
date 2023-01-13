@@ -34,13 +34,17 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 
 %include opcua_binary-utilities.pac
 %include opcua_binary-analyzer.pac
-%include req-res-header/opcua_binary-req_res_header_analyzer.pac
-%include secure-channel/opcua_binary-secure_channel_analyzer.pac
-%include get-endpoints/opcua_binary-get_endpoints_analyzer.pac
-%include create-session/opcua_binary-create_session_analyzer.pac
-%include activate-session/opcua_binary-activate_session_analyzer.pac
-%include browse/opcua_binary-browse_analyzer.pac
-%include read/opcua_binary-read_analyzer.pac
-%include create-subscription/opcua_binary-create_subscription_analyzer.pac
+%include types/opcua_binary-types_analyzer.pac
+%include types/filters/opcua_binary-filter_types_analyzer.pac
+%include types/nodeid/opcua_binary-nodeid_types_analyzer.pac
+%include services/activate-session/opcua_binary-activate_session_analyzer.pac
+%include services/browse/opcua_binary-browse_analyzer.pac
+%include services/create-monitored-items/opcua_binary-create_monitored_items_analyzer.pac
+%include services/create-session/opcua_binary-create_session_analyzer.pac
+%include services/create-subscription/opcua_binary-create_subscription_analyzer.pac
+%include services/get-endpoints/opcua_binary-get_endpoints_analyzer.pac
+%include services/read/opcua_binary-read_analyzer.pac
+%include services/secure-channel/opcua_binary-secure_channel_analyzer.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_analyzer.pac
+%include req-res-header/opcua_binary-req_res_header_analyzer.pac
 
