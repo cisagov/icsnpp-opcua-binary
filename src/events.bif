@@ -35,6 +35,12 @@ event opcua_binary_event_filter_select_clause_diagnostic_info_event%(c: connecti
 event opcua_binary_event_filter_simple_attribute_operand_event%(c: connection, select_clause_event: OPCUA_Binary::SimpleAttributeOperand%);
 event opcua_binary_event_filter_simple_attribute_operand_browse_path_event%(c: connection, select_clause_event: OPCUA_Binary::SimpleAttributeOperandBrowsePaths%);
 
+event opcua_binary_variant_array_dims_event%(c: connection, event_to_log: OPCUA_Binary::VariantArrayDims%);
+event opcua_binary_variant_data_event%(c: connection, event_to_log: OPCUA_Binary::VariantData%);
+event opcua_binary_variant_data_value_event%(c: connection, event_to_log: OPCUA_Binary::VariantDataValue%);
+event opcua_binary_variant_extension_object_event%(c: connection, event_to_log: OPCUA_Binary::VariantExtensionObject%);
+event opcua_binary_variant_metadata_event%(c: connection, event_to_log: OPCUA_Binary::VariantMetadata%);
+
 ## Variant Type Events
 
 ## Service Events (Alphabetically by service)
@@ -71,15 +77,6 @@ event opcua_binary_get_endpoints_user_token_event%(c: connection, get_endpoints_
 
 event opcua_binary_read_event%(c: connection, event_to_log: OPCUA_Binary::Read%);
 event opcua_binary_read_nodes_to_read_event%(c: connection, event_to_log: OPCUA_Binary::ReadNodesToRead%);
-event opcua_binary_read_results_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadResultsLink%);
 event opcua_binary_read_results_event%(c: connection, event_to_log: OPCUA_Binary::ReadResults%);
-event opcua_binary_read_variant_data_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadVariantDataLink%);
-event opcua_binary_read_variant_data_event%(c: connection, event_to_log: OPCUA_Binary::ReadVariantData%);
-event opcua_binary_read_read_array_dims_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadArrayDimsLink%);
-event opcua_binary_read_read_array_dims_event%(c: connection, event_to_log: OPCUA_Binary::ReadArrayDims%);
-event opcua_binary_read_diagnostic_info_event%(c: connection, event_to_log: OPCUA_Binary::ReadDiagnosticInfo%);
-event opcua_binary_read_status_code_event%(c: connection, event_to_log: OPCUA_Binary::ReadStatusCode%);
-event opcua_binary_read_extension_object_link_event%(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObjectLink%);
-event opcua_binary_read_extension_object_event%(c: connection, event_to_log: OPCUA_Binary::ReadExtensionObject%);
 
 event opcua_binary_opensecure_channel_event%(c: connection, opensecure_channel: OPCUA_Binary::OpenSecureChannel%);

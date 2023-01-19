@@ -16,6 +16,8 @@
 %include types/filters/opcua_binary-filter_types_debug.pac
 %include types/nodeid/opcua_binary-nodeid_types.pac
 %include types/nodeid/opcua_binary-nodeid_types_debug.pac
+%include types/variants/opcua_binary-variant_types.pac
+%include types/variants/opcua_binary-variant_types_debug.pac
 %include req-res-header/opcua_binary-req_res_header.pac
 %include req-res-header/opcua_binary-req_res_header_debug.pac
 %include services/opcua_binary-services.pac

@@ -9,16 +9,6 @@
 ##
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
-%extern{
-/*
-Note: 
-The binpac compiler generates one header file along with the associated source file so there
-isn't a need to bring in additional headers here.  We'll just track header files in the
-opcua_binary-analyzer.pac binpac file.  See the build/opcua_binary_pac.h and 
-build/opcua_binary_pac.cc file(s) for details.
-*/
-%}
-
 %header{
     void flattenOpcUA_DataChangeFilter(OpcUA_DataChangeFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
     void flattenOpcUA_EventFilter(OpcUA_EventFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
@@ -359,6 +349,11 @@ build/opcua_binary_pac.cc file(s) for details.
                                                                                 event_operand_details);
     }
     void flattenOpcUA_LiteralOperand(OpcUA_LiteralOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+        zeek::RecordValPtr literal_operand_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::LiteralOperand);
+        std::string literal_operand_data_link_id = generateId();
+        literal_operand_details->Assign(LITERAL_OPERAND_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
+        literal_operand_details->Assign(LITERAL_OPERAND_VARIANT_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(literal_operand_data_link_id));
+        flattenOpcUA_DataVariant(connection, obj->value(), literal_operand_data_link_id, Variant_LiteralOperand_Key);
     }
 
 %}

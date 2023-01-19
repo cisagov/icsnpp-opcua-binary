@@ -48,7 +48,6 @@
 #define ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_SRC_IDX           26 // Id into OPCUA_Binary::ActivateSessionDignosticInfo log
 
 
-
 //
 // Index constants for setting values in OPCUA_Binary::ActivateSessionClientSoftwareCert
 // based on the parsed values from Activate_Session_Req and Activate_Session_Res

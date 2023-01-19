@@ -14,10 +14,17 @@ type DataChangeFilter: record;
 type ElementOperand: record;
 type EventFilter: record;
 type EventFilterDiagnosticInfo: record; 
+type LiteralOperand: record;
 type SelectClause: record; 
 type SimpleAttributeOperand: record;
 type SimpleAttributeOperandBrowsePaths: record;
 type OperandDiagnosticInfo: record;
+
+type VariantArrayDims: record;
+type VariantData: record;
+type VariantDataValue: record;
+type VariantExtensionObject: record;
+type VariantMetadata: record;
 
 type ActivateSession: record;
 type ActivateSessionClientSoftwareCert: record;
@@ -51,16 +58,7 @@ type GetEndpointsUserToken: record;
 
 type Read: record;
 type ReadNodesToRead: record;
-type ReadResultsLink: record;
 type ReadResults: record;
-type ReadVariantDataLink: record;
-type ReadVariantData: record;
-type ReadArrayDimsLink: record ;
-type ReadArrayDims: record ;
-type ReadDiagnosticInfo: record;
-type ReadStatusCode: record;
-type ReadExtensionObjectLink: record;
-type ReadExtensionObject: record;
 
 type OpenSecureChannel: record;
 

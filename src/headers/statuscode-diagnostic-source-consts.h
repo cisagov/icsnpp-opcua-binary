@@ -31,7 +31,8 @@ static uint32_t StatusCode_ContentFilterElement_Key            = 12;
 static uint32_t StatusCode_ContentFilterElement_DiagInfo_Key   = 13;
 static uint32_t StatusCode_FilterOperand_Key                   = 14;
 static uint32_t StatusCode_FilterOperand_DiagInfo_Key          = 15;
-
+static uint32_t StatusCode_Variant_Key                         = 16;
+static uint32_t StatusCode_Variant_DiagInfo_Key                = 17;
 
 
 static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
@@ -51,7 +52,9 @@ static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
    {StatusCode_ContentFilterElement_Key,           "ContentFilterElement"},
    {StatusCode_ContentFilterElement_DiagInfo_Key,  "ContentFilterElement_DiagInfo"},
    {StatusCode_FilterOperand_Key,                  "ContentFilterElementOperand"},
-   {StatusCode_FilterOperand_DiagInfo_Key,         "ContentFilterElementOperand_DiagInfo"}
+   {StatusCode_FilterOperand_DiagInfo_Key,         "ContentFilterElementOperand_DiagInfo"},
+   {StatusCode_Variant_Key,                        "Variant"},
+   {StatusCode_Variant_DiagInfo_Key,               "Variant_DiagInfo"}
 };
 
 // Internal constants used to associate detailed diagnostic information
@@ -80,6 +83,9 @@ static const uint32_t DiagInfo_ContentFilterElement_Inner_Key  = 13;
 static const uint32_t DiagInfo_FilterOperand_Key               = 14;
 static const uint32_t DiagInfo_FilterOperand_Inner_Key         = 15;
 
+static const uint32_t DiagInfo_Variant_Key                     = 16;
+static const uint32_t DiagInfo_Variant_Inner_Key               = 17;
+
 static std::map<uint32_t, std::string> DIAGNOSTIC_INFO_SRC_MAP =
 {
    {DiagInfo_ResponseHeader_Key,             "ResponseHeader_DiagInfo"},
@@ -101,6 +107,9 @@ static std::map<uint32_t, std::string> DIAGNOSTIC_INFO_SRC_MAP =
    {DiagInfo_ContentFilterElement_Inner_Key, "ContentFilterElement_InnerDiagInfo"},
 
    {DiagInfo_FilterOperand_Key,              "ContentFilterElementOperand_DiagInfo"},
-   {DiagInfo_FilterOperand_Inner_Key,        "ContentFilterElementOperand_InnerDiagInfo"}
+   {DiagInfo_FilterOperand_Inner_Key,        "ContentFilterElementOperand_InnerDiagInfo"},
+
+   {DiagInfo_Variant_Key,                    "Variant_DiagInfo"},
+   {DiagInfo_Variant_Inner_Key,              "Variant_InnerDiagInfo"}
 };
 #endif

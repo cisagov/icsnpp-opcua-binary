@@ -37,6 +37,7 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 %include types/opcua_binary-types_analyzer.pac
 %include types/filters/opcua_binary-filter_types_analyzer.pac
 %include types/nodeid/opcua_binary-nodeid_types_analyzer.pac
+%include types/variants/opcua_binary-variant_types_analyzer.pac
 %include services/activate-session/opcua_binary-activate_session_analyzer.pac
 %include services/browse/opcua_binary-browse_analyzer.pac
 %include services/create-monitored-items/opcua_binary-create_monitored_items_analyzer.pac

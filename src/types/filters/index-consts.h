@@ -88,6 +88,8 @@
 #define ELEMENT_OPERAND_INDEX_IDX                                                   4
 
 // Literal Operand Parameter Indexes: Left Blank for now
+#define LITERAL_OPERAND_LINK_ID_DST_IDX                                             3
+#define LITERAL_OPERAND_VARIANT_LINK_IDX                                            4
 
 // Attribute Operand Parmeter Indexes
 #define ATTRIBUTE_OPERAND_LINK_ID_IDX                                               3

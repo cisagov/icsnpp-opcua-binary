@@ -19,7 +19,6 @@
     void printMsgMSG( Msg_MSG *msg_msg);
     void printMsgType( Msg_Header *msg_header);
     void printService(Service *service);
-
 %}
 
 %code{

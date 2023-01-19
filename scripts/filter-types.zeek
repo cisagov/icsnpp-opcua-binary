@@ -178,6 +178,15 @@ export {
         element_index                           : count  &log &optional;
 
     };
+    type OPCUA_Binary::LiteralOperand: record {
+        ts                          : time    &log;
+        uid                         : string  &log;
+        id                          : conn_id &log;
+
+        content_filter_filter_operand_link_id   : string &log;
+        literal_operand_variant_link            : string  &log &optional;
+
+    };
     type OPCUA_Binary::EventFilterDiagnosticInfo: record {
         ts                                          : time    &log;
         uid                                         : string  &log;
