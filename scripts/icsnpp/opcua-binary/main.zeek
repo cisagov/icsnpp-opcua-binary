@@ -14,21 +14,21 @@ module ICSNPP_OPCUA_Binary;
 
 export {
 	redef enum Log::ID += { LOG,                                                     LOG_STATUS_CODE,                                         LOG_DIAG_INFO,
-                           LOG_AGGREGATE_FILTER,                                    LOG_DATA_CHANGE_FILTER,                                  LOG_EVENT_FILTER,                           
-                           LOG_EVENT_FILTER_ATTRIBUTE_OPERAND,                      LOG_EVENT_FILTER_ATTRIBUTE_OPERAND_BROWSE_PATHS,         LOG_EVENT_FILTER_CONTENT_FILTER,            
-                           LOG_EVENT_FILTER_CONTENT_FILTER_ELEMENT,                 LOG_EVENT_FILTER_ELEMENT_OPERAND,                        LOG_EVENT_FILTER_LITERAL_OPERAND,
-                           LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND,               LOG_EVENT_FILTER_SELECT_CLAUSE,                          LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATHS,  
-                           LOG_VARIANT_ARRAY_DIMS,                                  LOG_VARIANT_DATA,                                        LOG_VARIANT_DATA_VALUE,                                  
-                           LOG_VARIANT_EXTENSION_OBJECT,                            LOG_VARIANT_METADATA,                                    LOG_ACTIVATE_SESSION,                                      
-                           LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT,               LOG_ACTIVATE_SESSION_LOCALE_ID,                          LOG_BROWSE,                                 
-                           LOG_BROWSE_DESCRIPTION,                                  LOG_BROWSE_RESPONSE_REFERENCES,                          LOG_BROWSE_REQUEST_CONTINUATION_POINT, 
-                           LOG_BROWSE_RESULT,                                       LOG_CREATE_MONITORED_ITEMS,                              LOG_CREATE_MONITORED_ITEMS_CREATE_ITEM,                 
-                           LOG_CREATE_SESSION,                                      LOG_CREATE_SESSION_DISCOVERY,                            LOG_CREATE_SESSION_ENDPOINTS, 
-                           LOG_CREATE_SESSION_USER_TOKEN,                           LOG_CREATE_SUBSCRIPTION,                                 LOG_GET_ENDPOINTS,                      
-                           LOG_GET_ENDPOINTS_DESCRIPTION,                           LOG_GET_ENDPOINTS_DISCOVERY,                             LOG_GET_ENDPOINTS_USER_TOKEN,           
-                           LOG_GET_ENDPOINTS_LOCALE_ID,                             LOG_GET_ENDPOINTS_PROFILE_URI,                           LOG_READ,                               
-                           LOG_READ_NODES_TO_READ,                                  LOG_READ_RESULTS,                                     LOG_OPENSECURE_CHANNEL };
-}
+                            	LOG_AGGREGATE_FILTER,                                    LOG_DATA_CHANGE_FILTER,                                  LOG_EVENT_FILTER,                           
+                            	LOG_EVENT_FILTER_ATTRIBUTE_OPERAND,                      LOG_EVENT_FILTER_ATTRIBUTE_OPERAND_BROWSE_PATHS,         LOG_EVENT_FILTER_CONTENT_FILTER,            
+                           	LOG_EVENT_FILTER_CONTENT_FILTER_ELEMENT,                 LOG_EVENT_FILTER_ELEMENT_OPERAND,                        LOG_EVENT_FILTER_LITERAL_OPERAND,
+                          	LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND,               LOG_EVENT_FILTER_SELECT_CLAUSE,                          LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATHS,  
+                           	LOG_VARIANT_ARRAY_DIMS,                                  LOG_VARIANT_DATA,                                        LOG_VARIANT_DATA_VALUE,                                  
+                           	LOG_VARIANT_EXTENSION_OBJECT,                            LOG_VARIANT_METADATA,                                    LOG_ACTIVATE_SESSION,                                      
+                           	LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT,               LOG_ACTIVATE_SESSION_LOCALE_ID,                          LOG_BROWSE,                                 
+                           	LOG_BROWSE_DESCRIPTION,                                  LOG_BROWSE_RESPONSE_REFERENCES,                          LOG_BROWSE_REQUEST_CONTINUATION_POINT, 
+                           	LOG_BROWSE_RESULT,                                       LOG_CREATE_MONITORED_ITEMS,                              LOG_CREATE_MONITORED_ITEMS_CREATE_ITEM,                 
+                           	LOG_CREATE_SESSION,                                      LOG_CREATE_SESSION_DISCOVERY,                            LOG_CREATE_SESSION_ENDPOINTS, 
+                           	LOG_CREATE_SESSION_USER_TOKEN,                           LOG_CREATE_SUBSCRIPTION,                                 LOG_GET_ENDPOINTS,                      
+                           	LOG_GET_ENDPOINTS_DESCRIPTION,                           LOG_GET_ENDPOINTS_DISCOVERY,                             LOG_GET_ENDPOINTS_USER_TOKEN,           
+                           	LOG_GET_ENDPOINTS_LOCALE_ID,                             LOG_GET_ENDPOINTS_PROFILE_URI,                           LOG_READ,                               
+                           	LOG_READ_NODES_TO_READ,                                  LOG_READ_RESULTS,                                     LOG_OPENSECURE_CHANNEL };
+			     }
 
 # Port-based detection
 const ports = { 4840/tcp };
@@ -98,11 +98,12 @@ event zeek_init() &priority=5
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
    }
 
-function set_service(c: connection, service: string) {
-  # Ensure that conn.log:service is set if it has not already been
-  if ((!c?$service) || (|c$service| == 0))
-    add c$service[service];
-}
+function set_service(c: connection, service: string) 
+   {
+       # Ensure that conn.log:service is set if it has not already been
+	if ((!c?$service) || (|c$service| == 0))
+	add c$service[service];
+   }
 
 event opcua_binary_event(c: connection, info: OPCUA_Binary::Info)
    {
