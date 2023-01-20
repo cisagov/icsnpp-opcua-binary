@@ -17,7 +17,7 @@ export {
         ts                          : time    &log;
         uid                         : string  &log;
         id                          : conn_id &log;
-        opcua_id                    : string  &log;       # Id back into OCPUA_Binary::Info
+        opcua_link_id               : string  &log;       # Id back into OCPUA_Binary::Info
 
         subscription_id                             : count &log &optional;
         timestamps_to_return                        : count &log &optional;
@@ -62,12 +62,5 @@ export {
         monitored_item_index_id                         : count  &log &optional;
         monitoring_parameters_revised_sampling_interval : double &log &optional;
         monitoring_parameters_revised_queue_size        : count  &log &optional;
-    };
-    type OPCUA_Binary::CreateMonitoredItemsDiagnosticInfo: record {
-        ts                                          : time    &log;
-        uid                                         : string  &log;
-        id                                          : conn_id &log;
-        create_monitored_items_diag_info_link_id    : string  &log;  # Id back into OCPUA_Binary::Browse
-        diag_info_link_id                           : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
     };
 }

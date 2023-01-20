@@ -14,9 +14,10 @@
 # @TEST-EXEC: zeek-cut -n user_token_link_id < opcua-binary-create-session-user-token.log > opcua-binary-create-session-user-token.tmp && mv opcua-binary-create-session-user-token.tmp opcua-binary-create-session-user-token.log
 # @TEST-EXEC: zeek-cut -n opcua_link_id < opcua-binary-create-subscription.log > opcua-binary-create-subscription.tmp && mv opcua-binary-create-subscription.tmp opcua-binary-create-subscription.log
 # @TEST-EXEC: zeek-cut -n nodes_to_read_link_id < opcua-binary-read-nodes-to-read.log > opcua-binary-read-nodes-to-read.tmp && mv opcua-binary-read-nodes-to-read.tmp opcua-binary-read-nodes-to-read.log
-# @TEST-EXEC: zeek-cut -n read_results_link_id results_link_id < opcua-binary-read-results-link.log > opcua-binary-read-results-link.tmp && mv opcua-binary-read-results-link.tmp opcua-binary-read-results-link.log
-# @TEST-EXEC: zeek-cut -n results_link_id status_code_link_id read_results_variant_data_link_id variant_data_array_dim_link_id < opcua-binary-read-results.log > opcua-binary-read-results.tmp && mv opcua-binary-read-results.tmp opcua-binary-read-results.log
+# @TEST-EXEC: zeek-cut -n results_link_id status_code_link_id read_results_variant_metadata_link_id  < opcua-binary-read-results.log > opcua-binary-read-results.tmp && mv opcua-binary-read-results.tmp opcua-binary-read-results.log
 # @TEST-EXEC: zeek-cut -n opcua_link_id nodes_to_read_link_id read_results_link_id diag_info_link_id < opcua-binary-read.log > opcua-binary-read.tmp && mv opcua-binary-read.tmp opcua-binary-read.log
+# @TEST-EXEC: zeek-cut -n opcua_link_id create_monitored_items_diag_info_link_id create_item_link_id  < opcua-binary-create-monitored-items.log > opcua-binary-create-monitored-items.tmp && mv opcua-binary-create-monitored-items.tmp opcua-binary-create-monitored-items.log
+# @TEST-EXEC: zeek-cut -n create_item_link_id filter_info_details_link_id monitoring_parameters_status_code_link_id  < opcua-binary-create-monitored-items-create-item.log > opcua-binary-create-monitored-items-create-item.tmp && mv opcua-binary-create-monitored-items-create-item.tmp opcua-binary-create-monitored-items-create-item.log
 # @TEST-EXEC: btest-diff conn.log
 # @TEST-EXEC: btest-diff opcua-binary-get-endpoints-user-token.log
 # @TEST-EXEC: btest-diff opcua-binary-get-endpoints.log
@@ -33,9 +34,10 @@
 # @TEST-EXEC: btest-diff opcua-binary-create-session-user-token.log
 # @TEST-EXEC: btest-diff opcua-binary-create-subscription.log
 # @TEST-EXEC: btest-diff opcua-binary-read-nodes-to-read.log
-# @TEST-EXEC: btest-diff opcua-binary-read-results-link.log
 # @TEST-EXEC: btest-diff opcua-binary-read-results.log
 # @TEST-EXEC: btest-diff opcua-binary-read.log
+# @TEST-EXEC: btest-diff opcua-binary-create-monitored-items.log
+# @TEST-EXEC: btest-diff opcua-binary-create-monitored-items-create-item.log
 # @TEST-EXEC: btest-diff packet_filter.log
 
 #

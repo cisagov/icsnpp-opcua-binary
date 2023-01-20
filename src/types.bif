@@ -34,7 +34,6 @@ type BrowseRequestContinuationPoint: record;
 type BrowseResult: record;
 
 type CreateMonitoredItems: record;
-type CreateMonitoredItemsDiagnosticInfo: record;
 type CreateMonitoredItemsItem: record;
 
 type CreateSession: record;

@@ -53,7 +53,6 @@ event opcua_binary_browse_result_event%(c: connection, browse_result_event: OPCU
 
 event opcua_binary_create_monitored_items_event%(c: connection, create_monitored_items_event: OPCUA_Binary::CreateMonitoredItems%);
 event opcua_binary_create_monitored_items_create_item_event%(c: connection, create_monitored_items_create_item_event: OPCUA_Binary::CreateMonitoredItemsItem%);
-event opcua_binary_create_monitored_items_diagnostic_info_event%(c: connection, create_monitored_items_diagnostic_info: OPCUA_Binary::CreateMonitoredItemsDiagnosticInfo%);
 
 event opcua_binary_create_session_event%(c: connection, create_session: OPCUA_Binary::CreateSession%);
 event opcua_binary_create_session_discovery_event%(c: connection, create_session_discovery: OPCUA_Binary::CreateSessionDiscovery%);

@@ -11,6 +11,7 @@ XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	0	ResponseHeader	0	0x000
 XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	2	Browse	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
 XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
 XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	8	CreateMonitoredItems	0	0x80340000	2	Severity_Bad	52	BadNodeIdUnknown	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
 XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
 XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
 XXXXXXXXXX.XXXXXX	CtPZjS20MLrsMUOJi2	::1	56322	::1	4840	6	Read	0	0x80340000	2	Severity_Bad	52	BadNodeIdUnknown	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-

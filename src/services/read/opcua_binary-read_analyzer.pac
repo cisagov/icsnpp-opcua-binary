@@ -71,8 +71,9 @@ refine flow OPCUA_Binary_Flow += {
 
                 // Qualified Name
                 nodes_to_read->Assign(READ_REQ_DATA_ENCODING_NAME_ID_IDX, zeek::val_mgr->Count(msg->nodes_to_read()->at(i)->data_encoding()->namespace_index()));
-                nodes_to_read->Assign(READ_REQ_DATA_ENCODING_NAME_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->nodes_to_read()->at(i)->data_encoding()->name()->string())));
-
+                if (msg->nodes_to_read()->at(i)->data_encoding()->name()->length() > 0){
+                    nodes_to_read->Assign(READ_REQ_DATA_ENCODING_NAME_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->nodes_to_read()->at(i)->data_encoding()->name()->string())));
+                }
                 // Fire event
                 zeek::BifEvent::enqueue_opcua_binary_read_nodes_to_read_event(connection()->bro_analyzer(),
                                                                               connection()->bro_analyzer()->Conn(),
