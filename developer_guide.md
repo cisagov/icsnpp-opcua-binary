@@ -114,7 +114,9 @@ The above example provides a simplified implementation for processing the protoc
 
 ## Directory Structure
 
-The directory structure primarily consists of a `scripts` directory which contains the Zeek scripts that make up the scripting layer and the `src` directory which contains a combination of C/C++ source files and binpac files.  These files make up the analyzer and binpac layers.  In an effort to provide some organization to the file structure, a file naming convention has been (loosely) adopted for processing the protocol services along with the service request/response headers.  The following table describes the naming convention.
+The directory structure primarily consists of a `scripts` directory which contains the Zeek scripts that make up the scripting layer and the `src` directory which contains a combination of C/C++ source files and binpac files. These files make up the analyzer and binpac layers. Due to the quantity of files, the `src` directory is divided into subdirectories. Genereic files and processing folders used to perform basic processing are stored in the `src` parent directory. Maps for enumerations are in the `headers` folder. Index-consts.h files do not belong in the `headers` directory. The `services` folder contains parsing for individual OPCUA services grouped by service. Finally, the `types` folder contains OPCUA structures that are used across multiple services but are not services in and of themselves. In an effort to provide some additional organization to the file structure, a file naming convention has been (loosely) adopted for processing the protocol services along with the service request/response headers.  The following table describes the naming convention.
+
+Please note that when including files, it is necessary to import the files in the `headers` directory and the `types` directory first. By convention, the imports are alphabatized. 
 
 ### Naming Convention
 
@@ -150,31 +152,30 @@ Note: Some of the *_debug.pac code has been stubbed out.
 ### Services
 The following table shows the services that have been stubbed out and currently log just the service request/response header information.  Future development will focus on processing and logging this information.
 
-| Service                                | Service                                 | Service
-| -------------------------------------- | --------------------------------------- | --------------------------------------- |
-|                                        | `FindServersRequest`                    | `FindServersResponse`                   |
-| `FindServersOnNetworkRequest`          | `FindServersOnNetworkResponse`          | `RegisterServerRequest`                 |
-| `RegisterServerResponse`               | `RegisterServer2Request`                | `RegisterServer2Response`               |
-| `CloseSessionRequest`                  | `CloseSessionResponse`                  | `CancelRequest`                         |
-| `CancelResponse`                       | `AddNodesRequest`                       | `AddNodesResponse`                      |
-| `AddReferencesRequest`                 | `AddReferencesResponse`                 | `DeleteNodesRequest`                    |
-| `DeleteNodesResponse`                  | `DeleteReferencesRequest`               | `DeleteReferencesResponse`              |
-| `TranslateBrowsePathsToNodeIdsRequest` | `TranslateBrowsePathsToNodeIdsResponse` | `RegisterNodesRequest`                  |
-| `RegisterNodesResponse`                | `UnregisterNodesRequest`                | `UnregisterNodesResponse`               | 
-| `QueryFirstRequest`                    | `QueryFirstResponse`                    | `QueryNextRequest`                      |
-| `QueryNextResponse`                    |                                         |                                         |
-| `HistoryReadRequest`                   | `HistoryReadResponse`                   | `WriteRequest`                          | 
-| `WriteResponse`                        | `HistoryUpdateRequest`                  | `HistoryUpdateResponse`                 |
-| `CallRequest`                          | `CallResponse`                          | `CreateMonitoredItemsRequest`           | 
-| `CreateMonitoredItemsResponse`         | `ModifyMonitoredItemsRequest`           | `ModifyMonitoredItemsResponse`          |
-| `SetMonitoringModeRequest`             | `SetMonitoringModeResponse`             | `SetTriggeringRequest`                  | 
-| `SetTriggeringResponse`                | `DeleteMonitoredItemsRequest`           | `DeleteMonitoredItemsResponse`          | 
-| `ModifySubscriptionRequest`            | `ModifySubscriptionResponse`            | `SetPublishingModeRequest`              | 
-| `SetPublishingModeResponse`            | `PublishRequest`                        | `PublishResponse`                       | 
-| `RepublishRequest`                     | `RepublishResponse`                     | `TransferSubscriptionsRequest`          | 
-| `TransferSubscriptionsResponse`        | `DeleteSubscriptionsRequest`            | `DeleteSubscriptionsResponse`           | 
-| `TestStackRequest`                     | `TestStackResponse`                     | `TestStackExRequest`                    | 
-| `TestStackExResponse`                  | `ServiceFault`                          |
+| Service                                 | Service                                 | Service
+| --------------------------------------- | --------------------------------------- | --------------------------------------- |
+|                                         | `FindServersRequest`                    | `FindServersResponse`                   |
+| `FindServersOnNetworkRequest`           | `FindServersOnNetworkResponse`          | `RegisterServerRequest`                 |
+| `RegisterServerResponse`                | `RegisterServer2Request`                | `RegisterServer2Response`               |
+| `CloseSessionRequest`                   | `CloseSessionResponse`                  | `CancelRequest`                         |
+| `CancelResponse`                        | `AddNodesRequest`                       | `AddNodesResponse`                      |
+| `AddReferencesRequest`                  | `AddReferencesResponse`                 | `DeleteNodesRequest`                    |
+| `DeleteNodesResponse`                   | `DeleteReferencesRequest`               | `DeleteReferencesResponse`              |
+| `TranslateBrowsePathsToNodeIdsRequest`  | `TranslateBrowsePathsToNodeIdsResponse` | `RegisterNodesRequest`                  |
+| `RegisterNodesResponse`                 | `UnregisterNodesRequest`                | `UnregisterNodesResponse`               | 
+| `QueryFirstRequest`                     | `QueryFirstResponse`                    | `QueryNextRequest`                      |
+| `QueryNextResponse`                     | `HistoryReadRequest`                    | `HistoryReadResponse`                   |
+| `WriteRequest`                          | `WriteResponse`                         | `HistoryUpdateRequest`                  | 
+| `HistoryUpdateResponse`                 | `CallRequest`                           | `CallResponse`                          | 
+| `ModifyMonitoredItemsRequest`           | `ModifyMonitoredItemsResponse`          | `SetMonitoringModeRequest`              | 
+| `SetMonitoringModeResponse`             | `SetTriggeringRequest`                  | `SetTriggeringResponse`                 | 
+| `DeleteMonitoredItemsRequest`           | `DeleteMonitoredItemsResponse`          | `ModifySubscriptionRequest`             | 
+| `ModifySubscriptionResponse`            | `SetPublishingModeRequest`              | `SetPublishingModeResponse`             | 
+| `PublishRequest`                        | `PublishResponse`                       | `RepublishRequest`                      | 
+| `RepublishResponse`                     | `TransferSubscriptionsRequest`          | `TransferSubscriptionsResponse`         | 
+| `DeleteSubscriptionsRequest`            | `DeleteSubscriptionsResponse`           | `TestStackRequest`                      | 
+| `TestStackResponse`                     | `TestStackExRequest`                    | `TestStackExResponse`                   | 
+| `ServiceFault`                          |
 
 #### Files of interest when implementing a service
 

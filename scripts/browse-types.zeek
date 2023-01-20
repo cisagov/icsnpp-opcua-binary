@@ -129,12 +129,4 @@ export {
         browse_response_type_def_namespace_uri    : string &log &optional;
         browse_response_type_def_server_idx       : count  &log &optional;   
     };
-
-    type OPCUA_Binary::BrowseDiagnosticInfo: record {
-        ts                       : time    &log;
-        uid                      : string  &log;
-        id                       : conn_id &log;
-        browse_diag_info_link_id : string  &log;  # Id back into OCPUA_Binary::Browse
-        diag_info_link_id        : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
-    };
 }
