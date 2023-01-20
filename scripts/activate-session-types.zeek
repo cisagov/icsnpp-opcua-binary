@@ -87,12 +87,4 @@ export {
         local_id                  : string  &log;
     };
 
-    type OPCUA_Binary::ActivateSessionDiagnosticInfo: record {
-        ts                                 : time    &log;
-        uid                                : string  &log;
-        id                                 : conn_id &log;
-        activate_session_diag_info_link_id : string  &log;  # Id back into OCPUA_Binary::ActivateSession
-        diag_info_link_id                  : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
-    };
-
 }

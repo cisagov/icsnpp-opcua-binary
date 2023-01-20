@@ -9,16 +9,13 @@ type AttributeOperand: record;
 type AttributeOperandBrowsePathElement: record;
 type ContentFilter: record;
 type ContentFilterElement: record;
-type ContentFilterElementDiagnosticInfo: record;
 type DataChangeFilter: record;
 type ElementOperand: record;
 type EventFilter: record;
-type EventFilterDiagnosticInfo: record; 
 type LiteralOperand: record;
 type SelectClause: record; 
 type SimpleAttributeOperand: record;
 type SimpleAttributeOperandBrowsePaths: record;
-type OperandDiagnosticInfo: record;
 
 type VariantArrayDims: record;
 type VariantData: record;
@@ -28,12 +25,10 @@ type VariantMetadata: record;
 
 type ActivateSession: record;
 type ActivateSessionClientSoftwareCert: record;
-type ActivateSessionDiagnosticInfo: record;
 type ActivateSessionLocaleId: record;
 
 type Browse: record;
 type BrowseDescription: record;
-type BrowseDiagnosticInfo: record;
 type BrowseReference: record;
 type BrowseRequestContinuationPoint: record;
 type BrowseResult: record;

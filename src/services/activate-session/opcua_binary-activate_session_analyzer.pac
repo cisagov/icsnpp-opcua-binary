@@ -148,21 +148,8 @@ refine flow OPCUA_Binary_Flow += {
             uint32 innerDiagLevel = 0;
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < msg->diagnostic_info_size(); i++) {
-
-                // Assign the linkage in the OCPUA_Binary::ActivateSessionDiagnosticInfo and enqueue the logging event  
-                zeek::RecordValPtr activate_session_res_diagnostic_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSessionDiagnosticInfo);
-                activate_session_res_diagnostic_info->Assign(ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id_link));
-                activate_session_res_diagnostic_info->Assign(ACTIVATE_SESSION_DIAG_INFO_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id));
-                zeek::BifEvent::enqueue_opcua_binary_activate_session_diagnostic_info_event(connection()->bro_analyzer(),
-                                                                                            connection()->bro_analyzer()->Conn(),
-                                                                                            activate_session_res_diagnostic_info);
-
-
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), activate_session_res_diagnostic_info->GetField(ACTIVATE_SESSION_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSession_DiagInfo_Key, DiagInfo_ActivateSession_Key);
-
-                // Generate an new link to tie OCPUA_Binary::ActivateSessionDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
-                diagnostic_info_id = generateId();
+                generateDiagInfoEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSession_DiagInfo_Key, DiagInfo_ActivateSession_Key);
             }
         }
 

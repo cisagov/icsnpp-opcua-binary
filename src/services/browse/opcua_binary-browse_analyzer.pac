@@ -197,21 +197,8 @@ refine flow OPCUA_Binary_Flow += {
             uint32 innerDiagLevel = 0;
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < msg->diag_info_size(); i++) {
-
-                // Assign the linkage in the OCPUA_Binary::BrowseDiagnosticInfo and enqueue the logging event
-                zeek::RecordValPtr browse_res_diagnostic_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseDiagnosticInfo);
-                browse_res_diagnostic_info->Assign(BROWSE_RESPONSE_DIAG_INFO_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(diagnostic_info_link_id));
-                browse_res_diagnostic_info->Assign(BROWSE_DIAG_INFO_LINK_ID_SRC_IDX,      zeek::make_intrusive<zeek::StringVal>(diagnostic_info_id));
-                zeek::BifEvent::enqueue_opcua_binary_browse_diagnostic_info_event(connection()->bro_analyzer(),
-                                                                                            connection()->bro_analyzer()->Conn(),
-                                                                                            browse_res_diagnostic_info);
-
-
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), browse_res_diagnostic_info->GetField(BROWSE_DIAG_INFO_LINK_ID_SRC_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_Browse_DiagInfo_Key, DiagInfo_Browse_Key);
-
-                // Generate an new link to tie OCPUA_Binary::BrowseDiagnosticInfo and OPCUA_Binary::DiagnosticInfoDetail together
-                diagnostic_info_id = generateId();
+                generateDiagInfoEvent(connection(), browse_res->GetField(BROWSE_RESPONSE_DIAG_INFO_LINK_ID_SRC_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_Browse_DiagInfo_Key, DiagInfo_Browse_Key);
             }
         }
 

@@ -29,6 +29,7 @@ export {
 
         monitored_parameters_link_id    : string &log;
         start_time                      : time   &log &optional;
+        start_time_str                  : string &log &optional;
         aggregate_type_encoding_mask    : string &log &optional;
         aggregate_type_namespace_idx    : count  &log &optional;
         aggregate_type_numeric          : count  &log &optional;
@@ -44,6 +45,7 @@ export {
         use_slopped_extrapolation       : bool  &log &optional;
 
         revised_start_time                      : time   &log &optional;
+        revised_start_time_str                  : string &log &optional;
         revised_processing_interval             : double &log &optional;
         revised_use_server_capabilities_default : bool   &log &optional;
         revised_treat_uncertain_as_bad          : bool   &log &optional;
@@ -57,19 +59,18 @@ export {
         id                          : conn_id &log;
 
         monitored_parameters_link_id            : string &log;
-        select_clauses_link_id                  : string &log &optional;
-        where_clause_link_id                    : string &log &optional;
-        select_clause_diagnostic_info_link_id   : string &log &optional;
+        select_clause_link_id                  : string &log &optional;
+        where_clause_content_filter_link_id     : string &log &optional;
     };
     type OPCUA_Binary::ContentFilter: record {
         ts                          : time    &log;
         uid                         : string  &log;
         id                          : conn_id &log;
 
-        where_clause_link_id                    : string &log;
-        content_filter_element_link_id          : string &log &optional;
-        content_filter_element_result_link_id   : string &log &optional;
-        content_filter_diag_info_link_id        : string &log &optional;
+        where_clause_link_id                        : string &log;
+        content_filter_element_link_id              : string &log &optional;
+        content_filter_status_code_link_id          : string &log &optional;
+        content_filter_diag_info_link_id            : string &log &optional;
     };
     type OPCUA_Binary::ContentFilterElement: record {
         ts                          : time    &log;
@@ -87,7 +88,6 @@ export {
         content_filter_filter_operand_type_id_string          : string &log &optional;
         content_filter_filter_operand_type_id_encoding        : string &log &optional;
         content_filter_filter_operand_link_id                 : string &log &optional;
-        content_filter_status_code_link_id                    : string &log &optional;
         content_filter_operand_status_code_link_id            : string &log &optional;
         content_filter_operand_diag_info_link_id              : string &log &optional;
     };
@@ -104,10 +104,12 @@ export {
         type_id_guid                      : string &log &optional;
         type_id_opaque                    : string &log &optional;
 
-        select_clause_browse_path_link_id       : string &log &optional;
-        attribute_id                            : string &log &optional;
-        index_range                             : string &log &optional;
-        select_clause_status_code_link_id       : string &log &optional;
+        simple_attribute_operand_browse_path_link_id    : string &log &optional;
+        attribute_id                                    : string &log &optional;
+        index_range                                     : string &log &optional;
+        select_clause_status_code_link_id               : string &log &optional;
+        select_clause_diagnostic_info_link_id   : string &log &optional;
+
     };
     type OPCUA_Binary::SimpleAttributeOperand: record {
         ts                          : time    &log;
@@ -132,6 +134,7 @@ export {
         id                          : conn_id &log;
 
         simple_attribute_operand_browse_path_link_id    : string &log;
+        browse_path_src                                 : string &log &optional;
         namespace_index                                 : count  &log &optional;
         name                                            : string &log &optional;
     };
@@ -186,29 +189,5 @@ export {
         content_filter_filter_operand_link_id   : string &log;
         literal_operand_variant_link            : string  &log &optional;
 
-    };
-    type OPCUA_Binary::EventFilterDiagnosticInfo: record {
-        ts                                          : time    &log;
-        uid                                         : string  &log;
-        id                                          : conn_id &log;
-        
-        event_filter_select_clauses_diag_info_link_id   : string  &log;  # Id back into OCPUA_Binary::EventFilter
-        diag_info_link_id                               : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
-    };
-    type OPCUA_Binary::ContentFilterElementDiagnosticInfo: record {
-        ts                                          : time    &log;
-        uid                                         : string  &log;
-        id                                          : conn_id &log;
-        
-        content_filter_diag_info_link_id            : string  &log;  # Id back into OCPUA_Binary::ContentFilter
-        diag_info_link_id                           : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
-    };
-    type OPCUA_Binary::OperandDiagnosticInfo: record {
-        ts                                          : time    &log;
-        uid                                         : string  &log;
-        id                                          : conn_id &log;
-        
-        content_filter_elements_operand_diag_info_link_id   : string  &log;  # Id back into OCPUA_Binary::ContentFilterElement
-        diag_info_link_id                                   : string  &log;  # Id into OPCUA_Binary::DiagnosticInfoDetail
     };
 }

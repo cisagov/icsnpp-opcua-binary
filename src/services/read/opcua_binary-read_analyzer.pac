@@ -43,7 +43,7 @@ refine flow OPCUA_Binary_Flow += {
 
         // Timestamps to Return
         read_req->Assign(READ_REQ_TIMESTAMPS_TO_RETURN_IDX, zeek::val_mgr->Count(msg->timestamps_to_return()));
-        read_req->Assign(READ_REQ_TIMESTAMPS_TO_RETURN_STR_IDX, zeek::make_intrusive<zeek::StringVal>(unixTimestampToString(msg->timestamps_to_return())));
+        read_req->Assign(READ_REQ_TIMESTAMPS_TO_RETURN_STR_IDX, zeek::make_intrusive<zeek::StringVal>(TIMESTAMPS_TO_RETURN_MAP.find(msg->timestamps_to_return())->second));
 
         // Nodes to Read
         if (msg->nodes_to_read_size() > 0) {
@@ -94,10 +94,10 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_ReadRes(msg : Read_Res): bool
         %{
-        /* Debug */
+        /* Debug
         printf("deliver_Svc_ReadRes - begin\n");
         printReadRes(msg);
-        printf("deliver_Svc_ReadRes - end\n");
+        printf("deliver_Svc_ReadRes - end\n"); */
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
@@ -152,7 +152,6 @@ refine flow OPCUA_Binary_Flow += {
             uint32 innerDiagLevel = 0;
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < msg->diagnostic_info_size(); i++) {
-
                 // Process the details of the Diagnostic Information
                 generateDiagInfoEvent(connection(), read_res->GetField(READ_RES_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_Read_DiagInfo_Key, DiagInfo_Read_Key);
 

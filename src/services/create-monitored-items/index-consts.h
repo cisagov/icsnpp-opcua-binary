@@ -18,8 +18,9 @@
 #define CREATE_MONITORED_ITEMS_OPCUA_ID_LINK_IDX                                3 // Id back into OCPUA_Binary::Info log
 #define CREATE_MONITORED_ITEMS_SUBSCRIPTION_ID_IDX                              4
 #define CREATE_MONITORED_ITEMS_TIMESTAMPS_TO_RETURN_IDX                         5
-#define CREATE_MONITORED_ITEMS_MONITORED_ITEM_LINK_ID_SRC_IDX                   6 // Id into Monitored Item
-#define CREATE_MONITORED_ITEMS_RESPONSE_DIAG_INFO_LINK_ID_SRC_IDX               7 // Id into DiagnosticInfo detail
+#define CREATE_MONITORED_ITEMS_TIMESTAMPS_TO_RETURN_STR_IDX                     6
+#define CREATE_MONITORED_ITEMS_MONITORED_ITEM_LINK_ID_SRC_IDX                   7 // Id into Monitored Item
+#define CREATE_MONITORED_ITEMS_RESPONSE_DIAG_INFO_LINK_ID_SRC_IDX               8 // Id into DiagnosticInfo detail
 
 
 // Monitored Item Indexes

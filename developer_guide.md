@@ -165,18 +165,17 @@ The following table shows the services that have been stubbed out and currently 
 | `RegisterNodesResponse`                 | `UnregisterNodesRequest`                | `UnregisterNodesResponse`               | 
 | `QueryFirstRequest`                     | `QueryFirstResponse`                    | `QueryNextRequest`                      |
 | `QueryNextResponse`                     | `HistoryReadRequest`                    | `HistoryReadResponse`                   |
-| `WriteRequest`                          | 
-| `WriteResponse`                         | `HistoryUpdateRequest`                  | `HistoryUpdateResponse`                 |
-| `CallRequest`                           | `CallResponse`                          | `CreateMonitoredItemsRequest`           | 
-| `CreateMonitoredItemsResponse`          | `ModifyMonitoredItemsRequest`           | `ModifyMonitoredItemsResponse`          |
-| `SetMonitoringModeRequest`              | `SetMonitoringModeResponse`             | `SetTriggeringRequest`                  | 
-| `SetTriggeringResponse`                 | `DeleteMonitoredItemsRequest`           | `DeleteMonitoredItemsResponse`          | 
-| `ModifySubscriptionRequest`             | `ModifySubscriptionResponse`            | `SetPublishingModeRequest`              | 
-| `SetPublishingModeResponse`             | `PublishRequest`                        | `PublishResponse`                       | 
-| `RepublishRequest`                      | `RepublishResponse`                     | `TransferSubscriptionsRequest`          | 
-| `TransferSubscriptionsResponse`         | `DeleteSubscriptionsRequest`            | `DeleteSubscriptionsResponse`           | 
-| `TestStackRequest`                      | `TestStackResponse`                     | `TestStackExRequest`                    | 
-| `TestStackExResponse`                   | `ServiceFault`                          |
+| `WriteRequest`                          | `WriteResponse`                         | `HistoryUpdateRequest`                  | 
+| `HistoryUpdateResponse`                 | `CallRequest`                           | `CallResponse`                          | 
+| `ModifyMonitoredItemsRequest`           | `ModifyMonitoredItemsResponse`          | `SetMonitoringModeRequest`              | 
+| `SetMonitoringModeResponse`             | `SetTriggeringRequest`                  | `SetTriggeringResponse`                 | 
+| `DeleteMonitoredItemsRequest`           | `DeleteMonitoredItemsResponse`          | `ModifySubscriptionRequest`             | 
+| `ModifySubscriptionResponse`            | `SetPublishingModeRequest`              | `SetPublishingModeResponse`             | 
+| `PublishRequest`                        | `PublishResponse`                       | `RepublishRequest`                      | 
+| `RepublishResponse`                     | `TransferSubscriptionsRequest`          | `TransferSubscriptionsResponse`         | 
+| `DeleteSubscriptionsRequest`            | `DeleteSubscriptionsResponse`           | `TestStackRequest`                      | 
+| `TestStackResponse`                     | `TestStackExRequest`                    | `TestStackExResponse`                   | 
+| `ServiceFault`                          |
 
 #### Files of interest when implementing a service
 

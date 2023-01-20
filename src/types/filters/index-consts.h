@@ -22,25 +22,27 @@
 // Aggregate Filter Parameter Indexes
 #define AGGREGATE_FILTER_LINK_ID_DST_IDX                                            3
 #define AGGREGATE_FILTER_START_TIME_IDX                                             4
-#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_ENCODING_MASK_IDX                        5
-#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_NAMESPACE_IDX                            6
-#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_NUMERIC_IDX                              7          
-#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_STRING_IDX                               8            
-#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_GUID_IDX                                 9             
-#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_OPAQUE_IDX                              10 
-#define AGGREGATE_FILTER_PROCESSING_INTERVAL_IDX                                   11
-#define AGGREGATE_FILTER_CONFIGURATION_USE_SERVER_CAPABILITES_DEFAULT_IDX          12
-#define AGGREGATE_FILTER_CONFIGURATION_TREAT_UNCERTAIN_AS_BAD_IDX                  13
-#define AGGREGATE_FILTER_CONFIGURATION_PERCENT_DATA_GOOD_IDX                       14
-#define AGGREGATE_FILTER_CONFIGURATION_PERCENT_DATA_BAD_IDX                        15
-#define AGGREGATE_FILTER_CONFIGURATION_USE_SLOPED_EXTRAPOLATION_IDX                16
-#define AGGREGATE_FILTER_REVISED_START_TIME_IDX                                    17
-#define AGGREGATE_FILTER_REVISED_PROCESSING_INTERVAL_IDX                           18
-#define AGGREGATE_FILTER_REVISED_CONFIGURATION_USE_SERVER_CAPABILITES_DEFAULT_IDX  19
-#define AGGREGATE_FILTER_REVISED_CONFIGURATION_TREAT_UNCERTAIN_AS_BAD_IDX          20
-#define AGGREGATE_FILTER_REVISED_CONFIGURATION_PERCENT_DATA_GOOD_IDX               21
-#define AGGREGATE_FILTER_REVISED_CONFIGURATION_PERCENT_DATA_BAD_IDX                22
-#define AGGREGATE_FILTER_REVISED_CONFIGURATION_USE_SLOPED_EXTRAPOLATION_IDX        23
+#define AGGREGATE_FILTER_START_TIME_STR_IDX                                         5
+#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_ENCODING_MASK_IDX                        6
+#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_NAMESPACE_IDX                            7
+#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_NUMERIC_IDX                              8          
+#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_STRING_IDX                               9            
+#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_GUID_IDX                                10             
+#define AGGREGATE_FILTER_AGGREGATE_TYPE_ID_OPAQUE_IDX                              11 
+#define AGGREGATE_FILTER_PROCESSING_INTERVAL_IDX                                   12
+#define AGGREGATE_FILTER_CONFIGURATION_USE_SERVER_CAPABILITES_DEFAULT_IDX          13
+#define AGGREGATE_FILTER_CONFIGURATION_TREAT_UNCERTAIN_AS_BAD_IDX                  14
+#define AGGREGATE_FILTER_CONFIGURATION_PERCENT_DATA_GOOD_IDX                       15
+#define AGGREGATE_FILTER_CONFIGURATION_PERCENT_DATA_BAD_IDX                        16
+#define AGGREGATE_FILTER_CONFIGURATION_USE_SLOPED_EXTRAPOLATION_IDX                17
+#define AGGREGATE_FILTER_REVISED_START_TIME_IDX                                    18
+#define AGGREGATE_FILTER_REVISED_START_TIME_STR_IDX                                19
+#define AGGREGATE_FILTER_REVISED_PROCESSING_INTERVAL_IDX                           20
+#define AGGREGATE_FILTER_REVISED_CONFIGURATION_USE_SERVER_CAPABILITES_DEFAULT_IDX  21
+#define AGGREGATE_FILTER_REVISED_CONFIGURATION_TREAT_UNCERTAIN_AS_BAD_IDX          22
+#define AGGREGATE_FILTER_REVISED_CONFIGURATION_PERCENT_DATA_GOOD_IDX               23
+#define AGGREGATE_FILTER_REVISED_CONFIGURATION_PERCENT_DATA_BAD_IDX                24
+#define AGGREGATE_FILTER_REVISED_CONFIGURATION_USE_SLOPED_EXTRAPOLATION_IDX        25
 
 // Event Filter Parameter Indexes
 #define EVENT_FILTER_LINK_ID_DST_IDX                                                3
@@ -60,11 +62,13 @@
 #define SELECT_CLAUSE_ATTRIBUTE_ID_IDX                                             11
 #define SELECT_CLAUSE_INDEX_RANGE_IDX                                              12
 #define SELECT_CLAUSE_RESULT_STATUS_CODE_LINK_ID_SRC_IDX                           13
+#define SELECT_CLAUSE_RESULT_DIAGNOSTIC_INFO_LINK_ID_SRC_IDX                       14
+
 
 // Content Filter Parameter Indexes
 #define EVENT_FILTER_CONTENT_FILTER_LINK_ID_DST_IDX                                 3
-#define CONTENT_FILTER_LINK_ID_SRC_IDX                                              4
-#define CONTENT_FILTER_ELEMENT_RESULT_LINK_ID_SRC_IDX                               5
+#define CONTENT_FILTER_ELEMENT_LINK_ID_SRC_IDX                                      4
+#define CONTENT_FILTER_RESULT_STATUS_CODE_LINK_ID_SRC_IDX                           5
 #define CONTENT_FILTER_RESULT_DIAG_INFO_LINK_ID_SRC_IDX                             6
 
 // Content Filter Element Parameter Indexes
@@ -79,9 +83,8 @@
 #define CONTENT_FILTER_FILTER_OPERAND_EXT_OBJ_TYPE_ID_STR_IDX                      11
 #define CONTENT_FILTER_FILTER_OPERAND_EXT_OBJ_ENCODING_IDX                         12
 #define CONTENT_FILTER_FILTER_OPERANDS_LINK_ID_SRC_IDX                             13
-#define CONTENT_FILTER_ELEMENT_RESULT_STATUS_CODE_LINK_ID_SRC_IDX                  14
-#define OPERAND_RESULT_STATUS_CODE_LINK_ID_SRC_IDX                                 15
-#define OPERAND_RESULT_DIAG_INFO_LINK_ID_SRC_IDX                                   16
+#define OPERAND_RESULT_STATUS_CODE_LINK_ID_SRC_IDX                                 14
+#define OPERAND_RESULT_DIAG_INFO_LINK_ID_SRC_IDX                                   15
 
 // Element Operand Parameter Indexes
 #define ELEMENT_OPERAND_LINK_ID_DST_IDX                                             3
@@ -131,8 +134,9 @@
 
 // Simple Attribute Operand Browse Path Indexes
 #define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_LINK_ID_DST_IDX                        3 
-#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_NAMSESPACE_IDX_IDX                     4
-#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_NAME_IDX                               5
+#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_SRC_LINK_ID_IDX                        4
+#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_NAMSESPACE_IDX_IDX                     5
+#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_NAME_IDX                               6
 
 // Select Clause in Event Filter Diagnostic Info link file
 #define EVENT_FILTER_RESPONSE_DIAG_INFO_LINK_ID_DST_IDX                             3 // Id back into OPCUA_Binary::SelectClause

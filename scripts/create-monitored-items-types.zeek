@@ -20,7 +20,8 @@ export {
         opcua_id                    : string  &log;       # Id back into OCPUA_Binary::Info
 
         subscription_id                             : count &log &optional;
-        timestamps_to_return                        : string &log &optional;
+        timestamps_to_return                        : count &log &optional;
+        timestamps_to_return_str                    : string &log &optional;
         create_item_link_id                         : string &log &optional; #Id into OPCUA_Binary:CreateMonitoredItemsItem
         create_monitored_items_diag_info_link_id    : string &log &optional; #Id into CreateMonitoredItemsDiagnosticInfo log
     };

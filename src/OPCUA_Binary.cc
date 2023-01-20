@@ -69,11 +69,12 @@ void OPCUA_Binary_Analyzer::DeliverStream(int len, const u_char* data, bool orig
 	catch ( const binpac::Exception& e )
 		{
 
-		/* Debug */
+		/* Debug
 		printf("\n###############################\n");
 		printf(" EXCEPTION:\n");
 		printf("     %s \n", e.c_msg());
 		printf("###############################\n\n");
+		*/
 	
 
 		ProtocolViolation(zeek::util::fmt("Binpac exception: %s", e.c_msg()));

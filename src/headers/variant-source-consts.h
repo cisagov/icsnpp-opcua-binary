@@ -25,7 +25,7 @@ static std::map<uint32_t, std::string> VARIANT_SRC_MAP =
 {
    {Variant_Read_Key,                     "Read_Variant"},
    {Variant_Read_Inner_Key,               "Read_InnerVariant"},
-   {Variant_LiteralOperand_Key,          "LiteralOperand_Variant"},
-   {Variant_LiteralOperand_Inner_Key,    "LiteralOperand_InnerVariant"}
+   {Variant_LiteralOperand_Key,           "LiteralOperand_Variant"},
+   {Variant_LiteralOperand_Inner_Key,     "LiteralOperand_InnerVariant"}
 };
 #endif 
