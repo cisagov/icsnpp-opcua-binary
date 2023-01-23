@@ -44,6 +44,7 @@ export {
         uid                 : string  &log;
         id                  : conn_id &log;
         diag_info_link_id   : string  &log;
+        root_object_id      : string  &log; # This connects inner objects with the root object
         source              : count   &log;
         source_str          : string  &log;
         inner_diag_level    : count   &log;

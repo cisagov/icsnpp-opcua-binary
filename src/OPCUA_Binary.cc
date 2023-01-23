@@ -75,8 +75,8 @@ void OPCUA_Binary_Analyzer::DeliverStream(int len, const u_char* data, bool orig
 		printf("     %s \n", e.c_msg());
 		printf("###############################\n\n");
 		*/
-
-		ProtocolViolation(zeek::util::fmt("Binpac exception: %s", e.c_msg()));
+	
+		AnalyzerViolation(zeek::util::fmt("Binpac exception: %s", e.c_msg()));
 		}
 	}
 

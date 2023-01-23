@@ -1,4 +1,3 @@
-
 // Plugin.h
 //
 // OPCUA Binary Protocol Analyzer
