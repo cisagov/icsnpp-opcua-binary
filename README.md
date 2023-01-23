@@ -104,7 +104,7 @@ This log captures the details of any status codes in the service response header
 
 #### Filter Detail (opcua-binary-aggregate-filter.log, opcua-binary-data-change-filter.log, opcua-binary-event-filter.log, opcua-binary-event-filter-attribute-operand.log, opcua-binary-event-filter-attribute-operand-browse-paths.log, opcua-binary-event-filter-where-clause.log, opcua-binary-event-filter-where-clause-elements.log, opcua-binary-event-filter-element-operand.log, opcua-binary-event-filter-literal-operand.log, opcua-binary-event-filter-select-clause.log, opcua-binary-event-filter-simple-attribute-operand.log, opcua-binary-event-filter-simple-attribute-operand-browse-paths.log)
 
-This log captures the details associated with vilter objects.
+This log captures the details associated with filter objects.
 
 * See [filter-types.zeek](scripts/filter-types.zeek) for a list of the fields logged.
 * See [opcua_binary-filter_types.pac](src/types/filters/opcua_binary-filter_types.pac), [opcua_binary-filter_types_analyzer.pac](src/types/filters/opcua_binary-filter_types_analyzer.pac), and [opcua_binary-filter_types_debug.pac](src/types/filters/opcua_binary-filter_debug.pac) for details on parsing, processing, and logging this service.
