@@ -11,7 +11,7 @@
 
 %header{
     void printCloseSessionReq(Close_Session_Req *msg);
-    void printCloseSessionItemsRes(Close_Session_Res *msg);
+    void printCloseSessionRes(Close_Session_Res *msg);
 %}
 
 %code{
@@ -23,8 +23,14 @@
         printf("%s %s\n", indent(2).c_str(), NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second.c_str());
         printReqHdr(msg->req_hdr());
 
+        if (msg->del_subscriptions() == 1){
+            printf("%s DeleteSubscriptions: True \n", indent(3).c_str());
+        } else {
+            printf("%s DeleteSubscriptions: False \n", indent(3).c_str());
+        }
+
     }
-    void printCloseSessionItemsRes(Close_Session_Res *msg){
+    void printCloseSessionRes(Close_Session_Res *msg){
         printMsgHeader(msg->service()->msg_body()->header());
         printMsgType(msg->service()->msg_body()->header());
         printService(msg->service());   
