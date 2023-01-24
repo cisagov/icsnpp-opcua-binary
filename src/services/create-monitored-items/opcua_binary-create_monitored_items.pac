@@ -15,7 +15,7 @@
 # 5.12.2.2 - Table 69 - CreateMonitoredItems Service Parameters
 #
 
-type CreateMonitoredItems_Req(service: Service) = record {
+type Create_Monitored_Items_Req(service: Service) = record {
     req_hdr                         : Request_Header;
     subscription_id                 : uint32;
     timestamps_to_return            : uint32;
@@ -25,7 +25,7 @@ type CreateMonitoredItems_Req(service: Service) = record {
     deliver: bool = $context.flow.deliver_Svc_CreateMonitoredItemsReq(this);
 } &byteorder=littleendian;
 
-type CreateMonitoredItems_Res(service: Service) = record {
+type Create_Monitored_Items_Res(service: Service) = record {
     res_hdr             : Response_Header;
     num_results         : int32;
     results             : MonitoredItem_Create_Response[$context.flow.bind_length(num_results)];

@@ -13,7 +13,7 @@
 
 //
 // Index constants for setting values in OPCUA_Binary::CreateMonitoredItems
-// based on the parsed values from CreateMonitoredItems_Req and CreateMonitoredItems_Res
+// based on the parsed values from Create_Monitored_Items_Req and Create_Monitored_Items_Res
 //
 #define CREATE_MONITORED_ITEMS_OPCUA_ID_LINK_IDX                                3 // Id back into OCPUA_Binary::Info log
 #define CREATE_MONITORED_ITEMS_SUBSCRIPTION_ID_IDX                              4

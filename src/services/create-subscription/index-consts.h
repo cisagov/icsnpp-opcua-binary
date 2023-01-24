@@ -12,7 +12,7 @@
 
 //
 // Index constants for setting values in OPCUA_Binary::CreateSubscription
-// based on the parsed values from CreateSubscription_Req and CreateSubscription_Res
+// based on the parsed values from Create_Subscription_Req and Create_Subscription_Res
 //
 #define CREATE_SUB_OPCUA_LINK_ID_DST_IDX                        3
 

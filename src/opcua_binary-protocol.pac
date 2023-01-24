@@ -25,6 +25,8 @@
 %include services/activate-session/opcua_binary-activate_session_debug.pac
 %include services/browse/opcua_binary-browse.pac
 %include services/browse/opcua_binary-browse_debug.pac
+%include services/close-session/opcua_binary-close_session.pac
+%include services/close-session/opcua_binary-close_session_debug.pac
 %include services/create-monitored-items/opcua_binary-create_monitored_items.pac
 %include services/create-monitored-items/opcua_binary-create_monitored_items_debug.pac
 %include services/create-session/opcua_binary-create_session.pac
@@ -40,8 +42,6 @@
 %include stubbed-out/opcua_binary-stubbed_out_service.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_debug.pac
 %include opcua_binary-protocol_debug.pac
-%include close-session/opcua_binary-close_session.pac
-%include close-session/opcua_binary-close_session_debug.pac
 
 #
 # The below type definitions were taken from:

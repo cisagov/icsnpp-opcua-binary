@@ -33,7 +33,6 @@
 #include "services/activate-session/index-consts.h"
 #include "services/browse/index-consts.h"
 #include "services/close-session/index-consts.h"
-
 #include "services/create-monitored-items/index-consts.h"
 #include "services/create-session/index-consts.h"
 #include "services/create-subscription/index-consts.h"

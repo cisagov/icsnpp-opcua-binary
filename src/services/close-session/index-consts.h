@@ -12,7 +12,7 @@
 
 //
 // Index constants for setting values in OPCUA_Binary::CloseSession
-// based on the parsed values from CloseSession_Req and CloseSession_Res
+// based on the parsed values from Close_Session_Req and Close_Session_Res
 //
 #define CLOSE_SESSION_OPCUA_LINK_ID_DST_IDX                     3
 
