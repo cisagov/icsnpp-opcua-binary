@@ -3,46 +3,58 @@ module OPCUA_Binary;
 type Info: record;
 type StatusCodeDetail: record;
 type DiagnosticInfoDetail: record;
-type OpenSecureChannel: record;
 
-type GetEndpoints: record;
-type GetEndpointsDescription: record;
-type GetEndpointsDiscovery: record;
-type GetEndpointsUserToken: record;
-type GetEndpointsLocaleId: record;
-type GetEndpointsProfileUri: record;
+type AggregateFilter: record;
+type AttributeOperand: record;
+type AttributeOperandBrowsePathElement: record;
+type ContentFilter: record;
+type ContentFilterElement: record;
+type DataChangeFilter: record;
+type ElementOperand: record;
+type EventFilter: record;
+type LiteralOperand: record;
+type SelectClause: record; 
+type SimpleAttributeOperand: record;
+type SimpleAttributeOperandBrowsePaths: record;
+
+type VariantArrayDims: record;
+type VariantData: record;
+type VariantDataValue: record;
+type VariantExtensionObject: record;
+type VariantMetadata: record;
+
+type ActivateSession: record;
+type ActivateSessionClientSoftwareCert: record;
+type ActivateSessionLocaleId: record;
+
+type Browse: record;
+type BrowseDescription: record;
+type BrowseReference: record;
+type BrowseRequestContinuationPoint: record;
+type BrowseResult: record;
+
+type CreateMonitoredItems: record;
+type CreateMonitoredItemsItem: record;
 
 type CreateSession: record;
 type CreateSessionDiscovery: record;
 type CreateSessionEndpoints: record;
 type CreateSessionUserToken: record;
 
-type ActivateSession: record;
-type ActivateSessionClientSoftwareCert: record;
-type ActivateSessionLocaleId: record;
-type ActivateSessionDiagnosticInfo: record;
-
-type Browse: record;
-type BrowseDescription: record;
-type BrowseRequestContinuationPoint: record;
-type BrowseResult: record;
-type BrowseReference: record;
-type BrowseDiagnosticInfo: record;
-
 type CreateSubscription: record;
 
-type OPCUA_Binary::Read: record;
-type OPCUA_Binary::ReadNodesToRead: record;
-type OPCUA_Binary::ReadResultsLink: record;
-type OPCUA_Binary::ReadResults: record;
-type OPCUA_Binary::ReadVariantDataLink: record;
-type OPCUA_Binary::ReadVariantData: record;
-type OPCUA_Binary::ReadArrayDimsLink: record ;
-type OPCUA_Binary::ReadArrayDims: record ;
-type OPCUA_Binary::ReadDiagnosticInfo: record;
-type OPCUA_Binary::ReadStatusCode: record;
-type OPCUA_Binary::ReadExtensionObjectLink: record;
-type OPCUA_Binary::ReadExtensionObject: record;
+type GetEndpoints: record;
+type GetEndpointsDescription: record;
+type GetEndpointsDiscovery: record;
+type GetEndpointsLocaleId: record;
+type GetEndpointsProfileUri: record;
+type GetEndpointsUserToken: record;
+
+type Read: record;
+type ReadNodesToRead: record;
+type ReadResults: record;
+
+type OpenSecureChannel: record;
 
 type OPCUA_Binary::CloseSession: record;
 
