@@ -33,6 +33,8 @@ type BrowseReference: record;
 type BrowseRequestContinuationPoint: record;
 type BrowseResult: record;
 
+type CloseSession: record;
+
 type CreateMonitoredItems: record;
 type CreateMonitoredItemsItem: record;
 
@@ -55,8 +57,6 @@ type ReadNodesToRead: record;
 type ReadResults: record;
 
 type OpenSecureChannel: record;
-
-type OPCUA_Binary::CloseSession: record;
 
 module GLOBAL;
 

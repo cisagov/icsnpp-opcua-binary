@@ -41,8 +41,8 @@ type Service(msg_body: Msg_Body) = record {
         RegisterServer2Request  -> register_server_2_req : Stubbed_Out_Req(this);
         RegisterServer2Response -> register_server_2_res : Stubbed_Out_Res(this);
 
-        CloseSessionRequest  -> Close_Session_Req : Close_Session_Req(this);
-        CloseSessionResponse -> Close_Session_Res : Close_Session_Res(this);
+        CloseSessionRequest  -> close_session_req : Close_Session_Req(this);
+        CloseSessionResponse -> close_session_res : Close_Session_Res(this);
 
         CancelRequest  -> cancel_req : Stubbed_Out_Req(this);
         CancelResponse -> cancel_res : Stubbed_Out_Res(this);
