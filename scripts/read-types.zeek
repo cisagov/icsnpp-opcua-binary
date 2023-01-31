@@ -16,7 +16,7 @@ export {
         ts                       : time    &log;
         uid                      : string  &log;
         id                       : conn_id &log;
-        opcua_link_id            : string  &log; # Link back into OPCUA_Binary::Info:
+        opcua_link_id            : string  &log; # Link back into OPCUA_Binary::Info
 
         # Request
         max_age                  : count  &log &optional;
@@ -25,8 +25,8 @@ export {
         nodes_to_read_link_id    : string &log &optional; # Link into OPCUA_Binary::NodesToRead
 
         # Response
-        read_results_link_id :  string &log &optional; # Link into OPCUA_Binary::ReadResultsLink
-        diag_info_link_id    : string  &log &optional; # Link into OPCUA_Binary::ReadDiagnosticInfo log
+        read_results_link_id :  string &log &optional; # Link into OPCUA_Binary::ReadResults
+        diag_info_link_id    : string  &log &optional; # Link into OPCUA_Binary::DiagnosticInfoDetail log
     };
 
     type OPCUA_Binary::ReadNodesToRead: record {

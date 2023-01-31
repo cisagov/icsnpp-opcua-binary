@@ -16,7 +16,7 @@ export {
         ts                          : time    &log;
         uid                         : string  &log;
         id                          : conn_id &log;
-        variant_data_link_id        : string  &log; # Link back into the Variant's source file
+        variant_source_data_link_id : string  &log; # Link back into the Variant's source file
         
         variant_data_source         : count   &log;
         variant_data_source_str     : string  &log;
@@ -103,7 +103,7 @@ export {
         ts                : time    &log;
         uid               : string  &log;
         id                : conn_id &log;
-        array_dim_link_id : string  &log; # Link back into OPCUA_Binary::ReadArrayDimsLink
+        array_dim_link_id : string  &log; # Link back into OPCUA_Binary::ReadArrayDims
         dimension         : count   &log; 
     };
 
