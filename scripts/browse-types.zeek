@@ -38,7 +38,7 @@ export {
 
         browse_response_link_id    : string &log &optional; # Id into OPCUA::BrowseResult
 
-        browse_diag_info_link_id : string  &log &optional; # Id into OPCUA_Binary::BrowseDiagnosticInfo log
+        browse_diag_info_link_id : string  &log &optional; # Id into OPCUA_Binary::DiagnosticInfoDetail log
     };
 
     type OPCUA_Binary::BrowseDescription: record {

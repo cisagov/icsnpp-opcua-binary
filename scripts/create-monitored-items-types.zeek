@@ -22,8 +22,8 @@ export {
         subscription_id                             : count &log &optional;
         timestamps_to_return                        : count &log &optional;
         timestamps_to_return_str                    : string &log &optional;
-        create_item_link_id                         : string &log &optional; #Id into OPCUA_Binary:CreateMonitoredItemsItem
-        create_monitored_items_diag_info_link_id    : string &log &optional; #Id into CreateMonitoredItemsDiagnosticInfo log
+        create_item_link_id                         : string &log &optional; #Id into OPCUA_Binary::CreateMonitoredItemsItem
+        create_monitored_items_diag_info_link_id    : string &log &optional; #Id into OPCUA_Binary::DiagnosticInfoDetail log
     };
     type OPCUA_Binary::CreateMonitoredItemsItem: record {
         ts                          : time    &log;
@@ -47,18 +47,18 @@ export {
         monitoring_parameters_queue_size        : count  &log &optional;
         monitoring_parameters_discard_oldest    : bool   &log &optional;
 
-        monitoring_parameters_filter_info_type_id_encoding_mask   : string &log &optional;
-        monitoring_parameters_filter_info_type_id_namespace_idx   : count  &log &optional;
-        monitoring_parameters_filter_info_type_id_numeric         : count  &log &optional;
-        monitoring_parameters_filter_info_type_id_string          : string &log &optional;
-        monitoring_parameters_filter_info_type_id_guid            : string &log &optional;
-        monitoring_parameters_filter_info_type_id_opaque          : string &log &optional;
-        monitoring_parameters_filter_info_type_id_string          : string &log &optional;
-        monitoring_parameters_filter_info_type_id_encoding        : string &log &optional;   
+        monitoring_parameters_filter_info_type_id_node_id_encoding_mask : string &log &optional;
+        monitoring_parameters_filter_info_type_id_node_id_namespace_idx : count  &log &optional;
+        monitoring_parameters_filter_info_type_id_node_id_numeric       : count  &log &optional;
+        monitoring_parameters_filter_info_type_id_node_id_string        : string &log &optional;
+        monitoring_parameters_filter_info_type_id_node_id_guid          : string &log &optional;
+        monitoring_parameters_filter_info_type_id_node_id_opaque        : string &log &optional;
+        monitoring_parameters_filter_info_type_id_string                : string &log &optional;
+        monitoring_parameters_filter_info_type_id_encoding              : string &log &optional;   
 
-        filter_info_details_link_id  : string &log &optional; 
+        filter_info_details_link_id  : string &log &optional;  # Link into the filter details file as indicated by monitoring_parameters_filter_info_type_id_string
 
-        monitoring_parameters_status_code_link_id       : string &log &optional;
+        monitoring_parameters_status_code_link_id       : string &log &optional; # Link into OPCUA_Binary::StatusCodeDetails
         monitored_item_index_id                         : count  &log &optional;
         monitoring_parameters_revised_sampling_interval : double &log &optional;
         monitoring_parameters_revised_queue_size        : count  &log &optional;

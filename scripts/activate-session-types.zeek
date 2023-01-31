@@ -66,7 +66,7 @@ export {
         #
         server_nonce                       : string  &log &optional;
         status_code_link_id                : string  &log &optional; # Id into OPCUA_Binary::StatusCodeDetail log
-        activate_session_diag_info_link_id : string  &log &optional; # Id into OPCUA_Binary::ActivateSessionDiagnosticInfo log
+        activate_session_diag_info_link_id : string  &log &optional; # Id into OPCUA_Binary::DiagnosticInfoDetail log
         
     };
 
