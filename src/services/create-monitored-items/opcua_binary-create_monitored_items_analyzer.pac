@@ -13,7 +13,7 @@ refine flow OPCUA_Binary_Flow += {
     #
     # CreateMonitoredItemsRequest
     #
-    function deliver_Svc_CreateMonitoredItemsReq(msg: CreateMonitoredItems_Req): bool
+    function deliver_Svc_CreateMonitoredItemsReq(msg: Create_Monitored_Items_Req): bool
         %{
             /* Debug 
             printf("deliver_Svc_CreateMonitoredItemsReq - begin\n");
@@ -80,7 +80,7 @@ refine flow OPCUA_Binary_Flow += {
     #
     # CreateMonitoredItemsResponse
     #
-    function deliver_Svc_CreateMonitoredItemsRes(msg: CreateMonitoredItems_Res): bool
+    function deliver_Svc_CreateMonitoredItemsRes(msg: Create_Monitored_Items_Res): bool
         %{
             /* Debug 
             printf("deliver_Svc_CreateMonitoredItemsRes - begin\n");

@@ -13,7 +13,7 @@ refine flow OPCUA_Binary_Flow += {
     #
     # CreateSubscription Request
     #
-    function deliver_Svc_CreateSubscriptionReq(msg: CreateSubscription_Req): bool
+    function deliver_Svc_CreateSubscriptionReq(msg: Create_Subscription_Req): bool
         %{
         // Debug printf("deliver_Svc_CreateSubscriptionReq - begin\n");
         // Debug printCreateSubscriptionReq(msg);
@@ -49,7 +49,7 @@ refine flow OPCUA_Binary_Flow += {
 
     %}
 
-    function deliver_Svc_CreateSubscriptionRes(msg: CreateSubscription_Res): bool
+    function deliver_Svc_CreateSubscriptionRes(msg: Create_Subscription_Res): bool
         %{
         // Debug printf("deliver_Svc_CreateSubscriptionRes - begin\n");
         // Debug printCreateSubscriptionRes(msg);

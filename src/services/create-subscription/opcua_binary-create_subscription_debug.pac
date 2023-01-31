@@ -10,12 +10,12 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %header{
-    void printCreateSubscriptionReq(CreateSubscription_Req *msg);
-    void printCreateSubscriptionRes(CreateSubscription_Res *msg);
+    void printCreateSubscriptionReq(Create_Subscription_Req *msg);
+    void printCreateSubscriptionRes(Create_Subscription_Res *msg);
 %}
 
 %code{
-    void printCreateSubscriptionReq(CreateSubscription_Req *msg){
+    void printCreateSubscriptionReq(Create_Subscription_Req *msg){
         printMsgHeader(msg->service()->msg_body()->header());
         printMsgType(msg->service()->msg_body()->header()); 
         printService(msg->service());
@@ -34,7 +34,7 @@
         }
         printf("%s Priority: %d\n", indent(3).c_str(), msg->priority());
     }
-    void printCreateSubscriptionRes(CreateSubscription_Res *msg){
+    void printCreateSubscriptionRes(Create_Subscription_Res *msg){
         printMsgHeader(msg->service()->msg_body()->header());
         printMsgType(msg->service()->msg_body()->header()); 
         printService(msg->service());

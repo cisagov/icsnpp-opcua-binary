@@ -4,6 +4,7 @@
 @load ./statuscode-diagnostic-types
 @load ./activate-session-types
 @load ./browse-types
+@load ./close-session-types
 @load ./create-monitored-items-types
 @load ./create-session-types
 @load ./create-subscription-types

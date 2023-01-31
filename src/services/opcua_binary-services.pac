@@ -41,8 +41,8 @@ type Service(msg_body: Msg_Body) = record {
         RegisterServer2Request  -> register_server_2_req : Stubbed_Out_Req(this);
         RegisterServer2Response -> register_server_2_res : Stubbed_Out_Res(this);
 
-        CloseSessionRequest  -> close_session_req : Stubbed_Out_Req(this);
-        CloseSessionResponse -> close_session_res : Stubbed_Out_Res(this);
+        CloseSessionRequest  -> close_session_req : Close_Session_Req(this);
+        CloseSessionResponse -> close_session_res : Close_Session_Res(this);
 
         CancelRequest  -> cancel_req : Stubbed_Out_Req(this);
         CancelResponse -> cancel_res : Stubbed_Out_Res(this);
@@ -95,8 +95,8 @@ type Service(msg_body: Msg_Body) = record {
         CallRequest  -> call_req : Stubbed_Out_Req(this);
         CallResponse -> call_res : Stubbed_Out_Res(this);
 
-        CreateMonitoredItemsRequest  -> create_monitored_items_req : CreateMonitoredItems_Req(this);
-        CreateMonitoredItemsResponse -> create_monitored_items_res : CreateMonitoredItems_Res(this);
+        CreateMonitoredItemsRequest  -> create_monitored_items_req : Create_Monitored_Items_Req(this);
+        CreateMonitoredItemsResponse -> create_monitored_items_res : Create_Monitored_Items_Res(this);
 
         ModifyMonitoredItemsRequest  -> modify_monitored_items_req : Stubbed_Out_Req(this);
         ModifyMonitoredItemsResponse -> modify_monitored_items_res : Stubbed_Out_Res(this);
@@ -110,8 +110,8 @@ type Service(msg_body: Msg_Body) = record {
         DeleteMonitoredItemsRequest  -> delete_monitored_items_req : Stubbed_Out_Req(this);
         DeleteMonitoredItemsResponse -> delete_monitored_items_res : Stubbed_Out_Res(this);
 
-        CreateSubscriptionRequest  -> create_subscription_req : CreateSubscription_Req(this);
-        CreateSubscriptionResponse -> create_subscription_res : CreateSubscription_Res(this);
+        CreateSubscriptionRequest  -> create_subscription_req : Create_Subscription_Req(this);
+        CreateSubscriptionResponse -> create_subscription_res : Create_Subscription_Res(this);
 
         ModifySubscriptionRequest  -> modify_subscription_req : Stubbed_Out_Req(this);
         ModifySubscriptionResponse -> modify_subscription_res : Stubbed_Out_Res(this);

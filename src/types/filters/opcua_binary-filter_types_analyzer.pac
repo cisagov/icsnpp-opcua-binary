@@ -235,7 +235,6 @@
     }
     void flattenOpcUA_ContentFilterElement(OpcUA_ContentFilterElement *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
         int32_t num_filter_operands = obj->num_filter_operands();
-        printf("%d", num_filter_operands);
         if (num_filter_operands > 0){
             for (int i=0; i < num_filter_operands; i++){
                 zeek::RecordValPtr content_filter_element_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ContentFilterElement);

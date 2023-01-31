@@ -132,12 +132,18 @@ This log captures the details associated with calls to the Browse Service.
 * See [browse-types.zeek](scripts/browse-types.zeek) for a list of the fields logged.
 * See [opcua_binary-browse.pac](src/services/browse/opcua_binary-browse.pac), [opcua_binary-browse_analyzer.pac](src/services/browse/opcua_binary-browse_analyzer.pac), and [opcua_binary-browse_debug.pac](src/services/browse/opcua_binary-browse_debug.pac) for details on parsing, processing, and logging this service
 
+#### Close Session Service (opcua-binary-close-session.log)
+
+This log captures the details associated with calls to the Close Session Service.
+
+* See [close-session-types.zeek](scripts/create-session-types.zeek) for a list of the fields logged.
+* See [opcua_binary-close-session.pac](src/services/close-session/opcua_binary-close-session.pac), [opcua_binary-close-session.pac](src/services/close-session/opcua_binary-close-session_analyzer.pac), and [opcua_binary-close-session_debug.pac](src/services/close-session/opcua_binary-close-session_debug.pac) for details on parsing, processing, and logging this service.
 #### Create Monitored Items Service (opcua-binary-create-monitored-items.log, opcua-binary-create-monitored-items-create-item.log)
 
 This log captures the details associated with calls to the Create Session Service.
 
-* See [create-monitored-items-types.zeek](scripts/create-session-types.zeek) for a list of the fields logged.
-* See [opcua_binary-create_monitored_items.pac](src/services/create-session/opcua_binary-create_session.pac), [opcua_binary-create_monitored_items_analyzer.pac](src/services/create-session/opcua_binary-create_session_analyzer.pac), and [opcua_binary-create_monitored_items_debug.pac](src/services/create-session/opcua_binary-create_session_debug.pac) for details on parsing, processing, and logging this service.
+* See [create-monitored-items-types.zeek](scripts/create_monitored_items-types.zeek) for a list of the fields logged.
+* See [opcua_binary-create_monitored_items.pac](src/services/create_monitored_items/opcua_binary-create_monitored_items.pac), [opcua_binary-create_monitored_items_analyzer.pac](src/services/create_monitored_items/opcua_binary-create_monitored_items_analyzer.pac), and [opcua_binary-create_monitored_items_debug.pac](src/services/create_monitored_items/opcua_binary-create_monitored_items_debug.pac) for details on parsing, processing, and logging this service.
 
 #### Create Session Service (opcua-binary-create-session.log, opcua-binary-create-session-discovery.log, opcua-binary-create-session-endpoints.log, opcua-binary-create-session-user-token.log)
 
