@@ -15,7 +15,7 @@
 # 5.13.2.2 - Table 88 - CreateSubscription Service Parameters
 #
 
-type CreateSubscription_Req(service: Service) = record {
+type Create_Subscription_Req(service: Service) = record {
     req_hdr                         : Request_Header;
     req_publishing_interval         : OpcUA_Duration;
     req_lifetime_count              : uint32;
@@ -27,7 +27,7 @@ type CreateSubscription_Req(service: Service) = record {
     deliver: bool = $context.flow.deliver_Svc_CreateSubscriptionReq(this);
 } &byteorder=littleendian;
 
-type CreateSubscription_Res(service: Service) = record {
+type Create_Subscription_Res(service: Service) = record {
     res_hdr                             : Response_Header;
     subscription_id                     : uint32;
     revised_publishing_interval         : OpcUA_Duration;

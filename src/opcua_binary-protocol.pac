@@ -25,6 +25,8 @@
 %include services/activate-session/opcua_binary-activate_session_debug.pac
 %include services/browse/opcua_binary-browse.pac
 %include services/browse/opcua_binary-browse_debug.pac
+%include services/close-session/opcua_binary-close_session.pac
+%include services/close-session/opcua_binary-close_session_debug.pac
 %include services/create-monitored-items/opcua_binary-create_monitored_items.pac
 %include services/create-monitored-items/opcua_binary-create_monitored_items_debug.pac
 %include services/create-session/opcua_binary-create_session.pac

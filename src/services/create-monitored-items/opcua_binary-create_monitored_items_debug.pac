@@ -10,12 +10,12 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %header{
-    void printCreateMonitoredItemsReq(CreateMonitoredItems_Req *msg);
-    void printCreateMonitoredItemsRes(CreateMonitoredItems_Res *msg);
+    void printCreateMonitoredItemsReq(Create_Monitored_Items_Req *msg);
+    void printCreateMonitoredItemsRes(Create_Monitored_Items_Res *msg);
 %}
 
 %code{
-    void printCreateMonitoredItemsReq(CreateMonitoredItems_Req *msg){
+    void printCreateMonitoredItemsReq(Create_Monitored_Items_Req *msg){
         printMsgHeader(msg->service()->msg_body()->header());
         printMsgType(msg->service()->msg_body()->header()); 
         printService(msg->service());
@@ -56,7 +56,7 @@
         }
         return;
     }
-    void printCreateMonitoredItemsRes(CreateMonitoredItems_Res *msg){
+    void printCreateMonitoredItemsRes(Create_Monitored_Items_Res *msg){
         printMsgHeader(msg->service()->msg_body()->header());
         printMsgType(msg->service()->msg_body()->header());
         printService(msg->service());   
