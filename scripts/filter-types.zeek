@@ -96,7 +96,7 @@ export {
         uid                         : string  &log;
         id                          : conn_id &log;
 
-        select_clause_link_id  : string &log;
+        select_clause_link_id             : string &log;
         type_id_encoding_mask             : string &log &optional;
         type_id_namespace_idx             : count  &log &optional;
         type_id_numeric                   : count  &log &optional;
