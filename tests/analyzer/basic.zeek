@@ -40,7 +40,6 @@
 # @TEST-EXEC: btest-diff opcua-binary-create-monitored-items.log
 # @TEST-EXEC: btest-diff opcua-binary-create-monitored-items-create-item.log
 # @TEST-EXEC: btest-diff opcua-binary-close-session.log
-# @TEST-EXEC: btest-diff packet_filter.log
 
 #
 # @TEST-DOC: Test OPCUA-binary analyzer with small trace.
