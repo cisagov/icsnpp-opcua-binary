@@ -10,6 +10,12 @@
 #ifndef ANALYZER_PROTOCOL_OPCUA_BINARY_H
 #define ANALYZER_PROTOCOL_OPCUA_BINARY_H
 
+#if __has_include(<zeek/zeek-version.h>)
+#include <zeek/zeek-version.h>
+#else
+#include <zeek/zeek-config.h>
+#endif
+
 #include "events.bif.h"
 
 
