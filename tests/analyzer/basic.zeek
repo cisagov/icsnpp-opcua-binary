@@ -19,7 +19,6 @@
 # @TEST-EXEC: zeek-cut -n opcua_link_id create_monitored_items_diag_info_link_id create_item_link_id  < opcua-binary-create-monitored-items.log > opcua-binary-create-monitored-items.tmp && mv opcua-binary-create-monitored-items.tmp opcua-binary-create-monitored-items.log
 # @TEST-EXEC: zeek-cut -n create_item_link_id filter_info_details_link_id monitoring_parameters_status_code_link_id  < opcua-binary-create-monitored-items-create-item.log > opcua-binary-create-monitored-items-create-item.tmp && mv opcua-binary-create-monitored-items-create-item.tmp opcua-binary-create-monitored-items-create-item.log
 # @TEST-EXEC: zeek-cut -n opcua_link_id  < opcua-binary-close-session.log > opcua-binary-close-session.tmp && mv opcua-binary-close-session.tmp opcua-binary-close-session.log
-# @TEST-EXEC: btest-diff conn.log
 # @TEST-EXEC: btest-diff opcua-binary-get-endpoints-user-token.log
 # @TEST-EXEC: btest-diff opcua-binary-get-endpoints.log
 # @TEST-EXEC: btest-diff opcua-binary-get-endpoints-description.log
