@@ -10,7 +10,7 @@ The OPC Unified Architecture defines three data encodings: - OPC UA Binary, OPC 
 
 Specification details can be found on the OPC Foundation Org website located [here](https://opcfoundation.org/developer-tools/specifications-unified-architecture)
 
-The initial implementation of the parser focuses on logging the message type, the service request and response headers along with any diagnostic and error information that may be present. The service numeric identifier and associated identifier string are also logged. However, the details of the service being called have been stubbed out for a majority of the services. Future development on the parser will focus on filling out this information.
+The initial implementation of the parser focuses on logging the message type and the service request and response headers, along with any diagnostic and error information that may be present. The service numeric identifier and associated identifier string are also logged; however, the details of the service being called have been stubbed out for most of the services. Future development on the parser will focus on filling out this information.
 
 This parser produces a variety of different log files. An overview of these log files can be found in the Logging Capabilities section below.
 
@@ -25,12 +25,12 @@ zkg refresh
 zkg install icsnpp-opcua-binary
 ```
 
-If this package is installed from ZKG it will be added to the available plugins. This can be tested by running `zeek -N`. If installed correctly you will see `ICSNPP::OPCUA_Binary`.
+If this package is installed from ZKG, it will be added to the available plugins. This can be tested by running `zeek -N`. If installed correctly you will see `ICSNPP::OPCUA_Binary`.
 
-If you have ZKG configured to load packages (see @load packages in quickstart guide), this plugin and scripts will automatically be loaded and ready to go.
+If ZKG is configured to load packages (see @load packages in quickstart guide), this plugin and these scripts will automatically be loaded and ready to go.
 [ZKG Quickstart Guide](https://docs.zeek.org/projects/package-manager/en/stable/quickstart.html)
 
-If you are not using site/local.zeek or another site installation of Zeek and just want to run this package on a packet capture you can add `icsnpp/opcua-binary` to your command to run this plugin's scripts on the packet capture:
+If users are not using site/local.zeek or another site installation of Zeek and want to run this package on a packet capture, they can add `icsnpp/opcua-binary` to the command to run this plugin's scripts on the packet capture:
 
 ```bash
 git clone https://github.com/cisagov/icsnpp-opcua-binary.git
@@ -48,29 +48,29 @@ cd icsnpp-opcua-binary/
 make
 ```
 
-If these commands succeed, you will end up with a newly create build directory. This contains all the files needed to run/test this plugin. The easiest way to test the parser is to point the ZEEK_PLUGIN_PATH environment variable to this build directory.
+If these commands succeed, users will end up with a newly created build directory that contains all the files needed to run/test this plugin. The easiest way to test the parser is to point the ZEEK_PLUGIN_PATH environment variable to this build directory.
 
 ```bash
 export ZEEK_PLUGIN_PATH=$PWD/build/
 zeek -N # Ensure everything compiled correctly and you are able to see ICSNPP::OPCUA_Binary
 ```
 
-Once you have tested the functionality locally and it appears to have compiled correctly, you can install it system-wide:
+Once users have tested the functionality locally and it appears to have compiled correctly, they can install it system-wide:
 ```bash
 sudo make install
 unset ZEEK_PLUGIN_PATH
 zeek -N # Ensure everything installed correctly and you are able to see ICSNPP::OPCUA_Binary
 ```
 
-To run this plugin in a site deployment you will need to add the line `@load icsnpp/opcua-binary` to your `site/local.zeek` file in order to load this plugin's scripts.
+To run this plugin in a site deployment, users will need to add the line `@load icsnpp/opcua-binary` to the `site/local.zeek` file to load this plugin's scripts.
 
-If you are not using site/local.zeek or another site installation of Zeek and just want to run this package on a packet capture you can add `icsnpp/opcua-binary` to your command to run this plugin's scripts on the packet capture:
+If users are not using site/local.zeek or another site installation of Zeek and want to run this package on a packet capture, they can add `icsnpp/opcua-binary` to the command to run this plugin's scripts on the packet capture:
 
 ```bash
 zeek -Cr <sample packet capture> icsnpp/opcua-binary
 ```
 
-If you want to deploy this on an already existing Zeek implementation and you don't want to build the plugin on the machine, you can extract the ICSNPP_OPCUA_Binary.tgz file to the directory of the established ZEEK_PLUGIN_PATH (default is `${ZEEK_INSTALLATION_DIR}/lib/zeek/plugins/`).
+If users want to deploy this on an already existing Zeek implementation and don't want to build the plugin on the machine, they can extract the ICSNPP_OPCUA_Binary.tgz file to the directory of the established ZEEK_PLUGIN_PATH (default is `${ZEEK_INSTALLATION_DIR}/lib/zeek/plugins/`).
 
 ```bash
 tar xvzf build/ICSNPP_OPCUA_Binary.tgz -C $ZEEK_PLUGIN_PATH 
@@ -80,7 +80,7 @@ tar xvzf build/ICSNPP_OPCUA_Binary.tgz -C $ZEEK_PLUGIN_PATH
 
 #### Primary Log (opcua-binary.log)
 
-This log captures the OPCUA message header, message type (HEL, ACK, MSG), service request/response headers along with the service identifier and logs it to **opcua-binary.log**. 
+This log captures the OPCUA message header, message type (HEL, ACK, MSG), service request/response headers, along with the service identifier, and logs it to **opcua-binary.log**. 
 
 * See the ```OPCUA_Binary::Info: record``` in file [types.zeek](scripts/types.zeek) for a list of the fields logged.
 
@@ -125,12 +125,12 @@ This log captures the details associated with calls to the Activate Session Serv
 * See [activate-session-types.zeek](scripts/activate-session-types.zeek) for a list of the fields logged.
 * See [opcua_binary-activate_session.pac](src/services/activate-session/opcua_binary-activate_session.pac), [opcua_binary-activate_session_analyzer.pac](src/services/activate-session/opcua_binary-activate_session_analyzer.pac), and [opcua_binary-activate_session_debug.pac](src/services/activate-session/opcua_binary-activate_session_debug.pac) for details on parsing, processing, and logging this service.
 
-#### Browse Service (opcua-binary-browse.log, opcua-binary-browse-description.log, opcua-binary-browse-request-continuation-point.log, opcua-binary-browse-result.log,opcua-binary-browse-response-references.log)
+#### Browse Service (opcua-binary-browse.log, opcua-binary-browse-description.log, opcua-binary-browse-request-continuation-point.log, opcua-binary-browse-result.log, opcua-binary-browse-response-references.log)
 
 This log captures the details associated with calls to the Browse Service.
 
 * See [browse-types.zeek](scripts/browse-types.zeek) for a list of the fields logged.
-* See [opcua_binary-browse.pac](src/services/browse/opcua_binary-browse.pac), [opcua_binary-browse_analyzer.pac](src/services/browse/opcua_binary-browse_analyzer.pac), and [opcua_binary-browse_debug.pac](src/services/browse/opcua_binary-browse_debug.pac) for details on parsing, processing, and logging this service
+* See [opcua_binary-browse.pac](src/services/browse/opcua_binary-browse.pac), [opcua_binary-browse_analyzer.pac](src/services/browse/opcua_binary-browse_analyzer.pac), and [opcua_binary-browse_debug.pac](src/services/browse/opcua_binary-browse_debug.pac) for details on parsing, processing, and logging this service.
 
 #### Close Session Service (opcua-binary-close-session.log)
 
@@ -152,14 +152,12 @@ This log captures the details associated with calls to the Create Session Servic
 * See [create-session-types.zeek](scripts/create-session-types.zeek) for a list of the fields logged.
 * See [opcua_binary-create_session.pac](src/services/create-session/opcua_binary-create_session.pac), [opcua_binary-create_session_analyzer.pac](src/services/create-session/opcua_binary-create_session_analyzer.pac), and [opcua_binary-create_session_debug.pac](src/services/create-session/opcua_binary-create_session_debug.pac) for details on parsing, processing, and logging this service.
 
-
 #### Create Subscription Service (opcua-binary-create-subscription.log)
 
 This log captures the details associated with calls to the Create Subscription Service.
 
 * See [create_subscription-types.zeek](scripts/create-subscription-types.zeek) for a list of the fields logged.
-* See [opcua_binary-create_subscription.pac](src/services/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-create_subscription_analyzer.pac](src/services/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-create_subscription_debug.pac](src/services/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service
-
+* See [opcua_binary-create_subscription.pac](src/services/create-subscription/opcua_binary-create_subscription.pac), [opcua_binary-create_subscription_analyzer.pac](src/services/create-subscription/opcua_binary-create_subscription_analyzer.pac), and [opcua_binary-create_subscription_debug.pac](src/services/create-subscription/opcua_binary-create_subscription_debug.pac) for details on parsing, processing, and logging this service.
 
 #### Get Endpoints Service (opcua-binary-get-endpoints.log, opcua-binary-get-endpoints-description.log, opcua-binary-get-endpoints-discovery.log, opcua-binary-get-endpoints-locale_id.log, opcua-binary-get-endpoints-profile_uri.log, opcua-binary-get-endpoints-user_token.log)
 
@@ -173,8 +171,7 @@ This log captures the details associated with calls to the Get Endpoints Service
 This log captures the details associated with calls to the Read Subscription Service.
 
 * See [read-types.zeek](scripts/read-types.zeek) for a list of the fields logged.
-* See [opcua_binary-read.pac](src/services/read/opcua_binary-read.pac), [opcua_binary-read_analyzer.pac](src/services/read/opcua_binary-read_analyzer.pac), and [opcua_binary-read_debug.pac](src/services/read/opcua_binary-read_debug.pac) for details on parsing, processing, and logging this service
-
+* See [opcua_binary-read.pac](src/services/read/opcua_binary-read.pac), [opcua_binary-read_analyzer.pac](src/services/read/opcua_binary-read_analyzer.pac), and [opcua_binary-read_debug.pac](src/services/read/opcua_binary-read_debug.pac) for details on parsing, processing, and logging this service.
 
 #### Open Secure Channel Service (opcua-binary-opensecure-channel.log)
 
@@ -218,7 +215,7 @@ Updates to Zeek ICS Protocol Parsers:
     * Modbus Zeek script extending logging capabilities of Zeek's default Modbus protocol parser
 
 ### Other Software
-Idaho National Laboratory is a cutting edge research facility which is a constantly producing high quality research and software. Feel free to take a look at our other software and scientific offerings at:
+Idaho National Laboratory is a national research facility with a focus on development of software and toolchains to improve the security of criticial infrastructure environments around the world. Please review our other software and scientific offerings at:
 
 [Primary Technology Offerings Page](https://www.inl.gov/inl-initiatives/technology-deployment)
 
@@ -232,9 +229,9 @@ Idaho National Laboratory is a cutting edge research facility which is a constan
 
 Copyright 2023 Battelle Energy Alliance, LLC
 
-Licensed under the 3-Part BSD (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Licensed under the 3-Clause BSD License (the "License");
+this file cannot be used except in compliance with the License.
+A copy of the License can be obtained at:
 
   https://opensource.org/licenses/BSD-3-Clause
 
@@ -244,8 +241,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-
-
 Licensing
 -----
-This software is licensed under the terms you may find in the file named "LICENSE" in this directory.
+This software is licensed under the terms found in the file named "LICENSE" in this directory.
