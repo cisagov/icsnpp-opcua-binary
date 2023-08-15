@@ -13,10 +13,11 @@ refine flow OPCUA_Binary_Flow += {
     # CloseSessionRequest
     function deliver_Svc_CloseSessionReq(msg : Close_Session_Req): bool
     %{
-        /* Debug */
+        /* Debug 
         printf("deliver_Svc_CloseSessionReq - begin\n");
         printCloseSessionReq(msg); 
         printf("deliver_Svc_CloseSessionReq - end\n");
+        */
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
         
@@ -42,10 +43,11 @@ refine flow OPCUA_Binary_Flow += {
 
     function deliver_Svc_CloseSessionRes(msg : Close_Session_Res): bool
     %{
-        /* Debug*/ 
+        /* Debug
         printf("deliver_Svc_CloseSessionRes - begin\n");
         printCloseSessionRes(msg); 
         printf("deliver_Svc_CloseSessionRes - end\n");
+        */
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
