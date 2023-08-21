@@ -24,7 +24,7 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info = assignMsgHeader(info, msg->service()->msg_body()->header());
+        info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
         info = assignMsgType(info, msg->service()->msg_body()->header());
         info = assignReqHdr(info, msg->req_hdr());
         info = assignService(info, msg->service());
@@ -102,7 +102,7 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info = assignMsgHeader(info, msg->service()->msg_body()->header());
+        info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
         info = assignMsgType(info, msg->service()->msg_body()->header());
         info = assignResHdr(connection(), info, msg->res_hdr());
         info = assignService(info, msg->service());

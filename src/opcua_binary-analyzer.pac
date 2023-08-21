@@ -43,7 +43,7 @@
 %}
 
 %header{
-    zeek::RecordValPtr assignMsgHeader(zeek::RecordValPtr info, Msg_Header *msg_header);
+    zeek::RecordValPtr assignMsgHeader(OPCUA_Binary_Conn *connection, zeek::RecordValPtr info, Msg_Header *msg_header);
     zeek::RecordValPtr assignMsgType(zeek::RecordValPtr info, Msg_Header *msg_header);
     zeek::RecordValPtr assignMsgHEL(zeek::RecordValPtr info, Msg_HEL *msg_hel);
     zeek::RecordValPtr assignMsgACK(zeek::RecordValPtr info, Msg_ACK *msg_ack);
@@ -60,7 +60,24 @@
     // Common code used to assign the message header information to a zeek::RecordVal 
     // for future logging.
     //
-    zeek::RecordValPtr assignMsgHeader(zeek::RecordValPtr info, Msg_Header *msg_header) {
+    zeek::RecordValPtr assignMsgHeader(OPCUA_Binary_Conn *connection, zeek::RecordValPtr info, Msg_Header *msg_header) {
+        // Source/Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const auto& id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        info->Assign(IS_ORIG_IDX, zeek::val_mgr->Bool(msg_header->is_orig()));
+        if (msg_header->is_orig()) {
+            info->Assign(SOURCE_H_IDX,      id_val->GetField<zeek::AddrVal>(0));
+            info->Assign(SOURCE_P_IDX,      id_val->GetField<zeek::PortVal>(1));
+            info->Assign(DESTINATION_H_IDX, id_val->GetField<zeek::AddrVal>(2));
+            info->Assign(DESTINATION_P_IDX, id_val->GetField<zeek::PortVal>(3));
+        } else {
+            info->Assign(SOURCE_H_IDX,      id_val->GetField<zeek::AddrVal>(2));
+            info->Assign(SOURCE_P_IDX,      id_val->GetField<zeek::PortVal>(3));
+            info->Assign(DESTINATION_H_IDX, id_val->GetField<zeek::AddrVal>(0));
+            info->Assign(DESTINATION_P_IDX, id_val->GetField<zeek::PortVal>(1));
+        }
+
         // OpcUA_id
         info->Assign(OPCUA_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(generateId()));
 
@@ -235,7 +252,7 @@ refine flow OPCUA_Binary_Flow += {
         //Debug printf("\tdeliver_Msg_HEL - begin\n");
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info = assignMsgHeader(info, msg_hel->header());
+        info = assignMsgHeader(connection(), info, msg_hel->header());
         info = assignMsgType(info, msg_hel->header());
 
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
@@ -254,7 +271,7 @@ refine flow OPCUA_Binary_Flow += {
         //Debug printf("\tdeliver_Msg_ACK - begin\n");
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info = assignMsgHeader(info, msg_ack->header());
+        info = assignMsgHeader(connection(), info, msg_ack->header());
         info = assignMsgType(info, msg_ack->header());
 
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
@@ -272,7 +289,7 @@ refine flow OPCUA_Binary_Flow += {
         //Debug printf("\tdeliver_Msg_ERR - begin\n");
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info = assignMsgHeader(info, msg_err->header());
+        info = assignMsgHeader(connection(), info, msg_err->header());
         info = assignMsgType(info, msg_err->header());
 
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
@@ -293,7 +310,7 @@ refine flow OPCUA_Binary_Flow += {
         if (! valid_encoding(msg_body->encoding_mask())) {
            zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-           info = assignMsgHeader(info, msg_body->header());
+           info = assignMsgHeader(connection(), info, msg_body->header());
            info = assignMsgType(info, msg_body->header());
 
            zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),

@@ -17,6 +17,13 @@ export {
         uid                           : string  &log;
         id                            : conn_id &log;
 
+        # Source/Destination
+        is_orig                       : bool      &log;   # Source IP Address
+        source_h                      : addr      &log;   # Source IP Address
+        source_p                      : port      &log;   # Source Port
+        destination_h                 : addr      &log;   # Destination IP Address
+        destination_p                 : port      &log;   # Destination Port
+
         # Msg Header
         opcua_link_id                 : string  &log;
         msg_type                      : string  &log;
