@@ -35,6 +35,13 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr activate_session_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSession);
 
+        // Source & Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        activate_session_req = assignSourceDestination(msg_header->is_orig(), activate_session_req, id_val);
+
         // OpcUA_id
         activate_session_req->Assign(ACTIVATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
         
@@ -52,6 +59,11 @@ refine flow OPCUA_Binary_Flow += {
             activate_session_req->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(cert_idx));
             for (int i = 0; i < msg->client_software_cert()->size(); i++) {
                 zeek::RecordValPtr client_software_cert = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSessionClientSoftwareCert);
+
+                // Source & Destination
+                client_software_cert = assignSourceDestination(msg_header->is_orig(), client_software_cert, id_val);
+
+                // Client Software Certification
                 client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(cert_idx));
                 client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_DATA_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_software_cert()->at(i)->certificate_data()->byteString())));
                 client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_SIGNATURE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_software_cert()->at(i)->signature()->byteString())));
@@ -68,6 +80,11 @@ refine flow OPCUA_Binary_Flow += {
             activate_session_req->Assign(ACTIVATE_SESSION_REQ_OPCUA_LOCAL_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(locale_idx));
             for (int i = 0; i < msg->locale_id()->size(); i++) {
                 zeek::RecordValPtr locale_id = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSessionLocaleId);
+
+                // Source & Destination
+                locale_id = assignSourceDestination(msg_header->is_orig(), locale_id, id_val);
+
+                // Locale Id
                 locale_id->Assign(ACTIVATE_SESSION_REQ_OPCUA_LOCAL_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(locale_idx));
                 locale_id->Assign(ACTIVATE_SESSION_REQ_LOCALE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->locale_id()->at(i)->locale_id())));
                 zeek::BifEvent::enqueue_opcua_binary_activate_session_locale_id_event(connection()->bro_analyzer(),
@@ -120,6 +137,14 @@ refine flow OPCUA_Binary_Flow += {
                                                    info);
 
         zeek::RecordValPtr activate_session_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSession);
+
+        // Source/Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        activate_session_res = assignSourceDestination(msg_header->is_orig(), activate_session_res, id_val);
 
         // OpcUA_id
         activate_session_res->Assign(ACTIVATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));

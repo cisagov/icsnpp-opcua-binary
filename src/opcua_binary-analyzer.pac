@@ -52,9 +52,30 @@
     zeek::RecordValPtr assignMsgMSG(zeek::RecordValPtr info, Msg_MSG *msg_msg);
     zeek::RecordValPtr assignMsgCLO(zeek::RecordValPtr info, Msg_CLO *msg_clo);
     zeek::RecordValPtr assignService(zeek::RecordValPtr info, Service *service);
+    zeek::RecordValPtr assignSourceDestination(bool is_orig, zeek::RecordValPtr target, zeek::RecordValPtr id_val);
 %}
 
 %code{
+
+    //
+    // Common code for assigning Source and Deistionation information based on the is_orig flag
+    //
+    zeek::RecordValPtr assignSourceDestination(bool is_orig, zeek::RecordValPtr target, zeek::RecordValPtr id_val) {
+        target->Assign(IS_ORIG_IDX, zeek::val_mgr->Bool(is_orig));
+        if (is_orig) {
+            target->Assign(SOURCE_H_IDX,      id_val->GetField<zeek::AddrVal>(0));
+            target->Assign(SOURCE_P_IDX,      id_val->GetField<zeek::PortVal>(1));
+            target->Assign(DESTINATION_H_IDX, id_val->GetField<zeek::AddrVal>(2));
+            target->Assign(DESTINATION_P_IDX, id_val->GetField<zeek::PortVal>(3));
+        } else {
+            target->Assign(SOURCE_H_IDX,      id_val->GetField<zeek::AddrVal>(2));
+            target->Assign(SOURCE_P_IDX,      id_val->GetField<zeek::PortVal>(3));
+            target->Assign(DESTINATION_H_IDX, id_val->GetField<zeek::AddrVal>(0));
+            target->Assign(DESTINATION_P_IDX, id_val->GetField<zeek::PortVal>(1));
+        }
+
+        return target;
+    }
 
     //
     // Common code used to assign the message header information to a zeek::RecordVal 
@@ -63,20 +84,9 @@
     zeek::RecordValPtr assignMsgHeader(OPCUA_Binary_Conn *connection, zeek::RecordValPtr info, Msg_Header *msg_header) {
         // Source/Destination
         const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
-        const auto& id_val = conn_val->GetField<zeek::RecordVal>(0);
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
 
-        info->Assign(IS_ORIG_IDX, zeek::val_mgr->Bool(msg_header->is_orig()));
-        if (msg_header->is_orig()) {
-            info->Assign(SOURCE_H_IDX,      id_val->GetField<zeek::AddrVal>(0));
-            info->Assign(SOURCE_P_IDX,      id_val->GetField<zeek::PortVal>(1));
-            info->Assign(DESTINATION_H_IDX, id_val->GetField<zeek::AddrVal>(2));
-            info->Assign(DESTINATION_P_IDX, id_val->GetField<zeek::PortVal>(3));
-        } else {
-            info->Assign(SOURCE_H_IDX,      id_val->GetField<zeek::AddrVal>(2));
-            info->Assign(SOURCE_P_IDX,      id_val->GetField<zeek::PortVal>(3));
-            info->Assign(DESTINATION_H_IDX, id_val->GetField<zeek::AddrVal>(0));
-            info->Assign(DESTINATION_P_IDX, id_val->GetField<zeek::PortVal>(1));
-        }
+        info = assignSourceDestination(msg_header->is_orig(), info, id_val);
 
         // OpcUA_id
         info->Assign(OPCUA_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(generateId()));
