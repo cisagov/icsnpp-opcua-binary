@@ -33,7 +33,7 @@ export {
 }
 
 # Port-based detection
-const ports = { 4840/tcp };
+const ports = { 4840/tcp, 4843/tcp };
 redef likely_server_ports += { ports };
 
 event zeek_init() &priority=5
