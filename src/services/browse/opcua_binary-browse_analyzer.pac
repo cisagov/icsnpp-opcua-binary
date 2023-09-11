@@ -31,6 +31,13 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr browse_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Browse);
 
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        browse_req = assignSourceDestination(msg_header->is_orig(), browse_req, id_val);
+
         // OpcUA_id
         browse_req->Assign(BROWSE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
@@ -57,6 +64,10 @@ refine flow OPCUA_Binary_Flow += {
             // Flatten each browse request
             for (int32_t i=0; i < num_nodes_to_browse; i++){
                 zeek::RecordValPtr browse_description = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseDescription);
+
+                // Source & Destination
+                browse_description = assignSourceDestination(msg_header->is_orig(), browse_description, id_val);
+
                 browse_description->Assign(BROWSE_DESCRIPTION_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(browse_description_idx));
                 flattenOpcUA_NodeId(browse_description, msg->nodes_to_browse()->at(i)->node_id(), BROWSE_DESCRIPTION_ID_ENCODING_MASK_IDX);
 
@@ -110,6 +121,14 @@ refine flow OPCUA_Binary_Flow += {
         int32_t num_results = msg->results_table_size();
 
         zeek::RecordValPtr browse_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Browse);
+
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        browse_res = assignSourceDestination(msg_header->is_orig(), browse_res, id_val);
+
         browse_res->Assign(BROWSE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
         // Include if Service is Browse or BrowseNext
         browse_res->Assign(BROWSE_SERVICE_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second));
@@ -120,6 +139,10 @@ refine flow OPCUA_Binary_Flow += {
             // Loop through the Reference Description Array
             for (int32_t i=0; i < num_results; i++){
                 zeek::RecordValPtr browse_result = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseResult);
+
+                // Source & Destination
+                browse_result = assignSourceDestination(msg_header->is_orig(), browse_result, id_val);
+
                 browse_result->Assign(BROWSE_RESPONSE_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(browse_res_id));
 
                 // Status Code
@@ -140,6 +163,9 @@ refine flow OPCUA_Binary_Flow += {
                     // References are logged in a separate file for clarity
                     for (int32_t j=0; j < num_references; j++){
                         zeek::RecordValPtr browse_ref = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseReference);
+
+                        // Source & Destination
+                        browse_ref = assignSourceDestination(msg_header->is_orig(), browse_ref, id_val);
 
                         browse_ref->Assign(BROWSE_RESPONSE_REFERENCE_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(browse_reference_id));
 
@@ -229,6 +255,14 @@ refine flow OPCUA_Binary_Flow += {
         int32_t num_continuation_points = msg->num_continuation_points();
 
         zeek::RecordValPtr browse_next_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Browse);
+
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        browse_next_req = assignSourceDestination(msg_header->is_orig(), browse_next_req, id_val);
+
         browse_next_req->Assign(BROWSE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         // Include if Service is Browse or BrowseNext
@@ -241,6 +275,10 @@ refine flow OPCUA_Binary_Flow += {
             browse_next_req->Assign(BROWSE_NEXT_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(browse_continuation_points_id));
             for (int32_t i=0; i < num_continuation_points; i++){
                 zeek::RecordValPtr browse_continuation_point = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::BrowseRequestContinuationPoint);
+
+                // Source & Destination
+                browse_continuation_point = assignSourceDestination(msg_header->is_orig(), browse_continuation_point, id_val);
+
                 browse_continuation_point->Assign(BROWSE_NEXT_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(browse_continuation_points_id));
                 browse_continuation_point->Assign(BROWSE_CONTINUATION_POINT_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->continuation_points()->at(i)->byteString())));
                 zeek::BifEvent::enqueue_opcua_binary_browse_request_continuation_point_event(connection()->bro_analyzer(),
