@@ -36,6 +36,13 @@ refine flow OPCUA_Binary_Flow += {
 
         // OpcUA_id
         create_session_req->Assign(CREATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
+
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        create_session_req = assignSourceDestination(msg_header->is_orig(), create_session_req, id_val);
                                                         
         // Application URI
         if (msg->client_description()->application_uri()->length() > 0) {
@@ -78,6 +85,9 @@ refine flow OPCUA_Binary_Flow += {
 
             for (int32_t j = 0; j < msg->client_description()->discovery_urls_size(); j++) {
                 zeek::RecordValPtr create_session_discovery = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSessionDiscovery);
+
+                // Source & Destination
+                create_session_discovery = assignSourceDestination(msg_header->is_orig(), create_session_discovery, id_val);
 
                 // Discovery Profile Id back into the CreateSession log
                 create_session_discovery->Assign(CREATE_SESSION_DISCOVERY_PROFILE_LINK_ID_DST_IDX,  zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
@@ -154,6 +164,13 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr create_session_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSession);
 
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        create_session_res = assignSourceDestination(msg_header->is_orig(), create_session_res, id_val);
+
         // OpcUA_id
         create_session_res->Assign(CREATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
@@ -184,6 +201,9 @@ refine flow OPCUA_Binary_Flow += {
         // Server Endpoints
         for (int32_t i = 0; i < msg->endpoints_size(); i++) {
             zeek::RecordValPtr endpoint_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSessionEndpoints);
+
+            // Source & Destination
+            endpoint_res = assignSourceDestination(msg_header->is_orig(), endpoint_res, id_val);
 
             // Endpoint id link back into CreateSession Response
             endpoint_res->Assign(CREATE_SESSION_RES_ENDPOINT_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(endpoint_idx));
@@ -278,6 +298,9 @@ refine flow OPCUA_Binary_Flow += {
 
                 for (int32_t k = 0; k < msg->endpoints()->at(i)->user_identity_tokens_size(); k++) {
                     zeek::RecordValPtr endpoint_user_token_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateSessionUserToken);
+
+                    // Source & Destination
+                    endpoint_user_token_res = assignSourceDestination(msg_header->is_orig(), endpoint_user_token_res, id_val);
 
                     // User Token Id back into the CreateSessionEndpoints log
                     endpoint_user_token_res->Assign(CREATE_SESSION_RES_ENDPOINT_USER_TOKEN_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(user_token_id));

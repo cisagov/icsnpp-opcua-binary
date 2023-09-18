@@ -16,6 +16,13 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
+
+        is_orig                  : bool     &log;
+        source_h                 : addr     &log;   # Source IP Address
+        source_p                 : port     &log;   # Source Port
+        destination_h            : addr     &log;   # Destination IP Address
+        destination_p            : port     &log;   # Destination Port
+
         opcua_link_id             : string  &log;       # Id back into OCPUA_Binary::Info
 
         #
@@ -100,6 +107,13 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
+
+        is_orig                  : bool     &log;
+        source_h                 : addr     &log;   # Source IP Address
+        source_p                 : port     &log;   # Source Port
+        destination_h            : addr     &log;   # Destination IP Address
+        destination_p            : port     &log;   # Destination Port
+
         discovery_profile_link_id : string  &log;  # Id back into OCPUA_Binary::CreateSession
         discovery_profile_uri     : string  &log;
         discovery_profile_url     : string  &log;
@@ -109,6 +123,13 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log; 
+
+        is_orig                  : bool     &log;
+        source_h                 : addr     &log;   # Source IP Address
+        source_p                 : port     &log;   # Source Port
+        destination_h            : addr     &log;   # Destination IP Address
+        destination_p            : port     &log;   # Destination Port
+
         endpoint_link_id          : string  &log; # Id back into OPCUA_Binary::CreateSession
         endpoint_url              : string  &log;
         application_uri           : string  &log &optional;
@@ -133,6 +154,13 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
+
+        is_orig                  : bool     &log;
+        source_h                 : addr     &log;   # Source IP Address
+        source_p                 : port     &log;   # Source Port
+        destination_h            : addr     &log;   # Destination IP Address
+        destination_p            : port     &log;   # Destination Port
+
         user_token_link_id        : string  &log; # Id back into OPCUA_Binary::CreateSessionEndpoints
         user_token_policy_id      : string  &log;
         user_token_type           : count   &log;
