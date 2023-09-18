@@ -31,6 +31,13 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr close_session_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CloseSession);
 
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        close_session_req = assignSourceDestination(msg_header->is_orig(), close_session_req, id_val);
+
         // OpcUA_id
         close_session_req->Assign(CLOSE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
