@@ -16,6 +16,13 @@ export {
         ts                           : time    &log;
         uid                          : string  &log;
         id                           : conn_id &log;
+
+        is_orig                      : bool    &log;
+        source_h                     : addr    &log; # Source IP Address
+        source_p                     : port    &log; # Source Port
+        destination_h                : addr    &log; # Destination IP Address
+        destination_p                : port    &log; # Destination Port
+
         opcua_link_id                : string  &log; # Link back into OPCUA_Binary::Info:
         endpoint_url                 : string  &log;
         locale_link_id               : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsLocaleId
@@ -28,6 +35,13 @@ export {
         ts                           : time    &log;
         uid                          : string  &log;
         id                           : conn_id &log;
+
+        is_orig                      : bool    &log;
+        source_h                     : addr    &log; # Source IP Address
+        source_p                     : port    &log; # Source Port
+        destination_h                : addr    &log; # Destination IP Address
+        destination_p                : port    &log; # Destination Port
+
         endpoint_description_link_id : string  &log; # Link back into OPCUA_Binary::GetEndpoints
         endpoint_uri                 : string  &log &optional;
         
@@ -62,6 +76,13 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
+
+        is_orig                   : bool    &log;
+        source_h                  : addr    &log; # Source IP Address
+        source_p                  : port    &log; # Source Port
+        destination_h             : addr    &log; # Destination IP Address
+        destination_p             : port    &log; # Destination Port
+
         discovery_profile_link_id : string  &log; # Link back into OPCUA_Binary::GetEndpointsDescription
         discovery_profile_url     : string  &log;
     };
@@ -70,6 +91,13 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
+
+        is_orig                   : bool    &log;
+        source_h                  : addr    &log; # Source IP Address
+        source_p                  : port    &log; # Source Port
+        destination_h             : addr    &log; # Destination IP Address
+        destination_p             : port    &log; # Destination Port
+
         user_token_link_id        : string  &log; # Link back into OPCUA_Binary::GetEndpointsDescription
         user_token_policy_id      : string  &log;
         user_token_type           : count   &log;
@@ -82,6 +110,13 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
+
+        is_orig                   : bool    &log;
+        source_h                  : addr    &log; # Source IP Address
+        source_p                  : port    &log; # Source Port
+        destination_h             : addr    &log; # Destination IP Address
+        destination_p             : port    &log; # Destination Port
+
         locale_link_id            : string  &log; # Link back into OPCUA_Binary::GetEndpoints
         locale_id                 : string  &log;
     };
@@ -90,6 +125,13 @@ export {
         ts                        : time    &log;
         uid                       : string  &log;
         id                        : conn_id &log;
+
+        is_orig                   : bool    &log;
+        source_h                  : addr    &log; # Source IP Address
+        source_p                  : port    &log; # Source Port
+        destination_h             : addr    &log; # Destination IP Address
+        destination_p             : port    &log; # Destination Port
+
         profile_uri_link_id       : string  &log; # Link back into OPCUA_Binary::GetEndpoints
         profile_uri               : string  &log;
     };

@@ -32,6 +32,14 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr endpoint_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::GetEndpoints);
 
+        // Source/Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        endpoint_req = assignSourceDestination(msg_header->is_orig(), endpoint_req, id_val);
+
         // OpcUA_id
         endpoint_req->Assign(GET_ENDPOINT_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
@@ -47,6 +55,9 @@ refine flow OPCUA_Binary_Flow += {
 
             for (int i =0; i < msg->locale_id_size(); i++) {
                 zeek::RecordValPtr locale_id_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::GetEndpointsLocaleId);
+
+                // Source & Destination
+                locale_id_req = assignSourceDestination(msg_header->is_orig(), locale_id_req, id_val);
 
                 // Link back into GetEndpoints log
                 locale_id_req->Assign(GET_ENDPOINT_REQ_LOCALE_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(locale_id));
@@ -68,6 +79,9 @@ refine flow OPCUA_Binary_Flow += {
 
             for (int i =0; i < msg->profile_uri_size(); i++) {
                 zeek::RecordValPtr profile_uri_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::GetEndpointsProfileUri);
+
+                // Source & Destination
+                profile_uri_req = assignSourceDestination(msg_header->is_orig(), profile_uri_req, id_val);
 
                 // Link back into GetEndpoints log
                 profile_uri_req->Assign(GET_ENDPOINT_REQ_PROFILE_URI_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(profile_uri_id));
@@ -107,6 +121,14 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr endpoint_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::GetEndpoints);
 
+        // Source/Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        endpoint_res = assignSourceDestination(msg_header->is_orig(), endpoint_res, id_val);
+
         // OpcUA_id
         endpoint_res->Assign(GET_ENDPOINT_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
@@ -119,6 +141,9 @@ refine flow OPCUA_Binary_Flow += {
 
             for (int32_t i = 0; i < msg->endpoints_size(); i++) {
                 zeek::RecordValPtr endpoint_desc = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::GetEndpointsDescription);
+
+                // Source & Destination
+                endpoint_desc = assignSourceDestination(msg_header->is_orig(), endpoint_desc, id_val);
 
                 endpoint_desc->Assign(GET_ENDPOINT_RES_ENDPOINT_DESCRIPTION_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(endpoint_desc_id));
 
@@ -166,6 +191,9 @@ refine flow OPCUA_Binary_Flow += {
                     for (int32_t j = 0; j < msg->endpoints()->at(i)->server()->discovery_urls_size(); j++) {
                         zeek::RecordValPtr endpoint_discovery_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::GetEndpointsDiscovery);
 
+                        // Source & Destination
+                        endpoint_discovery_res = assignSourceDestination(msg_header->is_orig(), endpoint_discovery_res, id_val);
+
                         endpoint_discovery_res->Assign(GET_ENDPOINT_RES_DISCOVERY_PROFILE_LINK_ID_DST_IDX,  zeek::make_intrusive<zeek::StringVal>(discovery_profile_id));
 
                         endpoint_discovery_res->Assign(GET_ENDPOINT_RES_DISCOVORY_URL_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->endpoints()->at(i)->server()->discovery_urls()->at(j)->string())));
@@ -194,6 +222,9 @@ refine flow OPCUA_Binary_Flow += {
 
                     for (int32_t k = 0; k < msg->endpoints()->at(i)->user_identity_tokens_size(); k++) {
                         zeek::RecordValPtr endpoint_user_token_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::GetEndpointsUserToken);
+
+                        // Source & Destination
+                        endpoint_user_token_res = assignSourceDestination(msg_header->is_orig(), endpoint_user_token_res, id_val);
 
                         endpoint_user_token_res->Assign(GET_ENDPOINT_RES_USER_TOKEN_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(user_token_id));
 
