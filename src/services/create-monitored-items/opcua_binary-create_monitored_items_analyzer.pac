@@ -32,6 +32,13 @@ refine flow OPCUA_Binary_Flow += {
             zeek::RecordValPtr create_monitored_items_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateMonitoredItems);
             create_monitored_items_req->Assign(CREATE_MONITORED_ITEMS_OPCUA_ID_LINK_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
+            Msg_Header *msg_header = msg->service()->msg_body()->header();
+            const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+            const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+            // Source & Destination
+            create_monitored_items_req = assignSourceDestination(msg_header->is_orig(), create_monitored_items_req, id_val);
+
             create_monitored_items_req->Assign(CREATE_MONITORED_ITEMS_SUBSCRIPTION_ID_IDX, zeek::val_mgr->Count(msg->subscription_id()));
             create_monitored_items_req->Assign(CREATE_MONITORED_ITEMS_TIMESTAMPS_TO_RETURN_IDX, zeek::val_mgr->Count(msg->timestamps_to_return()));
             create_monitored_items_req->Assign(CREATE_MONITORED_ITEMS_TIMESTAMPS_TO_RETURN_STR_IDX, zeek::make_intrusive<zeek::StringVal>(TIMESTAMPS_TO_RETURN_MAP.find(msg->timestamps_to_return())->second));
@@ -42,6 +49,10 @@ refine flow OPCUA_Binary_Flow += {
                 create_monitored_items_req->Assign(CREATE_MONITORED_ITEMS_MONITORED_ITEM_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(monitored_items_id));
                 for (int i=0; i < num_items_to_create; i++){
                     zeek::RecordValPtr monitored_item_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateMonitoredItemsItem);
+
+                    // Source & Destination
+                    monitored_item_req = assignSourceDestination(msg_header->is_orig(), monitored_item_req, id_val);
+
                     monitored_item_req->Assign(MONITORED_ITEM_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(monitored_items_id));
                     flattenOpcUA_ReadValueId(monitored_item_req, msg->items_to_create()->at(i)->item_to_monitor(), ITEM_TO_MONITOR_NODE_ID_ENCODING_MASK_IDX);
                     switch(msg->items_to_create()->at(i)->monitoring_mode()){
@@ -99,12 +110,23 @@ refine flow OPCUA_Binary_Flow += {
                                                        info);
 
             zeek::RecordValPtr create_monitored_items_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateMonitoredItems);
+
+            Msg_Header *msg_header = msg->service()->msg_body()->header();
+            const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+            const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+            // Source & Destination
+            create_monitored_items_res = assignSourceDestination(msg_header->is_orig(), create_monitored_items_res, id_val);
+
             int32_t num_results = msg->num_results();  
             if (num_results > 0){
                 std::string monitored_items_id = generateId();
                 create_monitored_items_res->Assign(CREATE_MONITORED_ITEMS_MONITORED_ITEM_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(monitored_items_id));
                 for (int i=0; i < num_results; i++){
                     zeek::RecordValPtr monitored_item_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::CreateMonitoredItemsItem);
+
+                    monitored_item_res = assignSourceDestination(msg_header->is_orig(), monitored_item_res, id_val);
+
                     monitored_item_res->Assign(MONITORED_ITEM_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(monitored_items_id));
                     uint32_t status_code_level = 0;
                     std::string status_code_id = generateId();
