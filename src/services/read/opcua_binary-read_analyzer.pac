@@ -35,6 +35,13 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr read_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Read);
 
+        // Source & Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        read_req = assignSourceDestination(msg_header->is_orig(), read_req, id_val);
+
         // OpcUA_id
         read_req->Assign(READ_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
@@ -53,6 +60,9 @@ refine flow OPCUA_Binary_Flow += {
 
             for (int i = 0; i < msg->nodes_to_read_size(); i++) {
                 zeek::RecordValPtr nodes_to_read = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ReadNodesToRead);
+
+                // Source & Destination
+                nodes_to_read = assignSourceDestination(msg_header->is_orig(), nodes_to_read, id_val);
 
                 // Link back into OpcUA_Binary::Read
                 nodes_to_read->Assign(READ_REQ_NODES_TO_READ_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(nodes_to_read_link_id));
@@ -113,6 +123,13 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr read_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Read);
 
+        // Source & Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        read_res = assignSourceDestination(msg_header->is_orig(), read_res, id_val);
+
         // OpcUA_id
         read_res->Assign(READ_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
@@ -126,6 +143,9 @@ refine flow OPCUA_Binary_Flow += {
             for (int i = 0; i < msg->results_size(); i++) {
                 OpcUA_DataValue* data_value = msg->results()->at(i);
                 zeek::RecordValPtr read_results = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ReadResults);
+
+                // Source & Destination
+                read_results = assignSourceDestination(msg_header->is_orig(), read_results, id_val);
 
                 // Assign the linkage int the OPCUA_Binary::Read and OPCUA_Binary::ReadResults
                 read_results->Assign(READ_RES_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(read_results_link_id));
