@@ -34,6 +34,13 @@ refine flow OPCUA_Binary_Flow += {
         //
         zeek::RecordValPtr opensecure_channel_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::OpenSecureChannel);
 
+        // Source & Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        opensecure_channel_req = assignSourceDestination(msg_header->is_orig(), opensecure_channel_req, id_val);
+
         // OpcUA_id
         opensecure_channel_req->Assign(OPENSECURE_CHANNEL_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
@@ -72,6 +79,13 @@ refine flow OPCUA_Binary_Flow += {
         // Open Secure Channel Response
         //
         zeek::RecordValPtr opensecure_channel_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::OpenSecureChannel);
+
+        // Source & Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        opensecure_channel_res = assignSourceDestination(msg_header->is_orig(), opensecure_channel_res, id_val);
 
         // OpcUA_id
         opensecure_channel_res->Assign(OPENSECURE_CHANNEL_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
