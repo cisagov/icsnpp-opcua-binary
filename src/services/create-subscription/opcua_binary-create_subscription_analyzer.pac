@@ -66,7 +66,7 @@ refine flow OPCUA_Binary_Flow += {
 
         info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
         info = assignMsgType(info, msg->service()->msg_body()->header());
-        info = assignResHdr(connection(), info, msg->res_hdr());
+        info = assignResHdr(connection(), info, msg->res_hdr(), msg->service()->msg_body()->header()->is_orig());
         info = assignService(info, msg->service());
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
                                                    connection()->bro_analyzer()->Conn(),

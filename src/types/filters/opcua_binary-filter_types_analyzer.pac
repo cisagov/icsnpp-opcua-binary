@@ -11,18 +11,18 @@
 
 %header{
     void flattenOpcUA_DataChangeFilter(OpcUA_DataChangeFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
-    void flattenOpcUA_EventFilter(OpcUA_EventFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
-    void flattenOpcUA_EventFilterResult(OpcUA_EventFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
+    void flattenOpcUA_EventFilter(OpcUA_EventFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
+    void flattenOpcUA_EventFilterResult(OpcUA_EventFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_AggregateFilter(OpcUA_AggregateFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
     void flattenOpcUA_AggregateFilterResult(OpcUA_AggregateFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
-    void flattenOpcUA_ContentFilterElement(OpcUA_ContentFilterElement *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
-    void flattenOpcUA_ContentFilterElementResult(OpcUA_ContentFilterElementResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
-    void flattenOpcUA_ContentFilter(OpcUA_ContentFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
-    void flattenOpcUA_ContentFilterResult(OpcUA_ContentFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
+    void flattenOpcUA_ContentFilterElement(OpcUA_ContentFilterElement *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
+    void flattenOpcUA_ContentFilterElementResult(OpcUA_ContentFilterElementResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
+    void flattenOpcUA_ContentFilter(OpcUA_ContentFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
+    void flattenOpcUA_ContentFilterResult(OpcUA_ContentFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_SimpleAttributeOperand(OpcUA_SimpleAttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
     void flattenOpcUA_AttributeOperand(OpcUA_AttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
     void flattenOpcUA_ElementOperand(OpcUA_ElementOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
-    void flattenOpcUA_LiteralOperand(OpcUA_LiteralOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
+    void flattenOpcUA_LiteralOperand(OpcUA_LiteralOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
 %}
 %code{
     void flattenOpcUA_SimpleAttributeOperand_Internal(OpcUA_SimpleAttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_operand){
@@ -85,7 +85,7 @@
                                                                       connection->bro_analyzer()->Conn(),
                                                                       data_change_filter_details);
     }
-    void flattenOpcUA_EventFilter(OpcUA_EventFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_EventFilter(OpcUA_EventFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr event_filter_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::EventFilter);
         event_filter_details->Assign(EVENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_select_clauses = obj->num_select_clauses();
@@ -98,13 +98,13 @@
         }
         std::string where_clause_id = generateId();
         event_filter_details->Assign(EVENT_FILTER_CONTENT_FILTER_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(where_clause_id));
-        flattenOpcUA_ContentFilter(obj->where_clause(), where_clause_id, connection);
+        flattenOpcUA_ContentFilter(obj->where_clause(), where_clause_id, connection, is_orig);
         zeek::BifEvent::enqueue_opcua_binary_event_filter_event(connection->bro_analyzer(),
                                                                 connection->bro_analyzer()->Conn(),
                                                                 event_filter_details);
 
     }
-    void flattenOpcUA_EventFilterResult(OpcUA_EventFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_EventFilterResult(OpcUA_EventFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr event_filter_result_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::EventFilter);
         event_filter_result_details->Assign(EVENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_select_clause_results = obj->num_select_clause_results();
@@ -119,7 +119,7 @@
             uint32_t status_code_level = 0;
             for (int i=0; i < num_select_clause_results; i++){
                 select_clause_result->Assign(SELECT_CLAUSE_RESULT_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(select_clauses_status_code_link_id));
-                generateStatusCodeEvent(connection, select_clause_result->GetField(SELECT_CLAUSE_RESULT_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_SelectClause_Key, obj->select_clause_results()->at(i), status_code_level);
+                generateStatusCodeEvent(connection, select_clause_result->GetField(SELECT_CLAUSE_RESULT_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_SelectClause_Key, obj->select_clause_results()->at(i), status_code_level, is_orig);
             }
         }
         int32_t num_select_clause_diagnostic_infos = obj->num_select_clause_diag_infos();
@@ -133,7 +133,7 @@
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < obj->num_select_clause_diag_infos(); i++) {
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection, select_clause_result->GetField(SELECT_CLAUSE_RESULT_DIAGNOSTIC_INFO_LINK_ID_SRC_IDX), obj->select_clause_diag_infos()->at(i), stringTable, innerDiagLevel, StatusCode_SelectClause_Key, DiagInfo_SelectClause_Key);
+                generateDiagInfoEvent(connection, select_clause_result->GetField(SELECT_CLAUSE_RESULT_DIAGNOSTIC_INFO_LINK_ID_SRC_IDX), obj->select_clause_diag_infos()->at(i), stringTable, innerDiagLevel, StatusCode_SelectClause_Key, is_orig, DiagInfo_SelectClause_Key);
             }
         }
         zeek::BifEvent::enqueue_opcua_binary_event_filter_select_clause_event(connection->bro_analyzer(),
@@ -141,7 +141,7 @@
                                                                               select_clause_result);
         std::string where_clause_results_id = generateId();
         event_filter_result_details->Assign(EVENT_FILTER_CONTENT_FILTER_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(where_clause_results_id));
-        flattenOpcUA_ContentFilterResult(obj->where_clause_result(), where_clause_results_id, connection);
+        flattenOpcUA_ContentFilterResult(obj->where_clause_result(), where_clause_results_id, connection, is_orig);
         zeek::BifEvent::enqueue_opcua_binary_event_filter_event(connection->bro_analyzer(),
                                                                 connection->bro_analyzer()->Conn(),
                                                                 event_filter_result_details);
@@ -183,7 +183,7 @@
                                                                     connection->bro_analyzer()->Conn(),
                                                                     aggregate_filter_result_details);
     }
-    void flattenOpcUA_ContentFilter(OpcUA_ContentFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_ContentFilter(OpcUA_ContentFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr content_filter_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ContentFilter);
         content_filter_details->Assign(EVENT_FILTER_CONTENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_elements = obj->num_elements();
@@ -191,14 +191,14 @@
             std::string content_filter_element_id = generateId();
             content_filter_details->Assign(CONTENT_FILTER_ELEMENT_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(content_filter_element_id));
             for (int i=0; i < num_elements; i++){
-                flattenOpcUA_ContentFilterElement(obj->elements()->at(i), content_filter_element_id, connection);
+                flattenOpcUA_ContentFilterElement(obj->elements()->at(i), content_filter_element_id, connection, is_orig);
             }
         }
         zeek::BifEvent::enqueue_opcua_binary_event_filter_content_filter_event(connection->bro_analyzer(),
                                                                                connection->bro_analyzer()->Conn(),
                                                                                content_filter_details);
     }
-    void flattenOpcUA_ContentFilterResult(OpcUA_ContentFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_ContentFilterResult(OpcUA_ContentFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr content_filter_result_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ContentFilter);
         content_filter_result_details->Assign(EVENT_FILTER_CONTENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_element_results = obj->num_element_results();
@@ -209,8 +209,8 @@
             content_filter_result_details->Assign(CONTENT_FILTER_ELEMENT_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(element_results_id));
             content_filter_result_details->Assign(CONTENT_FILTER_RESULT_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(status_code_id));
             for (int i=0; i < num_element_results; i++){
-                generateStatusCodeEvent(connection, content_filter_result_details->GetField(CONTENT_FILTER_RESULT_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_ContentFilterElement_Key, obj->elements_results()->at(i)->status_code(), status_code_level);
-                flattenOpcUA_ContentFilterElementResult(obj->elements_results()->at(i), element_results_id, connection);
+                generateStatusCodeEvent(connection, content_filter_result_details->GetField(CONTENT_FILTER_RESULT_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_ContentFilterElement_Key, obj->elements_results()->at(i)->status_code(), status_code_level, is_orig);
+                flattenOpcUA_ContentFilterElementResult(obj->elements_results()->at(i), element_results_id, connection, is_orig);
             }
         }
         
@@ -226,14 +226,14 @@
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < obj->num_element_diag_infos(); i++) {
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection, content_filter_result_details->GetField(CONTENT_FILTER_RESULT_DIAG_INFO_LINK_ID_SRC_IDX), obj->element_diag_infos()->at(i), stringTable, innerDiagLevel, StatusCode_ContentFilterElement_DiagInfo_Key, DiagInfo_ContentFilterElement_Key);
+                generateDiagInfoEvent(connection, content_filter_result_details->GetField(CONTENT_FILTER_RESULT_DIAG_INFO_LINK_ID_SRC_IDX), obj->element_diag_infos()->at(i), stringTable, innerDiagLevel, StatusCode_ContentFilterElement_DiagInfo_Key, is_orig, DiagInfo_ContentFilterElement_Key);
             }
         }
         zeek::BifEvent::enqueue_opcua_binary_event_filter_content_filter_event(connection->bro_analyzer(),
                                                                                connection->bro_analyzer()->Conn(),
                                                                                content_filter_result_details);
     }
-    void flattenOpcUA_ContentFilterElement(OpcUA_ContentFilterElement *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_ContentFilterElement(OpcUA_ContentFilterElement *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         int32_t num_filter_operands = obj->num_filter_operands();
         if (num_filter_operands > 0){
             for (int i=0; i < num_filter_operands; i++){
@@ -242,14 +242,14 @@
                 content_filter_element_details->Assign(CONTENT_FILTER_FILTER_OPERATOR_IDX, zeek::make_intrusive<zeek::StringVal>(FILTER_OPERATORS_MAP.find(obj->filter_operator())->second));
                 std::string filter_operand_id = generateId();
                 content_filter_element_details->Assign(CONTENT_FILTER_FILTER_OPERANDS_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(filter_operand_id));
-                flattenOpcUA_ExtensionObject(content_filter_element_details, obj->filter_operands()->at(i), CONTENT_FILTER_FILTER_OPERAND_EXT_OBJ_TYPE_ID_ENCODING_MASK_IDX, filter_operand_id, connection);
+                flattenOpcUA_ExtensionObject(content_filter_element_details, obj->filter_operands()->at(i), CONTENT_FILTER_FILTER_OPERAND_EXT_OBJ_TYPE_ID_ENCODING_MASK_IDX, filter_operand_id, connection, is_orig);
                 zeek::BifEvent::enqueue_opcua_binary_event_filter_content_filter_element_event(connection->bro_analyzer(),
                                                                                                connection->bro_analyzer()->Conn(),
                                                                                                content_filter_element_details);
             }
         }
     }
-    void flattenOpcUA_ContentFilterElementResult(OpcUA_ContentFilterElementResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_ContentFilterElementResult(OpcUA_ContentFilterElementResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         std::string element_status_code_id = generateId();
         uint32_t status_code_level = 0;
         zeek::RecordValPtr content_filter_element_result_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ContentFilterElement);
@@ -259,7 +259,7 @@
             std::string operand_status_codes_id = generateId();
             content_filter_element_result_details->Assign(OPERAND_RESULT_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(operand_status_codes_id));
             for (int i=0; i < num_operand_status_codes; i++){
-                generateStatusCodeEvent(connection, content_filter_element_result_details->GetField(OPERAND_RESULT_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_FilterOperand_Key, obj->operand_status_codes()->at(i), status_code_level);
+                generateStatusCodeEvent(connection, content_filter_element_result_details->GetField(OPERAND_RESULT_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_FilterOperand_Key, obj->operand_status_codes()->at(i), status_code_level, is_orig);
             }
         }
         int32_t num_operand_diag_infos = obj->num_operand_diag_infos();
@@ -274,7 +274,7 @@
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < obj->num_operand_diag_infos(); i++) {
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection, content_filter_element_result_details->GetField(OPERAND_RESULT_DIAG_INFO_LINK_ID_SRC_IDX), obj->operand_diag_infos()->at(i), stringTable, innerDiagLevel, StatusCode_FilterOperand_DiagInfo_Key, DiagInfo_FilterOperand_Key);
+                generateDiagInfoEvent(connection, content_filter_element_result_details->GetField(OPERAND_RESULT_DIAG_INFO_LINK_ID_SRC_IDX), obj->operand_diag_infos()->at(i), stringTable, innerDiagLevel, StatusCode_FilterOperand_DiagInfo_Key, is_orig, DiagInfo_FilterOperand_Key);
             }
         }
         zeek::BifEvent::enqueue_opcua_binary_event_filter_content_filter_element_event(connection->bro_analyzer(),
@@ -320,12 +320,12 @@
                                                                                 connection->bro_analyzer()->Conn(),
                                                                                 event_operand_details);
     }
-    void flattenOpcUA_LiteralOperand(OpcUA_LiteralOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_LiteralOperand(OpcUA_LiteralOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr literal_operand_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::LiteralOperand);
         std::string literal_operand_data_link_id = generateId();
         literal_operand_details->Assign(LITERAL_OPERAND_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         literal_operand_details->Assign(LITERAL_OPERAND_VARIANT_LINK_IDX, zeek::make_intrusive<zeek::StringVal>(literal_operand_data_link_id));
-        flattenOpcUA_DataVariant(connection, obj->value(), literal_operand_data_link_id, Variant_LiteralOperand_Key);
+        flattenOpcUA_DataVariant(connection, obj->value(), literal_operand_data_link_id, Variant_LiteralOperand_Key, is_orig);
         zeek::BifEvent::enqueue_opcua_binary_event_filter_literal_operand_event(connection->bro_analyzer(),
                                                                                 connection->bro_analyzer()->Conn(),
                                                                                 literal_operand_details);

@@ -114,7 +114,7 @@ refine flow OPCUA_Binary_Flow += {
 
         info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
         info = assignMsgType(info, msg->service()->msg_body()->header());
-        info = assignResHdr(connection(), info, msg->res_hdr());
+        info = assignResHdr(connection(), info, msg->res_hdr(), msg->service()->msg_body()->header()->is_orig());
         info = assignService(info, msg->service());
 
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
@@ -153,7 +153,7 @@ refine flow OPCUA_Binary_Flow += {
                 // Level
                 read_results->Assign(READ_RES_LEVEL_IDX, zeek::val_mgr->Count(i));
 
-                flattenOpcUA_DataValue(connection(), data_value, read_results, READ_RES_DATA_VALUE_ENCODING_MASK_IDX, StatusCode_Read_Key, Variant_Read_Key);
+                flattenOpcUA_DataValue(connection(), data_value, read_results, READ_RES_DATA_VALUE_ENCODING_MASK_IDX, StatusCode_Read_Key, Variant_Read_Key, msg_header->is_orig());
 
                 // Fire event
                 zeek::BifEvent::enqueue_opcua_binary_read_results_event(connection()->bro_analyzer(),
@@ -174,7 +174,7 @@ refine flow OPCUA_Binary_Flow += {
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < msg->diagnostic_info_size(); i++) {
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), read_res->GetField(READ_RES_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_Read_DiagInfo_Key, DiagInfo_Read_Key);
+                generateDiagInfoEvent(connection(), read_res->GetField(READ_RES_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_Read_DiagInfo_Key, msg_header->is_orig(), DiagInfo_Read_Key);
 
             }
         }

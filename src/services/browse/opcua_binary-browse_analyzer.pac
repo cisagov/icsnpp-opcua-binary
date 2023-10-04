@@ -110,7 +110,7 @@ refine flow OPCUA_Binary_Flow += {
 
         info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
         info = assignMsgType(info, msg->service()->msg_body()->header());
-        info = assignResHdr(connection(), info, msg->res_hdr());
+        info = assignResHdr(connection(), info, msg->res_hdr(), msg->service()->msg_body()->header()->is_orig());
         info = assignService(info, msg->service());
 
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
@@ -149,7 +149,7 @@ refine flow OPCUA_Binary_Flow += {
                 uint32_t status_code_level = 0;
                 std::string status_code_id = generateId();
                 browse_result->Assign(BROWSE_RESPONSE_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(status_code_id));
-                generateStatusCodeEvent(connection(), browse_result->GetField(BROWSE_RESPONSE_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_Browse_Key, msg->results()->at(i)->status_code(), status_code_level);
+                generateStatusCodeEvent(connection(), browse_result->GetField(BROWSE_RESPONSE_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_Browse_Key, msg->results()->at(i)->status_code(), status_code_level, msg_header->is_orig());
 
                 if (msg->results()->at(i)->continuation_point()->length() > 0){
                     browse_result->Assign(BROWSE_RESPONSE_CONTINUATION_POINT_IDX, zeek::make_intrusive<zeek::StringVal>(bytestringToHexstring(msg->results()->at(i)->continuation_point()->byteString())));
@@ -224,7 +224,7 @@ refine flow OPCUA_Binary_Flow += {
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < msg->diag_info_size(); i++) {
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), browse_res->GetField(BROWSE_RESPONSE_DIAG_INFO_LINK_ID_SRC_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_Browse_DiagInfo_Key, DiagInfo_Browse_Key);
+                generateDiagInfoEvent(connection(), browse_res->GetField(BROWSE_RESPONSE_DIAG_INFO_LINK_ID_SRC_IDX), msg->diag_info()->at(i), stringTable, innerDiagLevel, StatusCode_Browse_DiagInfo_Key, msg_header->is_orig(), DiagInfo_Browse_Key);
             }
         }
 

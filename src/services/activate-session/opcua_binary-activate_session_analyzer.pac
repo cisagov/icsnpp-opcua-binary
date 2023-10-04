@@ -129,7 +129,7 @@ refine flow OPCUA_Binary_Flow += {
 
         info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
         info = assignMsgType(info, msg->service()->msg_body()->header());
-        info = assignResHdr(connection(), info, msg->res_hdr());
+        info = assignResHdr(connection(), info, msg->res_hdr(), msg->service()->msg_body()->header()->is_orig());
         info = assignService(info, msg->service());
 
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
@@ -158,7 +158,7 @@ refine flow OPCUA_Binary_Flow += {
             string result_idx = generateId();
             activate_session_res->Assign(ACTIVATE_SESSION_RES_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(result_idx));
             for (int i = 0; i < msg->result_size(); i++) {
-                generateStatusCodeEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_ActivateSession_Key, msg->results()->at(i), status_code_level);
+                generateStatusCodeEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_ActivateSession_Key, msg->results()->at(i), status_code_level, msg_header->is_orig());
             }
         }
 
@@ -174,7 +174,7 @@ refine flow OPCUA_Binary_Flow += {
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < msg->diagnostic_info_size(); i++) {
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSession_DiagInfo_Key, DiagInfo_ActivateSession_Key);
+                generateDiagInfoEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSession_DiagInfo_Key, msg_header->is_orig(), DiagInfo_ActivateSession_Key);
             }
         }
 
