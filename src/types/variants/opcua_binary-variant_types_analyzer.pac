@@ -63,6 +63,12 @@
     void flattenOpcUA_DataVariant(OPCUA_Binary_Conn *connection, OpcUA_Variant *data_variant, string service_object_variant_data_link_id, uint32 variant_source, bool is_orig) {
         zeek::RecordValPtr variant_metadata = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantMetadata);
 
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+        variant_metadata = assignSourceDestination(is_orig, variant_metadata, id_val);
+
         variant_metadata->Assign(VARIANT_DATA_SOURCE_LINK_ID_IDX, zeek::make_intrusive<zeek::StringVal>(service_object_variant_data_link_id));
         
         variant_metadata->Assign(VARIANT_DATA_SOURCE_IDX, zeek::val_mgr->Count(variant_source));
@@ -132,6 +138,13 @@
         for (int i=0;i<array_length;i++) {
             // Link up ReadVariantData
             zeek::RecordValPtr variant_data = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantData);
+
+            // Source & Destination
+            const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+            const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+            variant_data = assignSourceDestination(is_orig, variant_data, id_val);
+
             variant_data->Assign(VARIANT_DATA_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(variant_data_link_id));
 
 

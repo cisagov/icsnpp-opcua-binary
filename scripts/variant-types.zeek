@@ -16,6 +16,13 @@ export {
         ts                          : time    &log;
         uid                         : string  &log;
         id                          : conn_id &log;
+
+        is_orig                     : bool    &log;
+        source_h                    : addr    &log; # Source IP Address
+        source_p                    : port    &log; # Source Port
+        destination_h               : addr    &log; # Destination IP Address
+        destination_p               : port    &log; # Destination Port
+
         variant_source_data_link_id : string  &log; # Link back into the Variant's source file
         
         variant_data_source         : count   &log;
@@ -43,6 +50,13 @@ export {
         ts                         : time    &log;
         uid                        : string  &log;
         id                         : conn_id &log;
+
+        is_orig                     : bool    &log;
+        source_h                    : addr    &log; # Source IP Address
+        source_p                    : port    &log; # Source Port
+        destination_h               : addr    &log; # Destination IP Address
+        destination_p               : port    &log; # Destination Port
+
         variant_data_link_id       : string  &log; # Link back into OPCUA_Binary::VariantMetadata
 
         # Signed numeric - e.g int8, int16, etc.
