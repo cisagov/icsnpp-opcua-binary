@@ -51,18 +51,18 @@
 #define EVENT_FILTER_RESULT_DIAG_INFO_LINK_ID_SRC_IDX                              11
 
 // Select Clause Parameter Indexes
-#define SELECT_CLAUSE_LINK_ID_DST_IDX                                               3
-#define SELECT_CLAUSE_TYPE_ID_ENCODING_MASK_IDX                                     4
-#define SELECT_CLAUSE_TYPE_ID_NAMESPACE_IDX                                         5
-#define SELECT_CLAUSE_TYPE_ID_NUMERIC_IDX                                           6
-#define SELECT_CLAUSE_TYPE_ID_STRING_IDX                                            7
-#define SELECT_CLAUSE_TYPE_ID_GUID_IDX                                              8
-#define SELECT_CLAUSE_TYPE_ID_OPAQUE_IDX                                            9
-#define SELECT_CLAUSE_BROWSE_PATH_LINK_ID_SRC_IDX                                  10
-#define SELECT_CLAUSE_ATTRIBUTE_ID_IDX                                             11
-#define SELECT_CLAUSE_INDEX_RANGE_IDX                                              12
-#define SELECT_CLAUSE_RESULT_STATUS_CODE_LINK_ID_SRC_IDX                           13
-#define SELECT_CLAUSE_RESULT_DIAGNOSTIC_INFO_LINK_ID_SRC_IDX                       14
+#define SELECT_CLAUSE_LINK_ID_DST_IDX                                               8
+#define SELECT_CLAUSE_TYPE_ID_ENCODING_MASK_IDX                                     9
+#define SELECT_CLAUSE_TYPE_ID_NAMESPACE_IDX                                        10
+#define SELECT_CLAUSE_TYPE_ID_NUMERIC_IDX                                          11
+#define SELECT_CLAUSE_TYPE_ID_STRING_IDX                                           12
+#define SELECT_CLAUSE_TYPE_ID_GUID_IDX                                             13
+#define SELECT_CLAUSE_TYPE_ID_OPAQUE_IDX                                           14
+#define SELECT_CLAUSE_BROWSE_PATH_LINK_ID_SRC_IDX                                  15
+#define SELECT_CLAUSE_ATTRIBUTE_ID_IDX                                             16
+#define SELECT_CLAUSE_INDEX_RANGE_IDX                                              17
+#define SELECT_CLAUSE_RESULT_STATUS_CODE_LINK_ID_SRC_IDX                           18
+#define SELECT_CLAUSE_RESULT_DIAGNOSTIC_INFO_LINK_ID_SRC_IDX                       19
 
 
 // Content Filter Parameter Indexes
@@ -121,16 +121,16 @@
 #define BROWSE_PATH_ELEMENT_TARGET_NAME_IDX                                        13
 
 // Simple Attribute Operand Indexes
-#define SIMPLE_ATTRIBUTE_OPERAND_LINK_ID_DST_IDX                                    3
-#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_ENCODING_MASK_IDX                          4
-#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_NAMESPACE_IDX                              5
-#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_NUMERIC_IDX                                6
-#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_STRING_IDX                                 7
-#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_GUID_IDX                                   8
-#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_OPAQUE_IDX                                 9
-#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_LINK_ID_SRC_IDX                       10
-#define SIMPLE_ATTRIBUTE_OPERAND_ATTRIBUTE_ID_IDX                                  11
-#define SIMPLE_ATTRIBUTE_INDEX_RANGE_IDX                                           12
+#define SIMPLE_ATTRIBUTE_OPERAND_LINK_ID_DST_IDX                                    8
+#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_ENCODING_MASK_IDX                          9
+#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_NAMESPACE_IDX                             10
+#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_NUMERIC_IDX                               11
+#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_STRING_IDX                                12
+#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_GUID_IDX                                  13
+#define SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_OPAQUE_IDX                                14
+#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_LINK_ID_SRC_IDX                       15
+#define SIMPLE_ATTRIBUTE_OPERAND_ATTRIBUTE_ID_IDX                                  16
+#define SIMPLE_ATTRIBUTE_INDEX_RANGE_IDX                                           17
 
 // Simple Attribute Operand Browse Path Indexes
 #define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_LINK_ID_DST_IDX                        3 

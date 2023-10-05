@@ -36,6 +36,13 @@
         else {
             simple_attribute_operand = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::SelectClause);
         }
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        simple_attribute_operand = assignSourceDestination(is_orig, simple_attribute_operand, id_val);
+
         simple_attribute_operand->Assign(SIMPLE_ATTRIBUTE_OPERAND_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         flattenOpcUA_NodeId(simple_attribute_operand, obj->type_id(), SIMPLE_ATTRIBUTE_OPERAND_TYPE_ID_ENCODING_MASK_IDX);
         int32_t num_browse_paths = obj->num_browse_paths();
@@ -130,6 +137,9 @@
         event_filter_result_details->Assign(EVENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_select_clause_results = obj->num_select_clause_results();
         zeek::RecordValPtr select_clause_result = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::SelectClause);
+
+        select_clause_result = assignSourceDestination(is_orig, select_clause_result, id_val);
+
         std::string select_clauses_results_id = generateId();
 
         event_filter_result_details->Assign(EVENT_FILTER_SELECT_CLAUSES_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(select_clauses_results_id));

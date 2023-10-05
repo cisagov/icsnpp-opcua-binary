@@ -126,6 +126,12 @@ export {
         uid                         : string  &log;
         id                          : conn_id &log;
 
+        is_orig                     : bool    &log;
+        source_h                    : addr    &log; # Source IP Address
+        source_p                    : port    &log; # Source Port
+        destination_h               : addr    &log; # Destination IP Address
+        destination_p               : port    &log; # Destination Port
+
         select_clause_link_id             : string &log;
         type_id_encoding_mask             : string &log &optional;
         type_id_namespace_idx             : count  &log &optional;
@@ -145,6 +151,12 @@ export {
         ts                          : time    &log;
         uid                         : string  &log;
         id                          : conn_id &log;
+
+        is_orig                     : bool    &log;
+        source_h                    : addr    &log; # Source IP Address
+        source_p                    : port    &log; # Source Port
+        destination_h               : addr    &log; # Destination IP Address
+        destination_p               : port    &log; # Destination Port
 
         content_filter_filter_operand_link_id   : string &log; # Link into OPCUA_Binary::ContentFilterElement
         type_id_encoding_mask                   : string &log &optional;
