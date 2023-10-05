@@ -101,7 +101,7 @@ build/opcua_binary_pac.cc file(s) for details.
             // OpcUA_ExtensionObject token
             switch (getExtensionObjectId(obj->type_id())) {
                 case DataChangeFilter:
-                    flattenOpcUA_DataChangeFilter(object_body->data_change_filter(), link_id, connection);
+                    flattenOpcUA_DataChangeFilter(object_body->data_change_filter(), link_id, connection, is_orig);
                     break;
                 case EventFilter:
                     flattenOpcUA_EventFilter(object_body->event_filter(), link_id, connection, is_orig);
@@ -110,13 +110,13 @@ build/opcua_binary_pac.cc file(s) for details.
                     flattenOpcUA_EventFilterResult(object_body->event_filter_result(), link_id, connection, is_orig);
                     break;
                 case AggregateFilter:
-                    flattenOpcUA_AggregateFilter(object_body->aggregate_filter(), link_id, connection);
+                    flattenOpcUA_AggregateFilter(object_body->aggregate_filter(), link_id, connection, is_orig);
                     break;
                 case AggregateFilterResult:
                     flattenOpcUA_AggregateFilterResult(object_body->aggregate_filter_result(), link_id, connection);
                     break;
                 case SimpleAttributeOperand:
-                    flattenOpcUA_SimpleAttributeOperand(object_body->simple_attribute_operand(), link_id, connection);
+                    flattenOpcUA_SimpleAttributeOperand(object_body->simple_attribute_operand(), link_id, connection, is_orig);
                     break;
                 case AttributeOperand:
                     flattenOpcUA_AttributeOperand(object_body->attribute_operand(), link_id, connection);

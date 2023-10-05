@@ -10,22 +10,22 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %header{
-    void flattenOpcUA_DataChangeFilter(OpcUA_DataChangeFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
+    void flattenOpcUA_DataChangeFilter(OpcUA_DataChangeFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_EventFilter(OpcUA_EventFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_EventFilterResult(OpcUA_EventFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
-    void flattenOpcUA_AggregateFilter(OpcUA_AggregateFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
+    void flattenOpcUA_AggregateFilter(OpcUA_AggregateFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_AggregateFilterResult(OpcUA_AggregateFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
     void flattenOpcUA_ContentFilterElement(OpcUA_ContentFilterElement *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_ContentFilterElementResult(OpcUA_ContentFilterElementResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_ContentFilter(OpcUA_ContentFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_ContentFilterResult(OpcUA_ContentFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
-    void flattenOpcUA_SimpleAttributeOperand(OpcUA_SimpleAttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
+    void flattenOpcUA_SimpleAttributeOperand(OpcUA_SimpleAttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_AttributeOperand(OpcUA_AttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
     void flattenOpcUA_ElementOperand(OpcUA_ElementOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
     void flattenOpcUA_LiteralOperand(OpcUA_LiteralOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
 %}
 %code{
-    void flattenOpcUA_SimpleAttributeOperand_Internal(OpcUA_SimpleAttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_operand){
+    void flattenOpcUA_SimpleAttributeOperand_Internal(OpcUA_SimpleAttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_operand, bool is_orig){
         /* Since a Select Clause is a Simmple Attribute Operand, they can share the same analyzer. 
         However, a select clause record may have a result while a Simple Attribute Operand does not. 
         Therefore, there is a separate SelectClause type.*/
@@ -75,8 +75,15 @@
                                                                                    simple_attribute_operand);
         }
     }
-    void flattenOpcUA_DataChangeFilter(OpcUA_DataChangeFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_DataChangeFilter(OpcUA_DataChangeFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr data_change_filter_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::DataChangeFilter);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        data_change_filter_details = assignSourceDestination(is_orig, data_change_filter_details, id_val);
+
         data_change_filter_details->Assign(DATA_CHANGE_FILTER_REQ_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         data_change_filter_details->Assign(DATA_CHANGE_FILTER_REQ_TRIGGER_IDX, zeek::make_intrusive<zeek::StringVal>(DATA_CHANGE_TRIGGER_MAP.find(obj->trigger())->second));
         data_change_filter_details->Assign(DATA_CHANGE_FILTER_REQ_DEADBAND_TYPE_IDX, zeek::make_intrusive<zeek::StringVal>(DEADBAND_TYPE_MAP.find(obj->deadband_type())->second));
@@ -87,13 +94,20 @@
     }
     void flattenOpcUA_EventFilter(OpcUA_EventFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr event_filter_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::EventFilter);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        event_filter_details = assignSourceDestination(is_orig, event_filter_details, id_val);
+
         event_filter_details->Assign(EVENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_select_clauses = obj->num_select_clauses();
         if (num_select_clauses > 0){
             std::string select_clauses_id = generateId();
             event_filter_details->Assign(EVENT_FILTER_SELECT_CLAUSES_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(select_clauses_id));
             for (int i=0; i < num_select_clauses; i++){
-                flattenOpcUA_SimpleAttributeOperand_Internal(obj->select_clauses()->at(i), select_clauses_id, connection, false);
+                flattenOpcUA_SimpleAttributeOperand_Internal(obj->select_clauses()->at(i), select_clauses_id, connection, false, is_orig);
             }
         }
         std::string where_clause_id = generateId();
@@ -106,6 +120,13 @@
     }
     void flattenOpcUA_EventFilterResult(OpcUA_EventFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr event_filter_result_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::EventFilter);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        event_filter_result_details = assignSourceDestination(is_orig, event_filter_result_details, id_val);
+
         event_filter_result_details->Assign(EVENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_select_clause_results = obj->num_select_clause_results();
         zeek::RecordValPtr select_clause_result = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::SelectClause);
@@ -146,8 +167,15 @@
                                                                 connection->bro_analyzer()->Conn(),
                                                                 event_filter_result_details);
     }
-    void flattenOpcUA_AggregateFilter(OpcUA_AggregateFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_AggregateFilter(OpcUA_AggregateFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr aggregate_filter_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::AggregateFilter);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        aggregate_filter_details = assignSourceDestination(is_orig, aggregate_filter_details, id_val);
+
         aggregate_filter_details->Assign(AGGREGATE_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         aggregate_filter_details->Assign(AGGREGATE_FILTER_START_TIME_IDX, zeek::make_intrusive<zeek::TimeVal>(obj->start_time()));
         if (obj->start_time() != 0){
@@ -185,6 +213,13 @@
     }
     void flattenOpcUA_ContentFilter(OpcUA_ContentFilter *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr content_filter_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ContentFilter);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        content_filter_details = assignSourceDestination(is_orig, content_filter_details, id_val);
+
         content_filter_details->Assign(EVENT_FILTER_CONTENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_elements = obj->num_elements();
         if (num_elements > 0){
@@ -200,6 +235,13 @@
     }
     void flattenOpcUA_ContentFilterResult(OpcUA_ContentFilterResult *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
         zeek::RecordValPtr content_filter_result_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ContentFilter);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        content_filter_result_details = assignSourceDestination(is_orig, content_filter_result_details, id_val);
+
         content_filter_result_details->Assign(EVENT_FILTER_CONTENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_element_results = obj->num_element_results();
         if (num_element_results > 0){
@@ -238,6 +280,13 @@
         if (num_filter_operands > 0){
             for (int i=0; i < num_filter_operands; i++){
                 zeek::RecordValPtr content_filter_element_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ContentFilterElement);
+
+                // Source & Destination
+                const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+                const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+                content_filter_element_details = assignSourceDestination(is_orig, content_filter_element_details, id_val);
+
                 content_filter_element_details->Assign(CONTENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
                 content_filter_element_details->Assign(CONTENT_FILTER_FILTER_OPERATOR_IDX, zeek::make_intrusive<zeek::StringVal>(FILTER_OPERATORS_MAP.find(obj->filter_operator())->second));
                 std::string filter_operand_id = generateId();
@@ -253,6 +302,13 @@
         std::string element_status_code_id = generateId();
         uint32_t status_code_level = 0;
         zeek::RecordValPtr content_filter_element_result_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ContentFilterElement);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        content_filter_element_result_details = assignSourceDestination(is_orig, content_filter_element_result_details, id_val);
+
         content_filter_element_result_details->Assign(CONTENT_FILTER_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(link_id));
         int32_t num_operand_status_codes = obj->num_operand_status_codes();
         if (num_operand_status_codes > 0){
@@ -281,8 +337,8 @@
                                                                                        connection->bro_analyzer()->Conn(),
                                                                                        content_filter_element_result_details);
     }
-    void flattenOpcUA_SimpleAttributeOperand(OpcUA_SimpleAttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
-        flattenOpcUA_SimpleAttributeOperand_Internal(obj, link_id, connection, true);
+    void flattenOpcUA_SimpleAttributeOperand(OpcUA_SimpleAttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
+        flattenOpcUA_SimpleAttributeOperand_Internal(obj, link_id, connection, true, is_orig);
     }
     void flattenOpcUA_AttributeOperand(OpcUA_AttributeOperand *obj, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
         zeek::RecordValPtr attribute_operand_details = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::AttributeOperand);
