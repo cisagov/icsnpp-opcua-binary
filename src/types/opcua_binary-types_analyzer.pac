@@ -119,10 +119,10 @@ build/opcua_binary_pac.cc file(s) for details.
                     flattenOpcUA_SimpleAttributeOperand(object_body->simple_attribute_operand(), link_id, connection, is_orig);
                     break;
                 case AttributeOperand:
-                    flattenOpcUA_AttributeOperand(object_body->attribute_operand(), link_id, connection);
+                    flattenOpcUA_AttributeOperand(object_body->attribute_operand(), link_id, connection, is_orig);
                     break;
                 case ElementOperand:
-                    flattenOpcUA_ElementOperand(object_body->element_operand(), link_id, connection);
+                    flattenOpcUA_ElementOperand(object_body->element_operand(), link_id, connection, is_orig);
                     break;
                 case LiteralOperand:
                     flattenOpcUA_LiteralOperand(object_body->literal_operand(), link_id, connection, is_orig);

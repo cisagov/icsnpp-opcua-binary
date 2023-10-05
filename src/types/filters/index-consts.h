@@ -87,38 +87,38 @@
 #define OPERAND_RESULT_DIAG_INFO_LINK_ID_SRC_IDX                                   20
 
 // Element Operand Parameter Indexes
-#define ELEMENT_OPERAND_LINK_ID_DST_IDX                                             3
-#define ELEMENT_OPERAND_INDEX_IDX                                                   4
+#define ELEMENT_OPERAND_LINK_ID_DST_IDX                                             8
+#define ELEMENT_OPERAND_INDEX_IDX                                                   9
 
 // Literal Operand Parameter Indexes: Left Blank for now
-#define LITERAL_OPERAND_LINK_ID_DST_IDX                                             3
-#define LITERAL_OPERAND_VARIANT_LINK_IDX                                            4
+#define LITERAL_OPERAND_LINK_ID_DST_IDX                                             8
+#define LITERAL_OPERAND_VARIANT_LINK_IDX                                            9
 
 // Attribute Operand Parmeter Indexes
-#define ATTRIBUTE_OPERAND_LINK_ID_IDX                                               3
-#define ATTRIBUTE_OPERAND_NODE_ID_ENCODING_MASK_IDX                                 4
-#define ATTRIBUTE_OPERAND_NODE_ID_NAMESPACE_IDX                                     5
-#define ATTRIBUTE_OPERAND_NODE_ID_NUMERIC_IDX                                       6
-#define ATTRIBUTE_OPERAND_NODE_ID_STRING_IDX                                        7
-#define ATTRIBUTE_OPERAND_NODE_ID_GUID_IDX                                          8
-#define ATTRIBUTE_OPERAND_NODE_ID_OPAQUE_IDX                                        9
-#define ATTRIBUTE_OPERAND_ALIAS_IDX                                                10
-#define ATTRIBUTE_OPERAND_BROWSE_PATH_ELEMENT_LINK_ID_SRC_IDX                      11
-#define ATTRIBUTE_OPERAND_ATTRIBUTE_IDX                                            12
-#define ATTRIBUTE_OPERAND_INDEX_RANGE_IDX                                          13
+#define ATTRIBUTE_OPERAND_LINK_ID_IDX                                               8
+#define ATTRIBUTE_OPERAND_NODE_ID_ENCODING_MASK_IDX                                 9
+#define ATTRIBUTE_OPERAND_NODE_ID_NAMESPACE_IDX                                    10
+#define ATTRIBUTE_OPERAND_NODE_ID_NUMERIC_IDX                                      11
+#define ATTRIBUTE_OPERAND_NODE_ID_STRING_IDX                                       12
+#define ATTRIBUTE_OPERAND_NODE_ID_GUID_IDX                                         13
+#define ATTRIBUTE_OPERAND_NODE_ID_OPAQUE_IDX                                       14
+#define ATTRIBUTE_OPERAND_ALIAS_IDX                                                15
+#define ATTRIBUTE_OPERAND_BROWSE_PATH_ELEMENT_LINK_ID_SRC_IDX                      16
+#define ATTRIBUTE_OPERAND_ATTRIBUTE_IDX                                            17
+#define ATTRIBUTE_OPERAND_INDEX_RANGE_IDX                                          18
 
 // Browse Path Parameter Indexes
-#define BROWSE_PATH_ELEMENT_LINK_ID_DST_IDX                                         3
-#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_ENCODING_MASK_IDX                     4
-#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_NAMESPACE_IDX                         5
-#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_NUMERIC_IDX                           6
-#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_STRING_IDX                            7
-#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_GUID_IDX                              8
-#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_OPAQUE_IDX                            9
-#define BROWSE_PATH_ELEMENT_IS_INVERSE_IDX                                         10
-#define BROWSE_PATH_ELEMENT_INCLUDE_SUBTYPES_IDX                                   11
-#define BROWSE_PATH_ELEMENT_TARGET_NAME_NAMESPACE_IDX                              12
-#define BROWSE_PATH_ELEMENT_TARGET_NAME_IDX                                        13
+#define BROWSE_PATH_ELEMENT_LINK_ID_DST_IDX                                         8
+#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_ENCODING_MASK_IDX                     9
+#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_NAMESPACE_IDX                        10
+#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_NUMERIC_IDX                          11
+#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_STRING_IDX                           12
+#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_GUID_IDX                             13
+#define BROWSE_PATH_ELEMENT_REFERENCE_TYPE_ID_OPAQUE_IDX                           14
+#define BROWSE_PATH_ELEMENT_IS_INVERSE_IDX                                         15
+#define BROWSE_PATH_ELEMENT_INCLUDE_SUBTYPES_IDX                                   16
+#define BROWSE_PATH_ELEMENT_TARGET_NAME_NAMESPACE_IDX                              17
+#define BROWSE_PATH_ELEMENT_TARGET_NAME_IDX                                        18
 
 // Simple Attribute Operand Indexes
 #define SIMPLE_ATTRIBUTE_OPERAND_LINK_ID_DST_IDX                                    8
@@ -133,10 +133,10 @@
 #define SIMPLE_ATTRIBUTE_INDEX_RANGE_IDX                                           17
 
 // Simple Attribute Operand Browse Path Indexes
-#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_LINK_ID_DST_IDX                        3 
-#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_SRC_LINK_ID_IDX                        4
-#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_NAMSESPACE_IDX_IDX                     5
-#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_NAME_IDX                               6
+#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_LINK_ID_DST_IDX                        8 
+#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_SRC_LINK_ID_IDX                        9
+#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_NAMSESPACE_IDX_IDX                    10
+#define SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATH_NAME_IDX                              11
 
 // Select Clause in Event Filter Diagnostic Info link file
 #define EVENT_FILTER_RESPONSE_DIAG_INFO_LINK_ID_DST_IDX                             3 // Id back into OPCUA_Binary::SelectClause
