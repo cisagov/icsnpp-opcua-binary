@@ -106,6 +106,13 @@
             // ReadArrayDims
             for (int j=0; j<data_variant->variant_multidim_array()->array_dimensions_length(); j++) {
                 zeek::RecordValPtr variant_array_dims = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantArrayDims);
+
+                // Source & Destination
+                const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+                const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+                variant_array_dims = assignSourceDestination(is_orig, variant_array_dims, id_val);
+
                 variant_array_dims->Assign(VARIANT_ARRAY_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(array_dim_link_id));
                 variant_array_dims->Assign(VARIANT_DIMENSION_IDX, zeek::val_mgr->Count(data_variant->variant_multidim_array()->array_dimensions()->at(j)));
 
@@ -238,6 +245,12 @@
                     OpcUA_ExtensionObject *obj = variant_data_array->at(i)->extension_object_variant();
                     zeek::RecordValPtr variant_extension_object = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantExtensionObject);
 
+                    // Source & Destination
+                    const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+                    const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+                    variant_extension_object = assignSourceDestination(is_orig, variant_extension_object, id_val);
+
                     variant_extension_object->Assign(VARIANT_EXT_OBJ_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(ext_object_link_id));
 
                     flattenOpcUA_NodeId(variant_extension_object, obj->type_id(), VARIANT_EXT_OBJ_NODE_ID_ENCODING_MASK);
@@ -256,6 +269,12 @@
                 case DataValue_Key: {
                    
                     zeek::RecordValPtr variant_data_value = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantDataValue);
+
+                    // Source & Destination
+                    const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+                    const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+                    variant_data_value = assignSourceDestination(is_orig, variant_data_value, id_val);
 
                     // Set the link into OPCUA_Binary::VariantDataValue
                     string variant_data_value_link_id = generateId();

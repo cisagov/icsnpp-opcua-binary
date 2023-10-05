@@ -89,34 +89,34 @@
 // Index constants for setting values in OPCUA_Binary::VariantArrayDims
 // based on the parsed values from the variant
 //
-    #define VARIANT_ARRAY_LINK_ID_DST_IDX 3 // Link back into OPCUA_Binary::VariantMetadata
-    #define VARIANT_DIMENSION_IDX         4 
+    #define VARIANT_ARRAY_LINK_ID_DST_IDX 8 // Link back into OPCUA_Binary::VariantMetadata
+    #define VARIANT_DIMENSION_IDX         9 
 //
 // Index constants for setting values in OPCUA_Binary::VariantExtensionObject
 // based on the parsed values from the variant object
 //
-    #define VARIANT_EXT_OBJ_LINK_ID_DST_IDX        3 // Link back into OPCUA_Binary::VariantData
+    #define VARIANT_EXT_OBJ_LINK_ID_DST_IDX        8 // Link back into OPCUA_Binary::VariantData
 
-    #define VARIANT_EXT_OBJ_NODE_ID_ENCODING_MASK  4
-    #define VARIANT_EXT_OBJ_NODE_ID_NAMESPACE_IDX  5
-    #define VARIANT_EXT_OBJ_NODE_ID_NUMERIC        6
-    #define VARIANT_EXT_OBJ_NODE_ID_STRING         7 
-    #define VARIANT_EXT_OBJ_NODE_ID_GUID           8 
-    #define VARIANT_EXT_OBJ_NODE_ID_OPAQUE         9 
+    #define VARIANT_EXT_OBJ_NODE_ID_ENCODING_MASK  9
+    #define VARIANT_EXT_OBJ_NODE_ID_NAMESPACE_IDX  10
+    #define VARIANT_EXT_OBJ_NODE_ID_NUMERIC        11
+    #define VARIANT_EXT_OBJ_NODE_ID_STRING         12
+    #define VARIANT_EXT_OBJ_NODE_ID_GUID           13
+    #define VARIANT_EXT_OBJ_NODE_ID_OPAQUE         14
 
-    #define VARIANT_EXT_OBJ_TYPE_ID_STR_IDX        10
-    #define VARIANT_EXT_OBJ_ENCODING_IDX           11
+    #define VARIANT_EXT_OBJ_TYPE_ID_STR_IDX        15
+    #define VARIANT_EXT_OBJ_ENCODING_IDX           16
 
 //
 // Index constants for setting values in OPCUA_Binary::VariantDataValue
 // based on the parsed values from the variant object
 //
-    #define VARIANT_DATA_VALUE_LINK_ID_DST_IDX                  3 // Id back into OPCUA_Binary::DataVariant
-    #define VARIANT_DATA_VALUE_ENCODING_MASK_IDX                4
-    #define VARIANT_STATUS_CODE_LINK_ID_SRC_IDX                 5 // Id into OPCUA_Binary::StatusCodeDetail log
-    #define VARIANT_SOURCE_TIMESTAMP_IDX                        6
-    #define VARIANT_SOURCE_PICO_SEC_IDX                         7
-    #define VARIANT_SERVER_TIMESTAMP_IDX                        8
-    #define VARIANT_SERVER_PICO_SEC_IDX                         9 
+    #define VARIANT_DATA_VALUE_LINK_ID_DST_IDX                  8  // Id back into OPCUA_Binary::DataVariant
+    #define VARIANT_DATA_VALUE_ENCODING_MASK_IDX                9
+    #define VARIANT_STATUS_CODE_LINK_ID_SRC_IDX                 10 // Id into OPCUA_Binary::StatusCodeDetail log
+    #define VARIANT_SOURCE_TIMESTAMP_IDX                        11 
+    #define VARIANT_SOURCE_PICO_SEC_IDX                         12
+    #define VARIANT_SERVER_TIMESTAMP_IDX                        13
+    #define VARIANT_SERVER_PICO_SEC_IDX                         14
 
 #endif
