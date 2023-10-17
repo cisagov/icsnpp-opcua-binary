@@ -17,6 +17,13 @@ export {
         ts                          : time    &log;
         uid                         : string  &log;
         id                          : conn_id &log;
+
+        is_orig                     : bool    &log;
+        source_h                    : addr    &log;   # Source IP Address
+        source_p                    : port    &log;   # Source Port
+        destination_h               : addr    &log;   # Destination IP Address
+        destination_p               : port    &log;   # Destination Port
+
         opcua_link_id               : string  &log;       # Id back into OCPUA_Binary::Info
 
         subscription_id                             : count &log &optional;
@@ -29,6 +36,13 @@ export {
         ts                          : time    &log;
         uid                         : string  &log;
         id                          : conn_id &log;
+
+        is_orig                     : bool    &log;
+        source_h                    : addr    &log;   # Source IP Address
+        source_p                    : port    &log;   # Source Port
+        destination_h               : addr    &log;   # Destination IP Address
+        destination_p               : port    &log;   # Destination Port
+
         create_item_link_id         : string &log; #Id back into OPCUA_Binary::CreateMonitoredItems
 
         item_to_monitor_node_id_encoding_mask   : string &log &optional;

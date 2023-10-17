@@ -16,6 +16,13 @@ export {
         ts                       : time    &log;
         uid                      : string  &log;
         id                       : conn_id &log;
+
+        is_orig                  : bool    &log;
+        source_h                 : addr    &log;   # Source IP Address
+        source_p                 : port    &log;   # Source Port
+        destination_h            : addr    &log;   # Destination IP Address
+        destination_p            : port    &log;   # Destination Port
+
         opcua_link_id            : string  &log; # Link back into OPCUA_Binary::Info
 
         # Request
@@ -33,6 +40,13 @@ export {
         ts                    : time    &log;
         uid                   : string  &log;
         id                    : conn_id &log;
+
+        is_orig               : bool    &log;
+        source_h              : addr    &log;   # Source IP Address
+        source_p              : port    &log;   # Source Port
+        destination_h         : addr    &log;   # Destination IP Address
+        destination_p         : port    &log;   # Destination Port
+
         nodes_to_read_link_id : string  &log; # Link back into OPCUA_Binary::Read
 
         # node_id : OpcUA_NodeId
@@ -56,6 +70,13 @@ export {
         ts                   : time    &log;
         uid                  : string  &log;
         id                   : conn_id &log;
+
+        is_orig              : bool    &log;
+        source_h             : addr    &log;   # Source IP Address
+        source_p             : port    &log;   # Source Port
+        destination_h        : addr    &log;   # Destination IP Address
+        destination_p        : port    &log;   # Destination Port
+
         results_link_id      : string  &log; 
         level                : count   &log;
 

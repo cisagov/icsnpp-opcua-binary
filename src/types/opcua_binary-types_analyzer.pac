@@ -21,15 +21,15 @@ build/opcua_binary_pac.cc file(s) for details.
 
 %header{
     void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset);
-    void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection);
+    void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig);
     void flattenOpcUA_AnonymousIdentityToken(zeek::RecordValPtr service_object, OpcUA_AnonymousIdentityToken *obj, uint32 offset);
     void flattenOpcUA_UserNameIdentityToken(zeek::RecordValPtr service_object, OpcUA_UserNameIdentityToken *obj, uint32 offset);
     void flattenOpcUA_X509IdentityToken(zeek::RecordValPtr service_object, OpcUA_X509IdentityToken *obj, uint32 offset);
     void flattenOpcUA_IssuedIdentityToken(zeek::RecordValPtr service_object, OpcUA_IssuedIdentityToken *obj, uint32 offset);
     void flattenOpcUA_ReadValueId(zeek::RecordValPtr service_object, OpcUA_ReadValueId *obj, uint32 offset);
     void flattenOpcUA_RelativePathElement(zeek::RecordValPtr service_object, OpcUA_RelativePathElement *obj, uint32 offset);
-    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32_t innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src, std::string root_object_id = "");
-    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level);
+    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32_t innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src, bool is_orig, std::string root_object_id = "");
+    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level, bool is_orig);
 %}
 
 %code{
@@ -76,7 +76,7 @@ build/opcua_binary_pac.cc file(s) for details.
             }
         }
     }
-    void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection){
+    void flattenOpcUA_ExtensionObject(zeek::RecordValPtr service_object, OpcUA_ExtensionObject *obj, uint32 offset, std::string link_id, binpac::OPCUA_Binary::OPCUA_Binary_Conn* connection, bool is_orig){
 
         flattenOpcUA_NodeId(service_object, obj->type_id(), offset);
 
@@ -101,31 +101,31 @@ build/opcua_binary_pac.cc file(s) for details.
             // OpcUA_ExtensionObject token
             switch (getExtensionObjectId(obj->type_id())) {
                 case DataChangeFilter:
-                    flattenOpcUA_DataChangeFilter(object_body->data_change_filter(), link_id, connection);
+                    flattenOpcUA_DataChangeFilter(object_body->data_change_filter(), link_id, connection, is_orig);
                     break;
                 case EventFilter:
-                    flattenOpcUA_EventFilter(object_body->event_filter(), link_id, connection);
+                    flattenOpcUA_EventFilter(object_body->event_filter(), link_id, connection, is_orig);
                     break;
                 case EventFilterResult:
-                    flattenOpcUA_EventFilterResult(object_body->event_filter_result(), link_id, connection);
+                    flattenOpcUA_EventFilterResult(object_body->event_filter_result(), link_id, connection, is_orig);
                     break;
                 case AggregateFilter:
-                    flattenOpcUA_AggregateFilter(object_body->aggregate_filter(), link_id, connection);
+                    flattenOpcUA_AggregateFilter(object_body->aggregate_filter(), link_id, connection, is_orig);
                     break;
                 case AggregateFilterResult:
                     flattenOpcUA_AggregateFilterResult(object_body->aggregate_filter_result(), link_id, connection);
                     break;
                 case SimpleAttributeOperand:
-                    flattenOpcUA_SimpleAttributeOperand(object_body->simple_attribute_operand(), link_id, connection);
+                    flattenOpcUA_SimpleAttributeOperand(object_body->simple_attribute_operand(), link_id, connection, is_orig);
                     break;
                 case AttributeOperand:
-                    flattenOpcUA_AttributeOperand(object_body->attribute_operand(), link_id, connection);
+                    flattenOpcUA_AttributeOperand(object_body->attribute_operand(), link_id, connection, is_orig);
                     break;
                 case ElementOperand:
-                    flattenOpcUA_ElementOperand(object_body->element_operand(), link_id, connection);
+                    flattenOpcUA_ElementOperand(object_body->element_operand(), link_id, connection, is_orig);
                     break;
                 case LiteralOperand:
-                    flattenOpcUA_LiteralOperand(object_body->literal_operand(), link_id, connection);
+                    flattenOpcUA_LiteralOperand(object_body->literal_operand(), link_id, connection, is_orig);
                     break;
                 default:
                     break;
@@ -246,8 +246,14 @@ build/opcua_binary_pac.cc file(s) for details.
     // NOTE: This function is called recursively to  process any 
     // nested inner diagnostic information.
     //
-    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src, std::string root_object_id) {
+    void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src, bool is_orig, std::string root_object_id) {
         zeek::RecordValPtr diag_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::DiagnosticInfoDetail);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        diag_info = assignSourceDestination(is_orig, diag_info, id_val);
 
         // OpcUA_id
         diag_info->Assign(DIAG_INFO_LINK_ID_DST_IDX, opcua_id);
@@ -321,7 +327,7 @@ build/opcua_binary_pac.cc file(s) for details.
         if (isBitSet(diagInfo->encoding_mask(), hasInnerStatCode)) {
             diag_info->Assign(HAS_INNER_STAT_CODE_IDX, zeek::val_mgr->Bool(true));
             diag_info->Assign(INNER_STAT_CODE_IDX,     zeek::make_intrusive<zeek::StringVal>(uint32ToHexstring(diagInfo->inner_stat_code())));
-            generateStatusCodeEvent(connection, opcua_id, getInnerStatusCodeSource(diag_info_src), diagInfo->inner_stat_code(), innerDiagLevel);
+            generateStatusCodeEvent(connection, opcua_id, getInnerStatusCodeSource(diag_info_src), diagInfo->inner_stat_code(), innerDiagLevel, is_orig);
         }
 
         // Inner Diagnostic Info
@@ -331,7 +337,7 @@ build/opcua_binary_pac.cc file(s) for details.
                                                             connection->bro_analyzer()->Conn(),
                                                             diag_info);
 
-            generateDiagInfoEvent(connection, opcua_id, diagInfo->inner_diag_info(), stringTable, innerDiagLevel+=1, getInnerStatusCodeSource(status_code_src), getInnerDiagInfoSource(diag_info_src), root_object_id);
+            generateDiagInfoEvent(connection, opcua_id, diagInfo->inner_diag_info(), stringTable, innerDiagLevel+=1, getInnerStatusCodeSource(status_code_src), getInnerDiagInfoSource(diag_info_src), is_orig, root_object_id);
         } else {
             zeek::BifEvent::enqueue_opcua_binary_diag_info_event(connection->bro_analyzer(),
                                                             connection->bro_analyzer()->Conn(),
@@ -344,9 +350,15 @@ build/opcua_binary_pac.cc file(s) for details.
     //
     // Common code used to generate a status code event.
     //
-    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level) {
+    void generateStatusCodeEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, uint32_t status_code_src, uint32_t status_code, uint32_t status_code_level, bool is_orig) {
             StatusCodeDetail detail = StatusCodeDetail(status_code);
             zeek::RecordValPtr status = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::StatusCodeDetail);
+
+            // Source & Destination
+            const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+            const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+            status = assignSourceDestination(is_orig, status, id_val);
 
             // OpcUA_id
             status->Assign(STATUS_CODE_LINK_ID_DST_IDX, opcua_id);

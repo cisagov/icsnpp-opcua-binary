@@ -24,7 +24,7 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info = assignMsgHeader(info, msg->service()->msg_body()->header());
+        info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
         info = assignMsgType(info, msg->service()->msg_body()->header());
         info = assignReqHdr(info, msg->req_hdr());
         info = assignService(info, msg->service());
@@ -34,6 +34,13 @@ refine flow OPCUA_Binary_Flow += {
                                                    info);
 
         zeek::RecordValPtr activate_session_req = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSession);
+
+        // Source & Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        activate_session_req = assignSourceDestination(msg_header->is_orig(), activate_session_req, id_val);
 
         // OpcUA_id
         activate_session_req->Assign(ACTIVATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
@@ -52,6 +59,11 @@ refine flow OPCUA_Binary_Flow += {
             activate_session_req->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(cert_idx));
             for (int i = 0; i < msg->client_software_cert()->size(); i++) {
                 zeek::RecordValPtr client_software_cert = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSessionClientSoftwareCert);
+
+                // Source & Destination
+                client_software_cert = assignSourceDestination(msg_header->is_orig(), client_software_cert, id_val);
+
+                // Client Software Certification
                 client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(cert_idx));
                 client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_DATA_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_software_cert()->at(i)->certificate_data()->byteString())));
                 client_software_cert->Assign(ACTIVATE_SESSION_REQ_CLIENT_SOFTWARE_CERT_SIGNATURE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->client_software_cert()->at(i)->signature()->byteString())));
@@ -68,6 +80,11 @@ refine flow OPCUA_Binary_Flow += {
             activate_session_req->Assign(ACTIVATE_SESSION_REQ_OPCUA_LOCAL_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(locale_idx));
             for (int i = 0; i < msg->locale_id()->size(); i++) {
                 zeek::RecordValPtr locale_id = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSessionLocaleId);
+
+                // Source & Destination
+                locale_id = assignSourceDestination(msg_header->is_orig(), locale_id, id_val);
+
+                // Locale Id
                 locale_id->Assign(ACTIVATE_SESSION_REQ_OPCUA_LOCAL_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(locale_idx));
                 locale_id->Assign(ACTIVATE_SESSION_REQ_LOCALE_ID_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->locale_id()->at(i)->locale_id())));
                 zeek::BifEvent::enqueue_opcua_binary_activate_session_locale_id_event(connection()->bro_analyzer(),
@@ -110,9 +127,9 @@ refine flow OPCUA_Binary_Flow += {
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
-        info = assignMsgHeader(info, msg->service()->msg_body()->header());
+        info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
         info = assignMsgType(info, msg->service()->msg_body()->header());
-        info = assignResHdr(connection(), info, msg->res_hdr());
+        info = assignResHdr(connection(), info, msg->res_hdr(), msg->service()->msg_body()->header()->is_orig());
         info = assignService(info, msg->service());
 
         zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
@@ -120,6 +137,14 @@ refine flow OPCUA_Binary_Flow += {
                                                    info);
 
         zeek::RecordValPtr activate_session_res = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::ActivateSession);
+
+        // Source/Destination
+        Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        // Source & Destination
+        activate_session_res = assignSourceDestination(msg_header->is_orig(), activate_session_res, id_val);
 
         // OpcUA_id
         activate_session_res->Assign(ACTIVATE_SESSION_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
@@ -133,7 +158,7 @@ refine flow OPCUA_Binary_Flow += {
             string result_idx = generateId();
             activate_session_res->Assign(ACTIVATE_SESSION_RES_STATUS_CODE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(result_idx));
             for (int i = 0; i < msg->result_size(); i++) {
-                generateStatusCodeEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_ActivateSession_Key, msg->results()->at(i), status_code_level);
+                generateStatusCodeEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_ActivateSession_Key, msg->results()->at(i), status_code_level, msg_header->is_orig());
             }
         }
 
@@ -149,7 +174,7 @@ refine flow OPCUA_Binary_Flow += {
             vector<OpcUA_String *>  *stringTable = NULL;
             for (int i = 0; i < msg->diagnostic_info_size(); i++) {
                 // Process the details of the Diagnostic Information
-                generateDiagInfoEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSession_DiagInfo_Key, DiagInfo_ActivateSession_Key);
+                generateDiagInfoEvent(connection(), activate_session_res->GetField(ACTIVATE_SESSION_RES_DIAG_INFO_LINK_ID_SRC_IDX), msg->diagnostic_info()->at(i), stringTable, innerDiagLevel, StatusCode_ActivateSession_DiagInfo_Key, msg_header->is_orig(), DiagInfo_ActivateSession_Key);
             }
         }
 

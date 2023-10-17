@@ -10,12 +10,12 @@
 ## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %header{
-    void flattenOpcUA_DataValue(OPCUA_Binary_Conn *connection, OpcUA_DataValue *data_value, zeek::RecordValPtr service_object, uint32 offset, uint32 status_code_source, uint32 variant_source);
-    void flattenOpcUA_DataVariant(OPCUA_Binary_Conn *connection, OpcUA_Variant *data_variant, string service_object_variant_data_link_id, uint32 variant_source);
+    void flattenOpcUA_DataValue(OPCUA_Binary_Conn *connection, OpcUA_DataValue *data_value, zeek::RecordValPtr service_object, uint32 offset, uint32 status_code_source, uint32 variant_source, bool is_orig);
+    void flattenOpcUA_DataVariant(OPCUA_Binary_Conn *connection, OpcUA_Variant *data_variant, string service_object_variant_data_link_id, uint32 variant_source, bool is_orig);
 %}
 
 %code{
-    void flattenOpcUA_DataValue(OPCUA_Binary_Conn *connection, OpcUA_DataValue *data_value, zeek::RecordValPtr service_object, uint32 offset, uint32 status_code_source, uint32 variant_source) {
+    void flattenOpcUA_DataValue(OPCUA_Binary_Conn *connection, OpcUA_DataValue *data_value, zeek::RecordValPtr service_object, uint32 offset, uint32 status_code_source, uint32 variant_source, bool is_orig) {
 
         // Data Value Encoding Mask
         service_object->Assign(offset, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(data_value->encoding_mask())));
@@ -24,7 +24,7 @@
         if (data_value->has_value_case_index()) {
             std::string service_object_variant_data_link_id = generateId();
             service_object->Assign(offset + 6, zeek::make_intrusive<zeek::StringVal>(service_object_variant_data_link_id));
-            flattenOpcUA_DataVariant(connection, data_value->value(), service_object_variant_data_link_id, variant_source);
+            flattenOpcUA_DataVariant(connection, data_value->value(), service_object_variant_data_link_id, variant_source, is_orig);
         }
 
         // StatusCode
@@ -32,7 +32,7 @@
             uint32_t status_code_level   = 0;
             string status_code_link_id = generateId();
             service_object->Assign(offset + 1, zeek::make_intrusive<zeek::StringVal>(status_code_link_id));
-            generateStatusCodeEvent(connection, service_object->GetField(offset + 1), status_code_source, data_value->status_code(), status_code_level);
+            generateStatusCodeEvent(connection, service_object->GetField(offset + 1), status_code_source, data_value->status_code(), status_code_level, is_orig);
         }
 
         // SourceTimestamp
@@ -60,8 +60,14 @@
         return;
     }
 
-    void flattenOpcUA_DataVariant(OPCUA_Binary_Conn *connection, OpcUA_Variant *data_variant, string service_object_variant_data_link_id, uint32 variant_source) {
+    void flattenOpcUA_DataVariant(OPCUA_Binary_Conn *connection, OpcUA_Variant *data_variant, string service_object_variant_data_link_id, uint32 variant_source, bool is_orig) {
         zeek::RecordValPtr variant_metadata = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantMetadata);
+
+        // Source & Destination
+        const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+        variant_metadata = assignSourceDestination(is_orig, variant_metadata, id_val);
 
         variant_metadata->Assign(VARIANT_DATA_SOURCE_LINK_ID_IDX, zeek::make_intrusive<zeek::StringVal>(service_object_variant_data_link_id));
         
@@ -100,6 +106,13 @@
             // ReadArrayDims
             for (int j=0; j<data_variant->variant_multidim_array()->array_dimensions_length(); j++) {
                 zeek::RecordValPtr variant_array_dims = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantArrayDims);
+
+                // Source & Destination
+                const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+                const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+                variant_array_dims = assignSourceDestination(is_orig, variant_array_dims, id_val);
+
                 variant_array_dims->Assign(VARIANT_ARRAY_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(array_dim_link_id));
                 variant_array_dims->Assign(VARIANT_DIMENSION_IDX, zeek::val_mgr->Count(data_variant->variant_multidim_array()->array_dimensions()->at(j)));
 
@@ -132,6 +145,13 @@
         for (int i=0;i<array_length;i++) {
             // Link up ReadVariantData
             zeek::RecordValPtr variant_data = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantData);
+
+            // Source & Destination
+            const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+            const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+            variant_data = assignSourceDestination(is_orig, variant_data, id_val);
+
             variant_data->Assign(VARIANT_DATA_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(variant_data_link_id));
 
 
@@ -173,7 +193,7 @@
                 
 
                     int status_code_level = 0;
-                    generateStatusCodeEvent(connection, variant_data->GetField(VARIANT_DATA_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_Variant_Key, variant_data_array->at(i)->status_code_variant(), status_code_level);
+                    generateStatusCodeEvent(connection, variant_data->GetField(VARIANT_DATA_STATUS_CODE_LINK_ID_SRC_IDX), StatusCode_Variant_Key, variant_data_array->at(i)->status_code_variant(), status_code_level, is_orig);
 
                     }
                     break;
@@ -183,7 +203,7 @@
             
                     uint32 innerDiagLevel = 0;
                     vector<OpcUA_String *>  *stringTable = NULL;
-                    generateDiagInfoEvent(connection, variant_data->GetField(VARIANT_DATA_DIAG_INFO_LINK_ID_SRC_IDX), variant_data_array->at(i)->diag_info_variant(), stringTable, innerDiagLevel, StatusCode_Variant_DiagInfo_Key, DiagInfo_Read_Key);
+                    generateDiagInfoEvent(connection, variant_data->GetField(VARIANT_DATA_DIAG_INFO_LINK_ID_SRC_IDX), variant_data_array->at(i)->diag_info_variant(), stringTable, innerDiagLevel, StatusCode_Variant_DiagInfo_Key, is_orig, DiagInfo_Read_Key);
                     }
                     break;
                 case Float_Key:
@@ -225,6 +245,12 @@
                     OpcUA_ExtensionObject *obj = variant_data_array->at(i)->extension_object_variant();
                     zeek::RecordValPtr variant_extension_object = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantExtensionObject);
 
+                    // Source & Destination
+                    const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+                    const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+                    variant_extension_object = assignSourceDestination(is_orig, variant_extension_object, id_val);
+
                     variant_extension_object->Assign(VARIANT_EXT_OBJ_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(ext_object_link_id));
 
                     flattenOpcUA_NodeId(variant_extension_object, obj->type_id(), VARIANT_EXT_OBJ_NODE_ID_ENCODING_MASK);
@@ -244,6 +270,12 @@
                    
                     zeek::RecordValPtr variant_data_value = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantDataValue);
 
+                    // Source & Destination
+                    const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
+                    const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+        
+                    variant_data_value = assignSourceDestination(is_orig, variant_data_value, id_val);
+
                     // Set the link into OPCUA_Binary::VariantDataValue
                     string variant_data_value_link_id = generateId();
                     variant_data_value->Assign(VARIANT_DATA_VALUE_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(variant_data_value_link_id));
@@ -251,7 +283,7 @@
                     variant_data->Assign(VARIANT_DATA_VALUE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(variant_data_value_link_id));
 
                     // Recursively call ourselves
-                    flattenOpcUA_DataValue(connection, variant_data_array->at(i)->datavalue_variant(), variant_data_value, VARIANT_DATA_VALUE_ENCODING_MASK_IDX, StatusCode_Variant_Key, getInnerVariantSource(variant_source));
+                    flattenOpcUA_DataValue(connection, variant_data_array->at(i)->datavalue_variant(), variant_data_value, VARIANT_DATA_VALUE_ENCODING_MASK_IDX, StatusCode_Variant_Key, getInnerVariantSource(variant_source), is_orig);
                     zeek::BifEvent::enqueue_opcua_binary_variant_data_value_event(connection->bro_analyzer(),
                                                                                   connection->bro_analyzer()->Conn(),
                                                                                   variant_data_value);
@@ -269,7 +301,7 @@
 
 
                     // Recursively call ourselves
-                    flattenOpcUA_DataVariant(connection, variant_data_array->at(i)->datavalue_variant()->value(), variant_metadata_link_id, getInnerVariantSource(variant_source));
+                    flattenOpcUA_DataVariant(connection, variant_data_array->at(i)->datavalue_variant()->value(), variant_metadata_link_id, getInnerVariantSource(variant_source), is_orig);
                     }
                     break;
                 case String_Key:
