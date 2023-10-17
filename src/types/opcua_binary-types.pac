@@ -397,6 +397,7 @@ type OpcUA_ObjectBody(extension_object_id : uint32) = record {
         SimpleAttributeOperand -> simple_attribute_operand  : OpcUA_SimpleAttributeOperand;
         EventFilterResult      -> event_filter_result       : OpcUA_EventFilterResult;
         AggregateFilterResult  -> aggregate_filter_result   : OpcUA_AggregateFilterResult;
+        default                -> empty_object_body         : bytestring &length = length;
     };
 }
 
