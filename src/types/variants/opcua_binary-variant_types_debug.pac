@@ -122,11 +122,11 @@
         }
 
         if (built_in_type == BuiltIn_Int64) {
-            printf("%s Int64: %lld\n", indent(indent_width).c_str(), obj->int64_variant());
+            printf("%s Int64: %ld\n", indent(indent_width).c_str(), obj->int64_variant());
         }
 
         if (built_in_type == BuiltIn_Uint64) {
-            printf("%s UInt64: %llu\n", indent(indent_width).c_str(), obj->uint64_variant());
+            printf("%s UInt64: %lu\n", indent(indent_width).c_str(), obj->uint64_variant());
         }
 
         if (built_in_type == BuiltIn_String) {
