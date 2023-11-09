@@ -8,4 +8,4 @@ credits = Kent Kvarfordt <kent.kvarfordt@inl.gov>
 tags =  opcua, opcua_binary, opc, ICS, CISA, INL, ICSNPP, icsnpp, zeek plugin, log writer, protocol analyzer
 depends =
   zkg >=2.0
-  zeek >=4.0.0
+  zeek >=5.2.0
