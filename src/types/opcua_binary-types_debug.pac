@@ -84,7 +84,7 @@
         printf("%s ViewId: NodeId\n", indent(indent_width + 1).c_str());
         printOpcUA_NodeId(indent_width + 2,viewInfo->view_id());
         if (viewInfo->timestamp() > 0){
-            printf("%s Timestamp: %lld\n", indent(indent_width + 1).c_str(), viewInfo->timestamp());
+            printf("%s Timestamp: %ld\n", indent(indent_width + 1).c_str(), viewInfo->timestamp());
         } else {
             printf("%s Timestamp: No time specified (0)\n", indent(indent_width + 1).c_str());
         }
