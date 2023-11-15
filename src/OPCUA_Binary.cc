@@ -54,8 +54,6 @@ void OPCUA_Binary_Analyzer::DeliverStream(int len, const u_char* data, bool orig
 	zeek::analyzer::tcp::TCP_ApplicationAnalyzer::DeliverStream(len, data, orig);
 
 	assert(TCP());
-	if ( TCP()->IsPartial() )
-		return;
 
 	if ( had_gap )
 		// If only one side had a content gap, we could still try to
