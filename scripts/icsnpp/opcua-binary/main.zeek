@@ -30,6 +30,66 @@ export {
                            LOG_READ,                                                LOG_READ_NODES_TO_READ,                                  LOG_READ_RESULTS,    
                            LOG_OPENSECURE_CHANNEL
                          };
+
+   ## Log policies, for log filtering.
+   global log_policy_opcua_binary: Log::PolicyHook;
+   global log_policy_diag_info_detail: Log::PolicyHook;
+   global log_policy_status_code_detail: Log::PolicyHook;
+   global log_policy_aggregate_filter: Log::PolicyHook;
+   global log_policy_data_change_filter: Log::PolicyHook;
+
+   global log_policy_event_filter: Log::PolicyHook;
+   global log_policy_event_filter_attribute_operand: Log::PolicyHook;
+   global log_policy_event_filter_attribute_operand_browse_paths: Log::PolicyHook;
+   global log_policy_event_filter_where_clause: Log::PolicyHook;
+   global log_policy_event_filter_where_clause_elements: Log::PolicyHook;
+   global log_policy_event_filter_element_operand: Log::PolicyHook;
+   global log_policy_event_filter_literal_operand: Log::PolicyHook;
+   global log_policy_event_filter_select_clause: Log::PolicyHook;
+   global log_policy_event_filter_simple_attribute_operand: Log::PolicyHook;
+   global log_policy_event_filter_simple_attribute_operand_browse_paths: Log::PolicyHook;
+
+   global log_policy_variant_array_dims: Log::PolicyHook;
+   global log_policy_variant_data: Log::PolicyHook;
+   global log_policy_variant_data_value: Log::PolicyHook;
+   global log_policy_variant_extension_object: Log::PolicyHook;
+   global log_policy_variant_metadata: Log::PolicyHook;
+
+   global log_policy_activate_session: Log::PolicyHook;
+   global log_policy_activate_session_client_software_cert: Log::PolicyHook;
+   global log_policy_activate_session_locale_id: Log::PolicyHook;
+
+   global log_policy_browse: Log::PolicyHook;
+   global log_policy_browse_description: Log::PolicyHook;
+   global log_policy_browse_request_continuation_point: Log::PolicyHook;
+   global log_policy_browse_result: Log::PolicyHook;
+   global log_policy_browse_response_references: Log::PolicyHook;
+
+   global log_policy_close_session: Log::PolicyHook;
+    
+   global log_policy_create_monitored_items: Log::PolicyHook;
+   global log_policy_create_monitored_items_create_item: Log::PolicyHook;
+    
+   global log_policy_create_session: Log::PolicyHook;
+   global log_policy_create_session_discovery: Log::PolicyHook;
+   global log_policy_create_session_endpoints: Log::PolicyHook;
+   global log_policy_create_session_user_token: Log::PolicyHook;
+
+   global log_policy_create_subscription: Log::PolicyHook;
+    
+   global log_policy_get_endpoints: Log::PolicyHook;
+   global log_policy_get_endpoints_description: Log::PolicyHook;
+   global log_policy_get_endpoints_discovery: Log::PolicyHook;
+   global log_policy_get_endpoints_user_token: Log::PolicyHook;
+   global log_policy_get_endpoints_locale_id: Log::PolicyHook;
+   global log_policy_get_endpoints_profile_uri: Log::PolicyHook;
+
+   global log_policy_read: Log::PolicyHook;
+   global log_policy_read_nodes_to_read: Log::PolicyHook;
+   global log_policy_read_results: Log::PolicyHook;
+   
+   global log_policy_opensecure_channel: Log::PolicyHook;
+
 }
 
 # Port-based detection
@@ -38,67 +98,66 @@ redef likely_server_ports += { ports };
 
 event zeek_init() &priority=5
    {
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG,                                                     [$columns=OPCUA_Binary::Info,                               $path="opcua-binary"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG,                                                     [$columns=OPCUA_Binary::Info,                               $path="opcua-binary",                                                    $policy=log_policy_opcua_binary]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_DIAG_INFO,                                           [$columns=OPCUA_Binary::DiagnosticInfoDetail,               $path="opcua-binary-diag-info-detail"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_STATUS_CODE,                                         [$columns=OPCUA_Binary::StatusCodeDetail,                   $path="opcua-binary-status-code-detail"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_DIAG_INFO,                                           [$columns=OPCUA_Binary::DiagnosticInfoDetail,               $path="opcua-binary-diag-info-detail",                                   $policy=log_policy_diag_info_detail]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_STATUS_CODE,                                         [$columns=OPCUA_Binary::StatusCodeDetail,                   $path="opcua-binary-status-code-detail",                                 $policy=log_policy_status_code_detail]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_AGGREGATE_FILTER,                                    [$columns=OPCUA_Binary::AggregateFilter,                    $path="opcua-binary-aggregate-filter"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_AGGREGATE_FILTER,                                    [$columns=OPCUA_Binary::AggregateFilter,                    $path="opcua-binary-aggregate-filter",                                   $policy=log_policy_aggregate_filter]);
   
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_DATA_CHANGE_FILTER,                                  [$columns=OPCUA_Binary::DataChangeFilter,                   $path="opcua-binary-data-change-filter"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_DATA_CHANGE_FILTER,                                  [$columns=OPCUA_Binary::DataChangeFilter,                   $path="opcua-binary-data-change-filter",                                 $policy=log_policy_data_change_filter]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER,                                        [$columns=OPCUA_Binary::EventFilter,                        $path="opcua-binary-event-filter"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ATTRIBUTE_OPERAND,                      [$columns=OPCUA_Binary::AttributeOperand,                   $path="opcua-binary-event-filter-attribute-operand"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ATTRIBUTE_OPERAND_BROWSE_PATHS,         [$columns=OPCUA_Binary::AttributeOperandBrowsePathElement,  $path="opcua-binary-event-filter-attribute-operand-browse-paths"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_CONTENT_FILTER,                         [$columns=OPCUA_Binary::ContentFilter,                      $path="opcua-binary-event-filter-where-clause"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_CONTENT_FILTER_ELEMENT,                 [$columns=OPCUA_Binary::ContentFilterElement,               $path="opcua-binary-event-filter-where-clause-elements"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ELEMENT_OPERAND,                        [$columns=OPCUA_Binary::ElementOperand,                     $path="opcua-binary-event-filter-element-operand"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_LITERAL_OPERAND,                        [$columns=OPCUA_Binary::LiteralOperand,                     $path="opcua-binary-event-filter-literal-operand"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SELECT_CLAUSE,                          [$columns=OPCUA_Binary::SelectClause,                       $path="opcua-binary-event-filter-select-clause"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND,               [$columns=OPCUA_Binary::SimpleAttributeOperand,             $path="opcua-binary-event-filter-simple-attribute-operand"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATHS,  [$columns=OPCUA_Binary::SimpleAttributeOperandBrowsePaths,  $path="opcua-binary-event-filter-simple-attribute-operand-browse-paths"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER,                                        [$columns=OPCUA_Binary::EventFilter,                        $path="opcua-binary-event-filter",                                       $policy=log_policy_event_filter]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ATTRIBUTE_OPERAND,                      [$columns=OPCUA_Binary::AttributeOperand,                   $path="opcua-binary-event-filter-attribute-operand",                     $policy=log_policy_event_filter_attribute_operand]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ATTRIBUTE_OPERAND_BROWSE_PATHS,         [$columns=OPCUA_Binary::AttributeOperandBrowsePathElement,  $path="opcua-binary-event-filter-attribute-operand-browse-paths",        $policy=log_policy_event_filter_attribute_operand_browse_paths]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_CONTENT_FILTER,                         [$columns=OPCUA_Binary::ContentFilter,                      $path="opcua-binary-event-filter-where-clause",                          $policy=log_policy_event_filter_where_clause]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_CONTENT_FILTER_ELEMENT,                 [$columns=OPCUA_Binary::ContentFilterElement,               $path="opcua-binary-event-filter-where-clause-elements",                 $policy=log_policy_event_filter_where_clause_elements]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_ELEMENT_OPERAND,                        [$columns=OPCUA_Binary::ElementOperand,                     $path="opcua-binary-event-filter-element-operand",                       $policy=log_policy_event_filter_element_operand]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_LITERAL_OPERAND,                        [$columns=OPCUA_Binary::LiteralOperand,                     $path="opcua-binary-event-filter-literal-operand",                       $policy=log_policy_event_filter_literal_operand]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SELECT_CLAUSE,                          [$columns=OPCUA_Binary::SelectClause,                       $path="opcua-binary-event-filter-select-clause",                         $policy=log_policy_event_filter_select_clause]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND,               [$columns=OPCUA_Binary::SimpleAttributeOperand,             $path="opcua-binary-event-filter-simple-attribute-operand",              $policy=log_policy_event_filter_simple_attribute_operand]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_EVENT_FILTER_SIMPLE_ATTRIBUTE_OPERAND_BROWSE_PATHS,  [$columns=OPCUA_Binary::SimpleAttributeOperandBrowsePaths,  $path="opcua-binary-event-filter-simple-attribute-operand-browse-paths", $policy=log_policy_event_filter_simple_attribute_operand_browse_paths]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_ARRAY_DIMS,                                  [$columns=OPCUA_Binary::VariantArrayDims,                   $path="opcua-binary-variant-array-dims"]) ;
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_DATA,                                        [$columns=OPCUA_Binary::VariantData,                        $path="opcua-binary-variant-data"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_DATA_VALUE,                                  [$columns=OPCUA_Binary::VariantDataValue,                   $path="opcua-binary-variant-data-value"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_EXTENSION_OBJECT,                            [$columns=OPCUA_Binary::VariantExtensionObject,             $path="opcua-binary-variant-extension-object"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_METADATA,                                    [$columns=OPCUA_Binary::VariantMetadata,                    $path="opcua-binary-variant-metadata"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_ARRAY_DIMS,                                  [$columns=OPCUA_Binary::VariantArrayDims,                   $path="opcua-binary-variant-array-dims",                                 $policy=log_policy_variant_array_dims]) ;
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_DATA,                                        [$columns=OPCUA_Binary::VariantData,                        $path="opcua-binary-variant-data",                                       $policy=log_policy_variant_data]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_DATA_VALUE,                                  [$columns=OPCUA_Binary::VariantDataValue,                   $path="opcua-binary-variant-data-value",                                 $policy=log_policy_variant_data_value]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_EXTENSION_OBJECT,                            [$columns=OPCUA_Binary::VariantExtensionObject,             $path="opcua-binary-variant-extension-object",                           $policy=log_policy_variant_extension_object]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_VARIANT_METADATA,                                    [$columns=OPCUA_Binary::VariantMetadata,                    $path="opcua-binary-variant-metadata",                                   $policy=log_policy_variant_metadata]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION,                                    [$columns=OPCUA_Binary::ActivateSession,                    $path="opcua-binary-activate-session"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT,               [$columns=OPCUA_Binary::ActivateSessionClientSoftwareCert,  $path="opcua-binary-activate-session-client-software-cert"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_LOCALE_ID,                          [$columns=OPCUA_Binary::ActivateSessionLocaleId,            $path="opcua-binary-activate-session-locale-id"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION,                                    [$columns=OPCUA_Binary::ActivateSession,                    $path="opcua-binary-activate-session",                                   $policy=log_policy_activate_session]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_CLIENT_SOFTWARE_CERT,               [$columns=OPCUA_Binary::ActivateSessionClientSoftwareCert,  $path="opcua-binary-activate-session-client-software-cert",              $policy=log_policy_activate_session_client_software_cert]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_ACTIVATE_SESSION_LOCALE_ID,                          [$columns=OPCUA_Binary::ActivateSessionLocaleId,            $path="opcua-binary-activate-session-locale-id",                         $policy=log_policy_activate_session_locale_id]);
    
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE,                                              [$columns=OPCUA_Binary::Browse,                             $path="opcua-binary-browse"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_DESCRIPTION,                                  [$columns=OPCUA_Binary::BrowseDescription,                  $path="opcua-binary-browse-description"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_REQUEST_CONTINUATION_POINT,                   [$columns=OPCUA_Binary::BrowseRequestContinuationPoint,     $path="opcua-binary-browse-request-continuation-point"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESULT,                                       [$columns=OPCUA_Binary::BrowseResult,                       $path="opcua-binary-browse-result"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESPONSE_REFERENCES,                          [$columns=OPCUA_Binary::BrowseReference,                    $path="opcua-binary-browse-response-references"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE,                                              [$columns=OPCUA_Binary::Browse,                             $path="opcua-binary-browse",                                             $policy=log_policy_browse]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_DESCRIPTION,                                  [$columns=OPCUA_Binary::BrowseDescription,                  $path="opcua-binary-browse-description",                                 $policy=log_policy_browse_description]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_REQUEST_CONTINUATION_POINT,                   [$columns=OPCUA_Binary::BrowseRequestContinuationPoint,     $path="opcua-binary-browse-request-continuation-point",                  $policy=log_policy_browse_request_continuation_point]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESULT,                                       [$columns=OPCUA_Binary::BrowseResult,                       $path="opcua-binary-browse-result",                                      $policy=log_policy_browse_result]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_BROWSE_RESPONSE_REFERENCES,                          [$columns=OPCUA_Binary::BrowseReference,                    $path="opcua-binary-browse-response-references",                         $policy=log_policy_browse_response_references]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CLOSE_SESSION,                                       [$columns=OPCUA_Binary::CloseSession,                       $path="opcua-binary-close-session"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CLOSE_SESSION,                                       [$columns=OPCUA_Binary::CloseSession,                       $path="opcua-binary-close-session",                                      $policy=log_policy_close_session]);
 
-
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS,                              [$columns=OPCUA_Binary::CreateMonitoredItems,               $path="opcua-binary-create-monitored-items"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS_CREATE_ITEM,                  [$columns=OPCUA_Binary::CreateMonitoredItemsItem,           $path="opcua-binary-create-monitored-items-create-item"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS,                              [$columns=OPCUA_Binary::CreateMonitoredItems,               $path="opcua-binary-create-monitored-items",                             $policy=log_policy_create_monitored_items]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_MONITORED_ITEMS_CREATE_ITEM,                  [$columns=OPCUA_Binary::CreateMonitoredItemsItem,           $path="opcua-binary-create-monitored-items-create-item",                 $policy=log_policy_create_monitored_items_create_item]);
    
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION,                                      [$columns=OPCUA_Binary::CreateSession,                      $path="opcua-binary-create-session"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_DISCOVERY,                            [$columns=OPCUA_Binary::CreateSessionDiscovery,             $path="opcua-binary-create-session-discovery"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_ENDPOINTS,                            [$columns=OPCUA_Binary::CreateSessionEndpoints,             $path="opcua-binary-create-session-endpoints"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_USER_TOKEN,                           [$columns=OPCUA_Binary::CreateSessionUserToken,             $path="opcua-binary-create-session-user-token"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION,                                      [$columns=OPCUA_Binary::CreateSession,                      $path="opcua-binary-create-session",                                     $policy=log_policy_create_session]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_DISCOVERY,                            [$columns=OPCUA_Binary::CreateSessionDiscovery,             $path="opcua-binary-create-session-discovery",                           $policy=log_policy_create_session_discovery]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_ENDPOINTS,                            [$columns=OPCUA_Binary::CreateSessionEndpoints,             $path="opcua-binary-create-session-endpoints",                           $policy=log_policy_create_session_endpoints]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SESSION_USER_TOKEN,                           [$columns=OPCUA_Binary::CreateSessionUserToken,             $path="opcua-binary-create-session-user-token",                          $policy=log_policy_create_session_user_token]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION,                                 [$columns=OPCUA_Binary::CreateSubscription,                 $path="opcua-binary-create-subscription"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CREATE_SUBSCRIPTION,                                 [$columns=OPCUA_Binary::CreateSubscription,                 $path="opcua-binary-create-subscription",                                $policy=log_policy_create_subscription]);
 
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS,                                       [$columns=OPCUA_Binary::GetEndpoints,                       $path="opcua-binary-get-endpoints"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_DESCRIPTION,                           [$columns=OPCUA_Binary::GetEndpointsDescription,            $path="opcua-binary-get-endpoints-description"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_DISCOVERY,                             [$columns=OPCUA_Binary::GetEndpointsDiscovery,              $path="opcua-binary-get-endpoints-discovery"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_USER_TOKEN,                            [$columns=OPCUA_Binary::GetEndpointsUserToken,              $path="opcua-binary-get-endpoints-user-token"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_LOCALE_ID,                             [$columns=OPCUA_Binary::GetEndpointsLocaleId,               $path="opcua-binary-get-endpoints-locale_id"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_PROFILE_URI,                           [$columns=OPCUA_Binary::GetEndpointsProfileUri,             $path="opcua-binary-get-endpoints-profile_uri"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS,                                       [$columns=OPCUA_Binary::GetEndpoints,                       $path="opcua-binary-get-endpoints",                                      $policy=log_policy_get_endpoints]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_DESCRIPTION,                           [$columns=OPCUA_Binary::GetEndpointsDescription,            $path="opcua-binary-get-endpoints-description",                          $policy=log_policy_get_endpoints_description]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_DISCOVERY,                             [$columns=OPCUA_Binary::GetEndpointsDiscovery,              $path="opcua-binary-get-endpoints-discovery",                            $policy=log_policy_get_endpoints_discovery]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_USER_TOKEN,                            [$columns=OPCUA_Binary::GetEndpointsUserToken,              $path="opcua-binary-get-endpoints-user-token",                           $policy=log_policy_get_endpoints_user_token]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_LOCALE_ID,                             [$columns=OPCUA_Binary::GetEndpointsLocaleId,               $path="opcua-binary-get-endpoints-locale_id",                            $policy=log_policy_get_endpoints_locale_id]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_GET_ENDPOINTS_PROFILE_URI,                           [$columns=OPCUA_Binary::GetEndpointsProfileUri,             $path="opcua-binary-get-endpoints-profile_uri",                          $policy=log_policy_get_endpoints_profile_uri]);
  
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ,                                                [$columns=OPCUA_Binary::Read,                               $path="opcua-binary-read"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_NODES_TO_READ,                                  [$columns=OPCUA_Binary::ReadNodesToRead,                    $path="opcua-binary-read-nodes-to-read"]);
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS,                                        [$columns=OPCUA_Binary::ReadResults,                        $path="opcua-binary-read-results"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ,                                                [$columns=OPCUA_Binary::Read,                               $path="opcua-binary-read",                                               $policy=log_policy_read]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_NODES_TO_READ,                                  [$columns=OPCUA_Binary::ReadNodesToRead,                    $path="opcua-binary-read-nodes-to-read",                                 $policy=log_policy_read_nodes_to_read]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS,                                        [$columns=OPCUA_Binary::ReadResults,                        $path="opcua-binary-read-results",                                       $policy=log_policy_read_results]);
    
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_OPENSECURE_CHANNEL,                                  [$columns=OPCUA_Binary::OpenSecureChannel,                  $path="opcua-binary-opensecure-channel"]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_OPENSECURE_CHANNEL,                                  [$columns=OPCUA_Binary::OpenSecureChannel,                  $path="opcua-binary-opensecure-channel",                                 $policy=log_policy_opensecure_channel]);
 
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
    }
