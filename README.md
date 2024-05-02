@@ -184,6 +184,9 @@ This log captures the details associated with calls to the Open Secure Channel S
 
 For development and implementation details, see the [developer_guide](developer_guide.md)
 
+## Coverage
+Roughly 70% of the defined specification is covered by this parser implementation.  The implementation includes the top level message header information such as the Msg_HEL, Msg_ACK, Msg_ERR, Msg_OPN, Msg_MSG, and Msg_CLO.  The parser also captures the OpcUA StatusCode information along with the OpcUA Diagnostic information.  With regards to the services implemented, the parser covers ~26% of the services available as there are 42 services in total with 11 of those services implemented.  See the [Logging Capabilities](#logging-capabilities) section for detailed information of the parser coverage.
+
 ## ICSNPP Packages
 
 All ICSNPP Packages:
