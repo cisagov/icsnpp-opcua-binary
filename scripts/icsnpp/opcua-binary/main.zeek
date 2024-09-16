@@ -1,14 +1,14 @@
-## main.zeek
-##
-## OPCUA Binary Protocol Analyzer
-##
-## Base script layer functionality for processing events emitted from
-## the analyzer.
-##
-## Author:   Kent Kvarfordt
-## Contact:  kent.kvarfordt@inl.gov
-##
-## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+##! main.zeek
+##!
+##! OPCUA Binary Protocol Analyzer
+##!
+##! Base script layer functionality for processing events emitted from
+##! the analyzer.
+##!
+##! Author:   Kent Kvarfordt
+##! Contact:  kent.kvarfordt@inl.gov
+##!
+##! Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 module ICSNPP_OPCUA_Binary;
 

@@ -1,14 +1,14 @@
-## types.zeek
-##
-## OPCUA Binary Protocol Analyzer
-##
-## Zeek script type/record definitions describing the information
-## that will be written to the log files.
-##
-## Author:   Kent Kvarfordt
-## Contact:  kent.kvarfordt@inl.gov
-##
-## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+##! types.zeek
+##!
+##! OPCUA Binary Protocol Analyzer
+##!
+##! Zeek script type/record definitions describing the information
+##! that will be written to the log files.
+##!
+##! Author:   Kent Kvarfordt
+##! Contact:  kent.kvarfordt@inl.gov
+##!
+##! Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
 
 module ICSNPP_OPCUA_Binary;
 export {
