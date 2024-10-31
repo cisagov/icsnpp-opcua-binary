@@ -157,7 +157,7 @@ The following table shows the services that have been stubbed out and currently 
 |                                         | `FindServersRequest`                    | `FindServersResponse`                   |
 | `FindServersOnNetworkRequest`           | `FindServersOnNetworkResponse`          | `RegisterServerRequest`                 |
 | `RegisterServerResponse`                | `RegisterServer2Request`                | `RegisterServer2Response`               |
-| `CloseSessionRequest`                   | `CloseSessionResponse`                  | `CancelRequest`                         |
+|                                         |                                         | `CancelRequest`                         |
 | `CancelResponse`                        | `AddNodesRequest`                       | `AddNodesResponse`                      |
 | `AddReferencesRequest`                  | `AddReferencesResponse`                 | `DeleteNodesRequest`                    |
 | `DeleteNodesResponse`                   | `DeleteReferencesRequest`               | `DeleteReferencesResponse`              |
