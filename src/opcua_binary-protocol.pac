@@ -40,7 +40,7 @@
 %include services/secure-channel/opcua_binary-secure_channel.pac
 %include services/secure-channel/opcua_binary-secure_channel_debug.pac
 %include services/service-fault/opcua_binary-service_fault.pac
-# %include services/service-fault/opcua_binary-service_fault_debug.pac
+%include services/service-fault/opcua_binary-service_fault_debug.pac
 %include stubbed-out/opcua_binary-stubbed_out_service.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_debug.pac
 %include opcua_binary-protocol_debug.pac

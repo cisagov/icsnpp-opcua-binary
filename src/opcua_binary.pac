@@ -5,7 +5,7 @@
 ## Author:   Kent Kvarfordt
 ## Contact:  kent.kvarfordt@inl.gov
 ##
-## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+## Copyright (c) 2022-2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %include zeek/binpac.pac
 %include zeek/zeek.pac

@@ -15,12 +15,6 @@
 // based on the parsed values from Service_Faults_Req and Service_Faults_Res
 //
 
-// Response
-#define SERVICE_FAULT_OPCUA_LINK_ID_DST_IDX                    8  // Id back into OCPUA_Binary::Info log
-
-
-
-
+// Service fault only consists of a response header so there are no indices provided in this file. 
 
 #endif
-

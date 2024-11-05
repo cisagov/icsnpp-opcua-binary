@@ -16,10 +16,22 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_ServiceFaultRes(msg: Service_Fault_Res): bool
     %{
-        // Debug
+        /* Debug
         printf("deliver_Svc_ServiceFaultRes - begin\n");
-        // printServiceFaultRes(msg);
+        printServiceFaultRes(msg);
         printf("deliver_Svc_ServiceFaultRes - end\n");
+        */
+
+        zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
+
+        info = assignMsgHeader(connection(), info, msg->service()->msg_body()->header());
+        info = assignMsgType(info, msg->service()->msg_body()->header());
+        info = assignResHdr(connection(), info, msg->res_hdr(), msg->service()->msg_body()->header()->is_orig());
+        info = assignService(info, msg->service());
+
+        zeek::BifEvent::enqueue_opcua_binary_event(connection()->bro_analyzer(),
+                                                   connection()->bro_analyzer()->Conn(),
+                                                   info);
 
         return true;
     %}
