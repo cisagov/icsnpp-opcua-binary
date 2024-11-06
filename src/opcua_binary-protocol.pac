@@ -7,7 +7,7 @@
 ## Author:   Kent Kvarfordt
 ## Contact:  kent.kvarfordt@inl.gov
 ##
-## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %include types/opcua_binary-types.pac
 %include types/opcua_binary-types_debug.pac
@@ -39,6 +39,8 @@
 %include services/read/opcua_binary-read_debug.pac
 %include services/secure-channel/opcua_binary-secure_channel.pac
 %include services/secure-channel/opcua_binary-secure_channel_debug.pac
+%include services/service-fault/opcua_binary-service_fault.pac
+%include services/service-fault/opcua_binary-service_fault_debug.pac
 %include stubbed-out/opcua_binary-stubbed_out_service.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_debug.pac
 %include opcua_binary-protocol_debug.pac

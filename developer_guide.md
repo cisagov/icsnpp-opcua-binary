@@ -154,10 +154,9 @@ The following table shows the services that have been stubbed out and currently 
 
 | Service                                 | Service                                 | Service
 | --------------------------------------- | --------------------------------------- | --------------------------------------- |
-|                                         | `FindServersRequest`                    | `FindServersResponse`                   |
+| `CancelRequest`                         | `FindServersRequest`                    | `FindServersResponse`                   |
 | `FindServersOnNetworkRequest`           | `FindServersOnNetworkResponse`          | `RegisterServerRequest`                 |
 | `RegisterServerResponse`                | `RegisterServer2Request`                | `RegisterServer2Response`               |
-|                                         |                                         | `CancelRequest`                         |
 | `CancelResponse`                        | `AddNodesRequest`                       | `AddNodesResponse`                      |
 | `AddReferencesRequest`                  | `AddReferencesResponse`                 | `DeleteNodesRequest`                    |
 | `DeleteNodesResponse`                   | `DeleteReferencesRequest`               | `DeleteReferencesResponse`              |
@@ -175,7 +174,6 @@ The following table shows the services that have been stubbed out and currently 
 | `RepublishResponse`                     | `TransferSubscriptionsRequest`          | `TransferSubscriptionsResponse`         | 
 | `DeleteSubscriptionsRequest`            | `DeleteSubscriptionsResponse`           | `TestStackRequest`                      | 
 | `TestStackResponse`                     | `TestStackExRequest`                    | `TestStackExResponse`                   | 
-| `ServiceFault`                          |
 
 #### Files of interest when implementing a service
 

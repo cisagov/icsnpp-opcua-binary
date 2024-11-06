@@ -7,7 +7,7 @@
 ## Author:   Kent Kvarfordt
 ## Contact:  kent.kvarfordt@inl.gov
 ##
-## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %extern{
 #include <set>
@@ -39,6 +39,7 @@
 #include "services/get-endpoints/index-consts.h"
 #include "services/read/index-consts.h"
 #include "services/secure-channel/index-consts.h"
+#include "services/service-fault/index-consts.h"
 #include "req-res-header/index-consts.h"
 %}
 
