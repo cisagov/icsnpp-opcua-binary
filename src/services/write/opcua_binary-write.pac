@@ -18,7 +18,7 @@ type Write_Req(service: Service) = record {
     req_hdr              : Request_Header;
 
     nodes_to_write_size  : int32;
-    nodes_to_write       : OpcUA_WriteValueId[$context.flow.bind_length(nodes_to_write_size)];
+    nodes_to_write       : OpcUA_WriteValue[$context.flow.bind_length(nodes_to_write_size)];
 
 } &let {
     deliver: bool = $context.flow.deliver_Svc_WriteReq(this);

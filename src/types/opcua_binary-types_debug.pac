@@ -25,7 +25,7 @@
     void printOpcUA_IssuedIdentityToken(int indent_width, OpcUA_IssuedIdentityToken *obj);
     void printOpcUA_DiagInfo(int indent_width, OpcUA_DiagInfo *diagInfo);
     void printOpcUA_ReadValueId(int indent_width, OpcUA_ReadValueId *readValueId);
-    void printOpcUA_WriteValueId(int indent_width, OpcUA_ReadValueId *writeValueId);
+    void printOpcUA_WriteValue(int indent_width, OpcUA_ReadValueId *writeValueId);
     void printOpcUA_RelativePath(int indent_width, OpcUA_RelativePath *relativePath);
     void printOpcUA_QualifiedName(int indent_width, OpcUA_QualifiedName *obj);
     void printOpcUA_LocalizedText(int indent_width, OpcUA_LocalizedText *obj);
@@ -350,8 +350,17 @@
         printOpcUA_QualifiedName((indent_width + 1), readValueId->data_encoding());
     }
 
-    void printOpcUA_WriteValueId(int indent_width, OpcUA_ReadValueId *readValueId){
-
+    void printOpcUA_WriteValue(int indent_width, OpcUA_WriteValue *writeValue){
+        printf("%s NodeId: NodeId\n", indent(indent_width).c_str());
+        printOpcUA_NodeId(indent_width + 1, writeValue->node_id());
+        printf("%s AttributeId: %s (0x%08x)\n", indent(indent_width).c_str(), ATTRIBUTE_ID_MAP.find(writeValue->attribute_id())->second.c_str(), writeValue->attribute_id());
+        if (writeValue->index_range()->length() > 0){
+            printf("%s IndexRange: %s\n", indent(indent_width).c_str(), std_str(writeValue->index_range()->string()).c_str());
+        }
+        else {
+            printf("%s IndexRange: [OpcUa Null String]\n", indent(indent_width).c_str());
+        }
+        printOpcUA_DataValue(5, writeValue->data_value());
     }
 
     void printOpcUA_RelativePath(int indent_width, OpcUA_RelativePath *relativePath){

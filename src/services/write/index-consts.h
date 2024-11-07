@@ -17,17 +17,17 @@
     #define WRITE_OPCUA_LINK_ID_DST_IDX               8   // Id back into OCPUA_Binary::Info log
 
     // Request
-    #define WRITE_REQ_NODES_TO_WRITE_LINK_ID_SRC_IDX  9   // Id into OPCUA_Binary::NodesToWrite log
+    #define WRITE_REQ_NODES_TO_WRITE_LINK_ID_DST_IDX  9   // Id into OPCUA_Binary::NodesToWrite log
 
     // Response
-    #define WRITE_RES_RESULTS_LINK_ID_SRC_IDX        10   // Id into OPCUA_Binary::StatusCodeDetail log
+    #define WRITE_RES_STATUS_LINK_ID_SRC_IDX         10   // Id into OPCUA_Binary::StatusCodeDetail log
     #define WRITE_RES_DIAG_INFO_LINK_ID_SRC_IDX      11   // Id into OPCUA_Binary::WriteDiagnosticInfo log
 
 //
 // Index constants for setting values in OPCUA_Binary::NodesToWrite
 // based on the parsed values from Write_Req
 //
-    #define WRITE_REQ_NODES_TO_WRITE_LINK_ID_DST_IDX  8  // Id back into OPCUA_Binary::Write log
+    #define WRITE_REQ_NODES_TO_WRITE_LINK_ID_SRC_IDX  8  // Id back into OPCUA_Binary::Write log
 
     // OpcUA_NodeId
     #define WRITE_REQ_NODE_ID_ENCODING_MASK_IDX       9

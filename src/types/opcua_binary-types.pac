@@ -472,11 +472,11 @@ type OpcUA_ReadValueId = record {
 # 5.10.4.2 Table 59 - Write Service Parameters
 # Note: this structure is defined in-line in Table 59.
 #
-type OpcUA_WriteValueId = record {
+type OpcUA_WriteValue = record {
     node_id       : OpcUA_NodeId;
     attribute_id  : uint32;
     index_range   : OpcUA_NumericRange;
-    value         : OpcUA_DataValue;
+    data_value    : OpcUA_DataValue;
 }
 
 # UA Specification Part 4 - Services 1.04.pdf
