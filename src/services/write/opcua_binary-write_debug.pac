@@ -17,7 +17,7 @@
 %code{
 
     void printWriteReq(Write_Req *msg) {
-        printMsgHeader(msg->service()->msg_body()->header());
+        /*printMsgHeader(msg->service()->msg_body()->header());
         printMsgType(msg->service()->msg_body()->header());
         printService(msg->service());
 
@@ -44,7 +44,7 @@
         for (int i = 0; i < msg->nodes_to_write_size(); i++) {
             printf("%s [%d]: WriteValueId\n", indent(4).c_str(), i);
             printOpcUA_WriteValueId(5, msg->nodes_to_write()->at(i));
-        }
+        }*/
     }
 
     void printWriteRes(Write_Res *msg) {
@@ -55,12 +55,12 @@
         printf("%s %s\n", indent(2).c_str(), NODE_IDENTIFIER_MAP.find(msg->service()->identifier())->second.c_str());
         printResHdr(msg->res_hdr());
 
-        // Array of DataValue(s)
-        printf("%s Results: Array of DataValue\n", indent(3).c_str());
+        // Array of StatusCode(s)
+        printf("%s Results: Array of StatusCode\n", indent(3).c_str());
         printf("%s ArraySize: %d\n", indent(4).c_str(), msg->results_size());
         for (int i = 0; i < msg->results_size(); i++) {
-            printf("%s [%d]: DataValue\n", indent(4).c_str(), i);
-            printOpcUA_DataValue(5, msg->results()->at(i));
+            printf("%s [%d]: StatusCode\n", indent(4).c_str(), i);
+            printf("%f", static_cast<float>(msg->results()->at(i)));
         }
 
         // Array of DiagnosticInfo(s)

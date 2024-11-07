@@ -112,11 +112,11 @@ refine flow OPCUA_Binary_Flow += {
     #
     function deliver_Svc_WriteRes(msg : Write_Res): bool
         %{
-        /* Debug
+        // Debug
         printf("deliver_Svc_WriteRes - begin\n");
         printWriteRes(msg);
         printf("deliver_Svc_WriteRes - end\n");
-        */
+        //
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
 
