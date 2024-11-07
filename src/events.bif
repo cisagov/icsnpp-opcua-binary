@@ -74,4 +74,8 @@ event opcua_binary_read_event%(c: connection, event_to_log: OPCUA_Binary::Read%)
 event opcua_binary_read_nodes_to_read_event%(c: connection, event_to_log: OPCUA_Binary::ReadNodesToRead%);
 event opcua_binary_read_results_event%(c: connection, event_to_log: OPCUA_Binary::ReadResults%);
 
+event opcua_binary_write_event%(c: connection, event_to_log: OPCUA_Binary::Write%);
+event opcua_binary_write_nodes_to_write_event%(c: connection, event_to_log: OPCUA_Binary::WriteNodesToWrite%);
+event opcua_binary_write_results_event%(c: connection, event_to_log: OPCUA_Binary::WriteResults%);
+
 event opcua_binary_opensecure_channel_event%(c: connection, opensecure_channel: OPCUA_Binary::OpenSecureChannel%);

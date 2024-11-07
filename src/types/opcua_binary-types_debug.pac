@@ -25,6 +25,7 @@
     void printOpcUA_IssuedIdentityToken(int indent_width, OpcUA_IssuedIdentityToken *obj);
     void printOpcUA_DiagInfo(int indent_width, OpcUA_DiagInfo *diagInfo);
     void printOpcUA_ReadValueId(int indent_width, OpcUA_ReadValueId *readValueId);
+    void printOpcUA_WriteValueId(int indent_width, OpcUA_ReadValueId *writeValueId);
     void printOpcUA_RelativePath(int indent_width, OpcUA_RelativePath *relativePath);
     void printOpcUA_QualifiedName(int indent_width, OpcUA_QualifiedName *obj);
     void printOpcUA_LocalizedText(int indent_width, OpcUA_LocalizedText *obj);
@@ -348,6 +349,11 @@
         printf("%s DataEncoding: QualifiedName\n", indent(indent_width).c_str());
         printOpcUA_QualifiedName((indent_width + 1), readValueId->data_encoding());
     }
+
+    void printOpcUA_WriteValueId(int indent_width, OpcUA_ReadValueId *readValueId){
+
+    }
+
     void printOpcUA_RelativePath(int indent_width, OpcUA_RelativePath *relativePath){
         printf("%s Elements: Array of RelativePathElement\n", indent(indent_width).c_str());
         printf("%s ArraySize: %d\n", indent(indent_width + 1).c_str(), relativePath->num_elements());

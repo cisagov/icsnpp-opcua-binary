@@ -160,7 +160,7 @@ refine flow OPCUA_Binary_Flow += {
                                                                         connection()->bro_analyzer()->Conn(),
                                                                         read_results);
             }
-
+            
         }
 
         // Diagnostic Information

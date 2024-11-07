@@ -8,7 +8,7 @@
 ##! Author:   Kent Kvarfordt
 ##! Contact:  kent.kvarfordt@inl.gov
 ##!
-##! Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+##! Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 module ICSNPP_OPCUA_Binary;
 
@@ -28,6 +28,7 @@ export {
                            LOG_GET_ENDPOINTS,                                       LOG_GET_ENDPOINTS_DESCRIPTION,                           LOG_GET_ENDPOINTS_DISCOVERY, 
                            LOG_GET_ENDPOINTS_USER_TOKEN,                            LOG_GET_ENDPOINTS_LOCALE_ID,                             LOG_GET_ENDPOINTS_PROFILE_URI,
                            LOG_READ,                                                LOG_READ_NODES_TO_READ,                                  LOG_READ_RESULTS,    
+                           LOG_WRITE,                                               LOG_WRITE_NODES_TO_READ,                                 LOG_WRITE_RESULTS,
                            LOG_OPENSECURE_CHANNEL
                          };
 
@@ -87,6 +88,9 @@ export {
    global log_policy_read: Log::PolicyHook;
    global log_policy_read_nodes_to_read: Log::PolicyHook;
    global log_policy_read_results: Log::PolicyHook;
+
+   global log_policy_write: Log::PolicyHook;
+   global log_policy_write_nodes_to_write: Log::PolicyHook;
    
    global log_policy_opensecure_channel: Log::PolicyHook;
 
@@ -157,6 +161,9 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_NODES_TO_READ,                                  [$columns=OPCUA_Binary::ReadNodesToRead,                    $path="opcua-binary-read-nodes-to-read",                                 $policy=log_policy_read_nodes_to_read]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS,                                        [$columns=OPCUA_Binary::ReadResults,                        $path="opcua-binary-read-results",                                       $policy=log_policy_read_results]);
    
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_WRITE,                                               [$columns=OPCUA_Binary::Write,                              $path="opcua-binary-write",                                              $policy=log_policy_write]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_WRITE_NODES_TO_WRITE,                                [$columns=OPCUA_Binary::WriteNodesToWrite,                  $path="opcua-binary-write-nodes-to-write",                               $policy=log_policy_write_nodes_to_write]);
+  
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_OPENSECURE_CHANNEL,                                  [$columns=OPCUA_Binary::OpenSecureChannel,                  $path="opcua-binary-opensecure-channel",                                 $policy=log_policy_opensecure_channel]);
 
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
@@ -622,6 +629,26 @@ event opcua_binary_read_results_event(c: connection, event_to_log: OPCUA_Binary:
        event_to_log$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS, event_to_log);
+   }
+
+event opcua_binary_write_event(c: connection, event_to_log: OPCUA_Binary::Write)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_WRITE, event_to_log);
+   }
+   
+event opcua_binary_write_nodes_to_write_event(c: connection, event_to_log: OPCUA_Binary::WriteNodesToWrite)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_WRITE_NODES_TO_WRITE, event_to_log);
    }
 
 event opcua_binary_opensecure_channel_event(c: connection, opensecure_channel: OPCUA_Binary::OpenSecureChannel)

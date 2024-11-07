@@ -39,6 +39,8 @@
 %include services/read/opcua_binary-read_debug.pac
 %include services/secure-channel/opcua_binary-secure_channel.pac
 %include services/secure-channel/opcua_binary-secure_channel_debug.pac
+%include services/write/opcua_binary-write.pac
+# %include services/write/opcua_binary-write_debug.pac
 %include stubbed-out/opcua_binary-stubbed_out_service.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_debug.pac
 %include opcua_binary-protocol_debug.pac

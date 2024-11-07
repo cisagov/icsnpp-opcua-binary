@@ -20,7 +20,7 @@
     #define READ_REQ_MAX_AGE_IDX                    9
     #define READ_REQ_TIMESTAMPS_TO_RETURN_IDX      10
     #define READ_REQ_TIMESTAMPS_TO_RETURN_STR_IDX  11
-    #define READ_REQ_NODES_TO_READ_LINK_ID_SRC_IDX 12  // Id into OPCUA_Binary::NoesToRead log
+    #define READ_REQ_NODES_TO_READ_LINK_ID_SRC_IDX 12  // Id into OPCUA_Binary::NodesToRead log
 
     // Response
     #define READ_RES_RESULTS_LINK_ID_SRC_IDX       13 // Id into OPCUA_Binary::ReadResults
