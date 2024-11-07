@@ -33,7 +33,7 @@ type Write_Res(service: Service) = record {
     res_hdr      : Response_Header;
 
     results_size : int32;
-    results      : OpcUA_DataValue[$context.flow.bind_length(results_size)];
+    results      : OpcUA_StatusCode[$context.flow.bind_length(results_size)];
 
     diagnostic_info_size : int32;
     diagnostic_info      : OpcUA_DiagInfo[$context.flow.bind_length(diagnostic_info_size)];

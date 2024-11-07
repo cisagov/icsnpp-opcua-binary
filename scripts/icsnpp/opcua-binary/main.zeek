@@ -28,8 +28,7 @@ export {
                            LOG_GET_ENDPOINTS,                                       LOG_GET_ENDPOINTS_DESCRIPTION,                           LOG_GET_ENDPOINTS_DISCOVERY, 
                            LOG_GET_ENDPOINTS_USER_TOKEN,                            LOG_GET_ENDPOINTS_LOCALE_ID,                             LOG_GET_ENDPOINTS_PROFILE_URI,
                            LOG_READ,                                                LOG_READ_NODES_TO_READ,                                  LOG_READ_RESULTS,    
-                           LOG_WRITE,                                               LOG_WRITE_NODES_TO_READ,                                 LOG_WRITE_RESULTS,
-                           LOG_OPENSECURE_CHANNEL
+                           LOG_WRITE,                                               LOG_WRITE_NODES_TO_WRITE,                                LOG_OPENSECURE_CHANNEL
                          };
 
    ## Log policies, for log filtering.

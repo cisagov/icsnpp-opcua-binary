@@ -58,7 +58,6 @@ type ReadResults: record;
 
 type Write: record;
 type WriteNodesToWrite: record;
-type WriteResults: record;
 
 type OpenSecureChannel: record;
 
