@@ -501,7 +501,7 @@ type OpcUA_RelativePathElement = record {
 #
 # 5.13.5.2 Table 95 - Publish Service Parameters
 #
-type OpcUA_SubscriptionAcknowledgement= record {
+type OpcUA_SubscriptionAcknowledgement = record {
     subscription_id : OpcUA_IntegerId;
     sequence_number : OpcUA_Counter;
 }

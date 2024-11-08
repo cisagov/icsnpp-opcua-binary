@@ -17,9 +17,9 @@ refine flow OPCUA_Binary_Flow += {
     function deliver_Svc_WriteReq(msg : Write_Req): bool
         %{
         // Debug
-        printf("deliver_Svc_WriteReq - begin\n");
-        printWriteReq(msg);
-        printf("deliver_Svc_WriteReq - end\n");
+        //printf("deliver_Svc_WriteReq - begin\n");
+        //printWriteReq(msg);
+        //printf("deliver_Svc_WriteReq - end\n");
         //
 
         zeek::RecordValPtr info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Info);
@@ -45,46 +45,40 @@ refine flow OPCUA_Binary_Flow += {
 
         // Nodes to Write
         if (msg->nodes_to_write_size() > 0) {
-            // Link into OpcUA_Binary::WriteNodesToWrite
-            std::string nodes_to_write_link_id = generateId();
-            write_request->Assign(WRITE_REQ_NODES_TO_WRITE_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(nodes_to_write_link_id));
-
             for (int i = 0; i < msg->nodes_to_write_size(); i++) {
-                zeek::RecordValPtr nodes_to_write = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::WriteNodesToWrite);
+                zeek::RecordValPtr writePtr = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Write);
 
                 // Source & Destination
-                //nodes_to_write = assignSourceDestination(msg_header->is_orig(), nodes_to_write, id_val);
-
-                // Link back into OpcUA_Binary::Write
-                //nodes_to_write->Assign(WRITE_REQ_NODES_TO_WRITE_LINK_ID_SRC_IDX, zeek::make_intrusive<zeek::StringVal>(nodes_to_write_link_id));
+                writePtr = assignSourceDestination(msg_header->is_orig(), writePtr, id_val);
 
                 // Node Id
-                //flattenOpcUA_NodeId(nodes_to_write, msg->nodes_to_write()->at(i)->node_id(), WRITE_REQ_NODE_ID_ENCODING_MASK_IDX);
-            }        //flattenOpcUA_NodeId(create_session_res, msg->session_id(), CREATE_SESSION_ID_ENCODING_MASK_IDX);
-     /*           // Attribute Id
-                nodes_to_write->Assign(WRITE_REQ_ATTRIBUTE_ID_IDX, zeek::val_mgr->Count(msg->nodes_to_write()->at(i)->attribute_id()));
-                nodes_to_write->Assign(WRITE_REQ_ATTRIBUTE_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(ATTRIBUTE_ID_MAP.find(msg->nodes_to_write()->at(i)->attribute_id())->second));
+                flattenOpcUA_NodeId(writePtr, msg->nodes_to_write()->at(i)->node_id(), WRITE_REQ_NODE_ID_ENCODING_MASK_IDX);
+
+                // Attribute Id
+                writePtr->Assign(WRITE_REQ_ATTRIBUTE_ID_IDX, zeek::val_mgr->Count(msg->nodes_to_write()->at(i)->attribute_id()));
+                writePtr->Assign(WRITE_REQ_ATTRIBUTE_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(ATTRIBUTE_ID_MAP.find(msg->nodes_to_write()->at(i)->attribute_id())->second));
 
                 // Index Range
                 if (msg->nodes_to_write()->at(i)->index_range()->length() > 0) {
-                    nodes_to_write->Assign(WRITE_REQ_INDEX_RANGE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->nodes_to_write()->at(i)->index_range()->string())));
+                    writePtr->Assign(WRITE_REQ_INDEX_RANGE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->nodes_to_write()->at(i)->index_range()->string())));
                 }
-
-                flattenOpcUA_DataValue
-                }
-
-                // Fire event
-                zeek::BifEvent::enqueue_opcua_binary_write_nodes_to_write_event(connection()->bro_analyzer(),
-                                                                              connection()->bro_analyzer()->Conn(),
-                                                                              nodes_to_write);
+                /*                       Method Signature                    Passed Parameters
+                flattenOpcUA_DataValue(  OPCUA_Binary_Conn *connection,      connection()
+                                         OpcUA_DataValue *data_value,        msg->nodes_to_write()->at(i)->data_value()
+                                         zeek::RecordValPtr service_object,  writePtr
+                                         uint32 offset,                      WRITE_REQ_DATA_VALUE_ENCODING_MASK_IDX
+                                         uint32 status_code_source,          StatusCode_Write_Key
+                                         uint32 variant_source,              Variant_Write_Key
+                                         bool is_orig);                      msg_header->is_orig()*/
+                printf("here\n");
+                flattenOpcUA_DataValue(connection(), msg->nodes_to_write()->at(i)->data_value(), writePtr, WRITE_REQ_DATA_VALUE_ENCODING_MASK_IDX, StatusCode_Write_Key, Variant_Write_Key, msg_header->is_orig());
             }
-
-        */}
+        }
 
         // Enqueue the OCPUA_Binary::WriteRequest event.
-        //zeek::BifEvent::enqueue_opcua_binary_write_event(connection()->bro_analyzer(),
-        //                                                    connection()->bro_analyzer()->Conn(),
-        //                                                    write_request);
+        zeek::BifEvent::enqueue_opcua_binary_write_event(connection()->bro_analyzer(),
+                                                            connection()->bro_analyzer()->Conn(),
+                                                            write_request);
 
         return true;
         %}
