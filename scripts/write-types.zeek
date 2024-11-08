@@ -49,6 +49,17 @@ export {
         # See opcua_binary-read_analyzer.pac: deliver_Svc_ReadRes for an example how to handle
         # flattenOpcUA_DataValue
         #
+        data_value_encoding_mask : string &log;
+
+        req_status_code_link_id  : string &log &optional; # Request status code link Id into OPCUA_Binary::StatusCodeDetail log
+
+        source_timestamp     : time  &log &optional;
+        source_pico_sec      : count &log &optional;
+
+        server_timestamp     : time  &log &optional;
+        server_pico_sec      : count &log &optional;
+
+
         write_results_variant_metadata_link_id  : string &log &optional; # Link into OPCUA_Binary::VariantMetadata log
 
         #
@@ -61,7 +72,7 @@ export {
         # 
         # See statuscode-diagnostic-source-consts.h for the *Key(s) to use with generateDisgInfoEvent and generateStatusCodeEvent
         #
-        status_code_link_id   :  string &log &optional; # Id into OPCUA_Binary::StatusCodeDetail log
+        res_status_code_link_id   :  string &log &optional; # Response status code link Id into OPCUA_Binary::StatusCodeDetail log
         diag_info_link_id     :  string &log &optional; # Link into OPCUA_Binary::DiagnosticInfoDetail log
 
     };
