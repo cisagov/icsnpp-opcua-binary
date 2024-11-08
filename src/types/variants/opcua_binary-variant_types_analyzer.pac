@@ -16,20 +16,17 @@
 
 %code{
     void flattenOpcUA_DataValue(OPCUA_Binary_Conn *connection, OpcUA_DataValue *data_value, zeek::RecordValPtr service_object, uint32 offset, uint32 status_code_source, uint32 variant_source, bool is_orig) {
-printf("%d\n", 0);
+
         // Data Value Encoding Mask
         service_object->Assign(offset, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(data_value->encoding_mask())));
-printf("%d\n", 1);
+
         // DataValue
         if (data_value->has_value_case_index()) {
             std::string service_object_variant_data_link_id = generateId();
-printf("%da\n", 1);
             service_object->Assign(offset + 6, zeek::make_intrusive<zeek::StringVal>(service_object_variant_data_link_id));
-printf("%db\n", 1);
             flattenOpcUA_DataVariant(connection, data_value->value(), service_object_variant_data_link_id, variant_source, is_orig);
-printf("%dc\n", 1);
         }
-printf("%d\n", 2);
+
         // StatusCode
         if (data_value->has_status_code_case_index()) {
             uint32_t status_code_level   = 0;
@@ -37,35 +34,35 @@ printf("%d\n", 2);
             service_object->Assign(offset + 1, zeek::make_intrusive<zeek::StringVal>(status_code_link_id));
             generateStatusCodeEvent(connection, service_object->GetField(offset + 1), status_code_source, data_value->status_code(), status_code_level, is_orig);
         }
-printf("%d\n", 3);
+
         // SourceTimestamp
         if (data_value->has_source_timestamp_case_index()) {
             double unix_timestamp = winFiletimeToUnixTime(data_value->source_timestamp());
             service_object->Assign(offset + 2, zeek::make_intrusive<zeek::TimeVal>(unix_timestamp));
         }
-printf("%d\n", 4);
+
         // SourecePicoSeconds
         if (data_value->has_source_pico_sec_case_index()) {
             service_object->Assign(offset + 3, zeek::val_mgr->Count(data_value->source_pico_sec()));
         }
-printf("%d\n", 5);
+
         // ServerTimeStamp
         if (data_value->has_server_timestamp_case_index()) {
             double unix_timestamp = winFiletimeToUnixTime(data_value->server_timestamp());
             service_object->Assign(offset + 4, zeek::make_intrusive<zeek::TimeVal>(unix_timestamp));
         }
-printf("%d\n", 6);
+
         // ServerPicoSeconds
         if (data_value->has_server_pico_sec_case_index()) {
             service_object->Assign(offset + 5, zeek::val_mgr->Count(data_value->server_pico_sec()));
         }
-printf("%d\n", 7);
+
         return;
     }
 
     void flattenOpcUA_DataVariant(OPCUA_Binary_Conn *connection, OpcUA_Variant *data_variant, string service_object_variant_data_link_id, uint32 variant_source, bool is_orig) {
         zeek::RecordValPtr variant_metadata = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::VariantMetadata);
-printf("flattenOpcUA_DataVariant %d\n", 1);
+
         // Source & Destination
         const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
         const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
@@ -78,7 +75,7 @@ printf("flattenOpcUA_DataVariant %d\n", 1);
         variant_metadata->Assign(VARIANT_DATA_SOURCE_STR_IDX, zeek::make_intrusive<zeek::StringVal>(VARIANT_SRC_MAP.find(variant_source)->second));
 
         variant_metadata->Assign(VARIANT_ENCODING_MASK_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(data_variant->encoding_mask())));
-        printf("flattenOpcUA_DataVariant %d\n",2 );
+
         // Variant Type
         uint32_t variant_data_type = getVariantDataType(data_variant->encoding_mask());
         variant_metadata->Assign(VARIANT_TYPE_IDX, zeek::val_mgr->Count(variant_data_type));
@@ -97,7 +94,7 @@ printf("flattenOpcUA_DataVariant %d\n", 1);
         if (variant_data_type == variantIsArray) {
             variant_metadata->Assign(VARIANT_DATA_ARRAY_DIM_IDX, zeek::val_mgr->Count(data_variant->variant_array()->array_length()));
         }
-printf("flattenOpcUA_DataVariant %d\n", 3);
+
         // Multi-dimensional array
         if (variant_data_type == VariantIsMultiDimensionalArray) {
             variant_metadata->Assign(VARIANT_DATA_ARRAY_DIM_IDX, zeek::val_mgr->Count(data_variant->variant_multidim_array()->array_dimensions_length()));
@@ -118,7 +115,7 @@ printf("flattenOpcUA_DataVariant %d\n", 3);
 
                 variant_array_dims->Assign(VARIANT_ARRAY_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(array_dim_link_id));
                 variant_array_dims->Assign(VARIANT_DIMENSION_IDX, zeek::val_mgr->Count(data_variant->variant_multidim_array()->array_dimensions()->at(j)));
-printf("flattenOpcUA_DataVariant %d\n", 4);
+
                 zeek::BifEvent::enqueue_opcua_binary_variant_array_dims_event(connection->bro_analyzer(),
                                                                               connection->bro_analyzer()->Conn(),
                                                                               variant_array_dims);

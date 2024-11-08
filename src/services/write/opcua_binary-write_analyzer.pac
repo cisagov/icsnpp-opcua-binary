@@ -62,15 +62,7 @@ refine flow OPCUA_Binary_Flow += {
                 if (msg->nodes_to_write()->at(i)->index_range()->length() > 0) {
                     writePtr->Assign(WRITE_REQ_INDEX_RANGE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->nodes_to_write()->at(i)->index_range()->string())));
                 }
-                /*                       Method Signature                    Passed Parameters
-                flattenOpcUA_DataValue(  OPCUA_Binary_Conn *connection,      connection()
-                                         OpcUA_DataValue *data_value,        msg->nodes_to_write()->at(i)->data_value()
-                                         zeek::RecordValPtr service_object,  writePtr
-                                         uint32 offset,                      WRITE_REQ_DATA_VALUE_ENCODING_MASK_IDX
-                                         uint32 status_code_source,          StatusCode_Write_Key
-                                         uint32 variant_source,              Variant_Write_Key
-                                         bool is_orig);                      msg_header->is_orig()*/
-                printf("here\n");
+
                 flattenOpcUA_DataValue(connection(), msg->nodes_to_write()->at(i)->data_value(), writePtr, WRITE_REQ_DATA_VALUE_ENCODING_MASK_IDX, StatusCode_Write_Key, Variant_Write_Key, msg_header->is_orig());
             }
         }
