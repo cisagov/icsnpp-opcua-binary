@@ -47,6 +47,9 @@ type Service(msg_body: Msg_Body) = record {
         ReadRequest  -> read_req : Read_Req(this);
         ReadResponse -> read_res : Read_Res(this);
 
+        # UA Specification Part 4 - Services: Table 172
+        ServiceFault -> service_fault_res : Service_Fault_Res(this);
+
         WriteRequest  -> write_req : Write_Req(this);
         WriteResponse -> write_res : Write_Res(this);
 
@@ -140,9 +143,6 @@ type Service(msg_body: Msg_Body) = record {
 
         UnregisterNodesRequest  -> unregister_node_req : Stubbed_Out_Req(this);
         UnregisterNodesResponse -> unregister_node_res : Stubbed_Out_Res(this);
-
-        # UA Specification Part 4 - Services: Table 172
-        ServiceFault -> service_fault_res : Service_Fault_Res(this);
 
         default                    -> data                 : bytestring &restofdata;
     };
