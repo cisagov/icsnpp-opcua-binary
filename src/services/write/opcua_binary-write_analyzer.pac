@@ -33,44 +33,42 @@ refine flow OPCUA_Binary_Flow += {
                                                    connection()->bro_analyzer()->Conn(),
                                                    info);
 
-        zeek::RecordValPtr write_request = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Write);
-
         // Source & Destination
         Msg_Header *msg_header = msg->service()->msg_body()->header();
         const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
         const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
 
-        // OpcUA_id
-        write_request->Assign(WRITE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
-
         // Nodes to Write
         if (msg->nodes_to_write_size() > 0) {
             for (int i = 0; i < msg->nodes_to_write_size(); i++) {
-                zeek::RecordValPtr writePtr = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Write);
+                zeek::RecordValPtr write_request = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::Write);
+
+                // OpcUA_id
+                write_request->Assign(WRITE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
                 // Source & Destination
-                writePtr = assignSourceDestination(msg_header->is_orig(), writePtr, id_val);
+                write_request = assignSourceDestination(msg_header->is_orig(), write_request, id_val);
 
                 // Node Id
-                flattenOpcUA_NodeId(writePtr, msg->nodes_to_write()->at(i)->node_id(), WRITE_REQ_NODE_ID_ENCODING_MASK_IDX);
+                flattenOpcUA_NodeId(write_request, msg->nodes_to_write()->at(i)->node_id(), WRITE_REQ_NODE_ID_ENCODING_MASK_IDX);
 
                 // Attribute Id
-                writePtr->Assign(WRITE_REQ_ATTRIBUTE_ID_IDX, zeek::val_mgr->Count(msg->nodes_to_write()->at(i)->attribute_id()));
-                writePtr->Assign(WRITE_REQ_ATTRIBUTE_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(ATTRIBUTE_ID_MAP.find(msg->nodes_to_write()->at(i)->attribute_id())->second));
+                write_request->Assign(WRITE_REQ_ATTRIBUTE_ID_IDX, zeek::val_mgr->Count(msg->nodes_to_write()->at(i)->attribute_id()));
+                write_request->Assign(WRITE_REQ_ATTRIBUTE_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(ATTRIBUTE_ID_MAP.find(msg->nodes_to_write()->at(i)->attribute_id())->second));
 
                 // Index Range
                 if (msg->nodes_to_write()->at(i)->index_range()->length() > 0) {
-                    writePtr->Assign(WRITE_REQ_INDEX_RANGE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->nodes_to_write()->at(i)->index_range()->string())));
+                    write_request->Assign(WRITE_REQ_INDEX_RANGE_IDX, zeek::make_intrusive<zeek::StringVal>(std_str(msg->nodes_to_write()->at(i)->index_range()->string())));
                 }
 
-                flattenOpcUA_DataValue(connection(), msg->nodes_to_write()->at(i)->data_value(), writePtr, WRITE_REQ_DATA_VALUE_ENCODING_MASK_IDX, StatusCode_Write_Key, Variant_Write_Key, msg_header->is_orig());
+                flattenOpcUA_DataValue(connection(), msg->nodes_to_write()->at(i)->data_value(), write_request, WRITE_REQ_DATA_VALUE_ENCODING_MASK_IDX, StatusCode_Write_Key, Variant_Write_Key, msg_header->is_orig());
+         
+                // Enqueue the OCPUA_Binary::WriteRequest event.
+                zeek::BifEvent::enqueue_opcua_binary_write_event(connection()->bro_analyzer(),
+                                                                    connection()->bro_analyzer()->Conn(),
+                                                                    write_request);
             }
         }
-
-        // Enqueue the OCPUA_Binary::WriteRequest event.
-        zeek::BifEvent::enqueue_opcua_binary_write_event(connection()->bro_analyzer(),
-                                                            connection()->bro_analyzer()->Conn(),
-                                                            write_request);
 
         return true;
         %}
@@ -101,6 +99,10 @@ refine flow OPCUA_Binary_Flow += {
         
         // Source & Destination
         Msg_Header *msg_header = msg->service()->msg_body()->header();
+        const zeek::RecordValPtr conn_val = connection()->bro_analyzer()->Conn()->GetVal();
+        const zeek::RecordValPtr id_val = conn_val->GetField<zeek::RecordVal>(0);
+
+        write_response = assignSourceDestination(msg_header->is_orig(), write_response, id_val);
 
         // OpcUA_id
         write_response->Assign(WRITE_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
