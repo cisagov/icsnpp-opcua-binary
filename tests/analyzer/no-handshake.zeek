@@ -19,6 +19,7 @@
 # @TEST-EXEC: zeek-cut -n create_item_link_id filter_info_details_link_id monitoring_parameters_status_code_link_id  < opcua-binary-create-monitored-items-create-item.log > opcua-binary-create-monitored-items-create-item.tmp && mv opcua-binary-create-monitored-items-create-item.tmp opcua-binary-create-monitored-items-create-item.log
 # @TEST-EXEC: zeek-cut -n opcua_link_id  < opcua-binary-close-session.log > opcua-binary-close-session.tmp && mv opcua-binary-close-session.tmp opcua-binary-close-session.log
 # @TEST-EXEC: zeek-cut -n opcua_link_id  discovery_profile_link_id endpoint_link_id < opcua-binary-create-session.log > opcua-binary-create-session.tmp && mv opcua-binary-create-session.tmp opcua-binary-create-session.log
+# @TEST-EXEC: zeek-cut -n opcua_link_id req_status_code_link_id write_results_variant_metadata_link_id res_status_code_link_id diag_info_link_id < opcua-binary-write.log > opcua-binary-write.tmp && mv opcua-binary-write.tmp opcua-binary-write.log
 # @TEST-EXEC: btest-diff opcua-binary-get-endpoints-user-token.log
 # @TEST-EXEC: btest-diff opcua-binary-get-endpoints.log
 # @TEST-EXEC: btest-diff opcua-binary-get-endpoints-description.log
@@ -39,6 +40,7 @@
 # @TEST-EXEC: btest-diff opcua-binary-create-monitored-items-create-item.log
 # @TEST-EXEC: btest-diff opcua-binary-close-session.log
 # @TEST-EXEC: btest-diff opcua-binary-create-session.log
+# @TEST-EXEC: btest-diff opcua-binary-write.log
 
 #
 # @TEST-DOC: Test OPCUA-binary analyzer with a trace file that is missing the intial ACK, HEL handshake.
