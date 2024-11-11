@@ -66,7 +66,6 @@
 # Note: The Token Id and Secure Channel Id are set during the OpenSecureChannel Service
 #       and referenced by down stream MSG and CLO message types.
 #
-#type Msg_Header = record {
 type Msg_Header(is_orig: bool) = record {
     msg_type   : uint8[3];
     is_final   : uint8;
