@@ -8,7 +8,7 @@
 ## Author:   Kent Kvarfordt
 ## Contact:  kent.kvarfordt@inl.gov
 ##
-## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 type Service(msg_body: Msg_Body) = record {
     namespace_idx : uint8;
@@ -142,7 +142,7 @@ type Service(msg_body: Msg_Body) = record {
         UnregisterNodesResponse -> unregister_node_res : Stubbed_Out_Res(this);
 
         # UA Specification Part 4 - Services: Table 172
-        ServiceFault -> service_fault_res : Stubbed_Out_Res(this);
+        ServiceFault -> service_fault_res : Service_Fault_Res(this);
 
         default                    -> data                 : bytestring &restofdata;
     };

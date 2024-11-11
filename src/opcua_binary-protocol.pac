@@ -7,7 +7,7 @@
 ## Author:   Kent Kvarfordt
 ## Contact:  kent.kvarfordt@inl.gov
 ##
-## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %include types/opcua_binary-types.pac
 %include types/opcua_binary-types_debug.pac
@@ -39,6 +39,8 @@
 %include services/read/opcua_binary-read_debug.pac
 %include services/secure-channel/opcua_binary-secure_channel.pac
 %include services/secure-channel/opcua_binary-secure_channel_debug.pac
+%include services/service-fault/opcua_binary-service_fault.pac
+%include services/service-fault/opcua_binary-service_fault_debug.pac
 %include services/write/opcua_binary-write.pac
 %include services/write/opcua_binary-write_debug.pac
 %include stubbed-out/opcua_binary-stubbed_out_service.pac
@@ -68,7 +70,6 @@
 # Note: The Token Id and Secure Channel Id are set during the OpenSecureChannel Service
 #       and referenced by down stream MSG and CLO message types.
 #
-#type Msg_Header = record {
 type Msg_Header(is_orig: bool) = record {
     msg_type   : uint8[3];
     is_final   : uint8;

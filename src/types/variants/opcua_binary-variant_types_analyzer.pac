@@ -20,13 +20,6 @@
         // Data Value Encoding Mask
         service_object->Assign(offset, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(data_value->encoding_mask())));
 
-        // DataValue
-        if (data_value->has_value_case_index()) {
-            std::string service_object_variant_data_link_id = generateId();
-            service_object->Assign(offset + 6, zeek::make_intrusive<zeek::StringVal>(service_object_variant_data_link_id));
-            flattenOpcUA_DataVariant(connection, data_value->value(), service_object_variant_data_link_id, variant_source, is_orig);
-        }
-
         // StatusCode
         if (data_value->has_status_code_case_index()) {
             uint32_t status_code_level   = 0;
@@ -55,6 +48,13 @@
         // ServerPicoSeconds
         if (data_value->has_server_pico_sec_case_index()) {
             service_object->Assign(offset + 5, zeek::val_mgr->Count(data_value->server_pico_sec()));
+        }
+
+        // DataValue
+        if (data_value->has_value_case_index()) {
+            std::string service_object_variant_data_link_id = generateId();
+            service_object->Assign(offset + 6, zeek::make_intrusive<zeek::StringVal>(service_object_variant_data_link_id));
+            flattenOpcUA_DataVariant(connection, data_value->value(), service_object_variant_data_link_id, variant_source, is_orig);
         }
 
         return;
