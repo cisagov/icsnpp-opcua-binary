@@ -89,7 +89,6 @@ export {
    global log_policy_read_results: Log::PolicyHook;
 
    global log_policy_write: Log::PolicyHook;
-   global log_policy_write_nodes_to_write: Log::PolicyHook;
    
    global log_policy_opensecure_channel: Log::PolicyHook;
 
