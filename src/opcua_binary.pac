@@ -5,7 +5,7 @@
 ## Author:   Kent Kvarfordt
 ## Contact:  kent.kvarfordt@inl.gov
 ##
-## Copyright (c) 2022 Battelle Energy Alliance, LLC.  All rights reserved.
+## Copyright (c) 2024 Battelle Energy Alliance, LLC.  All rights reserved.
 
 %include zeek/binpac.pac
 %include zeek/zeek.pac
@@ -47,6 +47,7 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 %include services/get-endpoints/opcua_binary-get_endpoints_analyzer.pac
 %include services/read/opcua_binary-read_analyzer.pac
 %include services/secure-channel/opcua_binary-secure_channel_analyzer.pac
+%include services/service-fault/opcua_binary-service_fault_analyzer.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_analyzer.pac
 %include req-res-header/opcua_binary-req_res_header_analyzer.pac
 
