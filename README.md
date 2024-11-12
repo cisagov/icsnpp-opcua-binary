@@ -180,6 +180,13 @@ This log captures the details associated with calls to the Open Secure Channel S
 * See the ```OPCUA_Binary::OpenSecureChannel: record``` in file [secure-channel-types.zeek](scripts/secure-channel-types.zeek) for a list of the fields logged.
 * See [opcua_binary-secure_channel.pac](src/services/secure-channel/opcua_binary-secure_channel.pac), [opcua_binary-secure_channel_analyzer.pac](src/services/secure-channel/opcua_binary-secure_channel.pac), and [opcua_binary-secure_channel_debug.pac](src/services/secure-channel/opcua_binary-secure_channel_debug.pac) for details on parsing, processing, and logging this service.
 
+#### Write Subscription Service (opcua-binary-write.log)
+
+This log captures the details associated with calls to the Write Subscription Service.
+
+* See [write-types.zeek](scripts/write-types.zeek) for a list of the fields logged.
+* See [opcua_binary-write.pac](src/services/write/opcua_binary-write.pac), [opcua_binary-write_analyzer.pac](src/services/write/opcua_binary-write_analyzer.pac), and [opcua_binary-write_debug.pac](src/services/write/opcua_binary-write_debug.pac) for details on parsing, processing, and logging this service.
+
 ## Developer's Guide
 
 For development and implementation details, see the [developer_guide](developer_guide.md)

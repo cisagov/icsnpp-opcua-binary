@@ -17,6 +17,7 @@
 #include <time.h>
 #include "types.bif.h"
 #include "index-consts.h"
+
 #include "headers/attribute_id.h"
 #include "headers/built_in_data_types.h"
 #include "headers/extension_object_node_id.h"
@@ -40,6 +41,7 @@
 #include "services/read/index-consts.h"
 #include "services/secure-channel/index-consts.h"
 #include "services/service-fault/index-consts.h"
+#include "services/write/index-consts.h"
 #include "req-res-header/index-consts.h"
 %}
 

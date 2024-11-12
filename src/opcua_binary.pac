@@ -48,6 +48,7 @@ flow OPCUA_Binary_Flow(is_orig: bool) {
 %include services/read/opcua_binary-read_analyzer.pac
 %include services/secure-channel/opcua_binary-secure_channel_analyzer.pac
 %include services/service-fault/opcua_binary-service_fault_analyzer.pac
+%include services/write/opcua_binary-write_analyzer.pac
 %include stubbed-out/opcua_binary-stubbed_out_service_analyzer.pac
 %include req-res-header/opcua_binary-req_res_header_analyzer.pac
 

@@ -56,6 +56,8 @@ type Read: record;
 type ReadNodesToRead: record;
 type ReadResults: record;
 
+type Write: record;
+
 type OpenSecureChannel: record;
 
 module GLOBAL;

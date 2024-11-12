@@ -147,7 +147,7 @@ refine flow OPCUA_Binary_Flow += {
                 // Source & Destination
                 read_results = assignSourceDestination(msg_header->is_orig(), read_results, id_val);
 
-                // Assign the linkage int the OPCUA_Binary::Read and OPCUA_Binary::ReadResults
+                // Assign the linkage into the OPCUA_Binary::Read and OPCUA_Binary::ReadResults
                 read_results->Assign(READ_RES_LINK_ID_DST_IDX, zeek::make_intrusive<zeek::StringVal>(read_results_link_id));
 
                 // Level

@@ -75,7 +75,7 @@
         variant_metadata->Assign(VARIANT_DATA_SOURCE_STR_IDX, zeek::make_intrusive<zeek::StringVal>(VARIANT_SRC_MAP.find(variant_source)->second));
 
         variant_metadata->Assign(VARIANT_ENCODING_MASK_IDX, zeek::make_intrusive<zeek::StringVal>(uint8ToHexstring(data_variant->encoding_mask())));
-        
+
         // Variant Type
         uint32_t variant_data_type = getVariantDataType(data_variant->encoding_mask());
         variant_metadata->Assign(VARIANT_TYPE_IDX, zeek::val_mgr->Count(variant_data_type));

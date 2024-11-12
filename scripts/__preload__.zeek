@@ -10,6 +10,7 @@
 @load ./create-subscription-types
 @load ./get-endpoints-types
 @load ./read-types
+@load ./write-types
 @load ./secure-channel-types
 
 

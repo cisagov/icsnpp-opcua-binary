@@ -17,8 +17,9 @@
 // with the service/structure that generated the status code.
 static const uint32_t Variant_Read_Key                               = 0; 
 static const uint32_t Variant_Read_Inner_Key                         = 1; 
-static const uint32_t Variant_LiteralOperand_Key                    = 2; 
-static const uint32_t Variant_LiteralOperand_Inner_Key              = 3; 
+static const uint32_t Variant_LiteralOperand_Key                     = 2; 
+static const uint32_t Variant_LiteralOperand_Inner_Key               = 3; 
+static const uint32_t Variant_Write_Key                              = 4;
 
 
 static std::map<uint32_t, std::string> VARIANT_SRC_MAP =
@@ -26,6 +27,7 @@ static std::map<uint32_t, std::string> VARIANT_SRC_MAP =
    {Variant_Read_Key,                     "Read_Variant"},
    {Variant_Read_Inner_Key,               "Read_InnerVariant"},
    {Variant_LiteralOperand_Key,           "LiteralOperand_Variant"},
-   {Variant_LiteralOperand_Inner_Key,     "LiteralOperand_InnerVariant"}
+   {Variant_LiteralOperand_Inner_Key,     "LiteralOperand_InnerVariant"},
+   {Variant_Write_Key,                    "Write_Variant"}
 };
 #endif 

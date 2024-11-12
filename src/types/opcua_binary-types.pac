@@ -466,6 +466,19 @@ type OpcUA_ReadValueId = record {
     data_encoding : OpcUA_QualifiedName;
 }
 
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# 5.10.4.2 Table 59 - Write Service Parameters
+# Note: this structure is defined in-line in Table 59.
+#
+type OpcUA_WriteValue = record {
+    node_id       : OpcUA_NodeId;
+    attribute_id  : uint32;
+    index_range   : OpcUA_NumericRange;
+    data_value    : OpcUA_DataValue;
+}
+
 # UA Specification Part 4 - Services 1.04.pdf
 #
 # 7.26 Table 168 - RelativePath
@@ -488,7 +501,7 @@ type OpcUA_RelativePathElement = record {
 #
 # 5.13.5.2 Table 95 - Publish Service Parameters
 #
-type OpcUA_SubscriptionAcknowledgement= record {
+type OpcUA_SubscriptionAcknowledgement = record {
     subscription_id : OpcUA_IntegerId;
     sequence_number : OpcUA_Counter;
 }

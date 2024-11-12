@@ -33,6 +33,8 @@ static uint32_t StatusCode_FilterOperand_Key                   = 14;
 static uint32_t StatusCode_FilterOperand_DiagInfo_Key          = 15;
 static uint32_t StatusCode_Variant_Key                         = 16;
 static uint32_t StatusCode_Variant_DiagInfo_Key                = 17;
+static uint32_t StatusCode_Write_Key                           = 18;
+static uint32_t StatusCode_Write_DiagInfo_Key                  = 19;
 
 
 static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
@@ -54,7 +56,9 @@ static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
    {StatusCode_FilterOperand_Key,                  "ContentFilterElementOperand"},
    {StatusCode_FilterOperand_DiagInfo_Key,         "ContentFilterElementOperand_DiagInfo"},
    {StatusCode_Variant_Key,                        "Variant"},
-   {StatusCode_Variant_DiagInfo_Key,               "Variant_DiagInfo"}
+   {StatusCode_Variant_DiagInfo_Key,               "Variant_DiagInfo"},
+   {StatusCode_Write_Key,                          "Write"},
+   {StatusCode_Write_DiagInfo_Key,                 "Write_DiagInfo"},
 };
 
 // Internal constants used to associate detailed diagnostic information
@@ -86,6 +90,9 @@ static const uint32_t DiagInfo_FilterOperand_Inner_Key         = 15;
 static const uint32_t DiagInfo_Variant_Key                     = 16;
 static const uint32_t DiagInfo_Variant_Inner_Key               = 17;
 
+static const uint32_t DiagInfo_Write_Key                       = 18; 
+static const uint32_t DiagInfo_Write_Inner_Key                 = 19; 
+
 static std::map<uint32_t, std::string> DIAGNOSTIC_INFO_SRC_MAP =
 {
    {DiagInfo_ResponseHeader_Key,             "ResponseHeader_DiagInfo"},
@@ -110,6 +117,9 @@ static std::map<uint32_t, std::string> DIAGNOSTIC_INFO_SRC_MAP =
    {DiagInfo_FilterOperand_Inner_Key,        "ContentFilterElementOperand_InnerDiagInfo"},
 
    {DiagInfo_Variant_Key,                    "Variant_DiagInfo"},
-   {DiagInfo_Variant_Inner_Key,              "Variant_InnerDiagInfo"}
+   {DiagInfo_Variant_Inner_Key,              "Variant_InnerDiagInfo"},
+
+   {DiagInfo_Write_Key,                      "Write_DiagInfo"},
+   {DiagInfo_Write_Inner_Key,                "Write_InnerDiagInfo"},
 };
 #endif
