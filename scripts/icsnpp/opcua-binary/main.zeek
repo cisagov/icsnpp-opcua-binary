@@ -92,15 +92,192 @@ export {
    
    global log_policy_opensecure_channel: Log::PolicyHook;
 
+   type State: record {
+		## Pending requests.
+		pending:          table[count] of OPCUA_Binary::Info;
+		## Current request in the pending queue.
+		current_request:  count                &default=0;
+		## Current response in the pending queue.
+		current_response: count                &default=0;
+	};
+
 }
 
 # Port-based detection
 const ports = { 4840/tcp, 4843/tcp };
 redef likely_server_ports += { ports };
 
+redef record connection += {
+	opcua_binary_state:  State &optional;
+};
+ 
+function check_matching_common(request_info: OPCUA_Binary::Info, response_info: OPCUA_Binary::Info): boolean{
+   if (request_info$ts != response_info$ts){
+      return F;
+   }
+   if (request_info$uid != response_info$uid){
+      return F;
+   }
+   if (request_info$id != response_info$id){
+      return F;
+   }
+   if (request_info$msg_type != response_info$msg_type){ 
+      return F;
+   }
+   if (request_info$is_final != response_info$is_final){
+      return F;
+   }
+   return T;
+
+}
+function copy_common_data_to_logging_record(info: OPCUA_Binary::Info): OPCUA_Binary::Info_Log
+   {  
+      local log_info = OPCUA_Binary::Info_Log(
+         $ts               = info$ts,
+         $uid              = info$uid,
+         $id               = info$id,
+         $msg_type         = info$msg_type,
+         $is_final         = info$is_final,
+         $total_size       = info$msg_size
+      );
+      return log_info;
+   }
+function map_response(response_info: OPCUA_Binary::Info, log_info: OPCUA_Binary::Info_Log): OPCUA_Binary::Info_Log 
+{
+   if (response_info?$opcua_link_id){
+      log_info$res_opcua_link_id = response_info$opcua_link_id;
+   }
+   if (response_info?$msg_size){
+      log_info$res_msg_size = response_info$msg_size;
+   }
+   if (response_info?$seq_number){
+      log_info$res_seq_number = response_info$seq_number;
+   }
+   if (response_info?$encoding_mask){
+      log_info$res_encoding_mask = response_info$encoding_mask;
+   }
+   if (response_info?$namespace_idx){
+      log_info$res_namespace_idx = response_info$namespace_idx;
+   }
+   if (response_info?$identifier){
+      log_info$res_identifier = response_info$identifier;
+   }
+   if (response_info?$identifier_str){
+      log_info$res_identifier_str = response_info$identifier_str;
+   }
+   if (response_info?$res_hdr_timestamp){
+      log_info$res_hdr_timestamp = response_info$res_hdr_timestamp;
+   }
+   if (response_info?$res_hdr_request_handle){
+      log_info$res_hdr_request_handle = response_info$res_hdr_request_handle;
+   }
+   if (response_info?$status_code_link_id){
+      log_info$status_code_link_id = response_info$status_code_link_id;
+   }
+   if (response_info?$res_hdr_service_diag_encoding){
+      log_info$res_hdr_service_diag_encoding = response_info$res_hdr_service_diag_encoding;
+   }
+   if (response_info?$res_hdr_add_hdr_type_id){
+      log_info$res_hdr_add_hdr_type_id = response_info$res_hdr_add_hdr_type_id;
+   }
+   if (response_info?$res_hdr_add_hdr_enc_mask){
+      log_info$res_hdr_add_hdr_enc_mask = response_info$res_hdr_add_hdr_enc_mask;
+   }
+   return log_info;
+}
+
+function map_request(request_info: OPCUA_Binary::Info, log_info: OPCUA_Binary::Info_Log): OPCUA_Binary::Info_Log 
+{
+   if (request_info?$opcua_link_id){
+      log_info$req_opcua_link_id = request_info$opcua_link_id;
+   }
+   if (request_info?$msg_size){
+      log_info$req_msg_size = request_info$msg_size;
+   }
+   if (request_info?$seq_number){
+      log_info$req_seq_number = request_info$seq_number;
+   }
+   if (request_info?$encoding_mask){
+      log_info$req_encoding_mask = request_info$encoding_mask;
+   }
+   if (request_info?$namespace_idx){
+      log_info$req_namespace_idx = request_info$namespace_idx;
+   }
+   if (request_info?$identifier){
+      log_info$req_identifier = request_info$identifier;
+   }
+   if (request_info?$identifier_str){
+      log_info$req_identifier_str = request_info$identifier_str;
+   }
+   if (request_info?$req_hdr_node_id_type){
+      log_info$rreq_hdr_node_id_type = request_info$req_hdr_node_id_type;
+   }
+   if (request_info?$req_hdr_node_id_namespace_idx){
+      log_info$req_hdr_node_id_namespace_idx = request_info$req_hdr_node_id_namespace_idx;
+   }
+   if (request_info?$req_hdr_node_id_numeric){
+      log_info$req_hdr_node_id_numeric = request_info$req_hdr_node_id_numeric;
+   }
+   if (request_info?$req_hdr_node_id_string){
+      log_info$req_hdr_node_id_string = request_info$req_hdr_node_id_string;
+   }
+   if (request_info?$req_hdr_node_id_guid){
+      log_info$req_hdr_node_id_guid = request_info$req_hdr_node_id_guid;
+   }
+   if (request_info?$req_hdr_node_id_opaque){
+      log_info$req_hdr_node_id_opaque = request_info$req_hdr_node_id_opaque;
+   }
+   if (request_info?$req_hdr_timestamp){
+      log_info$req_hdr_timestamp = request_info$req_hdr_timestamp;
+   }
+   if (request_info?$req_hdr_request_handle){
+      log_info$req_hdr_request_handle = request_info$req_hdr_request_handle;
+   }
+   if (request_info?$req_hdr_return_diag){
+      log_info$req_hdr_return_diag = request_info$req_hdr_return_diag;
+   }
+   if (request_info?$req_hdr_audit_entry_id){
+      log_info$req_hdr_audit_entry_id = request_info$req_hdr_audit_entry_id;
+   }
+   if (request_info?$req_hdr_timeout_hint){
+      log_info$req_hdr_timeout_hint = request_info$req_hdr_timeout_hint;
+   }
+   if (request_info?$req_hdr_add_hdr_type_id){
+      log_info$req_hdr_add_hdr_type_id = request_info$req_hdr_add_hdr_type_id;
+   }
+   if (request_info?$req_hdr_add_hdr_enc_mask){
+      log_info$req_hdr_add_hdr_enc_mask = request_info$req_hdr_add_hdr_enc_mask;
+   }
+   return log_info;
+}
+function map_request_response(request_info: OPCUA_Binary::Info, response_info: OPCUA_Binary::Info): OPCUA_Binary::Info_Log
+{
+   local total_size = request_info$msg_size + response_info$msg_size;
+   request_info$msg_size = total_size;
+   local log_info = copy_common_data_to_logging_record(request_info);
+   # Double check the common info matches
+   # If it does not, log separately
+   if (!check_matching_common(request_info, response_info))
+   {
+      log_info = map_request(request_info, log_info);
+      Log::write(ICSNPP_OPCUA_Binary::LOG, log_info);
+      local log_info_resp = local log_info = copy_common_data_to_logging_record(request_info);
+      log_info_resp = map_response(response_info, log_info);
+      Log::write(ICSNPP_OPCUA_Binary::LOG, log_info_resp);
+   }
+   else 
+   {
+      log_info = map_request(request_info, log_info);
+      log_info = map_response(response_info, log_info);
+      Log::write(ICSNPP_OPCUA_Binary::LOG, log_info);
+
+   }
+
+   return log_info;
+}
 event zeek_init() &priority=5
    {
-   Log::create_stream(ICSNPP_OPCUA_Binary::LOG,                                                     [$columns=OPCUA_Binary::Info,                               $path="opcua_binary",                                                    $policy=log_policy_opcua_binary]);
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG,                                                     [$columns=OPCUA_Binary::Info_Log,                           $path="opcua_binary",                                                    $policy=log_policy_opcua_binary]);
 
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_DIAG_INFO,                                           [$columns=OPCUA_Binary::DiagnosticInfoDetail,               $path="opcua_binary_diag_info_detail",                                   $policy=log_policy_diag_info_detail]);
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_STATUS_CODE,                                         [$columns=OPCUA_Binary::StatusCodeDetail,                   $path="opcua_binary_status_code_detail",                                 $policy=log_policy_status_code_detail]);
@@ -168,18 +345,55 @@ event zeek_init() &priority=5
 
 function set_service(c: connection, service: string) 
    {
-       # Ensure that conn.log:service is set if it has not already been
+   # Ensure that conn.log:service is set if it has not already been
 	if ((!c?$service) || (|c$service| == 0))
 	add c$service[service];
    }
 
 event opcua_binary_event(c: connection, info: OPCUA_Binary::Info)
    {
+      # Fix hello, acknowledge, opcua_link_id
+       local log_immediately_msg_types = set("HEL", "ACK", "ERR", "OPN", "CLO");
        set_service(c, "opcua-binary");
        info$ts  = network_time();
        info$uid = c$uid;
        info$id  = c$id;
-       Log::write(ICSNPP_OPCUA_Binary::LOG, info);
+       if (info$msg_type in log_immediately_msg_types) {
+         local log_info = copy_common_data_to_logging_record(info);
+         if (info?$error){
+            log_info$error = info$error;
+         }
+         if (info?$reason){
+            log_info$reason = info$reason;
+         }
+         if (info?$version){
+            log_info$version = info$version;
+         }
+         if (info?$rcv_buf_size){
+            log_info$rcv_buf_size = info$rcv_buf_size;
+         }
+         if (info?$snd_buf_size){
+            log_info$snd_buf_size = info$snd_buf_size;
+         }
+         if (info?$max_msg_size){
+            log_info$max_msg_size = info$max_msg_size;
+         }
+         if (info?$max_chunk_cnt){
+            log_info$max_chunk_cnt = info$max_chunk_cnt;
+         }
+         if (info?$endpoint_url){
+            log_info$endpoint_url = info$endpoint_url;
+         }
+         Log::write(ICSNPP_OPCUA_Binary::LOG, log_info);
+       }
+       else {
+         if (info$request_id !in c$opcua_binary_state){
+            c$opcua_binary_state$pending[info$request_id] = info
+         }
+         else {
+
+         }
+       }
     }
 
 event opcua_binary_diag_info_event(c: connection, diag_info: OPCUA_Binary::DiagnosticInfoDetail)
@@ -209,9 +423,8 @@ event opcua_binary_aggregate_filter_event(c: connection, aggregate_filter_event:
        aggregate_filter_event$uid = c$uid;
        aggregate_filter_event$id  = c$id;
 
-       Log::write(ICSNPP_OPCUA_Binary::LOG_AGGREGATE_FILTER, aggregate_filter_event);
-    }
-
+       Log::write(ICSNPP_OPCUA_Binary::LOG_AGGREGATE_FILTER, aggregate
+            }
 event opcua_binary_data_change_filter_event(c: connection, data_change_filter_event: OPCUA_Binary::DataChangeFilter)
    {
        set_service(c, "opcua-binary");
@@ -648,3 +861,46 @@ event opcua_binary_opensecure_channel_event(c: connection, opensecure_channel: O
        Log::write(ICSNPP_OPCUA_Binary::LOG_OPENSECURE_CHANNEL, opensecure_channel);
 
    }
+
+function convert_and_log_opcua_info(c: connection, info: OPCUA_Binary::Info)
+{ 
+      if ("Request" in info$identifier_str){
+         local request = info;
+         if ("Response" in c$opcua_binary_state$pending[info$request_id]$identifier_str){
+            local response = c$opcua_binary_state$pending[info$request_id];
+         }
+         else {
+          local log_info = copy_common_data_to_logging_record(info);
+          Log::write(ICSNPP_OPCUA_Binary::LOG, log_info);
+         }
+
+      }
+      else if ("Response" info$identifier_str){
+         local response = info;
+         if ("Request" in c$opcua_binary_state$pending[info$request_id]$identifier_str){
+            local response = c$opcua_binary_state$pending[info$request_id];
+         }
+         else {
+          local log_info = copy_common_data_to_logging_record(info);
+          Log::write(ICSNPP_OPCUA_Binary::LOG, log_info);
+         }
+
+      }
+      # local log_info = copy_common_data_to_logging_record(info);
+   # if (!c?)
+
+}
+
+# hook finalize_opcua_binary(c: connection)
+# 	{
+# 	# Flush all pending but incomplete request/response pairs.
+# 	if ( c?$opcua_binary_state )
+# 		{
+# 		for ( r, info in c$opcua_binary_state$pending )
+# 			{
+# 			# We don't use pending elements at index 0.
+# 			if ( r == 0 ) next;
+#          Log::write(ICSNPP_OPCUA_Binary::LOG, info);
+# 			}
+# 		}
+# 	}
