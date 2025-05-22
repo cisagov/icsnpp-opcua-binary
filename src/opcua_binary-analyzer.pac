@@ -233,7 +233,7 @@
 
         // Secure Channel Id and Secure Token Id
         info->Assign(SEC_CHANNEL_ID_IDX, zeek::val_mgr->Count(msg_msg->sec_channel_id()));
-        info->Assign(SEC_TOKEN_ID_IDX, zeek::val_mgr->Count(msg_msg->sec_channel_id()));
+        info->Assign(SEC_TOKEN_ID_IDX, zeek::val_mgr->Count(msg_msg->sec_token_id()));
 
         // Sequence Header
         info->Assign(SEQ_NUMBER_IDX, zeek::val_mgr->Count(msg_msg->seq_header()->seq_number()));
