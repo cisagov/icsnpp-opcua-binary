@@ -31,8 +31,8 @@
 // OpenSecureChannel Service.  Used down stream
 // by other services to secure the Message
 //
-#define SEC_TOKEN_CHANNEL_ID_IDX                 15
-#define SEC_TOKEN_ID_IDX                         16 
+#define SEC_CHNL_TOKEN_CHANNEL_ID_IDX            15
+#define SEC_CHNL_TOKEN_ID_IDX                    16
 
 #define SEC_TOKEN_CREATED_AT_IDX                 17
 #define SEC_TOKEN_REVISED_LIFETIME_IDX           18
