@@ -42,8 +42,13 @@ export {
         max_chunk_cnt                 : count   &log &optional;
         endpoint_url                  : string  &log &optional;
 
-        # Msg Body
+        # Msg_MSG, Msg_CLO, Msg_OPN
         sec_channel_id                : count   &log &optional;
+
+        # Msg_MSG, Msg_CLO
+        sec_token_id                  : count   &log &optional;
+
+        # Msg Body
         sec_policy_uri_len            : int     &log &optional;
         sec_policy_uri                : string  &log &optional;
         snd_cert_len                  : int     &log &optional;
