@@ -46,18 +46,19 @@
 
 // Msg Body
 #define SEC_CHANNEL_ID_IDX                20
-#define SEC_POLICY_URI_LEN_IDX            21
-#define SEC_POLICY_URI_IDX                22
-#define SND_CERT_LEN_IDX                  23
-#define SND_CERT_IDX                      24
-#define RCV_CERT_LEN_IDX                  25
-#define RCV_CERT_IDX                      26
-#define SEQ_NUMBER_IDX                    27
-#define REQUEST_ID_IDX                    28
-#define ENCODING_MASK_IDX                 29
-#define NAMESPACE_IDX                     30
-#define IDENTIFIER_IDX                    31
-#define IDENTIFIER_STR_IDX                32
+#define SEC_TOKEN_ID_IDX                  21
+#define SEC_POLICY_URI_LEN_IDX            22
+#define SEC_POLICY_URI_IDX                23
+#define SND_CERT_LEN_IDX                  24
+#define SND_CERT_IDX                      25
+#define RCV_CERT_LEN_IDX                  26
+#define RCV_CERT_IDX                      27
+#define SEQ_NUMBER_IDX                    28
+#define REQUEST_ID_IDX                    29
+#define ENCODING_MASK_IDX                 30
+#define NAMESPACE_IDX                     31
+#define IDENTIFIER_IDX                    32
+#define IDENTIFIER_STR_IDX                33
 
 #endif
 

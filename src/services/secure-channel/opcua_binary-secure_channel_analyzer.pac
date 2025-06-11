@@ -91,8 +91,8 @@ refine flow OPCUA_Binary_Flow += {
         opensecure_channel_res->Assign(OPENSECURE_CHANNEL_OPCUA_LINK_ID_DST_IDX, info->GetField(OPCUA_LINK_ID_SRC_IDX));
 
         opensecure_channel_res->Assign(SERVER_PROTO_VER_IDX,           zeek::val_mgr->Count(msg->server_proto_ver()));
-        opensecure_channel_res->Assign(SEC_TOKEN_CHANNEL_ID_IDX,       zeek::val_mgr->Count(msg->security_token()->secure_channel_id()));
-        opensecure_channel_res->Assign(SEC_TOKEN_ID_IDX,               zeek::val_mgr->Count(msg->security_token()->token_id()));
+        opensecure_channel_res->Assign(SEC_CHNL_TOKEN_CHANNEL_ID_IDX,  zeek::val_mgr->Count(msg->security_token()->secure_channel_id()));
+        opensecure_channel_res->Assign(SEC_CHNL_TOKEN_ID_IDX,          zeek::val_mgr->Count(msg->security_token()->token_id()));
 
         double unix_timestamp = winFiletimeToUnixTime(msg->security_token()->created_at());
         opensecure_channel_res->Assign(SEC_TOKEN_CREATED_AT_IDX,       zeek::make_intrusive<zeek::TimeVal>(unix_timestamp));
