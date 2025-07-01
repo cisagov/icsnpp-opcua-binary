@@ -1,0 +1,18 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	opcua_binary_browse_response_references
+#open	2025-06-11-22-47-34
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	is_orig	source_h	source_p	destination_h	destination_p	browse_reference_link_id	browse_response_ref_encoding_mask	browse_response_ref_namespace_idx	browse_response_ref_numeric	browse_response_ref_string	browse_response_ref_guid	browse_response_ref_opaque	browse_response_is_forward	browse_response_ref_type_encoding_mask	browse_response_ref_type_namespace_idx	browse_response_ref_type_numeric	browse_response_ref_type_string	browse_response_ref_type_guid	browse_response_ref_type_opaque	browse_response_ref_type_namespace_uri	browse_response_ref_type_server_idx	browse_response_ref_name_idx	browse_response_ref_name	browse_response_display_name_mask	browse_response_display_name_locale	browse_response_display_name_text	browse_response_node_class	browse_response_type_def_encoding_mask	browse_response_type_def_namespace_idx	browse_response_type_def_numeric	browse_response_type_def_string	browse_response_type_def_guid	browse_response_type_def_opaque	browse_response_type_def_namespace_uri	browse_response_type_def_server_idx
+#types	time	string	addr	port	addr	port	bool	addr	port	addr	port	string	string	count	count	string	string	string	bool	string	count	count	string	string	string	string	count	count	string	string	string	string	string	string	count	count	string	string	string	string	count
+1579702060.952172	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	567fe176d00e900df0	0x00	-	40	-	-	-	T	0x00	-	61	-	-	-	-	-	-	FolderType	0x03	-	FolderType	ObjectTypeNodeClass	0x00	-	0	-	-	-	-	-
+1579702060.952172	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	567fe176d00e900df0	0x00	-	35	-	-	-	T	0x01	0	2253	-	-	-	-	-	-	Server	0x03	-	Server	ObjectNodeClass	0x01	0	2004	-	-	-	-	-
+1579702060.952172	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	567fe176d00e900df0	0x00	-	35	-	-	-	T	0x01	1	58192	-	-	-	-	-	1	TheGreatNode	0x03	en-US	TheNewGreatNode	ObjectNodeClass	0x01	1	12134	-	-	-	-	-
+1579702060.952172	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	567fe176d00e900df0	0x00	-	35	-	-	-	T	0x01	1	53813	-	-	-	-	-	-	VariableNode	0x03	en-US	TheNewVariableNode	VariableNodeClass	0x00	-	63	-	-	-	-	-
+1579702061.005484	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	55ebf469e52d3851d2	0x00	-	35	-	-	-	F	0x00	-	84	-	-	-	-	-	-	Root	0x03	-	Root	ObjectNodeClass	0x00	-	61	-	-	-	-	-
+1579702061.005484	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	55ebf469e52d3851d2	0x00	-	40	-	-	-	T	0x00	-	61	-	-	-	-	-	-	FolderType	0x03	-	FolderType	ObjectTypeNodeClass	0x00	-	0	-	-	-	-	-
+1579702061.005484	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	55ebf469e52d3851d2	0x00	-	35	-	-	-	T	0x01	0	2253	-	-	-	-	-	-	Server	0x03	-	Server	ObjectNodeClass	0x01	0	2004	-	-	-	-	-
+1579702061.005484	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	55ebf469e52d3851d2	0x00	-	35	-	-	-	T	0x01	1	58192	-	-	-	-	-	1	TheGreatNode	0x03	en-US	TheNewGreatNode	ObjectNodeClass	0x01	1	12134	-	-	-	-	-
+1579702061.005484	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	55ebf469e52d3851d2	0x00	-	35	-	-	-	T	0x01	1	53813	-	-	-	-	-	-	VariableNode	0x03	en-US	TheNewVariableNode	VariableNodeClass	0x00	-	63	-	-	-	-	-
+#close	2025-06-11-22-47-34

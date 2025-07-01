@@ -1,0 +1,11 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	opcua_binary_variant_data
+#open	2025-06-11-22-47-34
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	is_orig	source_h	source_p	destination_h	destination_p	variant_data_link_id	variant_data_value_signed_numeric	variant_data_value_unsigned_numeric	variant_data_value_string	variant_data_node_id_encoding_mask	variant_data_node_id_namespace_idx	variant_data_node_id_numeric	variant_data_node_id_string	variant_data_node_id_guid	variant_data_node_id_opaque	variant_data_node_id_namespace_uri	variant_data_node_id_server_idx	variant_data_value_time	variant_data_encoding_name_idx	variant_data_encoding_name	variant_data_mask	variant_data_locale	variant_data_text	variant_data_value_decimal	variant_data_status_code_link_id	variant_data_diag_info_link_id	variant_data_ext_obj_link_id	variant_metadata_data_link_id	variant_data_value_link_id
+#types	time	string	addr	port	addr	port	bool	addr	port	addr	port	string	int	count	string	string	count	count	string	string	string	string	count	time	count	string	string	string	string	double	string	string	string	string	string
+1579702061.610203	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	T	::1	56322	::1	4840	fa46144f2adc5e0308	1	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+1579702061.661137	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	T	::1	56322	::1	4840	233af70619d0b8015a	2	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+#close	2025-06-11-22-47-34

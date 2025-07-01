@@ -1,0 +1,46 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	opcua_binary_status_code_detail
+#open	2025-06-11-22-47-34
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	is_orig	source_h	source_p	destination_h	destination_p	status_code_link_id	source	source_str	source_level	status_code	severity	severity_str	sub_code	sub_code_str	structure_changed	semantics_changed	info_type	info_type_str	limit_bits	limit_bits_str	overflow	historian_bits	historian_bits_str	historianPartial	historianExtraData	historianMultiValue
+#types	time	string	addr	port	addr	port	bool	addr	port	addr	port	string	count	string	count	string	count	string	count	string	bool	bool	count	string	count	string	bool	count	string	bool	bool	bool
+1579702060.526839	CueBN9373Z2Jsi5Isj	::1	56321	::1	4840	F	::1	4840	::1	56321	e665163f26d0a9b1aa	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702060.580210	CueBN9373Z2Jsi5Isj	::1	56321	::1	4840	F	::1	4840	::1	56321	f1b330ed10fc69ebec	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702060.737852	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	e270d88f3bc35a1e10	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702060.792008	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	e58514834d0f46e898	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702060.845710	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	0a9df592a2124bc08a	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702060.900045	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	cbe64fda7eeafef0f8	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702060.952172	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	f2de5da1aecf8bdb54	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702060.952172	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	ec18a52166927fe08a	2	Browse	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.005484	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	12384a512a5081ac1e	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.005484	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	11ef4a5a70067b6cb1	2	Browse	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.059151	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	b8c06e778f6b1adede	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.111496	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	b6df77f18d4e6eebd2	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.111496	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	d4f09a61906cd6b537	8	CreateMonitoredItems	0	0x80340000	2	Severity_Bad	52	BadNodeIdUnknown	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.559279	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	cc4fab67b698d0c47c	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.610073	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	b47eb0ca950fe4c6c4	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.610073	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	81a86b31f356932ac0	6	Read	0	0x80340000	2	Severity_Bad	52	BadNodeIdUnknown	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.660937	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	4a5aad04f311c32df2	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.660937	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	bcd0cea58427e17dbb	18	Write	0	0x80340000	2	Severity_Bad	52	BadNodeIdUnknown	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.714164	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	d13950551406ad3f0f	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.714164	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	ce0447146aedc6731a	18	Write	0	0x80340000	2	Severity_Bad	52	BadNodeIdUnknown	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864392	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	ae7d4d2ba2b929cb24	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864415	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	1ccff520564108a710	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864427	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	7d6819610173f47cae	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864440	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	550d2beaafb44cb43c	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864451	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	3cccbb716e889916df	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864469	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	59d308675557991c4b	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864489	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	bbfa7639c7abfdd379	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864509	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	f4e43a129321eb2b88	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864534	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	539e35cb8435915add	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864554	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	608514e199e5241955	0	ResponseHeader	0	0x80790000	2	Severity_Bad	121	BadNoSubscription	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.864578	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	562cd895d19d089cf5	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.918387	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	b88494c5037389cfbf	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702061.972535	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	3ffbbb36f0337a20a4	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702062.026363	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	7301f0db08ce985b86	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702062.080039	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	3c000070623a521c71	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702062.134240	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	ed367cdcc76cc6c899	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+1579702062.184755	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	1d8ccf189178150210	0	ResponseHeader	0	0x00000000	0	Severity_Good	0	Good	F	F	0	InfoType_NotUsed	-	-	-	-	-	-	-	-
+#close	2025-06-11-22-47-34

@@ -1,0 +1,10 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	known_services
+#open	2025-06-11-22-47-34
+#fields	ts	host	port_num	port_proto	service
+#types	time	addr	port	enum	set[string]
+1579702062.289860	::1	4840	tcp	opcua-binary
+#close	2025-06-11-22-47-34

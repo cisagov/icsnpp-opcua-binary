@@ -1,0 +1,11 @@
+#separator \x09
+#set_separator	,
+#empty_field	(empty)
+#unset_field	-
+#path	opcua_binary_create_session
+#open	2025-06-11-22-47-34
+#fields	ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	is_orig	source_h	source_p	destination_h	destination_p	opcua_link_id	application_uri	product_uri	encoding_mask	locale	text	application_type	gateway_server_uri	discovery_profile_uri	discovery_profile_link_id	server_uri	endpoint_url	session_name	client_nonce	client_cert_size	client_cert	req_session_timeout	max_res_msg_size	session_id_encoding_mask	session_id_namespace_idx	session_id_numeric	session_id_string	session_id_guid	session_id_opaque	auth_token_encoding_mask	auth_token_namespace_idx	auth_token_numeric	auth_token_string	auth_token_guid	auth_token_opaque	revised_session_timeout	server_nonce	server_cert_size	server_cert	endpoint_link_id	algorithm	signature	max_req_msg_size
+#types	time	string	addr	port	addr	port	bool	addr	port	addr	port	string	string	string	count	string	string	count	string	string	string	string	string	string	string	count	string	count	count	string	count	count	string	string	string	string	count	count	string	string	string	count	string	count	string	string	string	string	count
+1579702060.792187	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	T	::1	56322	::1	4840	6cc2fea6c6686f2e86	urn:unconfigured:application	-	0	-	-	1	-	-	-	-	opc.tcp://localhost:4840	-	-	-	-	1200000	2147483647	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-
+1579702060.845710	CGY07K35zBUMLZFaE9	::1	56322	::1	4840	F	::1	4840	::1	56322	ba9f6622d646bdf210	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	-	0x04	1	-	-	a0f7639b-18fd-8d0a-5235-f3cff51fd1dd	-	0x04	1	-	-	39121615-46f3-6d34-fecf-fcbfbacb4c14	-	1200000	0x598c5f8b8e16dbf2e5d02c5219ad6efbf5eb08dc590a1724...	-	-	825245f92e5a27b5fe	-	-	0
+#close	2025-06-11-22-47-34
