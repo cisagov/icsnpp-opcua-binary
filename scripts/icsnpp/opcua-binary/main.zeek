@@ -98,6 +98,11 @@ export {
 		## Pending responses, keyed by opcua request_id. See types.zeek for more information.
 		pending_responses: table[count] of OPCUA_Binary::Info;
 	};
+
+   const MAX_PENDING_REQUESTS = 256 &redef; # Arbitrary upper bound of concurrent requests (overridable for testing)
+   const MAX_PENDING_RESPONSES = 256 &redef; # Arbitrary upper bound of concurrent responses (overridable for testing)
+
+   const DEBUG_MODE = F &redef; # Whether or not we are in testing mode
 }
 
 # Port-based detection
@@ -108,12 +113,8 @@ redef record connection += {
 	opcua_binary_state:  State &optional;
 };
 
-# Whether or not we are mapping request and response fields to the log record
-# If we are we will omit the response timestamp from the log record
 const MAPPING_REQ_RES = T;
 
-const MAX_PENDING_REQUESTS = 256; # Arbitrary number
-const MAX_PENDING_RESPONSES = 256; # Arbitrary number
 const REQUEST_IDENTIFIER = "Request";
 const RESPONSE_IDENTIFIER = "Response";
 global GLOBAL_PENDING_REQUESTS_COUNT = 0;
@@ -183,14 +184,6 @@ function copy_common_data_to_logging_record(info: OPCUA_Binary::Info): OPCUA_Bin
       $total_size       = info$msg_size
    );
 
-   return log_info;
-}
-
-# Description: Logs a message
-function log_message(c: connection, info: OPCUA_Binary::Info)
-{
-   local log_info = copy_common_data_to_logging_record(info);
-
    if (info?$error) {log_info$error = info$error;}
    if (info?$reason) {log_info$reason = info$reason;}
    if (info?$version) {log_info$version = info$version;}
@@ -199,6 +192,31 @@ function log_message(c: connection, info: OPCUA_Binary::Info)
    if (info?$max_msg_size) {log_info$max_msg_size = info$max_msg_size;}
    if (info?$max_chunk_cnt) {log_info$max_chunk_cnt = info$max_chunk_cnt;}
    if (info?$endpoint_url) {log_info$endpoint_url = info$endpoint_url;}
+
+   # Security policy / certificate information (may be present in OPN messages)
+   if (info?$sec_policy_uri_len) {log_info$sec_policy_uri_len = info$sec_policy_uri_len;}
+   if (info?$sec_policy_uri) {log_info$sec_policy_uri = info$sec_policy_uri;}
+   if (info?$snd_cert_len) {log_info$snd_cert_len = info$snd_cert_len;}
+   if (info?$snd_cert) {log_info$snd_cert = info$snd_cert;}
+   if (info?$rcv_cert_len) {log_info$rcv_cert_len = info$rcv_cert_len;}
+   if (info?$rcv_cert) {log_info$rcv_cert = info$rcv_cert;}
+   if (info?$request_id) {log_info$request_id = info$request_id;}
+
+   # Channel identifiers
+   if (info?$sec_channel_id) {
+      local sec_channel_id: vector of count;
+      sec_channel_id += info$sec_channel_id;
+      log_info$sec_channel_id = sec_channel_id;
+   }
+   # if (info?$sec_token_id) {log_info$sec_token_id = info$sec_token_id;}
+
+   return log_info;
+}
+
+# Description: Logs a message
+function log_message(c: connection, info: OPCUA_Binary::Info)
+{
+   local log_info = copy_common_data_to_logging_record(info);
 
    Log::write(ICSNPP_OPCUA_Binary::LOG, log_info);
 }
@@ -210,11 +228,17 @@ function handle_add_pending(c: connection, info: OPCUA_Binary::Info)
 {
    if (check_message_type(info, REQUEST_IDENTIFIER)) {
       if ( !add_pending_request(c, info) ) {
+         if (DEBUG_MODE) {
+            print "MAX_PENDING_REQUESTS reached, flushing pending request";
+         }
          log_message(c, info);
       }
    }
    else {
       if ( !add_pending_response(c, info) ) {
+         if (DEBUG_MODE) {
+            print "MAX_PENDING_RESPONSES reached, flushing pending response";
+         }
          log_message(c, info);
       }
    }
@@ -325,7 +349,7 @@ function map_response(response_info: OPCUA_Binary::Info, log_info: OPCUA_Binary:
       log_info$res_identifier_str = response_info$identifier_str;
    }
    # if we are mapping both req and res use the req's timestamp as the sole timestamp, else log the res's timestamp
-   if ( !mapping_req_res && response_info?$res_hdr_timestamp){
+   if (response_info?$res_hdr_timestamp){
       log_info$res_hdr_timestamp = response_info$res_hdr_timestamp;
    }
    if (response_info?$res_hdr_request_handle){
@@ -424,6 +448,10 @@ function map_request_response(request_info: OPCUA_Binary::Info, response_info: O
    local log_info = copy_common_data_to_logging_record(request_info);
    log_info$total_size = total_size;
 
+   if (request_info$sec_channel_id != response_info$sec_channel_id) {
+      log_info$sec_channel_id += response_info$sec_channel_id;
+   }
+
    # map fields from request and response
    log_info = map_request(request_info, log_info);
    log_info = map_response(response_info, log_info, MAPPING_REQ_RES);
@@ -457,6 +485,12 @@ function handle_pending_response(c: connection, request_info: OPCUA_Binary::Info
    log_info = map_request_response(request_info, response_info);
    Log::write(ICSNPP_OPCUA_Binary::LOG, log_info);
    remove_pending_response(c, c$opcua_binary_state$pending_responses[request_info$request_id]);
+}
+
+function handle_clo_msg(clo_info: OPCUA_Binary::Info){
+   local log_info = copy_common_data_to_logging_record(clo_info);
+   map_request(clo_info, log_info);
+   Log::write(ICSNPP_OPCUA_Binary::LOG, log_info);
 }
 
 event zeek_init() &priority=5
@@ -529,13 +563,17 @@ event zeek_init() &priority=5
 
 event opcua_binary_event(c: connection, info: OPCUA_Binary::Info)
    {
+      if (DEBUG_MODE) {
+         print "MAX_PENDING_REQUESTS: ", MAX_PENDING_REQUESTS;
+         print "MAX_PENDING_RESPONSES: ", MAX_PENDING_RESPONSES;
+      }
       # if the connection does not have a state, create state
       if ( !c?$opcua_binary_state ) {
          c$opcua_binary_state = State();
       }
 
       # Fix hello, acknowledge, opcua_link_id
-      local log_immediately_msg_types = set("HEL", "ACK", "ERR", "OPN", "CLO");
+      local log_immediately_msg_types = set("HEL", "ACK", "ERR");
       set_service(c, "opcua-binary");
       info$ts  = network_time();
       info$uid = c$uid;
@@ -544,6 +582,10 @@ event opcua_binary_event(c: connection, info: OPCUA_Binary::Info)
       # if message type is in log_immediately_msg_types, log immediately
       if (info$msg_type in log_immediately_msg_types) {
          log_message(c, info);
+      }
+
+      else if (info$msg_type == "CLO") {
+         handle_clo_msg(info);
       }
 
       # else see if this message is a request and has a match in responses
@@ -1041,6 +1083,9 @@ event connection_state_remove(c: connection)
       # if the connection has a state and there are pending requests, log them
       if ( |c$opcua_binary_state$pending_requests| > 0 )
       {
+         if (DEBUG_MODE) {
+            print "Connection ending, leftover pending requests: ", |c$opcua_binary_state$pending_requests|;
+         }
          for ( request_id, request_info in c$opcua_binary_state$pending_requests )
          {
             log_info = copy_common_data_to_logging_record(request_info);
@@ -1052,6 +1097,9 @@ event connection_state_remove(c: connection)
       # if the connection has a state and there are pending responses, log them
       if ( |c$opcua_binary_state$pending_responses| > 0 )
       {
+         if (DEBUG_MODE) {
+            print "Connection ending, leftover flushing pending responses: ", |c$opcua_binary_state$pending_responses|;
+         }
          for ( response_id, response_info in c$opcua_binary_state$pending_responses )
          {
             log_info = copy_common_data_to_logging_record(response_info);
