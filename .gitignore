@@ -2,3 +2,5 @@ build/
 /*.log
 .vscode/
 .DS_Store
+.tmp
+.btest.failed.dat
