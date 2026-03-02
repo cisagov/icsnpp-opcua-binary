@@ -18,12 +18,12 @@ export {
         id                       : conn_id &log;
 
         is_orig                  : bool      &log;
-        source_h                 : addr      &log;   # Source IP Address
-        source_p                 : port      &log;   # Source Port
-        destination_h            : addr      &log;   # Destination IP Address
-        destination_p            : port      &log;   # Destination Port
+        source_h                 : addr      &log;   ##< Source IP Address
+        source_p                 : port      &log;   ##< Source Port
+        destination_h            : addr      &log;   ##< Destination IP Address
+        destination_p            : port      &log;   ##< Destination Port
 
-        opcua_link_id            : string  &log;     # Id back into OCPUA_Binary::Info
+        opcua_link_id            : string  &log;     ##< Id back into OCPUA_Binary::Info
 
         #
         # Request
@@ -34,10 +34,10 @@ export {
         client_signature : string &log &optional;
 
         # Client Software Certificate
-        client_software_cert_link_id : string  &log &optional;  # Id into OCPUA_Binary::ActivateSessionClientSoftwareCert
+        client_software_cert_link_id : string  &log &optional;  ##< Id into OCPUA_Binary::ActivateSessionClientSoftwareCert
 
         # Locale Id
-        opcua_locale_link_id : string &log &optional;   # Id into OPCUA_Binary::ActivateSessionLocaleId
+        opcua_locale_link_id : string &log &optional;   ##< Id into OPCUA_Binary::ActivateSessionLocaleId
 
         # Extension Object
         ext_obj_type_id_encoding_mask : string   &log &optional;
@@ -47,7 +47,7 @@ export {
         ext_obj_type_id_guid          : string  &log &optional;
         ext_obj_type_id_opaque        : string  &log &optional;
 
-        ext_obj_type_id_str : string &log &optional; # String representation of type id (AnonymousIdentityToken, UserNameIdentityToken, X509IdentityToken, etc.)
+        ext_obj_type_id_str : string &log &optional; ##< String representation of type id (AnonymousIdentityToken, UserNameIdentityToken, X509IdentityToken, etc.)
         ext_obj_encoding    : string &log &optional;
 
         # Common among all IdentityTokens; Only field for AnonymousIdentityToken
@@ -64,7 +64,7 @@ export {
         # IssuedIdentityToken
         ext_obj_token_data : string &log &optional;
 
-        # User Token Signature Data
+        ##< User Token Signature Data
         user_token_algorithm : string &log &optional;
         user_token_signature : string &log &optional;
 
@@ -72,8 +72,8 @@ export {
         # Response
         #
         server_nonce                       : string  &log &optional;
-        status_code_link_id                : string  &log &optional; # Id into OPCUA_Binary::StatusCodeDetail log
-        activate_session_diag_info_link_id : string  &log &optional; # Id into OPCUA_Binary::DiagnosticInfoDetail log
+        status_code_link_id                : string  &log &optional; ##< Id into OPCUA_Binary::StatusCodeDetail log
+        activate_session_diag_info_link_id : string  &log &optional; ##< Id into OPCUA_Binary::DiagnosticInfoDetail log
         
     };
 
@@ -83,12 +83,12 @@ export {
         id                           : conn_id &log;
 
         is_orig                  : bool      &log;
-        source_h                 : addr      &log;   # Source IP Address
-        source_p                 : port      &log;   # Source Port
-        destination_h            : addr      &log;   # Destination IP Address
-        destination_p            : port      &log;   # Destination Port
+        source_h                 : addr      &log;   ##< Source IP Address
+        source_p                 : port      &log;   ##< Source Port
+        destination_h            : addr      &log;   ##< Destination IP Address
+        destination_p            : port      &log;   ##< Destination Port
 
-        client_software_cert_link_id : string  &log;  # Id back into OCPUA_Binary::ActivateSession
+        client_software_cert_link_id : string  &log;  ##< Id back into OCPUA_Binary::ActivateSession
         cert_data                    : string  &log;
         cert_signature               : string  &log;
     };
@@ -99,12 +99,12 @@ export {
         id                        : conn_id &log;
 
         is_orig                  : bool      &log;
-        source_h                 : addr      &log;   # Source IP Address
-        source_p                 : port      &log;   # Source Port
-        destination_h            : addr      &log;   # Destination IP Address
-        destination_p            : port      &log;   # Destination Port
+        source_h                 : addr      &log;   ##< Source IP Address
+        source_p                 : port      &log;   ##< Source Port
+        destination_h            : addr      &log;   ##< Destination IP Address
+        destination_p            : port      &log;   ##< Destination Port
 
-        opcua_locale_link_id      : string  &log;  # Id back into OCPUA_Binary::ActivateSession
+        opcua_locale_link_id      : string  &log;  ##< Id back into OCPUA_Binary::ActivateSession
         local_id                  : string  &log;
     };
 

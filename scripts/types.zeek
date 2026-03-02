@@ -77,7 +77,7 @@ export {
         res_identifier_str            : string  &log &optional;
         res_hdr_timestamp             : time    &log &optional;
         res_hdr_request_handle        : count   &log &optional;
-        status_code_link_id           : string  &log &optional; # Link into StatusCodeDetail log
+        status_code_link_id           : string  &log &optional; ##< Link into StatusCodeDetail log
         res_hdr_service_diag_encoding : count   &log &optional;
         res_hdr_add_hdr_type_id       : count   &log &optional;
         res_hdr_add_hdr_enc_mask      : count   &log &optional;
@@ -88,11 +88,11 @@ export {
         id                            : conn_id &log;
 
         # Source/Destination
-        is_orig                       : bool      &log;   # Source IP Address
-        source_h                      : addr      &log;   # Source IP Address
-        source_p                      : port      &log;   # Source Port
-        destination_h                 : addr      &log;   # Destination IP Address
-        destination_p                 : port      &log;   # Destination Port
+        is_orig                       : bool      &log;   ##< Source IP Address
+        source_h                      : addr      &log;   ##< Source IP Address
+        source_p                      : port      &log;   ##< Source Port
+        destination_h                 : addr      &log;   ##< Destination IP Address
+        destination_p                 : port      &log;   ##< Destination Port
 
         # Msg Header
         opcua_link_id                 : string  &log;
@@ -148,7 +148,7 @@ export {
         # Response Header
         res_hdr_timestamp             : time    &log &optional;
         res_hdr_request_handle        : count   &log &optional;
-        status_code_link_id           : string  &log &optional; # Link into StatusCodeDetail log
+        status_code_link_id           : string  &log &optional; ##< Link into StatusCodeDetail log
         res_hdr_service_diag_encoding : count   &log &optional;
         res_hdr_add_hdr_type_id       : count   &log &optional;
         res_hdr_add_hdr_enc_mask      : count   &log &optional;

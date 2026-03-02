@@ -18,12 +18,12 @@ export {
         id                        : conn_id &log;
 
         is_orig                  : bool     &log;
-        source_h                 : addr     &log;   # Source IP Address
-        source_p                 : port     &log;   # Source Port
-        destination_h            : addr     &log;   # Destination IP Address
-        destination_p            : port     &log;   # Destination Port
+        source_h                 : addr     &log;   ##< Source IP Address
+        source_p                 : port     &log;   ##< Source Port
+        destination_h            : addr     &log;   ##< Destination IP Address
+        destination_p            : port     &log;   ##< Destination Port
 
-        opcua_link_id             : string  &log;       # Id back into OCPUA_Binary::Info
+        opcua_link_id             : string  &log;       ##< Id back into OCPUA_Binary::Info
 
         #
         # Request
@@ -40,7 +40,7 @@ export {
         gateway_server_uri        : string  &log &optional;
         discovery_profile_uri     : string  &log &optional;
 
-        discovery_profile_link_id : string  &log &optional; # Id into OCPUA_Binary::CreateSessionDiscovery
+        discovery_profile_link_id : string  &log &optional; ##< Id into OCPUA_Binary::CreateSessionDiscovery
 
         server_uri                : string  &log &optional;
         endpoint_url              : string  &log &optional;
@@ -81,7 +81,7 @@ export {
         server_cert_size         : count   &log &optional;
         server_cert              : string  &log &optional;
 
-        endpoint_link_id         : string &log &optional; # Id into OPCUA_Binary::CreateSessionEndpoints
+        endpoint_link_id         : string &log &optional; ##< Id into OPCUA_Binary::CreateSessionEndpoints
 
         #
         # From Table 15 - CreateSession Service Parameters: Response
@@ -109,12 +109,12 @@ export {
         id                        : conn_id &log;
 
         is_orig                  : bool     &log;
-        source_h                 : addr     &log;   # Source IP Address
-        source_p                 : port     &log;   # Source Port
-        destination_h            : addr     &log;   # Destination IP Address
-        destination_p            : port     &log;   # Destination Port
+        source_h                 : addr     &log;   ##< Source IP Address
+        source_p                 : port     &log;   ##< Source Port
+        destination_h            : addr     &log;   ##< Destination IP Address
+        destination_p            : port     &log;   ##< Destination Port
 
-        discovery_profile_link_id : string  &log;  # Id back into OCPUA_Binary::CreateSession
+        discovery_profile_link_id : string  &log;  ##< Id back into OCPUA_Binary::CreateSession
         discovery_profile_uri     : string  &log;
         discovery_profile_url     : string  &log;
     };
@@ -125,12 +125,12 @@ export {
         id                        : conn_id &log; 
 
         is_orig                  : bool     &log;
-        source_h                 : addr     &log;   # Source IP Address
-        source_p                 : port     &log;   # Source Port
-        destination_h            : addr     &log;   # Destination IP Address
-        destination_p            : port     &log;   # Destination Port
+        source_h                 : addr     &log;   ##< Source IP Address
+        source_p                 : port     &log;   ##< Source Port
+        destination_h            : addr     &log;   ##< Destination IP Address
+        destination_p            : port     &log;   ##< Destination Port
 
-        endpoint_link_id          : string  &log; # Id back into OPCUA_Binary::CreateSession
+        endpoint_link_id          : string  &log; ##< Id back into OPCUA_Binary::CreateSession
         endpoint_url              : string  &log;
         application_uri           : string  &log &optional;
         product_uri               : string  &log &optional;
@@ -145,7 +145,7 @@ export {
         server_cert               : string  &log &optional;
         message_security_mode     : count   &log &optional;
         security_policy_uri       : string  &log &optional;
-        user_token_link_id        : string  &log &optional; # Id into OPCUA_Binary::CreateSessionUserToken
+        user_token_link_id        : string  &log &optional; ##< Id into OPCUA_Binary::CreateSessionUserToken
         transport_profile_uri     : string  &log &optional;
         security_level            : count   &log &optional;
     };
@@ -156,12 +156,12 @@ export {
         id                        : conn_id &log;
 
         is_orig                  : bool     &log;
-        source_h                 : addr     &log;   # Source IP Address
-        source_p                 : port     &log;   # Source Port
-        destination_h            : addr     &log;   # Destination IP Address
-        destination_p            : port     &log;   # Destination Port
+        source_h                 : addr     &log;   ##< Source IP Address
+        source_p                 : port     &log;   ##< Source Port
+        destination_h            : addr     &log;   ##< Destination IP Address
+        destination_p            : port     &log;   ##< Destination Port
 
-        user_token_link_id        : string  &log; # Id back into OPCUA_Binary::CreateSessionEndpoints
+        user_token_link_id        : string  &log; ##< Id back into OPCUA_Binary::CreateSessionEndpoints
         user_token_policy_id      : string  &log;
         user_token_type           : count   &log;
         user_token_issued_type    : string  &log &optional;

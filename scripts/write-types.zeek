@@ -18,12 +18,12 @@ export {
         id                       : conn_id &log;
 
         is_orig                  : bool    &log;
-        source_h                 : addr    &log;   # Source IP Address
-        source_p                 : port    &log;   # Source Port
-        destination_h            : addr    &log;   # Destination IP Address
-        destination_p            : port    &log;   # Destination Port
+        source_h                 : addr    &log;   ##< Source IP Address
+        source_p                 : port    &log;   ##< Source Port
+        destination_h            : addr    &log;   ##< Destination IP Address
+        destination_p            : port    &log;   ##< Destination Port
 
-        opcua_link_id            : string  &log; # Link back into OPCUA_Binary::Info
+        opcua_link_id            : string  &log; ##< Link back into OPCUA_Binary::Info
 
         #
         # Request
@@ -51,7 +51,7 @@ export {
         #
         data_value_encoding_mask : string &log;
 
-        req_status_code_link_id  : string &log &optional; # Request status code link Id into OPCUA_Binary::StatusCodeDetail log
+        req_status_code_link_id  : string &log &optional; ##< Request status code link Id into OPCUA_Binary::StatusCodeDetail log
 
         source_timestamp     : time  &log &optional;
         source_pico_sec      : count &log &optional;
@@ -60,7 +60,7 @@ export {
         server_pico_sec      : count &log &optional;
 
 
-        write_results_variant_metadata_link_id  : string &log &optional; # Link into OPCUA_Binary::VariantMetadata log
+        write_results_variant_metadata_link_id  : string &log &optional; ##< Link into OPCUA_Binary::VariantMetadata log
 
         #
         # Response
@@ -72,8 +72,8 @@ export {
         # 
         # See statuscode-diagnostic-source-consts.h for the *Key(s) to use with generateDisgInfoEvent and generateStatusCodeEvent
         #
-        res_status_code_link_id   :  string &log &optional; # Response status code link Id into OPCUA_Binary::StatusCodeDetail log
-        diag_info_link_id     :  string &log &optional; # Link into OPCUA_Binary::DiagnosticInfoDetail log
+        res_status_code_link_id   :  string &log &optional; ##< Response status code link Id into OPCUA_Binary::StatusCodeDetail log
+        diag_info_link_id     :  string &log &optional; ##< Link into OPCUA_Binary::DiagnosticInfoDetail log
 
     };
 }

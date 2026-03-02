@@ -18,10 +18,10 @@ export {
         id                  : conn_id &log;
 
         is_orig             : bool    &log;
-        source_h            : addr    &log; # Source IP Address
-        source_p            : port    &log; # Source Port
-        destination_h       : addr    &log; # Destination IP Address
-        destination_p       : port    &log; # Destination Port
+        source_h            : addr    &log; ##< Source IP Address
+        source_p            : port    &log; ##< Source Port
+        destination_h       : addr    &log; ##< Destination IP Address
+        destination_p       : port    &log; ##< Destination Port
 
         status_code_link_id : string  &log;
         source              : count   &log;
@@ -52,13 +52,13 @@ export {
         id                  : conn_id &log;
 
         is_orig             : bool    &log;
-        source_h            : addr    &log; # Source IP Address
-        source_p            : port    &log; # Source Port
-        destination_h       : addr    &log; # Destination IP Address
-        destination_p       : port    &log; # Destination Port
+        source_h            : addr    &log; ##< Source IP Address
+        source_p            : port    &log; ##< Source Port
+        destination_h       : addr    &log; ##< Destination IP Address
+        destination_p       : port    &log; ##< Destination Port
 
         diag_info_link_id   : string  &log;
-        root_object_id      : string  &log; # This connects inner objects with the root object
+        root_object_id      : string  &log; ##< This connects inner objects with the root object
         source              : count   &log;
         source_str          : string  &log;
         inner_diag_level    : count   &log;

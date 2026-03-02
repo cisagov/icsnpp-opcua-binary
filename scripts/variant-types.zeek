@@ -18,12 +18,12 @@ export {
         id                          : conn_id &log;
 
         is_orig                     : bool    &log;
-        source_h                    : addr    &log; # Source IP Address
-        source_p                    : port    &log; # Source Port
-        destination_h               : addr    &log; # Destination IP Address
-        destination_p               : port    &log; # Destination Port
+        source_h                    : addr    &log; ##< Source IP Address
+        source_p                    : port    &log; ##< Source Port
+        destination_h               : addr    &log; ##< Destination IP Address
+        destination_p               : port    &log; ##< Destination Port
 
-        variant_source_data_link_id : string  &log; # Link back into the Variant's source file
+        variant_source_data_link_id : string  &log; ##< Link back into the Variant's source file
         
         variant_data_source         : count   &log;
         variant_data_source_str     : string  &log;
@@ -36,7 +36,7 @@ export {
         built_in_data_type          : count  &log &optional;
         built_in_data_type_str      : string &log &optional;
 
-        variant_data_link_id        : string &log &optional; # Link into OPCUA_Binary::VariantData log
+        variant_data_link_id        : string &log &optional; ##< Link into OPCUA_Binary::VariantData log
 
         # Array Dimensions
         variant_data_array_dim                  : count &log &optional;
@@ -52,12 +52,12 @@ export {
         id                         : conn_id &log;
 
         is_orig                    : bool    &log;
-        source_h                   : addr    &log; # Source IP Address
-        source_p                   : port    &log; # Source Port
-        destination_h              : addr    &log; # Destination IP Address
-        destination_p              : port    &log; # Destination Port
+        source_h                   : addr    &log; ##< Source IP Address
+        source_p                   : port    &log; ##< Source Port
+        destination_h              : addr    &log; ##< Destination IP Address
+        destination_p              : port    &log; ##< Destination Port
 
-        variant_data_link_id       : string  &log; # Link back into OPCUA_Binary::VariantMetadata
+        variant_data_link_id       : string  &log; ##< Link back into OPCUA_Binary::VariantMetadata
 
         # Signed numeric - e.g int8, int16, etc.
         variant_data_value_signed_numeric : int &log &optional;
@@ -94,13 +94,13 @@ export {
         variant_data_value_decimal : double &log &optional;
 
         # OpcUA_StatusCode
-        variant_data_status_code_link_id   : string &log &optional; # Link into OPCUA_Binary::StatusCodeDetail log
+        variant_data_status_code_link_id   : string &log &optional; ##< Link into OPCUA_Binary::StatusCodeDetail log
 
         # OpcUA_DiagnosticInfo
-        variant_data_diag_info_link_id     : string &log &optional; # Link into OPCUA_Binary::DiagnosticInfoDetail log
+        variant_data_diag_info_link_id     : string &log &optional; ##< Link into OPCUA_Binary::DiagnosticInfoDetail log
 
         # OpcUA_ExtensionObject
-        variant_data_ext_obj_link_id   : string &log &optional; # Link into OPCUA_Binary::VariantExtensionObject
+        variant_data_ext_obj_link_id   : string &log &optional; ##< Link into OPCUA_Binary::VariantExtensionObject
 
         #
         # OpcUA_DataValue
@@ -110,7 +110,7 @@ export {
         #
         variant_metadata_data_link_id : string &log &optional; #Link into OPCUA_Binary::VariantMetadata
 
-        variant_data_value_link_id    : string &log &optional; # Link into OPCUA_Binary::VariantDataValue
+        variant_data_value_link_id    : string &log &optional; ##< Link into OPCUA_Binary::VariantDataValue
     };
 
     type OPCUA_Binary::VariantArrayDims: record {
@@ -119,12 +119,12 @@ export {
         id                : conn_id &log;
 
         is_orig           : bool    &log;
-        source_h          : addr    &log; # Source IP Address
-        source_p          : port    &log; # Source Port
-        destination_h     : addr    &log; # Destination IP Address
-        destination_p     : port    &log; # Destination Port
+        source_h          : addr    &log; ##< Source IP Address
+        source_p          : port    &log; ##< Source Port
+        destination_h     : addr    &log; ##< Destination IP Address
+        destination_p     : port    &log; ##< Destination Port
 
-        array_dim_link_id : string  &log; # Link back into OPCUA_Binary::ReadArrayDims
+        array_dim_link_id : string  &log; ##< Link back into OPCUA_Binary::ReadArrayDims
         dimension         : count   &log; 
     };
 
@@ -134,12 +134,12 @@ export {
         id              : conn_id &log;
 
         is_orig         : bool    &log;
-        source_h        : addr    &log; # Source IP Address
-        source_p        : port    &log; # Source Port
-        destination_h   : addr    &log; # Destination IP Address
-        destination_p   : port    &log; # Destination Port
+        source_h        : addr    &log; ##< Source IP Address
+        source_p        : port    &log; ##< Source Port
+        destination_h   : addr    &log; ##< Destination IP Address
+        destination_p   : port    &log; ##< Destination Port
 
-        ext_obj_link_id : string &log; # Link into OPCUA_Binary::VariantData
+        ext_obj_link_id : string &log; ##< Link into OPCUA_Binary::VariantData
 
         # NodeId
         ext_obj_node_id_encoding_mask : string &log &optional;
@@ -149,7 +149,7 @@ export {
         ext_obj_node_id_guid          : string &log &optional;
         ext_obj_node_id_opaque        : string &log &optional;
 
-        ext_obj_type_id_str : string &log; # String representation of type id (AnonymousIdentityToken, UserNameIdentityToken, X509IdentityToken, etc.)
+        ext_obj_type_id_str : string &log; ##< String representation of type id (AnonymousIdentityToken, UserNameIdentityToken, X509IdentityToken, etc.)
         ext_obj_encoding    : string &log;
     };
 
@@ -159,16 +159,16 @@ export {
         id                              : conn_id &log;
 
         is_orig                         : bool    &log;
-        source_h                        : addr    &log; # Source IP Address
-        source_p                        : port    &log; # Source Port
-        destination_h                   : addr    &log; # Destination IP Address
-        destination_p                   : port    &log; # Destination Port
+        source_h                        : addr    &log; ##< Source IP Address
+        source_p                        : port    &log; ##< Source Port
+        destination_h                   : addr    &log; ##< Destination IP Address
+        destination_p                   : port    &log; ##< Destination Port
 
         variant_data_value_source_link  : string &log;
 
         data_value_encoding_mask        : string &log;
 
-        status_code_link_id     : string &log &optional; # Id into OPCUA_Binary::StatusCodeDetail log
+        status_code_link_id     : string &log &optional; ##< Id into OPCUA_Binary::StatusCodeDetail log
 
         source_timestamp        : time  &log &optional;
         source_pico_sec         : count &log &optional;

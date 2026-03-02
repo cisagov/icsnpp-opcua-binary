@@ -18,12 +18,12 @@ export {
         id                       : conn_id &log;
 
         is_orig                  : bool    &log;
-        source_h                 : addr    &log;   # Source IP Address
-        source_p                 : port    &log;   # Source Port
-        destination_h            : addr    &log;   # Destination IP Address
-        destination_p            : port    &log;   # Destination Port
+        source_h                 : addr    &log;   ##< Source IP Address
+        source_p                 : port    &log;   ##< Source Port
+        destination_h            : addr    &log;   ##< Destination IP Address
+        destination_p            : port    &log;   ##< Destination Port
 
-        opcua_link_id            : string  &log;       # Id back into OCPUA_Binary::Info
+        opcua_link_id            : string  &log;       ##< Id back into OCPUA_Binary::Info
 
         requested_publishing_interval   : count &log &optional;
         requested_lifetime_count        : count &log &optional;

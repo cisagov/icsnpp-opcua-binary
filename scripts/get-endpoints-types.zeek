@@ -18,16 +18,16 @@ export {
         id                           : conn_id &log;
 
         is_orig                      : bool    &log;
-        source_h                     : addr    &log; # Source IP Address
-        source_p                     : port    &log; # Source Port
-        destination_h                : addr    &log; # Destination IP Address
-        destination_p                : port    &log; # Destination Port
+        source_h                     : addr    &log; ##< Source IP Address
+        source_p                     : port    &log; ##< Source Port
+        destination_h                : addr    &log; ##< Destination IP Address
+        destination_p                : port    &log; ##< Destination Port
 
-        opcua_link_id                : string  &log; # Link back into OPCUA_Binary::Info:
+        opcua_link_id                : string  &log; ##< Link back into OPCUA_Binary::Info:
         endpoint_url                 : string  &log;
-        locale_link_id               : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsLocaleId
-        profile_uri_link_id          : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsProfileUri
-        endpoint_description_link_id : string &log &optional;  # Link into OPCUA_Binary::GetEndpointsDescription
+        locale_link_id               : string  &log &optional; ##< Link into OPCUA_Binary::GetEndpointsLocaleId
+        profile_uri_link_id          : string  &log &optional; ##< Link into OPCUA_Binary::GetEndpointsProfileUri
+        endpoint_description_link_id : string &log &optional;  ##< Link into OPCUA_Binary::GetEndpointsDescription
 
     };
 
@@ -37,12 +37,12 @@ export {
         id                           : conn_id &log;
 
         is_orig                      : bool    &log;
-        source_h                     : addr    &log; # Source IP Address
-        source_p                     : port    &log; # Source Port
-        destination_h                : addr    &log; # Destination IP Address
-        destination_p                : port    &log; # Destination Port
+        source_h                     : addr    &log; ##< Source IP Address
+        source_p                     : port    &log; ##< Source Port
+        destination_h                : addr    &log; ##< Destination IP Address
+        destination_p                : port    &log; ##< Destination Port
 
-        endpoint_description_link_id : string  &log; # Link back into OPCUA_Binary::GetEndpoints
+        endpoint_description_link_id : string  &log; ##< Link back into OPCUA_Binary::GetEndpoints
         endpoint_uri                 : string  &log &optional;
         
         # OpcUA_ApplicationDescription
@@ -56,7 +56,7 @@ export {
         discovery_profile_uri     : string  &log &optional;
 
         # OpcUA_ApplicationDescription array of OpcUA_String
-        discovery_profile_link_id : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsDiscovery
+        discovery_profile_link_id : string  &log &optional; ##< Link into OPCUA_Binary::GetEndpointsDiscovery
 
         # OpcUA_ApplicationInstanceCertificate
         cert_size                 : count   &log &optional;
@@ -66,7 +66,7 @@ export {
         security_policy_uri       : string  &log &optional;
 
         # Array of OpcUA_UserTokenPolicy
-        user_token_link_id        : string  &log &optional; # Link into OPCUA_Binary::GetEndpointsUserToken
+        user_token_link_id        : string  &log &optional; ##< Link into OPCUA_Binary::GetEndpointsUserToken
 
         transport_profile_uri     : string  &log &optional;
         security_level            : count   &log &optional;
@@ -78,12 +78,12 @@ export {
         id                        : conn_id &log;
 
         is_orig                   : bool    &log;
-        source_h                  : addr    &log; # Source IP Address
-        source_p                  : port    &log; # Source Port
-        destination_h             : addr    &log; # Destination IP Address
-        destination_p             : port    &log; # Destination Port
+        source_h                  : addr    &log; ##< Source IP Address
+        source_p                  : port    &log; ##< Source Port
+        destination_h             : addr    &log; ##< Destination IP Address
+        destination_p             : port    &log; ##< Destination Port
 
-        discovery_profile_link_id : string  &log; # Link back into OPCUA_Binary::GetEndpointsDescription
+        discovery_profile_link_id : string  &log; ##< Link back into OPCUA_Binary::GetEndpointsDescription
         discovery_profile_url     : string  &log;
     };
 
@@ -93,12 +93,12 @@ export {
         id                        : conn_id &log;
 
         is_orig                   : bool    &log;
-        source_h                  : addr    &log; # Source IP Address
-        source_p                  : port    &log; # Source Port
-        destination_h             : addr    &log; # Destination IP Address
-        destination_p             : port    &log; # Destination Port
+        source_h                  : addr    &log; ##< Source IP Address
+        source_p                  : port    &log; ##< Source Port
+        destination_h             : addr    &log; ##< Destination IP Address
+        destination_p             : port    &log; ##< Destination Port
 
-        user_token_link_id        : string  &log; # Link back into OPCUA_Binary::GetEndpointsDescription
+        user_token_link_id        : string  &log; ##< Link back into OPCUA_Binary::GetEndpointsDescription
         user_token_policy_id      : string  &log;
         user_token_type           : count   &log;
         user_token_issued_type    : string  &log &optional;
@@ -112,12 +112,12 @@ export {
         id                        : conn_id &log;
 
         is_orig                   : bool    &log;
-        source_h                  : addr    &log; # Source IP Address
-        source_p                  : port    &log; # Source Port
-        destination_h             : addr    &log; # Destination IP Address
-        destination_p             : port    &log; # Destination Port
+        source_h                  : addr    &log; ##< Source IP Address
+        source_p                  : port    &log; ##< Source Port
+        destination_h             : addr    &log; ##< Destination IP Address
+        destination_p             : port    &log; ##< Destination Port
 
-        locale_link_id            : string  &log; # Link back into OPCUA_Binary::GetEndpoints
+        locale_link_id            : string  &log; ##< Link back into OPCUA_Binary::GetEndpoints
         locale_id                 : string  &log;
     };
 
@@ -127,12 +127,12 @@ export {
         id                        : conn_id &log;
 
         is_orig                   : bool    &log;
-        source_h                  : addr    &log; # Source IP Address
-        source_p                  : port    &log; # Source Port
-        destination_h             : addr    &log; # Destination IP Address
-        destination_p             : port    &log; # Destination Port
+        source_h                  : addr    &log; ##< Source IP Address
+        source_p                  : port    &log; ##< Source Port
+        destination_h             : addr    &log; ##< Destination IP Address
+        destination_p             : port    &log; ##< Destination Port
 
-        profile_uri_link_id       : string  &log; # Link back into OPCUA_Binary::GetEndpoints
+        profile_uri_link_id       : string  &log; ##< Link back into OPCUA_Binary::GetEndpoints
         profile_uri               : string  &log;
     };
 

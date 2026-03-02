@@ -19,12 +19,12 @@ export {
         id                          : conn_id &log;
 
         is_orig                     : bool    &log;
-        source_h                    : addr    &log;   # Source IP Address
-        source_p                    : port    &log;   # Source Port
-        destination_h               : addr    &log;   # Destination IP Address
-        destination_p               : port    &log;   # Destination Port
+        source_h                    : addr    &log;   ##< Source IP Address
+        source_p                    : port    &log;   ##< Source Port
+        destination_h               : addr    &log;   ##< Destination IP Address
+        destination_p               : port    &log;   ##< Destination Port
 
-        opcua_link_id               : string  &log;       # Id back into OCPUA_Binary::Info
+        opcua_link_id               : string  &log;       ##< Id back into OCPUA_Binary::Info
 
         subscription_id                             : count &log &optional;
         timestamps_to_return                        : count &log &optional;
@@ -38,10 +38,10 @@ export {
         id                          : conn_id &log;
 
         is_orig                     : bool    &log;
-        source_h                    : addr    &log;   # Source IP Address
-        source_p                    : port    &log;   # Source Port
-        destination_h               : addr    &log;   # Destination IP Address
-        destination_p               : port    &log;   # Destination Port
+        source_h                    : addr    &log;   ##< Source IP Address
+        source_p                    : port    &log;   ##< Source Port
+        destination_h               : addr    &log;   ##< Destination IP Address
+        destination_p               : port    &log;   ##< Destination Port
 
         create_item_link_id         : string &log; #Id back into OPCUA_Binary::CreateMonitoredItems
 
@@ -70,9 +70,9 @@ export {
         monitoring_parameters_filter_info_type_id_string                : string &log &optional;
         monitoring_parameters_filter_info_type_id_encoding              : string &log &optional;   
 
-        filter_info_details_link_id  : string &log &optional;  # Link into the filter details file as indicated by monitoring_parameters_filter_info_type_id_string
+        filter_info_details_link_id  : string &log &optional;  ##< Link into the filter details file as indicated by monitoring_parameters_filter_info_type_id_string
 
-        monitoring_parameters_status_code_link_id       : string &log &optional; # Link into OPCUA_Binary::StatusCodeDetails
+        monitoring_parameters_status_code_link_id       : string &log &optional; ##< Link into OPCUA_Binary::StatusCodeDetails
         monitored_item_index_id                         : count  &log &optional;
         monitoring_parameters_revised_sampling_interval : double &log &optional;
         monitoring_parameters_revised_queue_size        : count  &log &optional;
