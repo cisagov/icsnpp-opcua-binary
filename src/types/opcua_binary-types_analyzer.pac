@@ -247,7 +247,14 @@ build/opcua_binary_pac.cc file(s) for details.
     // nested inner diagnostic information.
     //
     void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src, bool is_orig, std::string root_object_id) {
+        static const uint32 MAX_DIAG_DEPTH = 32;
+        if (innerDiagLevel >= MAX_DIAG_DEPTH) {
+            fprintf(stderr, "WARNING!!! OPC UA DiagnosticInfo reached maximum nesting depth (depth=%u, max=%u)\n Stopping recursion\n", static_cast<unsigned>(innerDiagLevel), static_cast<unsigned>(MAX_DIAG_DEPTH));
+            return;
+        }
+
         zeek::RecordValPtr diag_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::DiagnosticInfoDetail);
+
 
         // Source & Destination
         const zeek::RecordValPtr conn_val = connection->bro_analyzer()->Conn()->GetVal();
@@ -278,9 +285,10 @@ build/opcua_binary_pac.cc file(s) for details.
         // Symbolic Id
         if (isBitSet(diagInfo->encoding_mask(), hasSymbolicId)) {
             int32 idx = diagInfo->symbolic_id();
-            string str = std_str(stringTable->at(idx)->string());
-
-            diag_info->Assign(HAS_SYMBOLIC_ID_IDX, zeek::val_mgr->Bool(true));
+            if(stringTable != NULL && idx >= 0 && (size_t)idx < stringTable -> size()) {
+                string str = std_str(stringTable->at(idx)->string());
+                diag_info->Assign(HAS_SYMBOLIC_ID_IDX, zeek::val_mgr->Bool(true));
+            }
             diag_info->Assign(SYMBOLIC_ID_IDX,     zeek::val_mgr->Count(idx));
             diag_info->Assign(SYMBOLIC_ID_STR_IDX, zeek::make_intrusive<zeek::StringVal>(str));
         }
@@ -288,9 +296,10 @@ build/opcua_binary_pac.cc file(s) for details.
         // Namespace URI
         if (isBitSet(diagInfo->encoding_mask(), hasNamespaceUri)) {
             int32 idx = diagInfo->namespace_uri();
-            string str = std_str(stringTable->at(idx)->string());
-
-            diag_info->Assign(HAS_NAMESPACE_URI_IDX, zeek::val_mgr->Bool(true));
+            if(stringTable != NULL && idx >= 0 && (size_t)idx < stringTable -> size()) {
+                string str = std_str(stringTable->at(idx)->string());
+                diag_info->Assign(HAS_NAMESPACE_URI_IDX, zeek::val_mgr->Bool(true));
+            }
             diag_info->Assign(NAMESPACE_URI_IDX,     zeek::val_mgr->Count(idx));
             diag_info->Assign(NAMESPACE_URI_STR_IDX, zeek::make_intrusive<zeek::StringVal>(str));
         }
@@ -298,9 +307,10 @@ build/opcua_binary_pac.cc file(s) for details.
         // Localized Text
         if (isBitSet(diagInfo->encoding_mask(), hasLocalizedTxt)) {
             int32 idx = diagInfo->localized_txt();
-            string str = std_str(stringTable->at(idx)->string());
-
-            diag_info->Assign(HAS_LOCALE_TXT_IDX, zeek::val_mgr->Bool(true));
+            if(stringTable != NULL && idx >= 0 && (size_t)idx < stringTable -> size()) {
+                string str = std_str(stringTable->at(idx)->string());
+                diag_info->Assign(HAS_LOCALE_TXT_IDX, zeek::val_mgr->Bool(true));
+            }
             diag_info->Assign(LOCALE_TXT_IDX,     zeek::val_mgr->Count(idx));
             diag_info->Assign(LOCALE_TXT_STR_IDX, zeek::make_intrusive<zeek::StringVal>(str));
         }
@@ -308,18 +318,20 @@ build/opcua_binary_pac.cc file(s) for details.
         // Locale
         if (isBitSet(diagInfo->encoding_mask(), hasLocale)) {
             int32 idx = diagInfo->locale();
-            string str = std_str(stringTable->at(idx)->string());
-
-            diag_info->Assign(HAS_LOCALE_IDX, zeek::val_mgr->Bool(true));
+            if(stringTable != NULL && idx >= 0 && (size_t)idx < stringTable -> size()) {
+                string str = std_str(stringTable->at(idx)->string());
+                diag_info->Assign(HAS_LOCALE_IDX, zeek::val_mgr->Bool(true));
+            }
             diag_info->Assign(LOCALE_IDX,     zeek::val_mgr->Count(idx));
             diag_info->Assign(LOCALE_STR_IDX, zeek::make_intrusive<zeek::StringVal>(str));
         }
 
         // Additional Information
         if (isBitSet(diagInfo->encoding_mask(), hasAddlInfo)) {
-            string str = std_str(diagInfo->addl_info()->string());
-
+            if(stringTable != NULL && idx >= 0 && (size_t)idx < stringTable -> size()) {
+                string str = std_str(stringTable->at(idx)->string());
             diag_info->Assign(HAS_ADDL_INFO_IDX, zeek::val_mgr->Bool(true));
+            }
             diag_info->Assign(ADDL_INFO_IDX,     zeek::make_intrusive<zeek::StringVal>(str));
         }
 
@@ -395,3 +407,4 @@ build/opcua_binary_pac.cc file(s) for details.
 
 
 %}
+
