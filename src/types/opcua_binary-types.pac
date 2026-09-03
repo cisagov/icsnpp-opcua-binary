@@ -88,8 +88,8 @@ type OpcUA_StatusCode = uint32;
 #
 # 5.2.2.12 DiagnosticInfo; Table 11
 #
-type OpcUA_DiagInfo = record {
-    encoding_mask   : uint8;
+type OpcUA_DiagInfo(recursion_depth : uint8) = record {
+    encoding_mask   : uint8 &enforce(recursion_depth < 5 || !$context.flow.is_bit_set(encoding_mask, hasInnerDiagInfo));
 
     has_symbolic_id : case $context.flow.is_bit_set(encoding_mask, hasSymbolicId) of {
         true    -> symbolic_id       : int32;
@@ -122,7 +122,7 @@ type OpcUA_DiagInfo = record {
     };
 
     has_inner_diag_info : case $context.flow.is_bit_set(encoding_mask, hasInnerDiagInfo) of {
-        true     -> inner_diag_info       : OpcUA_DiagInfo;
+        true     -> inner_diag_info       : OpcUA_DiagInfo(recursion_depth + 1);
         default  -> empty_inner_diag_info : empty;
     };
 } &byteorder=littleendian;
@@ -529,7 +529,7 @@ type OpcUA_DataChangeNotification = record {
     monitored_item      : OpcUA_MonitoredItemNotification[$context.flow.bind_length(monitored_item_size)];
 
     diagnostic_info_size : int32;
-    diagnostic_info      : OpcUA_DiagInfo[$context.flow.bind_length(diagnostic_info_size)];
+    diagnostic_info      : OpcUA_DiagInfo(0)[$context.flow.bind_length(diagnostic_info_size)];
 }
 
 #
@@ -572,5 +572,5 @@ type OpcUA_Event = record {
 #
 type OpcUA_StatusChangeNotification = record {
     status          : OpcUA_StatusCode;
-    diagnostic_info : OpcUA_DiagInfo;
+    diagnostic_info : OpcUA_DiagInfo(0);
 }

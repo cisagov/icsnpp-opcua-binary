@@ -38,7 +38,7 @@ type Read_Res(service: Service) = record {
     results      : OpcUA_DataValue[$context.flow.bind_length(results_size)];
 
     diagnostic_info_size : int32;
-    diagnostic_info      : OpcUA_DiagInfo[$context.flow.bind_length(diagnostic_info_size)];
+    diagnostic_info      : OpcUA_DiagInfo(0)[$context.flow.bind_length(diagnostic_info_size)];
 
 } &let {
     deliver: bool = $context.flow.deliver_Svc_ReadRes(this);
