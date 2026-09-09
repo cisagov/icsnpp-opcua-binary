@@ -89,7 +89,12 @@ type OpcUA_StatusCode = uint32;
 # 5.2.2.12 DiagnosticInfo; Table 11
 #
 type OpcUA_DiagInfo(recursion_depth : uint8) = record {
-    encoding_mask   : uint8 &enforce(recursion_depth < 5 || !$context.flow.is_bit_set(encoding_mask, hasInnerDiagInfo));
+    encoding_mask   : uint8 &enforce(
+        check_diag_depth(
+            recursion_depth,
+            encoding_mask
+        )
+    );
 
     has_symbolic_id : case $context.flow.is_bit_set(encoding_mask, hasSymbolicId) of {
         true    -> symbolic_id       : int32;
@@ -127,6 +132,26 @@ type OpcUA_DiagInfo(recursion_depth : uint8) = record {
     };
 } &byteorder=littleendian;
 
+function check_diag_depth(
+    recursion_depth: uint8,
+    encoding_mask: uint8
+): bool
+%{
+    static const uint8 MAX_DIAG_DEPTH = 32;
+
+    if (recursion_depth >= MAX_DIAG_DEPTH && isBitSet(encoding_mask, hasInnerDiagInfo))
+        {
+        zeek::reporter->Warning(
+            "OPC UA DiagnosticInfo reached maximum nesting depth "
+            "(depth=%u, max=%u); stopping recursion",
+            static_cast<unsigned>(recursion_depth),
+            static_cast<unsigned>(MAX_DIAG_DEPTH));
+
+        return false;
+        }
+
+    return true;
+%}
 
 
 #

@@ -247,11 +247,16 @@ build/opcua_binary_pac.cc file(s) for details.
     // nested inner diagnostic information.
     //
     void generateDiagInfoEvent(OPCUA_Binary_Conn *connection, zeek::ValPtr opcua_id, OpcUA_DiagInfo *diagInfo, vector<OpcUA_String *> *stringTable, uint32 innerDiagLevel, uint32_t status_code_src, uint32_t diag_info_src, bool is_orig, std::string root_object_id) {
-        // static const uint32 MAX_DIAG_DEPTH = 32;
-        // if (innerDiagLevel >= MAX_DIAG_DEPTH) {
-        //     fprintf(stderr, "WARNING!!! OPC UA DiagnosticInfo reached maximum nesting depth (depth=%u, max=%u)\n Stopping recursion\n", static_cast<unsigned>(innerDiagLevel), static_cast<unsigned>(MAX_DIAG_DEPTH));
-        //     return;
-        // }
+        static const uint32 MAX_DIAG_DEPTH = 32;
+        if (innerDiagLevel >= MAX_DIAG_DEPTH) {
+            zeek::reporter->Warning(
+                "OPC UA DiagnosticInfo reached maximum nesting depth "
+                "(depth=%u, max=%u); stopping recursion",
+                static_cast<unsigned>(innerDiagLevel),
+                static_cast<unsigned>(MAX_DIAG_DEPTH));
+        
+            return;
+        }
 
         zeek::RecordValPtr diag_info = zeek::make_intrusive<zeek::RecordVal>(zeek::BifType::Record::OPCUA_Binary::DiagnosticInfoDetail);
 
