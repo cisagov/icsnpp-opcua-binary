@@ -46,7 +46,7 @@ type Activate_Session_Res(service: Service) = record {
     results      : OpcUA_StatusCode[$context.flow.bind_length(result_size)];
 
     diagnostic_info_size : int32;
-    diagnostic_info      : OpcUA_DiagInfo[$context.flow.bind_length(diagnostic_info_size)];
+    diagnostic_info      : OpcUA_DiagInfo(0)[$context.flow.bind_length(diagnostic_info_size)];
 
 } &let {
     deliver: bool = $context.flow.deliver_Svc_ActivateSessionRes(this);

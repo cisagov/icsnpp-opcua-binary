@@ -40,7 +40,7 @@ type OpcUA_EventFilterResult = record {
     num_select_clause_results       : int32;
     select_clause_results           : OpcUA_StatusCode[$context.flow.bind_length(num_select_clause_results)];
     num_select_clause_diag_infos    : int32;
-    select_clause_diag_infos        : OpcUA_DiagInfo[$context.flow.bind_length(num_select_clause_diag_infos)];
+    select_clause_diag_infos        : OpcUA_DiagInfo(0)[$context.flow.bind_length(num_select_clause_diag_infos)];
     where_clause_result             : OpcUA_ContentFilterResult;
 };
 
@@ -70,7 +70,7 @@ type OpcUA_ContentFilterResult = record {
     num_element_results     : int32;
     elements_results        : OpcUA_ContentFilterElementResult[$context.flow.bind_length(num_element_results)];
     num_element_diag_infos  : int32;
-    element_diag_infos      : OpcUA_DiagInfo[$context.flow.bind_length(num_element_diag_infos)];
+    element_diag_infos      : OpcUA_DiagInfo(0)[$context.flow.bind_length(num_element_diag_infos)];
 };
 
 type OpcUA_ContentFilterElementResult = record {
@@ -78,7 +78,7 @@ type OpcUA_ContentFilterElementResult = record {
     num_operand_status_codes    : int32;
     operand_status_codes        : OpcUA_StatusCode[$context.flow.bind_length(num_operand_status_codes)];
     num_operand_diag_infos      : int32;
-    operand_diag_infos          : OpcUA_DiagInfo[$context.flow.bind_length(num_operand_diag_infos)];
+    operand_diag_infos          : OpcUA_DiagInfo(0)[$context.flow.bind_length(num_operand_diag_infos)];
 };
 
 
