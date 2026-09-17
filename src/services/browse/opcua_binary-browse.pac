@@ -39,7 +39,7 @@ type Browse_Res(service: Service) = record {
     results_table_size  : int32;
     results             : Browse_Result[$context.flow.bind_length(results_table_size)];
     diag_info_size      : int32;
-    diag_info           : OpcUA_DiagInfo[$context.flow.bind_length(diag_info_size)];
+    diag_info           : OpcUA_DiagInfo(0)[$context.flow.bind_length(diag_info_size)];
 } &let {
     deliver: bool = $context.flow.deliver_Svc_BrowseRes(this);
 } &byteorder=littleendian;

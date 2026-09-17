@@ -117,7 +117,7 @@ type OpcUA_VariantData(built_in_type : uint32) = record {
         BuiltIn_LocalizedText   -> localized_text_variant   : OpcUA_LocalizedText;
         BuiltIn_ExtensionObject -> extension_object_variant : OpcUA_ExtensionObject;
         BuiltIn_DataValue       -> datavalue_variant        : OpcUA_DataValue;
-        BuiltIn_DiagnosticInfo  -> diag_info_variant        : OpcUA_DiagInfo;
+        BuiltIn_DiagnosticInfo  -> diag_info_variant        : OpcUA_DiagInfo(0);
         BuiltIn_Float           -> float_variant            : OpcUA_Float;
         BuiltIn_Double          -> double_variant           : OpcUA_Double;
         default                 -> empty_variant_data       : empty;

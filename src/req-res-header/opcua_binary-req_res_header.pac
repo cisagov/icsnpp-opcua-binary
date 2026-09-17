@@ -35,7 +35,7 @@ type Response_Header = record {
     timestamp      : OpcUA_DateTime;
     request_handle : OpcUA_IntegerId;
     service_result : OpcUA_StatusCode;
-    service_diag   : OpcUA_DiagInfo;
+    service_diag   : OpcUA_DiagInfo(0);
 
     string_table_size : int32;
     has_string_table : case (string_table_size > 0) of {

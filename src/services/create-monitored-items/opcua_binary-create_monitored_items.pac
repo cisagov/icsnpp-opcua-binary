@@ -30,7 +30,7 @@ type Create_Monitored_Items_Res(service: Service) = record {
     num_results         : int32;
     results             : MonitoredItem_Create_Response[$context.flow.bind_length(num_results)];
     diag_info_size      : int32;
-    diag_info           : OpcUA_DiagInfo[$context.flow.bind_length(diag_info_size)];
+    diag_info           : OpcUA_DiagInfo(0)[$context.flow.bind_length(diag_info_size)];
    
 } &let {
     deliver: bool = $context.flow.deliver_Svc_CreateMonitoredItemsRes(this);
