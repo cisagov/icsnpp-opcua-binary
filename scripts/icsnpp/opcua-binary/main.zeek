@@ -107,6 +107,11 @@ export {
 
 # Port-based detection
 const ports = { 4840/tcp, 4843/tcp };
+
+# Additional Opcua Binary ports supplied through the environment.
+global opcua_binary_ports_str: string = getenv("ZEEK_OPCUA_BINARY_PORTS");
+
+
 redef likely_server_ports += { ports };
 
 redef record connection += {
@@ -560,6 +565,24 @@ event zeek_init() &priority=5
 
    Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
 }
+
+event zeek_init() &priority=-5
+    {
+    if (opcua_binary_ports_str != "" ) {
+        local opcua_binary_ports = split_string(opcua_binary_ports_str, /,/);
+        local opcua_binary_ports_tcp: set[port] = {};
+        for ( opcua_port_idx in opcua_binary_ports ) {
+            local opcua_binary_port = to_port(opcua_binary_ports[opcua_port_idx]);
+            local opcua_binary_prot = get_port_transport_proto(opcua_binary_port);
+            if ( opcua_binary_prot == tcp ) {
+                add opcua_binary_ports_tcp[opcua_binary_port];
+               }
+            }
+        if ( |opcua_binary_ports_tcp| > 0 ) {
+            Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, opcua_binary_ports_tcp);
+            }
+        }
+    }
 
 event opcua_binary_event(c: connection, info: OPCUA_Binary::Info)
    {
@@ -1108,3 +1131,4 @@ event connection_state_remove(c: connection)
          }
       }
    }
+
