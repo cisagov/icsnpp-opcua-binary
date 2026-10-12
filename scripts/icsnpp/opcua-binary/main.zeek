@@ -92,6 +92,13 @@ export {
 
    global log_policy_opensecure_channel: Log::PolicyHook;
 
+   ## TCP ports assigned directly to the OPC UA Binary analyzer.
+   const ports: set[port] = { 4840/tcp, 4843/tcp } &redef;
+
+   ## Additional comma-separated TCP ports supplied through the environment.
+   ## Values use Zeek port notation, for example: 12345/tcp,12346/tcp.
+   const opcua_binary_ports_str: string = getenv("ZEEK_OPCUA_BINARY_PORTS") &redef;
+
    type State: record {
 		## Pending requests, keyed by opcua request_id. See types.zeek for more information.
 		pending_requests:  table[count] of OPCUA_Binary::Info;
@@ -104,15 +111,6 @@ export {
 
    const DEBUG_MODE = F &redef; # Whether or not we are in testing mode
 }
-
-# Port-based detection
-const ports = { 4840/tcp, 4843/tcp };
-
-# Additional Opcua Binary ports supplied through the environment.
-global opcua_binary_ports_str: string = getenv("ZEEK_OPCUA_BINARY_PORTS");
-
-
-redef likely_server_ports += { ports };
 
 redef record connection += {
 	opcua_binary_state:  State &optional;
@@ -563,26 +561,44 @@ event zeek_init() &priority=5
 
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_OPENSECURE_CHANNEL,                                  [$columns=OPCUA_Binary::OpenSecureChannel,                  $path="opcua_binary_opensecure_channel",                                 $policy=log_policy_opensecure_channel]);
 
-   Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, ports);
-}
+   local opcua_binary_ports_tcp: set[port] = {};
 
-event zeek_init() &priority=-5
-    {
-    if (opcua_binary_ports_str != "" ) {
-        local opcua_binary_ports = split_string(opcua_binary_ports_str, /,/);
-        local opcua_binary_ports_tcp: set[port] = {};
-        for ( opcua_port_idx in opcua_binary_ports ) {
-            local opcua_binary_port = to_port(opcua_binary_ports[opcua_port_idx]);
-            local opcua_binary_prot = get_port_transport_proto(opcua_binary_port);
-            if ( opcua_binary_prot == tcp ) {
-                add opcua_binary_ports_tcp[opcua_binary_port];
-               }
-            }
-        if ( |opcua_binary_ports_tcp| > 0 ) {
-            Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, opcua_binary_ports_tcp);
-            }
-        }
-    }
+   for ( opcua_binary_port in ports ) {
+      if ( get_port_transport_proto(opcua_binary_port) != tcp ) {
+         Reporter::warning(fmt("Ignoring non-TCP OPC UA Binary port: %s", opcua_binary_port));
+         next;
+      }
+
+      add opcua_binary_ports_tcp[opcua_binary_port];
+   }
+
+   if ( opcua_binary_ports_str != "" ) {
+      local opcua_binary_ports = split_string(opcua_binary_ports_str, /,/);
+
+      for ( opcua_port_idx in opcua_binary_ports ) {
+         local opcua_binary_port_str = strip(opcua_binary_ports[opcua_port_idx]);
+
+         if ( /^[0-9]{1,5}\/tcp$/ !in opcua_binary_port_str ) {
+            Reporter::warning(fmt("Ignoring invalid OPC UA Binary TCP port: %s", opcua_binary_port_str));
+            next;
+         }
+
+         local opcua_binary_port_num = to_count(sub(opcua_binary_port_str, /\/tcp$/, ""));
+         if ( opcua_binary_port_num > 65535 ) {
+            Reporter::warning(fmt("Ignoring out-of-range OPC UA Binary TCP port: %s", opcua_binary_port_str));
+            next;
+         }
+
+         add opcua_binary_ports_tcp[count_to_port(opcua_binary_port_num, tcp)];
+      }
+   }
+
+   for ( opcua_binary_port in opcua_binary_ports_tcp )
+      add likely_server_ports[opcua_binary_port];
+
+   if ( |opcua_binary_ports_tcp| > 0 )
+      Analyzer::register_for_ports(Analyzer::ANALYZER_ICSNPP_OPCUA_BINARY, opcua_binary_ports_tcp);
+}
 
 event opcua_binary_event(c: connection, info: OPCUA_Binary::Info)
    {
@@ -1131,4 +1147,3 @@ event connection_state_remove(c: connection)
          }
       }
    }
-

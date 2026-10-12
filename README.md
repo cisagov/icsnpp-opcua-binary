@@ -83,6 +83,37 @@ If users want to deploy this on an already existing Zeek implementation and don'
 tar xvzf build/ICSNPP_OPCUA_Binary.tgz -C $ZEEK_PLUGIN_PATH 
 ```
 
+## Protocol Detection and Custom Ports
+
+This plugin analyzes OPC UA Binary over UA TCP.
+
+When the package is loaded normally with `@load icsnpp/opcua-binary`, it uses both of the following detection methods:
+
+* **Port-based detection:** TCP ports in `ICSNPP_OPCUA_Binary::ports` are assigned directly to the analyzer. The defaults are `4840/tcp` and `4843/tcp`.
+* **Signature-based detection:** The included DPD signature enables the analyzer when TCP payload begins with an OPC UA `HEL` message and both endpoint ports are at least 1024. The signature has no direction restriction, although `HEL` is normally sent from client to server. No signature change is needed for a custom high-numbered TCP port that satisfies those constraints. Use explicit port configuration for a lower-numbered port because the signature will not match it.
+
+There are two supported ways to configure an additional TCP port. A site policy can redefine the exported port set:
+
+```zeek
+@load icsnpp/opcua-binary
+
+redef ICSNPP_OPCUA_Binary::ports += { 12345/tcp };
+```
+
+Alternatively, set `ZEEK_OPCUA_BINARY_PORTS` before starting Zeek. The value is a comma-separated list using Zeek port notation; surrounding whitespace is allowed:
+
+```bash
+export ZEEK_OPCUA_BINARY_PORTS="12345/tcp, 12346/tcp"
+```
+
+A site-policy port is stored in the exported `ICSNPP_OPCUA_Binary::ports` set. Environment entries are merged with that set during initialization. The combined TCP set is passed to `Analyzer::register_for_ports` and added to Zeek's `likely_server_ports` direction heuristic. These have different purposes: analyzer registration enables parsing, while `likely_server_ports` only helps Zeek identify the server endpoint, particularly for midstream traffic. Adding a port only to `likely_server_ports` does **not** enable OPC UA Binary parsing.
+
+Environment entries must use `/tcp` notation and a port number from 0 through 65535. Invalid entries are ignored with a warning.
+
+Port configuration is read when the Zeek scripts initialize. Restart Zeek after changing a local configuration, or redeploy/restart every relevant worker when using a cluster. These script and environment changes do not require rebuilding the native plugin.
+
+Configuring a port assigns all TCP traffic whose server endpoint uses that port directly to the OPC UA Binary analyzer. If unrelated traffic shares the port, it may cause false positives, analyzer violations, or additional processing overhead. Prefer signature-based detection when a port is shared and the initial `HEL` message is available.
+
 ## Logging Capabilities
 
 #### Primary Log (opcua_binary.log)
