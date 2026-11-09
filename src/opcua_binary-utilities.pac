@@ -261,7 +261,7 @@ build/opcua_binary_pac.cc file(s) for details.
         string str = "";
 
         // Loop over the endpoint_url back to front
-        for ( uint8 i = endpoint_url.length() - 1; i >= 0; i-- ) {
+        for ( int i = (int)endpoint_url.length() - 1; i >= 0; i-- ) {
             if (endpoint_url[i] == 0) break;
 
             str += endpoint_url[i];
