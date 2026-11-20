@@ -58,6 +58,8 @@ type ReadResults: record;
 
 type Write: record;
 
+type Call: record;
+
 type OpenSecureChannel: record;
 
 module GLOBAL;

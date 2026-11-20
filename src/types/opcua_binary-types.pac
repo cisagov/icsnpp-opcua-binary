@@ -504,6 +504,35 @@ type OpcUA_WriteValue = record {
     data_value    : OpcUA_DataValue;
 }
 
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# Call Service (Method Service Set) - CallMethodRequest
+# Note: this structure is defined in-line in the Call Service Parameters table.
+#
+type OpcUA_CallMethodRequest = record {
+    object_id            : OpcUA_NodeId;
+    method_id            : OpcUA_NodeId;
+    input_arguments_size : int32;
+    input_arguments      : OpcUA_Variant[$context.flow.bind_length(input_arguments_size)];
+}
+
+#
+# UA Specification Part 4 - Services 1.04.pdf
+#
+# Call Service (Method Service Set) - CallMethodResult
+# Note: this structure is defined in-line in the Call Service Parameters table.
+#
+type OpcUA_CallMethodResult = record {
+    status_code                          : OpcUA_StatusCode;
+    input_argument_results_size          : int32;
+    input_argument_results               : OpcUA_StatusCode[$context.flow.bind_length(input_argument_results_size)];
+    input_argument_diagnostic_infos_size : int32;
+    input_argument_diagnostic_infos      : OpcUA_DiagInfo(0)[$context.flow.bind_length(input_argument_diagnostic_infos_size)];
+    output_arguments_size                : int32;
+    output_arguments                     : OpcUA_Variant[$context.flow.bind_length(output_arguments_size)];
+}
+
 # UA Specification Part 4 - Services 1.04.pdf
 #
 # 7.26 Table 168 - RelativePath

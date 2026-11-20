@@ -165,7 +165,7 @@ The following table shows the services that have been stubbed out and currently 
 | `QueryFirstRequest`                     | `QueryFirstResponse`                    | `QueryNextRequest`                      |
 | `QueryNextResponse`                     | `HistoryReadRequest`                    | `HistoryReadResponse`                   |
 | `HistoryUpdateRequest`                  |                                         |                                         |
-| `HistoryUpdateResponse`                 | `CallRequest`                           | `CallResponse`                          | 
+| `HistoryUpdateResponse`                 |                                         |                                         | 
 | `ModifyMonitoredItemsRequest`           | `ModifyMonitoredItemsResponse`          | `SetMonitoringModeRequest`              | 
 | `SetMonitoringModeResponse`             | `SetTriggeringRequest`                  | `SetTriggeringResponse`                 | 
 | `DeleteMonitoredItemsRequest`           | `DeleteMonitoredItemsResponse`          | `ModifySubscriptionRequest`             | 
