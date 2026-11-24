@@ -35,6 +35,10 @@ static uint32_t StatusCode_Variant_Key                         = 16;
 static uint32_t StatusCode_Variant_DiagInfo_Key                = 17;
 static uint32_t StatusCode_Write_Key                           = 18;
 static uint32_t StatusCode_Write_DiagInfo_Key                  = 19;
+static uint32_t StatusCode_Call_Key                            = 20;
+static uint32_t StatusCode_Call_DiagInfo_Key                   = 21;
+static uint32_t StatusCode_Call_InputArgument_Key              = 22;
+static uint32_t StatusCode_Call_InputArgument_DiagInfo_Key     = 23;
 
 
 static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
@@ -59,6 +63,10 @@ static std::map<uint32_t, std::string> STATUS_CODE_SRC_MAP =
    {StatusCode_Variant_DiagInfo_Key,               "Variant_DiagInfo"},
    {StatusCode_Write_Key,                          "Write"},
    {StatusCode_Write_DiagInfo_Key,                 "Write_DiagInfo"},
+   {StatusCode_Call_Key,                           "Call"},
+   {StatusCode_Call_DiagInfo_Key,                  "Call_DiagInfo"},
+   {StatusCode_Call_InputArgument_Key,             "Call_InputArgument"},
+   {StatusCode_Call_InputArgument_DiagInfo_Key,    "Call_InputArgument_DiagInfo"},
 };
 
 // Internal constants used to associate detailed diagnostic information
@@ -93,6 +101,12 @@ static const uint32_t DiagInfo_Variant_Inner_Key               = 17;
 static const uint32_t DiagInfo_Write_Key                       = 18; 
 static const uint32_t DiagInfo_Write_Inner_Key                 = 19; 
 
+static const uint32_t DiagInfo_Call_Key                        = 20;
+static const uint32_t DiagInfo_Call_Inner_Key                  = 21;
+
+static const uint32_t DiagInfo_Call_InputArgument_Key          = 22;
+static const uint32_t DiagInfo_Call_InputArgument_Inner_Key    = 23;
+
 static std::map<uint32_t, std::string> DIAGNOSTIC_INFO_SRC_MAP =
 {
    {DiagInfo_ResponseHeader_Key,             "ResponseHeader_DiagInfo"},
@@ -121,5 +135,11 @@ static std::map<uint32_t, std::string> DIAGNOSTIC_INFO_SRC_MAP =
 
    {DiagInfo_Write_Key,                      "Write_DiagInfo"},
    {DiagInfo_Write_Inner_Key,                "Write_InnerDiagInfo"},
+
+   {DiagInfo_Call_Key,                       "Call_DiagInfo"},
+   {DiagInfo_Call_Inner_Key,                 "Call_InnerDiagInfo"},
+
+   {DiagInfo_Call_InputArgument_Key,         "Call_InputArgument_DiagInfo"},
+   {DiagInfo_Call_InputArgument_Inner_Key,   "Call_InputArgument_InnerDiagInfo"},
 };
 #endif

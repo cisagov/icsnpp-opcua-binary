@@ -23,6 +23,9 @@ type Service(msg_body: Msg_Body) = record {
         BrowseRequest  -> browse_req : Browse_Req(this);
         BrowseResponse -> browse_res : Browse_Res(this);
 
+        CallRequest  -> call_req : Call_Req(this);
+        CallResponse -> call_res : Call_Res(this);
+
         CloseSecureChannelRequest    -> clo_sec_chnl_req     : Clo_Sec_Chnl_Req(this);
         CloseSecureChannelResponse   -> clo_sec_chnl_res     : Clo_Sec_Chnl_Res(this);
 
@@ -62,9 +65,6 @@ type Service(msg_body: Msg_Body) = record {
 
         AddReferencesRequest  -> add_reference_req : Stubbed_Out_Req(this);
         AddReferencesResponse -> add_reference_res : Stubbed_Out_Res(this);
-
-        CallRequest  -> call_req : Stubbed_Out_Req(this);
-        CallResponse -> call_res : Stubbed_Out_Res(this);
 
         CancelRequest  -> cancel_req : Stubbed_Out_Req(this);
         CancelResponse -> cancel_res : Stubbed_Out_Res(this);

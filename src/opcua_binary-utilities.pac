@@ -348,6 +348,14 @@ build/opcua_binary_pac.cc file(s) for details.
             case DiagInfo_Variant_Inner_Key: inner_status_code_src = StatusCode_Variant_DiagInfo_Key;
                                              break;
 
+            case DiagInfo_Call_Key:
+            case DiagInfo_Call_Inner_Key: inner_status_code_src = StatusCode_Call_DiagInfo_Key;
+                                          break;
+
+            case DiagInfo_Call_InputArgument_Key:
+            case DiagInfo_Call_InputArgument_Inner_Key: inner_status_code_src = StatusCode_Call_InputArgument_DiagInfo_Key;
+                                                        break;
+
         }
 
         return(inner_status_code_src);
@@ -392,6 +400,14 @@ build/opcua_binary_pac.cc file(s) for details.
             case DiagInfo_Variant_Key:
             case DiagInfo_Variant_Inner_Key: inner_diag_info_src = DiagInfo_Variant_Inner_Key;
                                              break;
+
+            case DiagInfo_Call_Key:
+            case DiagInfo_Call_Inner_Key: inner_diag_info_src = DiagInfo_Call_Inner_Key;
+                                          break;
+
+            case DiagInfo_Call_InputArgument_Key:
+            case DiagInfo_Call_InputArgument_Inner_Key: inner_diag_info_src = DiagInfo_Call_InputArgument_Inner_Key;
+                                                        break;
         }
 
         return(inner_diag_info_src);
@@ -408,6 +424,14 @@ build/opcua_binary_pac.cc file(s) for details.
             case Variant_LiteralOperand_Key:
             case Variant_LiteralOperand_Inner_Key: inner_variant_src = Variant_LiteralOperand_Inner_Key;
                                                     break;
+
+            case Variant_Call_Input_Key:
+            case Variant_Call_Input_Inner_Key: inner_variant_src = Variant_Call_Input_Inner_Key;
+                                               break;
+
+            case Variant_Call_Output_Key:
+            case Variant_Call_Output_Inner_Key: inner_variant_src = Variant_Call_Output_Inner_Key;
+                                                break;
 
         }
 

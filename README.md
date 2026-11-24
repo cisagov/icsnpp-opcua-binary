@@ -170,6 +170,13 @@ This log captures the details associated with calls to the Browse Service.
 * See [browse-types.zeek](scripts/browse-types.zeek) for a list of the fields logged.
 * See [opcua_binary-browse.pac](src/services/browse/opcua_binary-browse.pac), [opcua_binary-browse_analyzer.pac](src/services/browse/opcua_binary-browse_analyzer.pac), and [opcua_binary-browse_debug.pac](src/services/browse/opcua_binary-browse_debug.pac) for details on parsing, processing, and logging this service.
 
+#### Call Service (opcua_binary_call.log)
+
+This log captures the details associated with calls to the Call Service (Method Service Set). A CallRequest logs one record per method called (ObjectId, MethodId and a link to the input arguments). A CallResponse logs one record per method result (links to the result status code, the input argument results and diagnostics, the output arguments and the diagnostic info). The arguments are logged in the Variant Detail logs and the status codes in **opcua_binary_status_code_detail.log**.
+
+* See [call-types.zeek](scripts/call-types.zeek) for a list of the fields logged.
+* See [opcua_binary-call.pac](src/services/call/opcua_binary-call.pac), [opcua_binary-call_analyzer.pac](src/services/call/opcua_binary-call_analyzer.pac), and [opcua_binary-call_debug.pac](src/services/call/opcua_binary-call_debug.pac) for details on parsing, processing, and logging this service.
+
 #### Close Session Service (opcua_binary_close_session.log)
 
 This log captures the details associated with calls to the Close Session Service.

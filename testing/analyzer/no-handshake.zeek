@@ -20,6 +20,7 @@
 # @TEST-EXEC: zeek-cut -n opcua_link_id  < opcua_binary_close_session.log > opcua_binary_close_session.tmp && mv opcua_binary_close_session.tmp opcua_binary_close_session.log
 # @TEST-EXEC: zeek-cut -n opcua_link_id  discovery_profile_link_id endpoint_link_id < opcua_binary_create_session.log > opcua_binary_create_session.tmp && mv opcua_binary_create_session.tmp opcua_binary_create_session.log
 # @TEST-EXEC: zeek-cut -n opcua_link_id req_status_code_link_id write_results_variant_metadata_link_id res_status_code_link_id diag_info_link_id < opcua_binary_write.log > opcua_binary_write.tmp && mv opcua_binary_write.tmp opcua_binary_write.log
+# @TEST-EXEC: zeek-cut -n opcua_link_id input_arguments_variant_metadata_link_id status_code_link_id input_argument_results_link_id input_argument_diag_info_link_id output_arguments_variant_metadata_link_id diag_info_link_id < opcua_binary_call.log > opcua_binary_call.tmp && mv opcua_binary_call.tmp opcua_binary_call.log
 # @TEST-EXEC: btest-diff opcua_binary_get_endpoints_user_token.log
 # @TEST-EXEC: btest-diff opcua_binary_get_endpoints.log
 # @TEST-EXEC: btest-diff opcua_binary_get_endpoints_description.log
@@ -41,6 +42,7 @@
 # @TEST-EXEC: btest-diff opcua_binary_close_session.log
 # @TEST-EXEC: btest-diff opcua_binary_create_session.log
 # @TEST-EXEC: btest-diff opcua_binary_write.log
+# @TEST-EXEC: btest-diff opcua_binary_call.log
 
 #
 # @TEST-DOC: Test OPCUA-binary analyzer with a trace file that is missing the intial ACK, HEL handshake.

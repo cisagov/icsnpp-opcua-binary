@@ -28,7 +28,7 @@ export {
                            LOG_GET_ENDPOINTS,                                       LOG_GET_ENDPOINTS_DESCRIPTION,                           LOG_GET_ENDPOINTS_DISCOVERY,
                            LOG_GET_ENDPOINTS_USER_TOKEN,                            LOG_GET_ENDPOINTS_LOCALE_ID,                             LOG_GET_ENDPOINTS_PROFILE_URI,
                            LOG_READ,                                                LOG_READ_NODES_TO_READ,                                  LOG_READ_RESULTS,
-                           LOG_WRITE,                                               LOG_OPENSECURE_CHANNEL
+                           LOG_WRITE,                                               LOG_CALL,                                                LOG_OPENSECURE_CHANNEL
                          };
 
    ## Log policies, for log filtering.
@@ -89,6 +89,8 @@ export {
    global log_policy_read_results: Log::PolicyHook;
 
    global log_policy_write: Log::PolicyHook;
+
+   global log_policy_call: Log::PolicyHook;
 
    global log_policy_opensecure_channel: Log::PolicyHook;
 
@@ -558,6 +560,8 @@ event zeek_init() &priority=5
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_READ_RESULTS,                                        [$columns=OPCUA_Binary::ReadResults,                        $path="opcua_binary_read_results",                                       $policy=log_policy_read_results]);
 
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_WRITE,                                               [$columns=OPCUA_Binary::Write,                              $path="opcua_binary_write",                                              $policy=log_policy_write]);
+
+   Log::create_stream(ICSNPP_OPCUA_Binary::LOG_CALL,                                                [$columns=OPCUA_Binary::Call,                               $path="opcua_binary_call",                                               $policy=log_policy_call]);
 
    Log::create_stream(ICSNPP_OPCUA_Binary::LOG_OPENSECURE_CHANNEL,                                  [$columns=OPCUA_Binary::OpenSecureChannel,                  $path="opcua_binary_opensecure_channel",                                 $policy=log_policy_opensecure_channel]);
 
@@ -1099,6 +1103,16 @@ event opcua_binary_write_event(c: connection, event_to_log: OPCUA_Binary::Write)
        event_to_log$id  = c$id;
 
        Log::write(ICSNPP_OPCUA_Binary::LOG_WRITE, event_to_log);
+   }
+
+event opcua_binary_call_event(c: connection, event_to_log: OPCUA_Binary::Call)
+   {
+       set_service(c, "opcua-binary");
+       event_to_log$ts  = network_time();
+       event_to_log$uid = c$uid;
+       event_to_log$id  = c$id;
+
+       Log::write(ICSNPP_OPCUA_Binary::LOG_CALL, event_to_log);
    }
 
 event opcua_binary_opensecure_channel_event(c: connection, opensecure_channel: OPCUA_Binary::OpenSecureChannel)
